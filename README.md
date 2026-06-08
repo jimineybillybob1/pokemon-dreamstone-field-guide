@@ -3,6 +3,8 @@
 An offline capture guide and progress tracker for **Pokémon Dreamstone Mysteries**, generated from
 `Dreamstone Mysteries _ Dex (temporary).xlsx`.
 
+**Live guide:** https://jimineybillybob1.github.io/pokemon-dreamstone-field-guide/
+
 Open `index.html` in a browser. The guide includes:
 
 - A searchable and filterable 315-entry Pokédex
