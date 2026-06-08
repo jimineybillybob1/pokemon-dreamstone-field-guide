@@ -7,6 +7,8 @@ const state = {
   caught: new Set(JSON.parse(localStorage.getItem(storageKey) || "[]")),
   notesHidden: localStorage.getItem(notesKey) !== "false",
   theme: document.documentElement.dataset.theme || "light",
+  collectionStatus: "all",
+  collectionSearch: "",
   filters: {
     search: "",
     location: "",
@@ -30,6 +32,15 @@ const elements = {
   progressPercent: document.querySelector("#progress-percent"),
   spoilerToggle: document.querySelector("#spoiler-toggle"),
   themeToggle: document.querySelector("#theme-toggle"),
+  caughtTabCount: document.querySelector("#caught-tab-count"),
+  collectionCaughtCount: document.querySelector("#collection-caught-count"),
+  collectionMissingCount: document.querySelector("#collection-missing-count"),
+  collectionPercent: document.querySelector("#collection-percent"),
+  collectionProgressBar: document.querySelector("#collection-progress-bar"),
+  collectionSearch: document.querySelector("#collection-search"),
+  collectionGrid: document.querySelector("#collection-grid"),
+  collectionResultCount: document.querySelector("#collection-result-count"),
+  collectionEmptyState: document.querySelector("#collection-empty-state"),
   quickLocationList: document.querySelector("#quick-location-list"),
   locationList: document.querySelector("#location-list"),
   locationSearch: document.querySelector("#location-search"),
@@ -113,6 +124,11 @@ function updateProgress() {
   elements.totalCount.textContent = data.dex.length;
   elements.progressPercent.textContent = `${percent}%`;
   elements.progressBar.style.width = `${percent}%`;
+  elements.caughtTabCount.textContent = caughtCount;
+  elements.collectionCaughtCount.textContent = caughtCount;
+  elements.collectionMissingCount.textContent = data.dex.length - caughtCount;
+  elements.collectionPercent.textContent = `${percent}%`;
+  elements.collectionProgressBar.style.width = `${percent}%`;
   elements.progressBar.parentElement.setAttribute(
     "aria-label",
     `${caughtCount} of ${data.dex.length} Pokémon caught`,
@@ -131,6 +147,7 @@ function toggleCaught(pokemon) {
   persistCaught();
   renderDex();
   renderLocations(elements.locationSearch.value);
+  renderCollection();
 }
 
 function renderTypeBadges(container, types) {
@@ -264,6 +281,61 @@ function renderDex() {
       : `Showing ${pokemon.length} of ${data.dex.length} Pokémon`;
 }
 
+function renderCollection() {
+  const search = state.collectionSearch.toLowerCase();
+  const pokemon = data.dex.filter((entry) => {
+    if (state.collectionStatus === "caught" && !isCaught(entry)) return false;
+    if (state.collectionStatus === "missing" && isCaught(entry)) return false;
+    if (!search) return true;
+    return [entry.name, entry.region, entry.location, entry.types.join(" ")]
+      .join(" ")
+      .toLowerCase()
+      .includes(search);
+  });
+
+  const fragment = document.createDocumentFragment();
+  pokemon.forEach((entry) => {
+    const caught = isCaught(entry);
+    const card = document.createElement("article");
+    card.className = "collection-card";
+    card.classList.toggle("is-caught", caught);
+
+    const jump = document.createElement("button");
+    jump.type = "button";
+    jump.className = "collection-card__jump";
+    jump.setAttribute("aria-label", `Open full card for ${entry.name}`);
+    jump.innerHTML = `
+      <span class="collection-card__sprite">
+        <img src="${entry.sprite}" alt="" width="64" height="64" loading="lazy">
+      </span>
+      <span class="collection-card__copy">
+        <small>No. ${String(entry.number).padStart(3, "0")}</small>
+        <strong>${entry.name.replaceAll("_", " ")}</strong>
+        <span>${entry.location || "Evolution / special"}</span>
+      </span>
+    `;
+    jump.addEventListener("click", () => focusPokemon(entry.number));
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "collection-card__toggle";
+    toggle.setAttribute("aria-pressed", String(caught));
+    toggle.setAttribute("aria-label", `${caught ? "Mark missing" : "Mark caught"}: ${entry.name}`);
+    toggle.innerHTML = `
+      <span class="caught-button__ball" aria-hidden="true"></span>
+      <span>${caught ? "Caught" : "Missing"}</span>
+    `;
+    toggle.addEventListener("click", () => toggleCaught(entry));
+
+    card.append(jump, toggle);
+    fragment.append(card);
+  });
+
+  elements.collectionGrid.replaceChildren(fragment);
+  elements.collectionEmptyState.hidden = pokemon.length !== 0;
+  elements.collectionResultCount.textContent = `Showing ${pokemon.length} of ${data.dex.length} Pokémon`;
+}
+
 function activateView(viewName) {
   document.querySelectorAll(".view-tab").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.view === viewName);
@@ -271,6 +343,7 @@ function activateView(viewName) {
   document.querySelectorAll(".guide-view").forEach((view) => {
     view.classList.toggle("is-active", view.id === `view-${viewName}`);
   });
+  if (viewName === "caught") renderCollection();
 }
 
 function resetDexFilters() {
@@ -429,6 +502,19 @@ function bindControls() {
   });
 
   elements.locationSearch.addEventListener("input", () => renderLocations(elements.locationSearch.value));
+  elements.collectionSearch.addEventListener("input", () => {
+    state.collectionSearch = elements.collectionSearch.value;
+    renderCollection();
+  });
+  document.querySelectorAll("[data-collection-status]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.collectionStatus = button.dataset.collectionStatus;
+      document.querySelectorAll("[data-collection-status]").forEach((entry) => {
+        entry.classList.toggle("is-active", entry === button);
+      });
+      renderCollection();
+    });
+  });
   elements.spoilerToggle.addEventListener("click", () => setNotesHidden(!state.notesHidden));
   elements.themeToggle.addEventListener("click", () => setTheme(state.theme === "dark" ? "light" : "dark"));
   document.querySelector("#back-to-top").addEventListener("click", () => {
@@ -441,6 +527,7 @@ function bindControls() {
     persistCaught();
     renderDex();
     renderLocations(elements.locationSearch.value);
+    renderCollection();
   });
 
   document.querySelectorAll(".view-tab").forEach((tab) => {
@@ -455,6 +542,7 @@ bindControls();
 updateProgress();
 renderQuickLocations();
 renderDex();
+renderCollection();
 renderLocations();
 renderMegas();
 renderItems();

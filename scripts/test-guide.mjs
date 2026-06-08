@@ -19,6 +19,7 @@ const browser = await chromium.launch({
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const errors = [];
+await page.addInitScript(() => localStorage.clear());
 page.on("console", (message) => {
   if (message.type() === "error") errors.push(`Console: ${message.text()}`);
 });
@@ -57,6 +58,28 @@ await check(
   "Search bar is not sticky",
 );
 await check((await page.locator(".quick-location").count()) === 48, "Unexpected quick-location count");
+await check((await page.locator(".collection-card").count()) === 315, "Expected all 315 collection cards");
+await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");
+
+await page.locator(".pokemon-card[data-number='1'] .caught-button").click();
+await check((await page.locator("#caught-tab-count").textContent()) === "1", "Caught tab count did not update");
+await check((await page.locator("#collection-caught-count").textContent()) === "1", "Collection summary did not update");
+
+await page.locator(".view-tab[data-view='caught']").click();
+await check(await page.locator("#view-caught").evaluate((element) => element.classList.contains("is-active")), "Caught view did not open");
+await page.locator("[data-collection-status='caught']").click();
+await check((await page.locator(".collection-card").count()) === 1, "Caught filter did not show one caught Pokémon");
+await check(
+  (await page.locator(".collection-card__copy strong").textContent()) === "Gothita",
+  "Caught filter showed the wrong Pokémon",
+);
+await page.locator("[data-collection-status='missing']").click();
+await check((await page.locator(".collection-card").count()) === 314, "Missing filter did not exclude caught Pokémon");
+await page.locator("#collection-search").fill("Raticate");
+await check((await page.locator(".collection-card").count()) === 1, "Collection search did not find Raticate");
+await page.locator(".collection-card__jump").click();
+await page.waitForTimeout(500);
+await check(page.url().endsWith("#pokemon-11"), "Collection jump did not open the full card");
 
 await page.locator("#type-filter").selectOption("psychic");
 await check(
@@ -92,16 +115,24 @@ await check(
 await page.locator("#view-dex").scrollIntoViewIfNeeded();
 await page.waitForTimeout(300);
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-controls.png"), fullPage: false });
+await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
+await page.waitForTimeout(300);
 await page.locator("#back-to-top").click();
-await page.waitForTimeout(700);
+await page.waitForFunction(() => window.scrollY < 50, null, { timeout: 10000 });
 await check((await page.evaluate(() => window.scrollY)) < 50, "Back-to-top button did not return to page top");
+await page.locator(".view-tab[data-view='caught']").click();
+await page.locator("[data-collection-status='all']").click();
+await page.locator("#collection-search").fill("");
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-collection.png"), fullPage: false });
 
 await page.setViewportSize({ width: 390, height: 844 });
 await page.reload();
 await check((await page.locator(".pokemon-card").count()) === 315, "Mobile view did not render all cards");
-await page.locator("#view-dex").scrollIntoViewIfNeeded();
+await page.locator(".view-tab[data-view='caught']").click();
+await check((await page.locator(".collection-card").count()) === 315, "Mobile collection did not render all cards");
+await page.locator("#view-caught").scrollIntoViewIfNeeded();
 await page.waitForTimeout(300);
-await page.screenshot({ path: path.join(outputDir, "guide-mobile-controls.png"), fullPage: false });
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-collection.png"), fullPage: false });
 
 await browser.close();
 if (errors.length) throw new Error(errors.join("\n"));
@@ -112,7 +143,11 @@ console.log(
       cards: 315,
       regionalBadges: 38,
       quickLocations: 48,
-      screenshots: ["tmp/guide-desktop-controls.png", "tmp/guide-mobile-controls.png"],
+      screenshots: [
+        "tmp/guide-desktop-controls.png",
+        "tmp/guide-desktop-collection.png",
+        "tmp/guide-mobile-collection.png",
+      ],
     },
     null,
     2,

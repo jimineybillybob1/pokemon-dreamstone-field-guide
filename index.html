@@ -79,6 +79,9 @@
 
       <nav class="view-tabs" aria-label="Guide views">
         <button class="view-tab is-active" type="button" data-view="dex">Full Dex</button>
+        <button class="view-tab" type="button" data-view="caught">
+          Caught <span class="tab-count" id="caught-tab-count">0</span>
+        </button>
         <button class="view-tab" type="button" data-view="locations">By Location</button>
         <button class="view-tab" type="button" data-view="megas">Mega Choices</button>
         <button class="view-tab" type="button" data-view="items">Important Items</button>
@@ -174,6 +177,54 @@
           <span class="empty-state__stone" aria-hidden="true"></span>
           <h3>No Pokémon found</h3>
           <p>Try clearing a filter or searching another location.</p>
+        </div>
+      </section>
+
+      <section class="guide-view" id="view-caught">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Personal collection</p>
+            <h2>Caught Pokémon</h2>
+          </div>
+          <p>Your progress is saved locally in this browser.</p>
+        </div>
+
+        <div class="collection-summary">
+          <article>
+            <span>Caught</span>
+            <strong id="collection-caught-count">0</strong>
+          </article>
+          <article>
+            <span>Still missing</span>
+            <strong id="collection-missing-count">315</strong>
+          </article>
+          <article>
+            <span>Completion</span>
+            <strong id="collection-percent">0%</strong>
+          </article>
+          <div class="collection-summary__progress" aria-label="Collection completion">
+            <span id="collection-progress-bar"></span>
+          </div>
+        </div>
+
+        <div class="collection-controls">
+          <label>
+            <span>Search collection</span>
+            <input id="collection-search" type="search" placeholder="Name, type, or location..." />
+          </label>
+          <div class="collection-status" role="group" aria-label="Collection status filter">
+            <button class="is-active" type="button" data-collection-status="all">All</button>
+            <button type="button" data-collection-status="caught">Caught</button>
+            <button type="button" data-collection-status="missing">Missing</button>
+          </div>
+        </div>
+
+        <p class="collection-result-count" id="collection-result-count"></p>
+        <div class="collection-grid" id="collection-grid"></div>
+        <div class="empty-state" id="collection-empty-state" hidden>
+          <span class="empty-state__stone" aria-hidden="true"></span>
+          <h3>No Pokémon here yet</h3>
+          <p>Change the status filter or mark Pokémon as caught from any guide view.</p>
         </div>
       </section>
 
