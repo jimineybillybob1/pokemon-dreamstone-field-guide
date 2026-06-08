@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="An offline capture guide and Pokédex tracker for Pokémon Dreamstone Mysteries."
+    />
+    <title>Dreamstone Field Guide</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="data/dreamstone-data.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__glow hero__glow--one"></div>
+      <div class="hero__glow hero__glow--two"></div>
+      <nav class="topbar" aria-label="Primary">
+        <a class="brand" href="#top" aria-label="Dreamstone Field Guide home">
+          <span class="brand__stone" aria-hidden="true"></span>
+          <span>Dreamstone Field Guide</span>
+        </a>
+        <div class="topbar__actions">
+          <button class="soft-button" id="spoiler-toggle" type="button" aria-pressed="true">
+            Notes hidden
+          </button>
+          <button class="soft-button" id="reset-progress" type="button">Reset progress</button>
+        </div>
+      </nav>
+
+      <div class="hero__content" id="top">
+        <p class="eyebrow">Cormoria Capture Companion</p>
+        <h1>Find them. Track them.<br /><span>Complete the mystery.</span></h1>
+        <p class="hero__intro">
+          A searchable, route-by-route field guide built from the temporary Dreamstone Mysteries
+          dex. Your caught Pokémon are saved on this device.
+        </p>
+        <div class="progress-panel">
+          <div class="progress-panel__copy">
+            <span class="progress-panel__label">Capture progress</span>
+            <strong><span id="caught-count">0</span> / <span id="total-count">315</span></strong>
+          </div>
+          <div class="progress-track" aria-label="Capture progress">
+            <span id="progress-bar"></span>
+          </div>
+          <span class="progress-panel__percent" id="progress-percent">0%</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="stat-strip" aria-label="Guide summary">
+        <article>
+          <span class="stat-strip__value" id="available-count">0</span>
+          <span class="stat-strip__label">Direct encounters</span>
+        </article>
+        <article>
+          <span class="stat-strip__value" id="location-count">0</span>
+          <span class="stat-strip__label">Primary locations</span>
+        </article>
+        <article>
+          <span class="stat-strip__value" id="special-count">0</span>
+          <span class="stat-strip__label">Evolution / special</span>
+        </article>
+        <article>
+          <span class="stat-strip__value" id="unobtainable-count">0</span>
+          <span class="stat-strip__label">Unobtainable</span>
+        </article>
+      </section>
+
+      <nav class="view-tabs" aria-label="Guide views">
+        <button class="view-tab is-active" type="button" data-view="dex">Full Dex</button>
+        <button class="view-tab" type="button" data-view="locations">By Location</button>
+        <button class="view-tab" type="button" data-view="megas">Mega Choices</button>
+        <button class="view-tab" type="button" data-view="items">Important Items</button>
+      </nav>
+
+      <section class="guide-view is-active" id="view-dex">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Capture index</p>
+            <h2>Full Dreamstone Dex</h2>
+          </div>
+          <p id="result-count">Showing all Pokémon</p>
+        </div>
+
+        <form class="filter-panel" id="filters">
+          <label class="search-field">
+            <span>Search</span>
+            <input id="search" type="search" placeholder="Name, location, or note..." />
+          </label>
+          <label>
+            <span>Location</span>
+            <select id="location-filter">
+              <option value="">All locations</option>
+            </select>
+          </label>
+          <label>
+            <span>Rarity</span>
+            <select id="rarity-filter">
+              <option value="">All rarities</option>
+            </select>
+          </label>
+          <label>
+            <span>Region / form</span>
+            <select id="region-filter">
+              <option value="">All forms</option>
+            </select>
+          </label>
+          <label>
+            <span>Availability</span>
+            <select id="availability-filter">
+              <option value="">All availability</option>
+            </select>
+          </label>
+          <label>
+            <span>Progress</span>
+            <select id="progress-filter">
+              <option value="">Caught and uncaught</option>
+              <option value="uncaught">Uncaught only</option>
+              <option value="caught">Caught only</option>
+            </select>
+          </label>
+          <label>
+            <span>Sort</span>
+            <select id="sort">
+              <option value="number">Dex number</option>
+              <option value="name">Name</option>
+              <option value="location">Location</option>
+              <option value="rarity">Rarity</option>
+            </select>
+          </label>
+          <button class="clear-button" id="clear-filters" type="button">Clear filters</button>
+        </form>
+
+        <aside class="rarity-legend" aria-label="Rarity guide">
+          <strong>Encounter rates</strong>
+          <span><b>Common</b> 25–40%</span>
+          <span><b>Uncommon</b> about 15–25%</span>
+          <span><b>Rare</b> 10–15%</span>
+          <span><b>Unique</b> one-off encounter</span>
+          <small>If nothing appears after 30–40 encounters, the dex suggests reporting it.</small>
+        </aside>
+
+        <div class="pokemon-grid" id="pokemon-grid"></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <span class="empty-state__stone" aria-hidden="true"></span>
+          <h3>No Pokémon found</h3>
+          <p>Try clearing a filter or searching another location.</p>
+        </div>
+      </section>
+
+      <section class="guide-view" id="view-locations">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Route planner</p>
+            <h2>Pokémon by Primary Location</h2>
+          </div>
+          <p>Only direct encounters are listed here.</p>
+        </div>
+        <label class="location-search">
+          <span>Find a location</span>
+          <input id="location-search" type="search" placeholder="Route 1, Mt. Ceram..." />
+        </label>
+        <div class="location-list" id="location-list"></div>
+      </section>
+
+      <section class="guide-view" id="view-megas">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Choose carefully</p>
+            <h2>Available Mega Evolutions</h2>
+          </div>
+        </div>
+        <aside class="source-note" id="mega-note"></aside>
+        <div class="mega-grid" id="mega-grid"></div>
+      </section>
+
+      <section class="guide-view" id="view-items">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Quest reference</p>
+            <h2>Important Items</h2>
+          </div>
+          <p>Locations obey the notes-hidden setting.</p>
+        </div>
+        <div class="item-list" id="item-list"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Encounter data comes from <strong>Dreamstone Mysteries _ Dex (temporary).xlsx</strong>.
+        Treat it as a living document and report discrepancies to the game creator.
+      </p>
+      <p>
+        Sprites from
+        <a href="https://github.com/msikma/pokesprite">msikma/PokéSprite</a>; Gen 9 fallbacks from
+        <a href="https://github.com/PokeAPI/sprites">PokéAPI/sprites</a>. Pokémon images are ©
+        Nintendo / Creatures Inc. / GAME FREAK Inc.
+      </p>
+      <p>
+        <a href="https://www.pokeharbor.com/2025/04/pokemon-dreamstone-mysteries-gba/"
+          >Dreamstone Mysteries game page</a
+        >
+      </p>
+    </footer>
+
+    <template id="pokemon-card-template">
+      <article class="pokemon-card">
+        <button class="caught-button" type="button">
+          <span class="caught-button__ball" aria-hidden="true"></span>
+          <span class="caught-button__text">Mark caught</span>
+        </button>
+        <div class="pokemon-card__identity">
+          <div class="sprite-well">
+            <img class="pokemon-sprite" alt="" width="96" height="96" loading="lazy" />
+          </div>
+          <div>
+            <span class="pokemon-number"></span>
+            <h3 class="pokemon-name"></h3>
+            <span class="region-badge" hidden></span>
+          </div>
+        </div>
+        <dl class="pokemon-card__facts">
+          <div>
+            <dt>Primary location</dt>
+            <dd class="pokemon-location"></dd>
+          </div>
+          <div>
+            <dt>Rarity</dt>
+            <dd class="pokemon-rarity"></dd>
+          </div>
+        </dl>
+        <div class="pokemon-note" hidden>
+          <span>Field note</span>
+          <p></p>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>

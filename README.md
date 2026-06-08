@@ -1,0 +1,35 @@
+# Dreamstone Field Guide
+
+An offline capture guide and progress tracker for **Pokémon Dreamstone Mysteries**, generated from
+`Dreamstone Mysteries _ Dex (temporary).xlsx`.
+
+Open `index.html` in a browser. The guide includes:
+
+- A searchable and filterable 315-entry Pokédex
+- A route-by-route capture view
+- Persistent caught tracking using browser local storage
+- Notes hidden by default for a more spoiler-conscious first playthrough
+- Mega Evolution choices and important-item locations from the workbook
+- Local sprites, so the guide works offline
+
+## Regenerate From The Workbook
+
+The generator requires the cloned `msikma/pokesprite` repository at `vendor/pokesprite` and the
+workspace Node dependencies linked at `node_modules`.
+
+```powershell
+& 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
+  'scripts\build-guide-data.mjs' `
+  'C:\path\to\Dreamstone Mysteries _ Dex (temporary).xlsx'
+```
+
+PokéSprite supplies the Gen 8-style box sprites. Species introduced after Gen 8 use local fallback
+sprites downloaded from `PokeAPI/sprites`.
+
+## Credits
+
+- Encounter data: the supplied Dreamstone Mysteries temporary dex
+- Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)
+- Gen 9 fallback sprites: [PokeAPI/sprites](https://github.com/PokeAPI/sprites)
+
+Pokémon images are © Nintendo / Creatures Inc. / GAME FREAK Inc.
