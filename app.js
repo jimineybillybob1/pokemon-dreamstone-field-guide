@@ -1,15 +1,18 @@
 const data = window.DREAMSTONE_DATA;
 const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden";
+const themeKey = "dreamstone-field-guide-theme";
 
 const state = {
   caught: new Set(JSON.parse(localStorage.getItem(storageKey) || "[]")),
   notesHidden: localStorage.getItem(notesKey) !== "false",
+  theme: document.documentElement.dataset.theme || "light",
   filters: {
     search: "",
     location: "",
     rarity: "",
     region: "",
+    type: "",
     availability: "",
     progress: "",
     sort: "number",
@@ -26,6 +29,8 @@ const elements = {
   progressBar: document.querySelector("#progress-bar"),
   progressPercent: document.querySelector("#progress-percent"),
   spoilerToggle: document.querySelector("#spoiler-toggle"),
+  themeToggle: document.querySelector("#theme-toggle"),
+  quickLocationList: document.querySelector("#quick-location-list"),
   locationList: document.querySelector("#location-list"),
   locationSearch: document.querySelector("#location-search"),
   megaGrid: document.querySelector("#mega-grid"),
@@ -33,9 +38,16 @@ const elements = {
   itemList: document.querySelector("#item-list"),
 };
 
-const uniqueSorted = (values) => [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
+const uniqueSorted = (values) =>
+  [...new Set(values.filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b, undefined, { numeric: true }),
+  );
 const dexId = (pokemon) => String(pokemon.number);
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
+const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
+const directLocations = uniqueSorted(
+  data.dex.filter((pokemon) => pokemon.availability === "Available").map((pokemon) => pokemon.location),
+);
 
 function setSelectOptions(id, values) {
   const select = document.querySelector(id);
@@ -43,9 +55,6 @@ function setSelectOptions(id, values) {
 }
 
 function initializeSummary() {
-  const locations = uniqueSorted(
-    data.dex.filter((pokemon) => pokemon.availability === "Available").map((pokemon) => pokemon.location),
-  );
   document.querySelector("#available-count").textContent = data.dex.filter(
     (pokemon) => pokemon.availability === "Available",
   ).length;
@@ -55,15 +64,46 @@ function initializeSummary() {
   document.querySelector("#unobtainable-count").textContent = data.dex.filter(
     (pokemon) => pokemon.availability === "Unobtainable",
   ).length;
-  document.querySelector("#location-count").textContent = locations.length;
+  document.querySelector("#location-count").textContent = directLocations.length;
 
-  setSelectOptions("#location-filter", locations);
+  setSelectOptions("#location-filter", directLocations);
   setSelectOptions("#rarity-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.rarity)));
   setSelectOptions("#region-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.region)));
+  setSelectOptions("#type-filter", uniqueSorted(data.dex.flatMap((pokemon) => pokemon.types)));
   setSelectOptions(
     "#availability-filter",
     uniqueSorted(data.dex.map((pokemon) => pokemon.availability)),
   );
+}
+
+function renderQuickLocations() {
+  const fragment = document.createDocumentFragment();
+  ["", ...directLocations].forEach((location) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quick-location";
+    button.classList.toggle("is-active", state.filters.location === location);
+    button.textContent = location || "All";
+    button.addEventListener("click", () => setLocationFilter(location));
+    fragment.append(button);
+  });
+  elements.quickLocationList.replaceChildren(fragment);
+  if (!state.filters.location) {
+    elements.quickLocationList.scrollLeft = 0;
+  } else {
+    elements.quickLocationList.querySelector(".is-active")?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }
+}
+
+function setLocationFilter(location) {
+  state.filters.location = location;
+  document.querySelector("#location-filter").value = location;
+  renderQuickLocations();
+  renderDex();
 }
 
 function updateProgress() {
@@ -93,6 +133,40 @@ function toggleCaught(pokemon) {
   renderLocations(elements.locationSearch.value);
 }
 
+function renderTypeBadges(container, types) {
+  const fragment = document.createDocumentFragment();
+  types.forEach((type) => {
+    const badge = document.createElement("span");
+    badge.className = "type-badge";
+    badge.dataset.type = type;
+    badge.textContent = type;
+    fragment.append(badge);
+  });
+  container.replaceChildren(fragment);
+}
+
+function renderEvolutionLinks(card, relationNumbers, selector) {
+  const group = card.querySelector(selector);
+  if (!relationNumbers.length) return;
+
+  group.hidden = false;
+  const links = group.querySelector(".evolution-links");
+  relationNumbers.forEach((number) => {
+    const related = pokemonByNumber.get(number);
+    if (!related) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "evolution-link";
+    button.setAttribute("aria-label", `Go to ${related.name}`);
+    button.innerHTML = `
+      <img src="${related.sprite}" alt="" width="38" height="38" loading="lazy">
+      <span>${related.name.replaceAll("_", " ")}</span>
+    `;
+    button.addEventListener("click", () => focusPokemon(number));
+    links.append(button);
+  });
+}
+
 function renderPokemonCard(pokemon) {
   const card = elements.cardTemplate.content.firstElementChild.cloneNode(true);
   const caughtButton = card.querySelector(".caught-button");
@@ -103,6 +177,7 @@ function renderPokemonCard(pokemon) {
 
   card.classList.toggle("is-caught", caught);
   card.dataset.number = pokemon.number;
+  card.id = `pokemon-${pokemon.number}`;
   caughtButton.setAttribute("aria-pressed", String(caught));
   caughtButton.setAttribute("aria-label", `${caught ? "Mark uncaught" : "Mark caught"}: ${pokemon.name}`);
   caughtButton.querySelector(".caught-button__text").textContent = caught ? "Caught" : "Mark caught";
@@ -112,6 +187,7 @@ function renderPokemonCard(pokemon) {
   sprite.alt = `${pokemon.name}${pokemon.region ? ` (${pokemon.region})` : ""} sprite`;
   card.querySelector(".pokemon-number").textContent = `No. ${String(pokemon.number).padStart(3, "0")}`;
   card.querySelector(".pokemon-name").textContent = pokemon.name.replaceAll("_", " ");
+  renderTypeBadges(card.querySelector(".pokemon-types"), pokemon.types);
   card.querySelector(".pokemon-location").textContent =
     pokemon.location || (pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolve / special method");
   const rarity = card.querySelector(".pokemon-rarity");
@@ -128,6 +204,12 @@ function renderPokemonCard(pokemon) {
     note.querySelector("p").textContent = pokemon.notes;
   }
 
+  if (pokemon.evolvesFrom.length || pokemon.evolvesTo.length) {
+    card.querySelector(".pokemon-evolutions").hidden = false;
+    renderEvolutionLinks(card, pokemon.evolvesFrom, ".evolves-from");
+    renderEvolutionLinks(card, pokemon.evolvesTo, ".evolves-to");
+  }
+
   return card;
 }
 
@@ -136,13 +218,25 @@ function filteredPokemon() {
   const rarityOrder = { Unique: 0, Rare: 1, Uncommon: 2, Common: 3, "": 4 };
   const search = f.search.toLowerCase();
   const result = data.dex.filter((pokemon) => {
-    const haystack = [pokemon.name, pokemon.region, pokemon.location, pokemon.rarity, pokemon.notes]
+    const relatedNames = [...pokemon.evolvesFrom, ...pokemon.evolvesTo]
+      .map((number) => pokemonByNumber.get(number)?.name || "")
+      .join(" ");
+    const haystack = [
+      pokemon.name,
+      pokemon.region,
+      pokemon.location,
+      pokemon.rarity,
+      pokemon.notes,
+      pokemon.types.join(" "),
+      relatedNames,
+    ]
       .join(" ")
       .toLowerCase();
     if (search && !haystack.includes(search)) return false;
     if (f.location && pokemon.location !== f.location) return false;
     if (f.rarity && pokemon.rarity !== f.rarity) return false;
     if (f.region && pokemon.region !== f.region) return false;
+    if (f.type && !pokemon.types.includes(f.type)) return false;
     if (f.availability && pokemon.availability !== f.availability) return false;
     if (f.progress === "caught" && !isCaught(pokemon)) return false;
     if (f.progress === "uncaught" && isCaught(pokemon)) return false;
@@ -168,6 +262,46 @@ function renderDex() {
     pokemon.length === data.dex.length
       ? `Showing all ${data.dex.length} Pokémon`
       : `Showing ${pokemon.length} of ${data.dex.length} Pokémon`;
+}
+
+function activateView(viewName) {
+  document.querySelectorAll(".view-tab").forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.view === viewName);
+  });
+  document.querySelectorAll(".guide-view").forEach((view) => {
+    view.classList.toggle("is-active", view.id === `view-${viewName}`);
+  });
+}
+
+function resetDexFilters() {
+  Object.assign(state.filters, {
+    search: "",
+    location: "",
+    rarity: "",
+    region: "",
+    type: "",
+    availability: "",
+    progress: "",
+    sort: "number",
+  });
+  document.querySelector("#filters").reset();
+  document.querySelector("#search").value = "";
+  renderQuickLocations();
+}
+
+function focusPokemon(number) {
+  if (!pokemonByNumber.has(number)) return;
+  resetDexFilters();
+  activateView("dex");
+  renderDex();
+  history.replaceState(null, "", `#pokemon-${number}`);
+  requestAnimationFrame(() => {
+    const card = document.querySelector(`#pokemon-${number}`);
+    if (!card) return;
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    card.classList.add("is-highlighted");
+    window.setTimeout(() => card.classList.remove("is-highlighted"), 2200);
+  });
 }
 
 function renderLocations(search = "") {
@@ -260,12 +394,21 @@ function setNotesHidden(hidden) {
   localStorage.setItem(notesKey, String(hidden));
 }
 
+function setTheme(theme) {
+  state.theme = theme;
+  document.documentElement.dataset.theme = theme;
+  elements.themeToggle.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+  elements.themeToggle.setAttribute("aria-pressed", String(theme === "dark"));
+  localStorage.setItem(themeKey, theme);
+}
+
 function bindControls() {
   const bindings = {
     "#search": "search",
     "#location-filter": "location",
     "#rarity-filter": "rarity",
     "#region-filter": "region",
+    "#type-filter": "type",
     "#availability-filter": "availability",
     "#progress-filter": "progress",
     "#sort": "sort",
@@ -275,26 +418,22 @@ function bindControls() {
     const control = document.querySelector(selector);
     control.addEventListener("input", () => {
       state.filters[key] = control.value;
+      if (key === "location") renderQuickLocations();
       renderDex();
     });
   });
 
   document.querySelector("#clear-filters").addEventListener("click", () => {
-    document.querySelector("#filters").reset();
-    Object.assign(state.filters, {
-      search: "",
-      location: "",
-      rarity: "",
-      region: "",
-      availability: "",
-      progress: "",
-      sort: "number",
-    });
+    resetDexFilters();
     renderDex();
   });
 
   elements.locationSearch.addEventListener("input", () => renderLocations(elements.locationSearch.value));
   elements.spoilerToggle.addEventListener("click", () => setNotesHidden(!state.notesHidden));
+  elements.themeToggle.addEventListener("click", () => setTheme(state.theme === "dark" ? "light" : "dark"));
+  document.querySelector("#back-to-top").addEventListener("click", () => {
+    document.querySelector("#top").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 
   document.querySelector("#reset-progress").addEventListener("click", () => {
     if (!state.caught.size || !window.confirm("Clear all caught Pokémon from this guide?")) return;
@@ -305,20 +444,20 @@ function bindControls() {
   });
 
   document.querySelectorAll(".view-tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll(".view-tab").forEach((button) => button.classList.remove("is-active"));
-      document.querySelectorAll(".guide-view").forEach((view) => view.classList.remove("is-active"));
-      tab.classList.add("is-active");
-      document.querySelector(`#view-${tab.dataset.view}`).classList.add("is-active");
-    });
+    tab.addEventListener("click", () => activateView(tab.dataset.view));
   });
 }
 
 initializeSummary();
 setNotesHidden(state.notesHidden);
+setTheme(state.theme);
 bindControls();
 updateProgress();
+renderQuickLocations();
 renderDex();
 renderLocations();
 renderMegas();
 renderItems();
+
+const initialPokemonNumber = Number(location.hash.match(/^#pokemon-(\d+)$/)?.[1]);
+if (initialPokemonNumber) focusPokemon(initialPokemonNumber);

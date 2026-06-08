@@ -14,6 +14,7 @@ if (!inputPath) {
 const spriteSourceDir = path.join(rootDir, "vendor", "pokesprite", "pokemon-gen8", "regular");
 const spriteOutputDir = path.join(rootDir, "assets", "sprites");
 const outputPath = path.join(rootDir, "data", "dreamstone-data.js");
+const metadataPath = path.join(rootDir, "data", "pokemon-metadata.json");
 
 const clean = (value) => {
   if (value === null || value === undefined) return "";
@@ -77,6 +78,7 @@ const pokeApiFallbackIds = new Map(
 );
 
 const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(inputPath));
+const pokemonMetadata = JSON.parse(await fs.readFile(metadataPath, "utf8"));
 
 const sheetRows = (name) => workbook.worksheets.getItem(name).getUsedRange().values;
 const pokedexRows = sheetRows("Pokedex");
@@ -136,6 +138,7 @@ for (const row of pokedexRows.slice(2)) {
   const rarity = clean(row[4]);
   const notes = clean(row[5]);
   const sprite = await resolveSprite(name, region);
+  const metadata = pokemonMetadata[number] || {};
 
   if (sprite.missing) missingSprites.push(sprite.missing);
   if (sprite.source) spritesToCopy.set(sprite.filename, sprite.source);
@@ -154,6 +157,9 @@ for (const row of pokedexRows.slice(2)) {
     notes,
     availability,
     sprite: sprite.filename ? `assets/sprites/${sprite.filename}` : "",
+    types: metadata.types || [],
+    evolvesFrom: metadata.evolvesFrom || [],
+    evolvesTo: metadata.evolvesTo || [],
   });
 }
 
@@ -197,6 +203,12 @@ for (const [filename, source] of spritesToCopy) {
 }
 
 for (const [filename, url] of spritesToDownload) {
+  try {
+    await fs.access(path.join(spriteOutputDir, filename));
+    continue;
+  } catch {
+    // Download the fallback only when it is not already cached locally.
+  }
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Failed to download ${url}: ${response.status}`);
   await fs.writeFile(path.join(spriteOutputDir, filename), Buffer.from(await response.arrayBuffer()));
@@ -230,6 +242,10 @@ console.log(
       copiedSprites: spritesToCopy.size,
       downloadedFallbackSprites: spritesToDownload.size,
       missingSprites: [...new Set(missingSprites)],
+      typedPokemon: dex.filter((pokemon) => pokemon.types.length).length,
+      pokemonWithEvolutionLinks: dex.filter(
+        (pokemon) => pokemon.evolvesFrom.length || pokemon.evolvesTo.length,
+      ).length,
       regions: [...new Set(dex.map((pokemon) => pokemon.region).filter(Boolean))].sort(),
       rarities: [...new Set(dex.map((pokemon) => pokemon.rarity).filter(Boolean))].sort(),
       locations: [...new Set(dex.map((pokemon) => pokemon.location).filter(Boolean))].sort(),

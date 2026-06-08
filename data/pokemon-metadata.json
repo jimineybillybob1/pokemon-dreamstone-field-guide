@@ -1,0 +1,3382 @@
+{
+  "1": {
+    "apiName": "gothita",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      2
+    ]
+  },
+  "2": {
+    "apiName": "gothorita",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [
+      1
+    ],
+    "evolvesTo": [
+      3
+    ]
+  },
+  "3": {
+    "apiName": "gothitelle",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [
+      2
+    ],
+    "evolvesTo": []
+  },
+  "4": {
+    "apiName": "timburr",
+    "types": [
+      "fighting"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      5
+    ]
+  },
+  "5": {
+    "apiName": "gurdurr",
+    "types": [
+      "fighting"
+    ],
+    "evolvesFrom": [
+      4
+    ],
+    "evolvesTo": [
+      6
+    ]
+  },
+  "6": {
+    "apiName": "conkeldurr",
+    "types": [
+      "fighting"
+    ],
+    "evolvesFrom": [
+      5
+    ],
+    "evolvesTo": []
+  },
+  "7": {
+    "apiName": "zigzagoon-galar",
+    "types": [
+      "dark",
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      8
+    ]
+  },
+  "8": {
+    "apiName": "linoone-galar",
+    "types": [
+      "dark",
+      "normal"
+    ],
+    "evolvesFrom": [
+      7
+    ],
+    "evolvesTo": [
+      9
+    ]
+  },
+  "9": {
+    "apiName": "obstagoon-galar",
+    "types": [
+      "dark",
+      "normal"
+    ],
+    "evolvesFrom": [
+      8
+    ],
+    "evolvesTo": []
+  },
+  "10": {
+    "apiName": "rattata-alola",
+    "types": [
+      "dark",
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      11
+    ]
+  },
+  "11": {
+    "apiName": "raticate-alola",
+    "types": [
+      "dark",
+      "normal"
+    ],
+    "evolvesFrom": [
+      10
+    ],
+    "evolvesTo": []
+  },
+  "12": {
+    "apiName": "pidove",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      13
+    ]
+  },
+  "13": {
+    "apiName": "tranquill",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "evolvesFrom": [
+      12
+    ],
+    "evolvesTo": [
+      14
+    ]
+  },
+  "14": {
+    "apiName": "unfezant",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "evolvesFrom": [
+      13
+    ],
+    "evolvesTo": []
+  },
+  "15": {
+    "apiName": "cubone",
+    "types": [
+      "ground"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      16
+    ]
+  },
+  "16": {
+    "apiName": "marowak-alola",
+    "types": [
+      "fire",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      15
+    ],
+    "evolvesTo": []
+  },
+  "17": {
+    "apiName": "rockruff",
+    "types": [
+      "rock"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      18
+    ]
+  },
+  "18": {
+    "apiName": "lycanroc",
+    "types": [
+      "rock"
+    ],
+    "evolvesFrom": [
+      17
+    ],
+    "evolvesTo": []
+  },
+  "19": {
+    "apiName": "clefairy",
+    "types": [
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      20
+    ]
+  },
+  "20": {
+    "apiName": "clefable",
+    "types": [
+      "fairy"
+    ],
+    "evolvesFrom": [
+      19
+    ],
+    "evolvesTo": []
+  },
+  "21": {
+    "apiName": "teddiursa",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      22
+    ]
+  },
+  "22": {
+    "apiName": "ursaring",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [
+      21
+    ],
+    "evolvesTo": [
+      23
+    ]
+  },
+  "23": {
+    "apiName": "ursaluna",
+    "types": [
+      "ground",
+      "normal"
+    ],
+    "evolvesFrom": [
+      22
+    ],
+    "evolvesTo": []
+  },
+  "24": {
+    "apiName": "meditite",
+    "types": [
+      "fighting",
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      25
+    ]
+  },
+  "25": {
+    "apiName": "medicham",
+    "types": [
+      "fighting",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      24
+    ],
+    "evolvesTo": []
+  },
+  "26": {
+    "apiName": "tinkatink",
+    "types": [
+      "fairy",
+      "steel"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      27
+    ]
+  },
+  "27": {
+    "apiName": "tinkatuff",
+    "types": [
+      "fairy",
+      "steel"
+    ],
+    "evolvesFrom": [
+      26
+    ],
+    "evolvesTo": [
+      28
+    ]
+  },
+  "28": {
+    "apiName": "tinkaton",
+    "types": [
+      "fairy",
+      "steel"
+    ],
+    "evolvesFrom": [
+      27
+    ],
+    "evolvesTo": []
+  },
+  "29": {
+    "apiName": "noibat",
+    "types": [
+      "flying",
+      "dragon"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      30
+    ]
+  },
+  "30": {
+    "apiName": "noivern",
+    "types": [
+      "flying",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      29
+    ],
+    "evolvesTo": []
+  },
+  "31": {
+    "apiName": "aron",
+    "types": [
+      "steel",
+      "rock"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      32
+    ]
+  },
+  "32": {
+    "apiName": "lairon",
+    "types": [
+      "steel",
+      "rock"
+    ],
+    "evolvesFrom": [
+      31
+    ],
+    "evolvesTo": [
+      33
+    ]
+  },
+  "33": {
+    "apiName": "aggron",
+    "types": [
+      "steel",
+      "rock"
+    ],
+    "evolvesFrom": [
+      32
+    ],
+    "evolvesTo": []
+  },
+  "34": {
+    "apiName": "lillipup",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      35
+    ]
+  },
+  "35": {
+    "apiName": "herdier",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [
+      34
+    ],
+    "evolvesTo": [
+      36
+    ]
+  },
+  "36": {
+    "apiName": "stoutland",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [
+      35
+    ],
+    "evolvesTo": []
+  },
+  "37": {
+    "apiName": "pineco",
+    "types": [
+      "bug"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      38
+    ]
+  },
+  "38": {
+    "apiName": "forretress",
+    "types": [
+      "bug",
+      "steel"
+    ],
+    "evolvesFrom": [
+      37
+    ],
+    "evolvesTo": []
+  },
+  "39": {
+    "apiName": "swablu",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      40
+    ]
+  },
+  "40": {
+    "apiName": "altaria",
+    "types": [
+      "dragon",
+      "flying"
+    ],
+    "evolvesFrom": [
+      39
+    ],
+    "evolvesTo": []
+  },
+  "41": {
+    "apiName": "poltchageist",
+    "types": [
+      "grass",
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      42
+    ]
+  },
+  "42": {
+    "apiName": "sinistcha",
+    "types": [
+      "grass",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      41
+    ],
+    "evolvesTo": []
+  },
+  "43": {
+    "apiName": "sinistea",
+    "types": [
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      44
+    ]
+  },
+  "44": {
+    "apiName": "polteageist",
+    "types": [
+      "ghost"
+    ],
+    "evolvesFrom": [
+      43
+    ],
+    "evolvesTo": []
+  },
+  "45": {
+    "apiName": "buneary",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      46
+    ]
+  },
+  "46": {
+    "apiName": "lopunny",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [
+      45
+    ],
+    "evolvesTo": []
+  },
+  "47": {
+    "apiName": "blipbug",
+    "types": [
+      "bug"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      48
+    ]
+  },
+  "48": {
+    "apiName": "dottler",
+    "types": [
+      "bug",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      47
+    ],
+    "evolvesTo": [
+      49
+    ]
+  },
+  "49": {
+    "apiName": "orbeetle",
+    "types": [
+      "bug",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      48
+    ],
+    "evolvesTo": []
+  },
+  "50": {
+    "apiName": "dewpider",
+    "types": [
+      "water",
+      "bug"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      51
+    ]
+  },
+  "51": {
+    "apiName": "araquanid",
+    "types": [
+      "water",
+      "bug"
+    ],
+    "evolvesFrom": [
+      50
+    ],
+    "evolvesTo": []
+  },
+  "52": {
+    "apiName": "petilil",
+    "types": [
+      "grass"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      53
+    ]
+  },
+  "53": {
+    "apiName": "lilligant-hisui",
+    "types": [
+      "grass",
+      "fighting"
+    ],
+    "evolvesFrom": [
+      52
+    ],
+    "evolvesTo": []
+  },
+  "54": {
+    "apiName": "chikorita",
+    "types": [
+      "grass"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      55
+    ]
+  },
+  "55": {
+    "apiName": "bayleef",
+    "types": [
+      "grass"
+    ],
+    "evolvesFrom": [
+      54
+    ],
+    "evolvesTo": [
+      56
+    ]
+  },
+  "56": {
+    "apiName": "meganium",
+    "types": [
+      "grass"
+    ],
+    "evolvesFrom": [
+      55
+    ],
+    "evolvesTo": []
+  },
+  "57": {
+    "apiName": "chinchou",
+    "types": [
+      "water",
+      "electric"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      58
+    ]
+  },
+  "58": {
+    "apiName": "lanturn",
+    "types": [
+      "water",
+      "electric"
+    ],
+    "evolvesFrom": [
+      57
+    ],
+    "evolvesTo": []
+  },
+  "59": {
+    "apiName": "mankey",
+    "types": [
+      "fighting"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      60
+    ]
+  },
+  "60": {
+    "apiName": "primeape",
+    "types": [
+      "fighting"
+    ],
+    "evolvesFrom": [
+      59
+    ],
+    "evolvesTo": [
+      61
+    ]
+  },
+  "61": {
+    "apiName": "annihilape",
+    "types": [
+      "fighting",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      60
+    ],
+    "evolvesTo": []
+  },
+  "62": {
+    "apiName": "venipede",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      63
+    ]
+  },
+  "63": {
+    "apiName": "whirlipede",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "evolvesFrom": [
+      62
+    ],
+    "evolvesTo": [
+      64
+    ]
+  },
+  "64": {
+    "apiName": "scolipede",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "evolvesFrom": [
+      63
+    ],
+    "evolvesTo": []
+  },
+  "65": {
+    "apiName": "growlithe-hisui",
+    "types": [
+      "fire",
+      "rock"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      66
+    ]
+  },
+  "66": {
+    "apiName": "arcanine-hisui",
+    "types": [
+      "fire",
+      "rock"
+    ],
+    "evolvesFrom": [
+      65
+    ],
+    "evolvesTo": []
+  },
+  "67": {
+    "apiName": "sizzlipede",
+    "types": [
+      "fire",
+      "bug"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      68
+    ]
+  },
+  "68": {
+    "apiName": "centiskorch",
+    "types": [
+      "fire",
+      "bug"
+    ],
+    "evolvesFrom": [
+      67
+    ],
+    "evolvesTo": []
+  },
+  "69": {
+    "apiName": "rolycoly",
+    "types": [
+      "rock"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      70
+    ]
+  },
+  "70": {
+    "apiName": "carkol",
+    "types": [
+      "rock",
+      "fire"
+    ],
+    "evolvesFrom": [
+      69
+    ],
+    "evolvesTo": [
+      71
+    ]
+  },
+  "71": {
+    "apiName": "coalossal",
+    "types": [
+      "rock",
+      "fire"
+    ],
+    "evolvesFrom": [
+      70
+    ],
+    "evolvesTo": []
+  },
+  "72": {
+    "apiName": "cyndaquil",
+    "types": [
+      "fire"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      73
+    ]
+  },
+  "73": {
+    "apiName": "quilava",
+    "types": [
+      "fire"
+    ],
+    "evolvesFrom": [
+      72
+    ],
+    "evolvesTo": [
+      74
+    ]
+  },
+  "74": {
+    "apiName": "typhlosion-hisui",
+    "types": [
+      "fire",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      73
+    ],
+    "evolvesTo": []
+  },
+  "75": {
+    "apiName": "nickit",
+    "types": [
+      "dark"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      76
+    ]
+  },
+  "76": {
+    "apiName": "thievul",
+    "types": [
+      "dark"
+    ],
+    "evolvesFrom": [
+      75
+    ],
+    "evolvesTo": []
+  },
+  "77": {
+    "apiName": "murkrow",
+    "types": [
+      "dark",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      78
+    ]
+  },
+  "78": {
+    "apiName": "honchkrow",
+    "types": [
+      "dark",
+      "flying"
+    ],
+    "evolvesFrom": [
+      77
+    ],
+    "evolvesTo": []
+  },
+  "79": {
+    "apiName": "nymble",
+    "types": [
+      "bug"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      80
+    ]
+  },
+  "80": {
+    "apiName": "lokix",
+    "types": [
+      "bug",
+      "dark"
+    ],
+    "evolvesFrom": [
+      79
+    ],
+    "evolvesTo": []
+  },
+  "81": {
+    "apiName": "drowzee",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      82
+    ]
+  },
+  "82": {
+    "apiName": "hypno",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [
+      81
+    ],
+    "evolvesTo": []
+  },
+  "83": {
+    "apiName": "morelull",
+    "types": [
+      "grass",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      86
+    ]
+  },
+  "84": {
+    "apiName": "foongus",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      85
+    ]
+  },
+  "85": {
+    "apiName": "amoonguss",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "evolvesFrom": [
+      84
+    ],
+    "evolvesTo": []
+  },
+  "86": {
+    "apiName": "shiinotic",
+    "types": [
+      "grass",
+      "fairy"
+    ],
+    "evolvesFrom": [
+      83
+    ],
+    "evolvesTo": []
+  },
+  "87": {
+    "apiName": "impidimp",
+    "types": [
+      "dark",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      88
+    ]
+  },
+  "88": {
+    "apiName": "morgrem",
+    "types": [
+      "dark",
+      "fairy"
+    ],
+    "evolvesFrom": [
+      87
+    ],
+    "evolvesTo": [
+      89
+    ]
+  },
+  "89": {
+    "apiName": "grimmsnarl",
+    "types": [
+      "dark",
+      "fairy"
+    ],
+    "evolvesFrom": [
+      88
+    ],
+    "evolvesTo": []
+  },
+  "90": {
+    "apiName": "fennekin",
+    "types": [
+      "fire"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      91
+    ]
+  },
+  "91": {
+    "apiName": "braixen",
+    "types": [
+      "fire"
+    ],
+    "evolvesFrom": [
+      90
+    ],
+    "evolvesTo": [
+      92
+    ]
+  },
+  "92": {
+    "apiName": "delphox",
+    "types": [
+      "fire",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      91
+    ],
+    "evolvesTo": []
+  },
+  "93": {
+    "apiName": "zorua-hisui",
+    "types": [
+      "normal",
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      94
+    ]
+  },
+  "94": {
+    "apiName": "zoroark-hisui",
+    "types": [
+      "normal",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      93
+    ],
+    "evolvesTo": []
+  },
+  "95": {
+    "apiName": "budew",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      96
+    ]
+  },
+  "96": {
+    "apiName": "roselia",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "evolvesFrom": [
+      95
+    ],
+    "evolvesTo": [
+      97
+    ]
+  },
+  "97": {
+    "apiName": "roserade",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "evolvesFrom": [
+      96
+    ],
+    "evolvesTo": []
+  },
+  "98": {
+    "apiName": "drilbur",
+    "types": [
+      "ground"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      99
+    ]
+  },
+  "99": {
+    "apiName": "excadrill",
+    "types": [
+      "ground",
+      "steel"
+    ],
+    "evolvesFrom": [
+      98
+    ],
+    "evolvesTo": []
+  },
+  "100": {
+    "apiName": "skrelp",
+    "types": [
+      "poison",
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      101
+    ]
+  },
+  "101": {
+    "apiName": "dragalge",
+    "types": [
+      "poison",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      100
+    ],
+    "evolvesTo": []
+  },
+  "102": {
+    "apiName": "grimer-alola",
+    "types": [
+      "poison",
+      "dark"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      103
+    ]
+  },
+  "103": {
+    "apiName": "muk-alola",
+    "types": [
+      "poison",
+      "dark"
+    ],
+    "evolvesFrom": [
+      102
+    ],
+    "evolvesTo": []
+  },
+  "104": {
+    "apiName": "qwilfish-hisui",
+    "types": [
+      "dark",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      105
+    ]
+  },
+  "105": {
+    "apiName": "overqwil",
+    "types": [
+      "dark",
+      "poison"
+    ],
+    "evolvesFrom": [
+      104
+    ],
+    "evolvesTo": []
+  },
+  "106": {
+    "apiName": "toxel",
+    "types": [
+      "electric",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      107
+    ]
+  },
+  "107": {
+    "apiName": "toxtricity",
+    "types": [
+      "electric",
+      "poison"
+    ],
+    "evolvesFrom": [
+      106
+    ],
+    "evolvesTo": []
+  },
+  "108": {
+    "apiName": "tympole",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      109
+    ]
+  },
+  "109": {
+    "apiName": "palpitoad",
+    "types": [
+      "water",
+      "ground"
+    ],
+    "evolvesFrom": [
+      108
+    ],
+    "evolvesTo": [
+      110
+    ]
+  },
+  "110": {
+    "apiName": "seismitoad",
+    "types": [
+      "water",
+      "ground"
+    ],
+    "evolvesFrom": [
+      109
+    ],
+    "evolvesTo": []
+  },
+  "111": {
+    "apiName": "yanma",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      112
+    ]
+  },
+  "112": {
+    "apiName": "yanmega",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "evolvesFrom": [
+      111
+    ],
+    "evolvesTo": []
+  },
+  "113": {
+    "apiName": "croagunk",
+    "types": [
+      "poison",
+      "fighting"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      114
+    ]
+  },
+  "114": {
+    "apiName": "toxicroak",
+    "types": [
+      "poison",
+      "fighting"
+    ],
+    "evolvesFrom": [
+      113
+    ],
+    "evolvesTo": []
+  },
+  "115": {
+    "apiName": "wooper-paldea",
+    "types": [
+      "poison",
+      "ground"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      116
+    ]
+  },
+  "116": {
+    "apiName": "clodsire",
+    "types": [
+      "poison",
+      "ground"
+    ],
+    "evolvesFrom": [
+      115
+    ],
+    "evolvesTo": []
+  },
+  "117": {
+    "apiName": "totodile",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      118
+    ]
+  },
+  "118": {
+    "apiName": "croconaw",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      117
+    ],
+    "evolvesTo": [
+      119
+    ]
+  },
+  "119": {
+    "apiName": "feraligatr",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      118
+    ],
+    "evolvesTo": []
+  },
+  "120": {
+    "apiName": "toedscool",
+    "types": [
+      "ground",
+      "grass"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      121
+    ]
+  },
+  "121": {
+    "apiName": "toedscruel",
+    "types": [
+      "ground",
+      "grass"
+    ],
+    "evolvesFrom": [
+      120
+    ],
+    "evolvesTo": []
+  },
+  "122": {
+    "apiName": "feebas",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      123
+    ]
+  },
+  "123": {
+    "apiName": "milotic",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      122
+    ],
+    "evolvesTo": []
+  },
+  "124": {
+    "apiName": "basculin",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      125
+    ]
+  },
+  "125": {
+    "apiName": "basculegion",
+    "types": [
+      "water",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      124
+    ],
+    "evolvesTo": []
+  },
+  "126": {
+    "apiName": "fletchling",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      127
+    ]
+  },
+  "127": {
+    "apiName": "fletchinder",
+    "types": [
+      "fire",
+      "flying"
+    ],
+    "evolvesFrom": [
+      126
+    ],
+    "evolvesTo": [
+      128
+    ]
+  },
+  "128": {
+    "apiName": "talonflame",
+    "types": [
+      "fire",
+      "flying"
+    ],
+    "evolvesFrom": [
+      127
+    ],
+    "evolvesTo": []
+  },
+  "129": {
+    "apiName": "applin",
+    "types": [
+      "grass",
+      "dragon"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      130,
+      131,
+      132
+    ]
+  },
+  "130": {
+    "apiName": "flapple",
+    "types": [
+      "grass",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      129
+    ],
+    "evolvesTo": []
+  },
+  "131": {
+    "apiName": "appletun",
+    "types": [
+      "grass",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      129
+    ],
+    "evolvesTo": []
+  },
+  "132": {
+    "apiName": "dipplin",
+    "types": [
+      "grass",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      129
+    ],
+    "evolvesTo": [
+      133
+    ]
+  },
+  "133": {
+    "apiName": "hydrapple",
+    "types": [
+      "grass",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      132
+    ],
+    "evolvesTo": []
+  },
+  "134": {
+    "apiName": "shuppet",
+    "types": [
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      135
+    ]
+  },
+  "135": {
+    "apiName": "banette",
+    "types": [
+      "ghost"
+    ],
+    "evolvesFrom": [
+      134
+    ],
+    "evolvesTo": []
+  },
+  "136": {
+    "apiName": "diglett",
+    "types": [
+      "ground"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      137
+    ]
+  },
+  "137": {
+    "apiName": "dugtrio",
+    "types": [
+      "ground"
+    ],
+    "evolvesFrom": [
+      136
+    ],
+    "evolvesTo": []
+  },
+  "138": {
+    "apiName": "greavard",
+    "types": [
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      139
+    ]
+  },
+  "139": {
+    "apiName": "houndstone",
+    "types": [
+      "ghost"
+    ],
+    "evolvesFrom": [
+      138
+    ],
+    "evolvesTo": []
+  },
+  "140": {
+    "apiName": "chingling",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      141
+    ]
+  },
+  "141": {
+    "apiName": "chimecho",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [
+      140
+    ],
+    "evolvesTo": []
+  },
+  "142": {
+    "apiName": "stantler",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      143
+    ]
+  },
+  "143": {
+    "apiName": "wyrdeer",
+    "types": [
+      "normal",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      142
+    ],
+    "evolvesTo": []
+  },
+  "144": {
+    "apiName": "vulpix-alola",
+    "types": [
+      "ice"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      145
+    ]
+  },
+  "145": {
+    "apiName": "ninetales-alola",
+    "types": [
+      "ice",
+      "fairy"
+    ],
+    "evolvesFrom": [
+      144
+    ],
+    "evolvesTo": []
+  },
+  "146": {
+    "apiName": "rufflet",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      147
+    ]
+  },
+  "147": {
+    "apiName": "braviary-hisui",
+    "types": [
+      "psychic",
+      "flying"
+    ],
+    "evolvesFrom": [
+      146
+    ],
+    "evolvesTo": []
+  },
+  "148": {
+    "apiName": "scatterbug",
+    "types": [
+      "bug"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      149
+    ]
+  },
+  "149": {
+    "apiName": "spewpa",
+    "types": [
+      "bug"
+    ],
+    "evolvesFrom": [
+      148
+    ],
+    "evolvesTo": [
+      150
+    ]
+  },
+  "150": {
+    "apiName": "vivillon",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "evolvesFrom": [
+      149
+    ],
+    "evolvesTo": []
+  },
+  "151": {
+    "apiName": "bergmite",
+    "types": [
+      "ice"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      152
+    ]
+  },
+  "152": {
+    "apiName": "avalugg-hisui",
+    "types": [
+      "ice",
+      "rock"
+    ],
+    "evolvesFrom": [
+      151
+    ],
+    "evolvesTo": []
+  },
+  "153": {
+    "apiName": "sandshrew-alola",
+    "types": [
+      "ice",
+      "steel"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      154
+    ]
+  },
+  "154": {
+    "apiName": "sandslash-alola",
+    "types": [
+      "ice",
+      "steel"
+    ],
+    "evolvesFrom": [
+      153
+    ],
+    "evolvesTo": []
+  },
+  "155": {
+    "apiName": "swinub",
+    "types": [
+      "ice",
+      "ground"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      156
+    ]
+  },
+  "156": {
+    "apiName": "piloswine",
+    "types": [
+      "ice",
+      "ground"
+    ],
+    "evolvesFrom": [
+      155
+    ],
+    "evolvesTo": [
+      157
+    ]
+  },
+  "157": {
+    "apiName": "mamoswine",
+    "types": [
+      "ice",
+      "ground"
+    ],
+    "evolvesFrom": [
+      156
+    ],
+    "evolvesTo": []
+  },
+  "158": {
+    "apiName": "glimmet",
+    "types": [
+      "rock",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      159
+    ]
+  },
+  "159": {
+    "apiName": "glimmora",
+    "types": [
+      "rock",
+      "poison"
+    ],
+    "evolvesFrom": [
+      158
+    ],
+    "evolvesTo": []
+  },
+  "160": {
+    "apiName": "cetoddle",
+    "types": [
+      "ice"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      161
+    ]
+  },
+  "161": {
+    "apiName": "cetitan",
+    "types": [
+      "ice"
+    ],
+    "evolvesFrom": [
+      160
+    ],
+    "evolvesTo": []
+  },
+  "162": {
+    "apiName": "minior",
+    "types": [
+      "rock",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "163": {
+    "apiName": "frigibax",
+    "types": [
+      "dragon",
+      "ice"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      164
+    ]
+  },
+  "164": {
+    "apiName": "arctibax",
+    "types": [
+      "dragon",
+      "ice"
+    ],
+    "evolvesFrom": [
+      163
+    ],
+    "evolvesTo": [
+      165
+    ]
+  },
+  "165": {
+    "apiName": "baxcalibur",
+    "types": [
+      "dragon",
+      "ice"
+    ],
+    "evolvesFrom": [
+      164
+    ],
+    "evolvesTo": []
+  },
+  "166": {
+    "apiName": "meowth-galar",
+    "types": [
+      "steel"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      167
+    ]
+  },
+  "167": {
+    "apiName": "perrserker",
+    "types": [
+      "steel"
+    ],
+    "evolvesFrom": [
+      166
+    ],
+    "evolvesTo": []
+  },
+  "168": {
+    "apiName": "sneasel-hisui",
+    "types": [
+      "fighting",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      169
+    ]
+  },
+  "169": {
+    "apiName": "sneasler",
+    "types": [
+      "fighting",
+      "poison"
+    ],
+    "evolvesFrom": [
+      168
+    ],
+    "evolvesTo": []
+  },
+  "170": {
+    "apiName": "mime-jr",
+    "types": [
+      "psychic",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      171
+    ]
+  },
+  "171": {
+    "apiName": "mr-mime-galar",
+    "types": [
+      "ice",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      170
+    ],
+    "evolvesTo": [
+      172
+    ]
+  },
+  "172": {
+    "apiName": "mr-rime",
+    "types": [
+      "ice",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      171
+    ],
+    "evolvesTo": []
+  },
+  "173": {
+    "apiName": "togepi",
+    "types": [
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      174
+    ]
+  },
+  "174": {
+    "apiName": "togetic",
+    "types": [
+      "fairy",
+      "flying"
+    ],
+    "evolvesFrom": [
+      173
+    ],
+    "evolvesTo": [
+      175
+    ]
+  },
+  "175": {
+    "apiName": "togekiss",
+    "types": [
+      "fairy",
+      "flying"
+    ],
+    "evolvesFrom": [
+      174
+    ],
+    "evolvesTo": []
+  },
+  "176": {
+    "apiName": "mawile",
+    "types": [
+      "steel",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "177": {
+    "apiName": "carbink",
+    "types": [
+      "rock",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "178": {
+    "apiName": "dreepy",
+    "types": [
+      "dragon",
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      179
+    ]
+  },
+  "179": {
+    "apiName": "drakloak",
+    "types": [
+      "dragon",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      178
+    ],
+    "evolvesTo": [
+      180
+    ]
+  },
+  "180": {
+    "apiName": "dragapult",
+    "types": [
+      "dragon",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      179
+    ],
+    "evolvesTo": []
+  },
+  "181": {
+    "apiName": "sableye",
+    "types": [
+      "dark",
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "182": {
+    "apiName": "ditto",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "183": {
+    "apiName": "rotom",
+    "types": [
+      "electric",
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "184": {
+    "apiName": "litwick",
+    "types": [
+      "ghost",
+      "fire"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      185
+    ]
+  },
+  "185": {
+    "apiName": "lampent",
+    "types": [
+      "ghost",
+      "fire"
+    ],
+    "evolvesFrom": [
+      184
+    ],
+    "evolvesTo": [
+      186
+    ]
+  },
+  "186": {
+    "apiName": "chandelure",
+    "types": [
+      "ghost",
+      "fire"
+    ],
+    "evolvesFrom": [
+      185
+    ],
+    "evolvesTo": []
+  },
+  "187": {
+    "apiName": "pancham",
+    "types": [
+      "fighting"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      188
+    ]
+  },
+  "188": {
+    "apiName": "pangoro",
+    "types": [
+      "fighting",
+      "dark"
+    ],
+    "evolvesFrom": [
+      187
+    ],
+    "evolvesTo": []
+  },
+  "189": {
+    "apiName": "oranguru",
+    "types": [
+      "normal",
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "190": {
+    "apiName": "passimian",
+    "types": [
+      "fighting"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "191": {
+    "apiName": "ralts",
+    "types": [
+      "psychic",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      192
+    ]
+  },
+  "192": {
+    "apiName": "kirlia",
+    "types": [
+      "psychic",
+      "fairy"
+    ],
+    "evolvesFrom": [
+      191
+    ],
+    "evolvesTo": [
+      193,
+      194
+    ]
+  },
+  "193": {
+    "apiName": "gardevoir",
+    "types": [
+      "psychic",
+      "fairy"
+    ],
+    "evolvesFrom": [
+      192
+    ],
+    "evolvesTo": []
+  },
+  "194": {
+    "apiName": "gallade",
+    "types": [
+      "psychic",
+      "fighting"
+    ],
+    "evolvesFrom": [
+      192
+    ],
+    "evolvesTo": []
+  },
+  "195": {
+    "apiName": "charcadet",
+    "types": [
+      "fire"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      196,
+      197
+    ]
+  },
+  "196": {
+    "apiName": "ceruledge",
+    "types": [
+      "fire",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      195
+    ],
+    "evolvesTo": []
+  },
+  "197": {
+    "apiName": "armarouge",
+    "types": [
+      "fire",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      195
+    ],
+    "evolvesTo": []
+  },
+  "198": {
+    "apiName": "mareep",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      199
+    ]
+  },
+  "199": {
+    "apiName": "flaaffy",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [
+      198
+    ],
+    "evolvesTo": [
+      200
+    ]
+  },
+  "200": {
+    "apiName": "ampharos",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [
+      199
+    ],
+    "evolvesTo": []
+  },
+  "201": {
+    "apiName": "varoom",
+    "types": [
+      "steel",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      202
+    ]
+  },
+  "202": {
+    "apiName": "revavroom",
+    "types": [
+      "steel",
+      "poison"
+    ],
+    "evolvesFrom": [
+      201
+    ],
+    "evolvesTo": []
+  },
+  "203": {
+    "apiName": "finneon",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      204
+    ]
+  },
+  "204": {
+    "apiName": "lumineon",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      203
+    ],
+    "evolvesTo": []
+  },
+  "205": {
+    "apiName": "skarmory",
+    "types": [
+      "steel",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "206": {
+    "apiName": "honedge",
+    "types": [
+      "steel",
+      "ghost"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      207
+    ]
+  },
+  "207": {
+    "apiName": "doublade",
+    "types": [
+      "steel",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      206
+    ],
+    "evolvesTo": [
+      208
+    ]
+  },
+  "208": {
+    "apiName": "aegislash",
+    "types": [
+      "steel",
+      "ghost"
+    ],
+    "evolvesFrom": [
+      207
+    ],
+    "evolvesTo": []
+  },
+  "209": {
+    "apiName": "scyther",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      210,
+      211
+    ]
+  },
+  "210": {
+    "apiName": "scizor",
+    "types": [
+      "bug",
+      "steel"
+    ],
+    "evolvesFrom": [
+      209
+    ],
+    "evolvesTo": []
+  },
+  "211": {
+    "apiName": "kleavor",
+    "types": [
+      "bug",
+      "rock"
+    ],
+    "evolvesFrom": [
+      209
+    ],
+    "evolvesTo": []
+  },
+  "212": {
+    "apiName": "kangaskhan",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "213": {
+    "apiName": "pinsir",
+    "types": [
+      "bug"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "214": {
+    "apiName": "furfrou",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "215": {
+    "apiName": "bombirdier",
+    "types": [
+      "flying",
+      "dark"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "216": {
+    "apiName": "arrokuda",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      217
+    ]
+  },
+  "217": {
+    "apiName": "barraskewda",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      216
+    ],
+    "evolvesTo": []
+  },
+  "218": {
+    "apiName": "bruxish",
+    "types": [
+      "water",
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "219": {
+    "apiName": "carvanha",
+    "types": [
+      "water",
+      "dark"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      220
+    ]
+  },
+  "220": {
+    "apiName": "sharpedo",
+    "types": [
+      "water",
+      "dark"
+    ],
+    "evolvesFrom": [
+      219
+    ],
+    "evolvesTo": []
+  },
+  "221": {
+    "apiName": "slowpoke-galar",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      222,
+      223
+    ]
+  },
+  "222": {
+    "apiName": "slowbro-galar",
+    "types": [
+      "poison",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      221
+    ],
+    "evolvesTo": []
+  },
+  "223": {
+    "apiName": "slowking-galar",
+    "types": [
+      "poison",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      221
+    ],
+    "evolvesTo": []
+  },
+  "224": {
+    "apiName": "oshawott",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      225
+    ]
+  },
+  "225": {
+    "apiName": "dewott",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      224
+    ],
+    "evolvesTo": [
+      226
+    ]
+  },
+  "226": {
+    "apiName": "samurott",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      225
+    ],
+    "evolvesTo": []
+  },
+  "227": {
+    "apiName": "tynamo",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      228
+    ]
+  },
+  "228": {
+    "apiName": "eelektrik",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [
+      227
+    ],
+    "evolvesTo": [
+      229
+    ]
+  },
+  "229": {
+    "apiName": "eelektross",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [
+      228
+    ],
+    "evolvesTo": []
+  },
+  "230": {
+    "apiName": "corsola",
+    "types": [
+      "water",
+      "rock"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      231
+    ]
+  },
+  "231": {
+    "apiName": "cursola",
+    "types": [
+      "ghost"
+    ],
+    "evolvesFrom": [
+      230
+    ],
+    "evolvesTo": []
+  },
+  "232": {
+    "apiName": "mareanie",
+    "types": [
+      "poison",
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      233
+    ]
+  },
+  "233": {
+    "apiName": "toxapex",
+    "types": [
+      "poison",
+      "water"
+    ],
+    "evolvesFrom": [
+      232
+    ],
+    "evolvesTo": []
+  },
+  "234": {
+    "apiName": "voltorb-hisui",
+    "types": [
+      "electric",
+      "grass"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      235
+    ]
+  },
+  "235": {
+    "apiName": "electrode-hisui",
+    "types": [
+      "electric",
+      "grass"
+    ],
+    "evolvesFrom": [
+      234
+    ],
+    "evolvesTo": []
+  },
+  "236": {
+    "apiName": "electrike",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      237
+    ]
+  },
+  "237": {
+    "apiName": "manectric",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [
+      236
+    ],
+    "evolvesTo": []
+  },
+  "238": {
+    "apiName": "yamper",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      239
+    ]
+  },
+  "239": {
+    "apiName": "boltund",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [
+      238
+    ],
+    "evolvesTo": []
+  },
+  "240": {
+    "apiName": "geodude-alola",
+    "types": [
+      "rock",
+      "electric"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      241
+    ]
+  },
+  "241": {
+    "apiName": "graveler-alola",
+    "types": [
+      "rock",
+      "electric"
+    ],
+    "evolvesFrom": [
+      240
+    ],
+    "evolvesTo": [
+      242
+    ]
+  },
+  "242": {
+    "apiName": "golem-alola",
+    "types": [
+      "rock",
+      "electric"
+    ],
+    "evolvesFrom": [
+      241
+    ],
+    "evolvesTo": []
+  },
+  "243": {
+    "apiName": "houndour",
+    "types": [
+      "dark",
+      "fire"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      244
+    ]
+  },
+  "244": {
+    "apiName": "houndoom",
+    "types": [
+      "dark",
+      "fire"
+    ],
+    "evolvesFrom": [
+      243
+    ],
+    "evolvesTo": []
+  },
+  "245": {
+    "apiName": "ponyta-galar",
+    "types": [
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      246
+    ]
+  },
+  "246": {
+    "apiName": "rapidash-galar",
+    "types": [
+      "psychic",
+      "fairy"
+    ],
+    "evolvesFrom": [
+      245
+    ],
+    "evolvesTo": []
+  },
+  "247": {
+    "apiName": "wooloo",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      248
+    ]
+  },
+  "248": {
+    "apiName": "dubwool",
+    "types": [
+      "normal"
+    ],
+    "evolvesFrom": [
+      247
+    ],
+    "evolvesTo": []
+  },
+  "249": {
+    "apiName": "wingull",
+    "types": [
+      "water",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      250
+    ]
+  },
+  "250": {
+    "apiName": "pelipper",
+    "types": [
+      "water",
+      "flying"
+    ],
+    "evolvesFrom": [
+      249
+    ],
+    "evolvesTo": []
+  },
+  "251": {
+    "apiName": "goomy",
+    "types": [
+      "dragon"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      252
+    ]
+  },
+  "252": {
+    "apiName": "sliggoo-hisui",
+    "types": [
+      "steel",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      251
+    ],
+    "evolvesTo": [
+      253
+    ]
+  },
+  "253": {
+    "apiName": "goodra-hisui",
+    "types": [
+      "steel",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      252
+    ],
+    "evolvesTo": []
+  },
+  "254": {
+    "apiName": "squirtle",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      255
+    ]
+  },
+  "255": {
+    "apiName": "wartortle",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      254
+    ],
+    "evolvesTo": [
+      256
+    ]
+  },
+  "256": {
+    "apiName": "blastoise",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      255
+    ],
+    "evolvesTo": []
+  },
+  "257": {
+    "apiName": "charmander",
+    "types": [
+      "fire"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      258
+    ]
+  },
+  "258": {
+    "apiName": "charmeleon",
+    "types": [
+      "fire"
+    ],
+    "evolvesFrom": [
+      257
+    ],
+    "evolvesTo": [
+      259
+    ]
+  },
+  "259": {
+    "apiName": "charizard",
+    "types": [
+      "fire",
+      "flying"
+    ],
+    "evolvesFrom": [
+      258
+    ],
+    "evolvesTo": []
+  },
+  "260": {
+    "apiName": "bulbasaur",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      261
+    ]
+  },
+  "261": {
+    "apiName": "ivysaur",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "evolvesFrom": [
+      260
+    ],
+    "evolvesTo": [
+      262
+    ]
+  },
+  "262": {
+    "apiName": "venusaur",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "evolvesFrom": [
+      261
+    ],
+    "evolvesTo": []
+  },
+  "263": {
+    "apiName": "jangmo-o",
+    "types": [
+      "dragon"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      264
+    ]
+  },
+  "264": {
+    "apiName": "hakamo-o",
+    "types": [
+      "dragon",
+      "fighting"
+    ],
+    "evolvesFrom": [
+      263
+    ],
+    "evolvesTo": [
+      265
+    ]
+  },
+  "265": {
+    "apiName": "kommo-o",
+    "types": [
+      "dragon",
+      "fighting"
+    ],
+    "evolvesFrom": [
+      264
+    ],
+    "evolvesTo": []
+  },
+  "266": {
+    "apiName": "snom",
+    "types": [
+      "ice",
+      "bug"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      267
+    ]
+  },
+  "267": {
+    "apiName": "frosmoth",
+    "types": [
+      "ice",
+      "bug"
+    ],
+    "evolvesFrom": [
+      266
+    ],
+    "evolvesTo": []
+  },
+  "268": {
+    "apiName": "wattrel",
+    "types": [
+      "electric",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      269
+    ]
+  },
+  "269": {
+    "apiName": "kilowattrel",
+    "types": [
+      "electric",
+      "flying"
+    ],
+    "evolvesFrom": [
+      268
+    ],
+    "evolvesTo": []
+  },
+  "270": {
+    "apiName": "beldum",
+    "types": [
+      "steel",
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      271
+    ]
+  },
+  "271": {
+    "apiName": "metang",
+    "types": [
+      "steel",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      270
+    ],
+    "evolvesTo": [
+      272
+    ]
+  },
+  "272": {
+    "apiName": "metagross",
+    "types": [
+      "steel",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      271
+    ],
+    "evolvesTo": []
+  },
+  "273": {
+    "apiName": "absol",
+    "types": [
+      "dark"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "274": {
+    "apiName": "tauros-paldea-combat-breed",
+    "types": [
+      "fighting"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "275": {
+    "apiName": "surskit",
+    "types": [
+      "bug",
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      276
+    ]
+  },
+  "276": {
+    "apiName": "masquerain",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "evolvesFrom": [
+      275
+    ],
+    "evolvesTo": []
+  },
+  "277": {
+    "apiName": "clauncher",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      278
+    ]
+  },
+  "278": {
+    "apiName": "clawitzer",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [
+      277
+    ],
+    "evolvesTo": []
+  },
+  "279": {
+    "apiName": "alomomola",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "280": {
+    "apiName": "magikarp",
+    "types": [
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      281
+    ]
+  },
+  "281": {
+    "apiName": "gyarados",
+    "types": [
+      "water",
+      "flying"
+    ],
+    "evolvesFrom": [
+      280
+    ],
+    "evolvesTo": []
+  },
+  "282": {
+    "apiName": "spiritomb",
+    "types": [
+      "ghost",
+      "dark"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "283": {
+    "apiName": "baltoy",
+    "types": [
+      "ground",
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      284
+    ]
+  },
+  "284": {
+    "apiName": "claydol",
+    "types": [
+      "ground",
+      "psychic"
+    ],
+    "evolvesFrom": [
+      283
+    ],
+    "evolvesTo": []
+  },
+  "285": {
+    "apiName": "dhelmise",
+    "types": [
+      "ghost",
+      "grass"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "286": {
+    "apiName": "mimikyu",
+    "types": [
+      "ghost",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "287": {
+    "apiName": "lileep",
+    "types": [
+      "rock",
+      "grass"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      288
+    ]
+  },
+  "288": {
+    "apiName": "cradily",
+    "types": [
+      "rock",
+      "grass"
+    ],
+    "evolvesFrom": [
+      287
+    ],
+    "evolvesTo": []
+  },
+  "289": {
+    "apiName": "archen",
+    "types": [
+      "rock",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      290
+    ]
+  },
+  "290": {
+    "apiName": "archeops",
+    "types": [
+      "rock",
+      "flying"
+    ],
+    "evolvesFrom": [
+      289
+    ],
+    "evolvesTo": []
+  },
+  "291": {
+    "apiName": "amaura",
+    "types": [
+      "rock",
+      "ice"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      292
+    ]
+  },
+  "292": {
+    "apiName": "aurorus",
+    "types": [
+      "rock",
+      "ice"
+    ],
+    "evolvesFrom": [
+      291
+    ],
+    "evolvesTo": []
+  },
+  "293": {
+    "apiName": "shieldon",
+    "types": [
+      "rock",
+      "steel"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      294
+    ]
+  },
+  "294": {
+    "apiName": "bastiodon",
+    "types": [
+      "rock",
+      "steel"
+    ],
+    "evolvesFrom": [
+      293
+    ],
+    "evolvesTo": []
+  },
+  "295": {
+    "apiName": "tyrunt",
+    "types": [
+      "rock",
+      "dragon"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      296
+    ]
+  },
+  "296": {
+    "apiName": "tyrantrum",
+    "types": [
+      "rock",
+      "dragon"
+    ],
+    "evolvesFrom": [
+      295
+    ],
+    "evolvesTo": []
+  },
+  "297": {
+    "apiName": "omanyte",
+    "types": [
+      "rock",
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      298
+    ]
+  },
+  "298": {
+    "apiName": "omastar",
+    "types": [
+      "rock",
+      "water"
+    ],
+    "evolvesFrom": [
+      297
+    ],
+    "evolvesTo": []
+  },
+  "299": {
+    "apiName": "kabuto",
+    "types": [
+      "rock",
+      "water"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      300
+    ]
+  },
+  "300": {
+    "apiName": "kabutops",
+    "types": [
+      "rock",
+      "water"
+    ],
+    "evolvesFrom": [
+      299
+    ],
+    "evolvesTo": []
+  },
+  "301": {
+    "apiName": "cranidos",
+    "types": [
+      "rock"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      302
+    ]
+  },
+  "302": {
+    "apiName": "rampardos",
+    "types": [
+      "rock"
+    ],
+    "evolvesFrom": [
+      301
+    ],
+    "evolvesTo": []
+  },
+  "303": {
+    "apiName": "relicanth",
+    "types": [
+      "water",
+      "rock"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "304": {
+    "apiName": "tirtouga",
+    "types": [
+      "water",
+      "rock"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": [
+      305
+    ]
+  },
+  "305": {
+    "apiName": "carracosta",
+    "types": [
+      "water",
+      "rock"
+    ],
+    "evolvesFrom": [
+      304
+    ],
+    "evolvesTo": []
+  },
+  "306": {
+    "apiName": "aerodactyl",
+    "types": [
+      "rock",
+      "flying"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "307": {
+    "apiName": "scream-tail",
+    "types": [
+      "fairy",
+      "psychic"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "308": {
+    "apiName": "flutter-mane",
+    "types": [
+      "ghost",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "309": {
+    "apiName": "great-tusk",
+    "types": [
+      "ground",
+      "fighting"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "310": {
+    "apiName": "roaring-moon",
+    "types": [
+      "dragon",
+      "dark"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "311": {
+    "apiName": "zarude",
+    "types": [
+      "dark",
+      "grass"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "312": {
+    "apiName": "zeraora",
+    "types": [
+      "electric"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "313": {
+    "apiName": "celebi",
+    "types": [
+      "psychic",
+      "grass"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "314": {
+    "apiName": "diancie",
+    "types": [
+      "rock",
+      "fairy"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  },
+  "315": {
+    "apiName": "koraidon",
+    "types": [
+      "fighting",
+      "dragon"
+    ],
+    "evolvesFrom": [],
+    "evolvesTo": []
+  }
+}

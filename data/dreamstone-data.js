@@ -1,5 +1,5 @@
 window.DREAMSTONE_DATA = {
-  "generatedAt": "2026-06-08T21:36:41.773Z",
+  "generatedAt": "2026-06-08T22:26:33.544Z",
   "sourceWorkbook": "Dreamstone Mysteries _ Dex (temporary).xlsx",
   "dex": [
     {
@@ -10,7 +10,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/gothita.png"
+      "sprite": "assets/sprites/gothita.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        2
+      ]
     },
     {
       "number": 2,
@@ -20,7 +27,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gothorita.png"
+      "sprite": "assets/sprites/gothorita.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [
+        1
+      ],
+      "evolvesTo": [
+        3
+      ]
     },
     {
       "number": 3,
@@ -30,7 +46,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gothitelle.png"
+      "sprite": "assets/sprites/gothitelle.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [
+        2
+      ],
+      "evolvesTo": []
     },
     {
       "number": 4,
@@ -40,7 +63,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/timburr.png"
+      "sprite": "assets/sprites/timburr.png",
+      "types": [
+        "fighting"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        5
+      ]
     },
     {
       "number": 5,
@@ -50,7 +80,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gurdurr.png"
+      "sprite": "assets/sprites/gurdurr.png",
+      "types": [
+        "fighting"
+      ],
+      "evolvesFrom": [
+        4
+      ],
+      "evolvesTo": [
+        6
+      ]
     },
     {
       "number": 6,
@@ -60,7 +99,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/conkeldurr.png"
+      "sprite": "assets/sprites/conkeldurr.png",
+      "types": [
+        "fighting"
+      ],
+      "evolvesFrom": [
+        5
+      ],
+      "evolvesTo": []
     },
     {
       "number": 7,
@@ -70,7 +116,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/zigzagoon-galar.png"
+      "sprite": "assets/sprites/zigzagoon-galar.png",
+      "types": [
+        "dark",
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        8
+      ]
     },
     {
       "number": 8,
@@ -80,7 +134,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/linoone-galar.png"
+      "sprite": "assets/sprites/linoone-galar.png",
+      "types": [
+        "dark",
+        "normal"
+      ],
+      "evolvesFrom": [
+        7
+      ],
+      "evolvesTo": [
+        9
+      ]
     },
     {
       "number": 9,
@@ -90,7 +154,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/obstagoon.png"
+      "sprite": "assets/sprites/obstagoon.png",
+      "types": [
+        "dark",
+        "normal"
+      ],
+      "evolvesFrom": [
+        8
+      ],
+      "evolvesTo": []
     },
     {
       "number": 10,
@@ -100,7 +172,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/rattata-alola.png"
+      "sprite": "assets/sprites/rattata-alola.png",
+      "types": [
+        "dark",
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        11
+      ]
     },
     {
       "number": 11,
@@ -110,7 +190,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/raticate-alola.png"
+      "sprite": "assets/sprites/raticate-alola.png",
+      "types": [
+        "dark",
+        "normal"
+      ],
+      "evolvesFrom": [
+        10
+      ],
+      "evolvesTo": []
     },
     {
       "number": 12,
@@ -120,7 +208,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pidove.png"
+      "sprite": "assets/sprites/pidove.png",
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        13
+      ]
     },
     {
       "number": 13,
@@ -130,7 +226,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tranquill.png"
+      "sprite": "assets/sprites/tranquill.png",
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "evolvesFrom": [
+        12
+      ],
+      "evolvesTo": [
+        14
+      ]
     },
     {
       "number": 14,
@@ -140,7 +246,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/unfezant.png"
+      "sprite": "assets/sprites/unfezant.png",
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "evolvesFrom": [
+        13
+      ],
+      "evolvesTo": []
     },
     {
       "number": 15,
@@ -150,7 +264,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/cubone.png"
+      "sprite": "assets/sprites/cubone.png",
+      "types": [
+        "ground"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        16
+      ]
     },
     {
       "number": 16,
@@ -160,7 +281,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/marowak-alola.png"
+      "sprite": "assets/sprites/marowak-alola.png",
+      "types": [
+        "fire",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        15
+      ],
+      "evolvesTo": []
     },
     {
       "number": 17,
@@ -170,7 +299,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "Own Tempo Rockruff is in Route 2, which evolves into Dusk Form",
       "availability": "Available",
-      "sprite": "assets/sprites/rockruff.png"
+      "sprite": "assets/sprites/rockruff.png",
+      "types": [
+        "rock"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        18
+      ]
     },
     {
       "number": 18,
@@ -180,7 +316,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lycanroc.png"
+      "sprite": "assets/sprites/lycanroc.png",
+      "types": [
+        "rock"
+      ],
+      "evolvesFrom": [
+        17
+      ],
+      "evolvesTo": []
     },
     {
       "number": 19,
@@ -190,7 +333,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/clefairy.png"
+      "sprite": "assets/sprites/clefairy.png",
+      "types": [
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        20
+      ]
     },
     {
       "number": 20,
@@ -200,7 +350,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/clefable.png"
+      "sprite": "assets/sprites/clefable.png",
+      "types": [
+        "fairy"
+      ],
+      "evolvesFrom": [
+        19
+      ],
+      "evolvesTo": []
     },
     {
       "number": 21,
@@ -210,7 +367,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/teddiursa.png"
+      "sprite": "assets/sprites/teddiursa.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        22
+      ]
     },
     {
       "number": 22,
@@ -220,7 +384,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ursaring.png"
+      "sprite": "assets/sprites/ursaring.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [
+        21
+      ],
+      "evolvesTo": [
+        23
+      ]
     },
     {
       "number": 23,
@@ -230,7 +403,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Normal form; Bloodmoon isn't available",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ursaluna.png"
+      "sprite": "assets/sprites/ursaluna.png",
+      "types": [
+        "ground",
+        "normal"
+      ],
+      "evolvesFrom": [
+        22
+      ],
+      "evolvesTo": []
     },
     {
       "number": 24,
@@ -240,7 +421,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/meditite.png"
+      "sprite": "assets/sprites/meditite.png",
+      "types": [
+        "fighting",
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        25
+      ]
     },
     {
       "number": 25,
@@ -250,7 +439,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/medicham.png"
+      "sprite": "assets/sprites/medicham.png",
+      "types": [
+        "fighting",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        24
+      ],
+      "evolvesTo": []
     },
     {
       "number": 26,
@@ -260,7 +457,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-957.png"
+      "sprite": "assets/sprites/pokeapi-957.png",
+      "types": [
+        "fairy",
+        "steel"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        27
+      ]
     },
     {
       "number": 27,
@@ -270,7 +475,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-958.png"
+      "sprite": "assets/sprites/pokeapi-958.png",
+      "types": [
+        "fairy",
+        "steel"
+      ],
+      "evolvesFrom": [
+        26
+      ],
+      "evolvesTo": [
+        28
+      ]
     },
     {
       "number": 28,
@@ -280,7 +495,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-959.png"
+      "sprite": "assets/sprites/pokeapi-959.png",
+      "types": [
+        "fairy",
+        "steel"
+      ],
+      "evolvesFrom": [
+        27
+      ],
+      "evolvesTo": []
     },
     {
       "number": 29,
@@ -290,7 +513,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/noibat.png"
+      "sprite": "assets/sprites/noibat.png",
+      "types": [
+        "flying",
+        "dragon"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        30
+      ]
     },
     {
       "number": 30,
@@ -300,7 +531,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/noivern.png"
+      "sprite": "assets/sprites/noivern.png",
+      "types": [
+        "flying",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        29
+      ],
+      "evolvesTo": []
     },
     {
       "number": 31,
@@ -310,7 +549,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/aron.png"
+      "sprite": "assets/sprites/aron.png",
+      "types": [
+        "steel",
+        "rock"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        32
+      ]
     },
     {
       "number": 32,
@@ -320,7 +567,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lairon.png"
+      "sprite": "assets/sprites/lairon.png",
+      "types": [
+        "steel",
+        "rock"
+      ],
+      "evolvesFrom": [
+        31
+      ],
+      "evolvesTo": [
+        33
+      ]
     },
     {
       "number": 33,
@@ -330,7 +587,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/aggron.png"
+      "sprite": "assets/sprites/aggron.png",
+      "types": [
+        "steel",
+        "rock"
+      ],
+      "evolvesFrom": [
+        32
+      ],
+      "evolvesTo": []
     },
     {
       "number": 34,
@@ -340,7 +605,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/lillipup.png"
+      "sprite": "assets/sprites/lillipup.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        35
+      ]
     },
     {
       "number": 35,
@@ -350,7 +622,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/herdier.png"
+      "sprite": "assets/sprites/herdier.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [
+        34
+      ],
+      "evolvesTo": [
+        36
+      ]
     },
     {
       "number": 36,
@@ -360,7 +641,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/stoutland.png"
+      "sprite": "assets/sprites/stoutland.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [
+        35
+      ],
+      "evolvesTo": []
     },
     {
       "number": 37,
@@ -370,7 +658,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pineco.png"
+      "sprite": "assets/sprites/pineco.png",
+      "types": [
+        "bug"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        38
+      ]
     },
     {
       "number": 38,
@@ -380,7 +675,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/forretress.png"
+      "sprite": "assets/sprites/forretress.png",
+      "types": [
+        "bug",
+        "steel"
+      ],
+      "evolvesFrom": [
+        37
+      ],
+      "evolvesTo": []
     },
     {
       "number": 39,
@@ -390,7 +693,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/swablu.png"
+      "sprite": "assets/sprites/swablu.png",
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        40
+      ]
     },
     {
       "number": 40,
@@ -400,7 +711,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/altaria.png"
+      "sprite": "assets/sprites/altaria.png",
+      "types": [
+        "dragon",
+        "flying"
+      ],
+      "evolvesFrom": [
+        39
+      ],
+      "evolvesTo": []
     },
     {
       "number": 41,
@@ -410,7 +729,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Complete the teahouse quest",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-1012.png"
+      "sprite": "assets/sprites/pokeapi-1012.png",
+      "types": [
+        "grass",
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        42
+      ]
     },
     {
       "number": 42,
@@ -420,7 +747,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-1013.png"
+      "sprite": "assets/sprites/pokeapi-1013.png",
+      "types": [
+        "grass",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        41
+      ],
+      "evolvesTo": []
     },
     {
       "number": 43,
@@ -430,7 +765,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Complete the teahouse quest",
       "availability": "Available",
-      "sprite": "assets/sprites/sinistea.png"
+      "sprite": "assets/sprites/sinistea.png",
+      "types": [
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        44
+      ]
     },
     {
       "number": 44,
@@ -440,7 +782,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/polteageist.png"
+      "sprite": "assets/sprites/polteageist.png",
+      "types": [
+        "ghost"
+      ],
+      "evolvesFrom": [
+        43
+      ],
+      "evolvesTo": []
     },
     {
       "number": 45,
@@ -450,7 +799,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/buneary.png"
+      "sprite": "assets/sprites/buneary.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        46
+      ]
     },
     {
       "number": 46,
@@ -460,7 +816,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lopunny.png"
+      "sprite": "assets/sprites/lopunny.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [
+        45
+      ],
+      "evolvesTo": []
     },
     {
       "number": 47,
@@ -470,7 +833,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/blipbug.png"
+      "sprite": "assets/sprites/blipbug.png",
+      "types": [
+        "bug"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        48
+      ]
     },
     {
       "number": 48,
@@ -480,7 +850,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dottler.png"
+      "sprite": "assets/sprites/dottler.png",
+      "types": [
+        "bug",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        47
+      ],
+      "evolvesTo": [
+        49
+      ]
     },
     {
       "number": 49,
@@ -490,7 +870,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/orbeetle.png"
+      "sprite": "assets/sprites/orbeetle.png",
+      "types": [
+        "bug",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        48
+      ],
+      "evolvesTo": []
     },
     {
       "number": 50,
@@ -500,7 +888,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Save the kids from the Dewpider attack",
       "availability": "Available",
-      "sprite": "assets/sprites/dewpider.png"
+      "sprite": "assets/sprites/dewpider.png",
+      "types": [
+        "water",
+        "bug"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        51
+      ]
     },
     {
       "number": 51,
@@ -510,7 +906,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/araquanid.png"
+      "sprite": "assets/sprites/araquanid.png",
+      "types": [
+        "water",
+        "bug"
+      ],
+      "evolvesFrom": [
+        50
+      ],
+      "evolvesTo": []
     },
     {
       "number": 52,
@@ -520,7 +924,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/petilil.png"
+      "sprite": "assets/sprites/petilil.png",
+      "types": [
+        "grass"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        53
+      ]
     },
     {
       "number": 53,
@@ -530,7 +941,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lilligant-hisui.png"
+      "sprite": "assets/sprites/lilligant-hisui.png",
+      "types": [
+        "grass",
+        "fighting"
+      ],
+      "evolvesFrom": [
+        52
+      ],
+      "evolvesTo": []
     },
     {
       "number": 54,
@@ -540,7 +959,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/chikorita.png"
+      "sprite": "assets/sprites/chikorita.png",
+      "types": [
+        "grass"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        55
+      ]
     },
     {
       "number": 55,
@@ -550,7 +976,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/bayleef.png"
+      "sprite": "assets/sprites/bayleef.png",
+      "types": [
+        "grass"
+      ],
+      "evolvesFrom": [
+        54
+      ],
+      "evolvesTo": [
+        56
+      ]
     },
     {
       "number": 56,
@@ -560,7 +995,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/meganium.png"
+      "sprite": "assets/sprites/meganium.png",
+      "types": [
+        "grass"
+      ],
+      "evolvesFrom": [
+        55
+      ],
+      "evolvesTo": []
     },
     {
       "number": 57,
@@ -570,7 +1012,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/chinchou.png"
+      "sprite": "assets/sprites/chinchou.png",
+      "types": [
+        "water",
+        "electric"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        58
+      ]
     },
     {
       "number": 58,
@@ -580,7 +1030,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lanturn.png"
+      "sprite": "assets/sprites/lanturn.png",
+      "types": [
+        "water",
+        "electric"
+      ],
+      "evolvesFrom": [
+        57
+      ],
+      "evolvesTo": []
     },
     {
       "number": 59,
@@ -590,7 +1048,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/mankey.png"
+      "sprite": "assets/sprites/mankey.png",
+      "types": [
+        "fighting"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        60
+      ]
     },
     {
       "number": 60,
@@ -600,7 +1065,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/primeape.png"
+      "sprite": "assets/sprites/primeape.png",
+      "types": [
+        "fighting"
+      ],
+      "evolvesFrom": [
+        59
+      ],
+      "evolvesTo": [
+        61
+      ]
     },
     {
       "number": 61,
@@ -610,7 +1084,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-979.png"
+      "sprite": "assets/sprites/pokeapi-979.png",
+      "types": [
+        "fighting",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        60
+      ],
+      "evolvesTo": []
     },
     {
       "number": 62,
@@ -620,7 +1102,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/venipede.png"
+      "sprite": "assets/sprites/venipede.png",
+      "types": [
+        "bug",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        63
+      ]
     },
     {
       "number": 63,
@@ -630,7 +1120,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/whirlipede.png"
+      "sprite": "assets/sprites/whirlipede.png",
+      "types": [
+        "bug",
+        "poison"
+      ],
+      "evolvesFrom": [
+        62
+      ],
+      "evolvesTo": [
+        64
+      ]
     },
     {
       "number": 64,
@@ -640,7 +1140,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/scolipede.png"
+      "sprite": "assets/sprites/scolipede.png",
+      "types": [
+        "bug",
+        "poison"
+      ],
+      "evolvesFrom": [
+        63
+      ],
+      "evolvesTo": []
     },
     {
       "number": 65,
@@ -650,7 +1158,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/growlithe-hisui.png"
+      "sprite": "assets/sprites/growlithe-hisui.png",
+      "types": [
+        "fire",
+        "rock"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        66
+      ]
     },
     {
       "number": 66,
@@ -660,7 +1176,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/arcanine-hisui.png"
+      "sprite": "assets/sprites/arcanine-hisui.png",
+      "types": [
+        "fire",
+        "rock"
+      ],
+      "evolvesFrom": [
+        65
+      ],
+      "evolvesTo": []
     },
     {
       "number": 67,
@@ -670,7 +1194,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/sizzlipede.png"
+      "sprite": "assets/sprites/sizzlipede.png",
+      "types": [
+        "fire",
+        "bug"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        68
+      ]
     },
     {
       "number": 68,
@@ -680,7 +1212,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/centiskorch.png"
+      "sprite": "assets/sprites/centiskorch.png",
+      "types": [
+        "fire",
+        "bug"
+      ],
+      "evolvesFrom": [
+        67
+      ],
+      "evolvesTo": []
     },
     {
       "number": 69,
@@ -690,7 +1230,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/rolycoly.png"
+      "sprite": "assets/sprites/rolycoly.png",
+      "types": [
+        "rock"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        70
+      ]
     },
     {
       "number": 70,
@@ -700,7 +1247,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/carkol.png"
+      "sprite": "assets/sprites/carkol.png",
+      "types": [
+        "rock",
+        "fire"
+      ],
+      "evolvesFrom": [
+        69
+      ],
+      "evolvesTo": [
+        71
+      ]
     },
     {
       "number": 71,
@@ -710,7 +1267,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/coalossal.png"
+      "sprite": "assets/sprites/coalossal.png",
+      "types": [
+        "rock",
+        "fire"
+      ],
+      "evolvesFrom": [
+        70
+      ],
+      "evolvesTo": []
     },
     {
       "number": 72,
@@ -720,7 +1285,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/cyndaquil.png"
+      "sprite": "assets/sprites/cyndaquil.png",
+      "types": [
+        "fire"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        73
+      ]
     },
     {
       "number": 73,
@@ -730,7 +1302,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/quilava.png"
+      "sprite": "assets/sprites/quilava.png",
+      "types": [
+        "fire"
+      ],
+      "evolvesFrom": [
+        72
+      ],
+      "evolvesTo": [
+        74
+      ]
     },
     {
       "number": 74,
@@ -740,7 +1321,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/typhlosion-hisui.png"
+      "sprite": "assets/sprites/typhlosion-hisui.png",
+      "types": [
+        "fire",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        73
+      ],
+      "evolvesTo": []
     },
     {
       "number": 75,
@@ -750,7 +1339,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/nickit.png"
+      "sprite": "assets/sprites/nickit.png",
+      "types": [
+        "dark"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        76
+      ]
     },
     {
       "number": 76,
@@ -760,7 +1356,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/thievul.png"
+      "sprite": "assets/sprites/thievul.png",
+      "types": [
+        "dark"
+      ],
+      "evolvesFrom": [
+        75
+      ],
+      "evolvesTo": []
     },
     {
       "number": 77,
@@ -770,7 +1373,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/murkrow.png"
+      "sprite": "assets/sprites/murkrow.png",
+      "types": [
+        "dark",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        78
+      ]
     },
     {
       "number": 78,
@@ -780,7 +1391,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/honchkrow.png"
+      "sprite": "assets/sprites/honchkrow.png",
+      "types": [
+        "dark",
+        "flying"
+      ],
+      "evolvesFrom": [
+        77
+      ],
+      "evolvesTo": []
     },
     {
       "number": 79,
@@ -790,7 +1409,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-919.png"
+      "sprite": "assets/sprites/pokeapi-919.png",
+      "types": [
+        "bug"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        80
+      ]
     },
     {
       "number": 80,
@@ -800,7 +1426,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-920.png"
+      "sprite": "assets/sprites/pokeapi-920.png",
+      "types": [
+        "bug",
+        "dark"
+      ],
+      "evolvesFrom": [
+        79
+      ],
+      "evolvesTo": []
     },
     {
       "number": 81,
@@ -810,7 +1444,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/drowzee.png"
+      "sprite": "assets/sprites/drowzee.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        82
+      ]
     },
     {
       "number": 82,
@@ -820,7 +1461,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/hypno.png"
+      "sprite": "assets/sprites/hypno.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [
+        81
+      ],
+      "evolvesTo": []
     },
     {
       "number": 83,
@@ -830,7 +1478,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/morelull.png"
+      "sprite": "assets/sprites/morelull.png",
+      "types": [
+        "grass",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        86
+      ]
     },
     {
       "number": 86,
@@ -840,7 +1496,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/shiinotic.png"
+      "sprite": "assets/sprites/shiinotic.png",
+      "types": [
+        "grass",
+        "fairy"
+      ],
+      "evolvesFrom": [
+        83
+      ],
+      "evolvesTo": []
     },
     {
       "number": 84,
@@ -850,7 +1514,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/foongus.png"
+      "sprite": "assets/sprites/foongus.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        85
+      ]
     },
     {
       "number": 85,
@@ -860,7 +1532,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/amoonguss.png"
+      "sprite": "assets/sprites/amoonguss.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "evolvesFrom": [
+        84
+      ],
+      "evolvesTo": []
     },
     {
       "number": 87,
@@ -870,7 +1550,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/impidimp.png"
+      "sprite": "assets/sprites/impidimp.png",
+      "types": [
+        "dark",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        88
+      ]
     },
     {
       "number": 88,
@@ -880,7 +1568,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/morgrem.png"
+      "sprite": "assets/sprites/morgrem.png",
+      "types": [
+        "dark",
+        "fairy"
+      ],
+      "evolvesFrom": [
+        87
+      ],
+      "evolvesTo": [
+        89
+      ]
     },
     {
       "number": 89,
@@ -890,7 +1588,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/grimmsnarl.png"
+      "sprite": "assets/sprites/grimmsnarl.png",
+      "types": [
+        "dark",
+        "fairy"
+      ],
+      "evolvesFrom": [
+        88
+      ],
+      "evolvesTo": []
     },
     {
       "number": 90,
@@ -900,7 +1606,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/fennekin.png"
+      "sprite": "assets/sprites/fennekin.png",
+      "types": [
+        "fire"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        91
+      ]
     },
     {
       "number": 91,
@@ -910,7 +1623,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/braixen.png"
+      "sprite": "assets/sprites/braixen.png",
+      "types": [
+        "fire"
+      ],
+      "evolvesFrom": [
+        90
+      ],
+      "evolvesTo": [
+        92
+      ]
     },
     {
       "number": 92,
@@ -920,7 +1642,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/delphox.png"
+      "sprite": "assets/sprites/delphox.png",
+      "types": [
+        "fire",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        91
+      ],
+      "evolvesTo": []
     },
     {
       "number": 93,
@@ -930,7 +1660,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/zorua-hisui.png"
+      "sprite": "assets/sprites/zorua-hisui.png",
+      "types": [
+        "normal",
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        94
+      ]
     },
     {
       "number": 94,
@@ -940,7 +1678,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/zoroark-hisui.png"
+      "sprite": "assets/sprites/zoroark-hisui.png",
+      "types": [
+        "normal",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        93
+      ],
+      "evolvesTo": []
     },
     {
       "number": 95,
@@ -950,7 +1696,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Give the Budew 3 berries - Oran, Pecha, Rawst",
       "availability": "Available",
-      "sprite": "assets/sprites/budew.png"
+      "sprite": "assets/sprites/budew.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        96
+      ]
     },
     {
       "number": 96,
@@ -960,7 +1714,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/roselia.png"
+      "sprite": "assets/sprites/roselia.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "evolvesFrom": [
+        95
+      ],
+      "evolvesTo": [
+        97
+      ]
     },
     {
       "number": 97,
@@ -970,7 +1734,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/roserade.png"
+      "sprite": "assets/sprites/roserade.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "evolvesFrom": [
+        96
+      ],
+      "evolvesTo": []
     },
     {
       "number": 98,
@@ -980,7 +1752,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Click on the big drill near the Supply Depot",
       "availability": "Available",
-      "sprite": "assets/sprites/drilbur.png"
+      "sprite": "assets/sprites/drilbur.png",
+      "types": [
+        "ground"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        99
+      ]
     },
     {
       "number": 99,
@@ -990,7 +1769,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/excadrill.png"
+      "sprite": "assets/sprites/excadrill.png",
+      "types": [
+        "ground",
+        "steel"
+      ],
+      "evolvesFrom": [
+        98
+      ],
+      "evolvesTo": []
     },
     {
       "number": 100,
@@ -1000,7 +1787,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/skrelp.png"
+      "sprite": "assets/sprites/skrelp.png",
+      "types": [
+        "poison",
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        101
+      ]
     },
     {
       "number": 101,
@@ -1010,7 +1805,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dragalge.png"
+      "sprite": "assets/sprites/dragalge.png",
+      "types": [
+        "poison",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        100
+      ],
+      "evolvesTo": []
     },
     {
       "number": 102,
@@ -1020,7 +1823,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/grimer-alola.png"
+      "sprite": "assets/sprites/grimer-alola.png",
+      "types": [
+        "poison",
+        "dark"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        103
+      ]
     },
     {
       "number": 103,
@@ -1030,7 +1841,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/muk-alola.png"
+      "sprite": "assets/sprites/muk-alola.png",
+      "types": [
+        "poison",
+        "dark"
+      ],
+      "evolvesFrom": [
+        102
+      ],
+      "evolvesTo": []
     },
     {
       "number": 104,
@@ -1040,7 +1859,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "Also fishable at Pelluca City (Trolling Rod)",
       "availability": "Available",
-      "sprite": "assets/sprites/qwilfish-hisui.png"
+      "sprite": "assets/sprites/qwilfish-hisui.png",
+      "types": [
+        "dark",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        105
+      ]
     },
     {
       "number": 105,
@@ -1050,7 +1877,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/overqwil.png"
+      "sprite": "assets/sprites/overqwil.png",
+      "types": [
+        "dark",
+        "poison"
+      ],
+      "evolvesFrom": [
+        104
+      ],
+      "evolvesTo": []
     },
     {
       "number": 106,
@@ -1060,7 +1895,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/toxel.png"
+      "sprite": "assets/sprites/toxel.png",
+      "types": [
+        "electric",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        107
+      ]
     },
     {
       "number": 107,
@@ -1070,7 +1913,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/toxtricity.png"
+      "sprite": "assets/sprites/toxtricity.png",
+      "types": [
+        "electric",
+        "poison"
+      ],
+      "evolvesFrom": [
+        106
+      ],
+      "evolvesTo": []
     },
     {
       "number": 108,
@@ -1080,7 +1931,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tympole.png"
+      "sprite": "assets/sprites/tympole.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        109
+      ]
     },
     {
       "number": 109,
@@ -1090,7 +1948,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/palpitoad.png"
+      "sprite": "assets/sprites/palpitoad.png",
+      "types": [
+        "water",
+        "ground"
+      ],
+      "evolvesFrom": [
+        108
+      ],
+      "evolvesTo": [
+        110
+      ]
     },
     {
       "number": 110,
@@ -1100,7 +1968,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/seismitoad.png"
+      "sprite": "assets/sprites/seismitoad.png",
+      "types": [
+        "water",
+        "ground"
+      ],
+      "evolvesFrom": [
+        109
+      ],
+      "evolvesTo": []
     },
     {
       "number": 111,
@@ -1110,7 +1986,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/yanma.png"
+      "sprite": "assets/sprites/yanma.png",
+      "types": [
+        "bug",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        112
+      ]
     },
     {
       "number": 112,
@@ -1120,7 +2004,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/yanmega.png"
+      "sprite": "assets/sprites/yanmega.png",
+      "types": [
+        "bug",
+        "flying"
+      ],
+      "evolvesFrom": [
+        111
+      ],
+      "evolvesTo": []
     },
     {
       "number": 113,
@@ -1130,7 +2022,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/croagunk.png"
+      "sprite": "assets/sprites/croagunk.png",
+      "types": [
+        "poison",
+        "fighting"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        114
+      ]
     },
     {
       "number": 114,
@@ -1140,7 +2040,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/toxicroak.png"
+      "sprite": "assets/sprites/toxicroak.png",
+      "types": [
+        "poison",
+        "fighting"
+      ],
+      "evolvesFrom": [
+        113
+      ],
+      "evolvesTo": []
     },
     {
       "number": 115,
@@ -1150,7 +2058,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/wooper.png"
+      "sprite": "assets/sprites/wooper.png",
+      "types": [
+        "poison",
+        "ground"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        116
+      ]
     },
     {
       "number": 116,
@@ -1160,7 +2076,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-980.png"
+      "sprite": "assets/sprites/pokeapi-980.png",
+      "types": [
+        "poison",
+        "ground"
+      ],
+      "evolvesFrom": [
+        115
+      ],
+      "evolvesTo": []
     },
     {
       "number": 117,
@@ -1170,7 +2094,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/totodile.png"
+      "sprite": "assets/sprites/totodile.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        118
+      ]
     },
     {
       "number": 118,
@@ -1180,7 +2111,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/croconaw.png"
+      "sprite": "assets/sprites/croconaw.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        117
+      ],
+      "evolvesTo": [
+        119
+      ]
     },
     {
       "number": 119,
@@ -1190,7 +2130,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/feraligatr.png"
+      "sprite": "assets/sprites/feraligatr.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        118
+      ],
+      "evolvesTo": []
     },
     {
       "number": 120,
@@ -1200,7 +2147,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "Fishing - Trolling Rod",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-948.png"
+      "sprite": "assets/sprites/pokeapi-948.png",
+      "types": [
+        "ground",
+        "grass"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        121
+      ]
     },
     {
       "number": 121,
@@ -1210,7 +2165,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-949.png"
+      "sprite": "assets/sprites/pokeapi-949.png",
+      "types": [
+        "ground",
+        "grass"
+      ],
+      "evolvesFrom": [
+        120
+      ],
+      "evolvesTo": []
     },
     {
       "number": 122,
@@ -1220,7 +2183,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Offered by Greta the traveling merchant (Ugly Fish)",
       "availability": "Available",
-      "sprite": "assets/sprites/feebas.png"
+      "sprite": "assets/sprites/feebas.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        123
+      ]
     },
     {
       "number": 123,
@@ -1230,7 +2200,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/milotic.png"
+      "sprite": "assets/sprites/milotic.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        122
+      ],
+      "evolvesTo": []
     },
     {
       "number": 124,
@@ -1240,7 +2217,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "Fishing - Casting Rod",
       "availability": "Available",
-      "sprite": "assets/sprites/basculin.png"
+      "sprite": "assets/sprites/basculin.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        125
+      ]
     },
     {
       "number": 125,
@@ -1250,7 +2234,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/basculegion.png"
+      "sprite": "assets/sprites/basculegion.png",
+      "types": [
+        "water",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        124
+      ],
+      "evolvesTo": []
     },
     {
       "number": 126,
@@ -1260,7 +2252,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/fletchling.png"
+      "sprite": "assets/sprites/fletchling.png",
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        127
+      ]
     },
     {
       "number": 127,
@@ -1270,7 +2270,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/fletchinder.png"
+      "sprite": "assets/sprites/fletchinder.png",
+      "types": [
+        "fire",
+        "flying"
+      ],
+      "evolvesFrom": [
+        126
+      ],
+      "evolvesTo": [
+        128
+      ]
     },
     {
       "number": 128,
@@ -1280,7 +2290,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/talonflame.png"
+      "sprite": "assets/sprites/talonflame.png",
+      "types": [
+        "fire",
+        "flying"
+      ],
+      "evolvesFrom": [
+        127
+      ],
+      "evolvesTo": []
     },
     {
       "number": 129,
@@ -1290,7 +2308,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Complete the chef's refrigerator quest",
       "availability": "Available",
-      "sprite": "assets/sprites/applin.png"
+      "sprite": "assets/sprites/applin.png",
+      "types": [
+        "grass",
+        "dragon"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        130,
+        131,
+        132
+      ]
     },
     {
       "number": 130,
@@ -1300,7 +2328,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/flapple.png"
+      "sprite": "assets/sprites/flapple.png",
+      "types": [
+        "grass",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        129
+      ],
+      "evolvesTo": []
     },
     {
       "number": 131,
@@ -1310,7 +2346,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/appletun.png"
+      "sprite": "assets/sprites/appletun.png",
+      "types": [
+        "grass",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        129
+      ],
+      "evolvesTo": []
     },
     {
       "number": 132,
@@ -1320,7 +2364,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-1011.png"
+      "sprite": "assets/sprites/pokeapi-1011.png",
+      "types": [
+        "grass",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        129
+      ],
+      "evolvesTo": [
+        133
+      ]
     },
     {
       "number": 133,
@@ -1330,7 +2384,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-1019.png"
+      "sprite": "assets/sprites/pokeapi-1019.png",
+      "types": [
+        "grass",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        132
+      ],
+      "evolvesTo": []
     },
     {
       "number": 134,
@@ -1340,7 +2402,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/shuppet.png"
+      "sprite": "assets/sprites/shuppet.png",
+      "types": [
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        135
+      ]
     },
     {
       "number": 135,
@@ -1350,7 +2419,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/banette.png"
+      "sprite": "assets/sprites/banette.png",
+      "types": [
+        "ghost"
+      ],
+      "evolvesFrom": [
+        134
+      ],
+      "evolvesTo": []
     },
     {
       "number": 136,
@@ -1360,7 +2436,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/diglett.png"
+      "sprite": "assets/sprites/diglett.png",
+      "types": [
+        "ground"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        137
+      ]
     },
     {
       "number": 137,
@@ -1370,7 +2453,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dugtrio.png"
+      "sprite": "assets/sprites/dugtrio.png",
+      "types": [
+        "ground"
+      ],
+      "evolvesFrom": [
+        136
+      ],
+      "evolvesTo": []
     },
     {
       "number": 138,
@@ -1380,7 +2470,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-971.png"
+      "sprite": "assets/sprites/pokeapi-971.png",
+      "types": [
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        139
+      ]
     },
     {
       "number": 139,
@@ -1390,7 +2487,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-972.png"
+      "sprite": "assets/sprites/pokeapi-972.png",
+      "types": [
+        "ghost"
+      ],
+      "evolvesFrom": [
+        138
+      ],
+      "evolvesTo": []
     },
     {
       "number": 140,
@@ -1400,7 +2504,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/chingling.png"
+      "sprite": "assets/sprites/chingling.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        141
+      ]
     },
     {
       "number": 141,
@@ -1410,7 +2521,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/chimecho.png"
+      "sprite": "assets/sprites/chimecho.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [
+        140
+      ],
+      "evolvesTo": []
     },
     {
       "number": 142,
@@ -1420,7 +2538,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/stantler.png"
+      "sprite": "assets/sprites/stantler.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        143
+      ]
     },
     {
       "number": 143,
@@ -1430,7 +2555,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/wyrdeer.png"
+      "sprite": "assets/sprites/wyrdeer.png",
+      "types": [
+        "normal",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        142
+      ],
+      "evolvesTo": []
     },
     {
       "number": 144,
@@ -1440,7 +2573,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/vulpix-alola.png"
+      "sprite": "assets/sprites/vulpix-alola.png",
+      "types": [
+        "ice"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        145
+      ]
     },
     {
       "number": 145,
@@ -1450,7 +2590,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ninetales-alola.png"
+      "sprite": "assets/sprites/ninetales-alola.png",
+      "types": [
+        "ice",
+        "fairy"
+      ],
+      "evolvesFrom": [
+        144
+      ],
+      "evolvesTo": []
     },
     {
       "number": 146,
@@ -1460,7 +2608,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/rufflet.png"
+      "sprite": "assets/sprites/rufflet.png",
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        147
+      ]
     },
     {
       "number": 147,
@@ -1470,7 +2626,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/braviary-hisui.png"
+      "sprite": "assets/sprites/braviary-hisui.png",
+      "types": [
+        "psychic",
+        "flying"
+      ],
+      "evolvesFrom": [
+        146
+      ],
+      "evolvesTo": []
     },
     {
       "number": 148,
@@ -1480,7 +2644,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/scatterbug.png"
+      "sprite": "assets/sprites/scatterbug.png",
+      "types": [
+        "bug"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        149
+      ]
     },
     {
       "number": 149,
@@ -1490,7 +2661,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/spewpa.png"
+      "sprite": "assets/sprites/spewpa.png",
+      "types": [
+        "bug"
+      ],
+      "evolvesFrom": [
+        148
+      ],
+      "evolvesTo": [
+        150
+      ]
     },
     {
       "number": 150,
@@ -1500,7 +2680,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/vivillon.png"
+      "sprite": "assets/sprites/vivillon.png",
+      "types": [
+        "bug",
+        "flying"
+      ],
+      "evolvesFrom": [
+        149
+      ],
+      "evolvesTo": []
     },
     {
       "number": 151,
@@ -1510,7 +2698,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Click on the rocks - 3 of them are Bergmites",
       "availability": "Available",
-      "sprite": "assets/sprites/bergmite.png"
+      "sprite": "assets/sprites/bergmite.png",
+      "types": [
+        "ice"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        152
+      ]
     },
     {
       "number": 152,
@@ -1520,7 +2715,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/avalugg-hisui.png"
+      "sprite": "assets/sprites/avalugg-hisui.png",
+      "types": [
+        "ice",
+        "rock"
+      ],
+      "evolvesFrom": [
+        151
+      ],
+      "evolvesTo": []
     },
     {
       "number": 153,
@@ -1530,7 +2733,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/sandshrew-alola.png"
+      "sprite": "assets/sprites/sandshrew-alola.png",
+      "types": [
+        "ice",
+        "steel"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        154
+      ]
     },
     {
       "number": 154,
@@ -1540,7 +2751,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/sandslash-alola.png"
+      "sprite": "assets/sprites/sandslash-alola.png",
+      "types": [
+        "ice",
+        "steel"
+      ],
+      "evolvesFrom": [
+        153
+      ],
+      "evolvesTo": []
     },
     {
       "number": 155,
@@ -1550,7 +2769,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/swinub.png"
+      "sprite": "assets/sprites/swinub.png",
+      "types": [
+        "ice",
+        "ground"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        156
+      ]
     },
     {
       "number": 156,
@@ -1560,7 +2787,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/piloswine.png"
+      "sprite": "assets/sprites/piloswine.png",
+      "types": [
+        "ice",
+        "ground"
+      ],
+      "evolvesFrom": [
+        155
+      ],
+      "evolvesTo": [
+        157
+      ]
     },
     {
       "number": 157,
@@ -1570,7 +2807,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/mamoswine.png"
+      "sprite": "assets/sprites/mamoswine.png",
+      "types": [
+        "ice",
+        "ground"
+      ],
+      "evolvesFrom": [
+        156
+      ],
+      "evolvesTo": []
     },
     {
       "number": 158,
@@ -1580,7 +2825,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-969.png"
+      "sprite": "assets/sprites/pokeapi-969.png",
+      "types": [
+        "rock",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        159
+      ]
     },
     {
       "number": 159,
@@ -1590,7 +2843,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-970.png"
+      "sprite": "assets/sprites/pokeapi-970.png",
+      "types": [
+        "rock",
+        "poison"
+      ],
+      "evolvesFrom": [
+        158
+      ],
+      "evolvesTo": []
     },
     {
       "number": 160,
@@ -1600,7 +2861,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-974.png"
+      "sprite": "assets/sprites/pokeapi-974.png",
+      "types": [
+        "ice"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        161
+      ]
     },
     {
       "number": 161,
@@ -1610,7 +2878,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-975.png"
+      "sprite": "assets/sprites/pokeapi-975.png",
+      "types": [
+        "ice"
+      ],
+      "evolvesFrom": [
+        160
+      ],
+      "evolvesTo": []
     },
     {
       "number": 162,
@@ -1620,7 +2895,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/minior.png"
+      "sprite": "assets/sprites/minior.png",
+      "types": [
+        "rock",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 163,
@@ -1630,7 +2911,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-996.png"
+      "sprite": "assets/sprites/pokeapi-996.png",
+      "types": [
+        "dragon",
+        "ice"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        164
+      ]
     },
     {
       "number": 164,
@@ -1640,7 +2929,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-997.png"
+      "sprite": "assets/sprites/pokeapi-997.png",
+      "types": [
+        "dragon",
+        "ice"
+      ],
+      "evolvesFrom": [
+        163
+      ],
+      "evolvesTo": [
+        165
+      ]
     },
     {
       "number": 165,
@@ -1650,7 +2949,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-998.png"
+      "sprite": "assets/sprites/pokeapi-998.png",
+      "types": [
+        "dragon",
+        "ice"
+      ],
+      "evolvesFrom": [
+        164
+      ],
+      "evolvesTo": []
     },
     {
       "number": 166,
@@ -1660,7 +2967,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/meowth-galar.png"
+      "sprite": "assets/sprites/meowth-galar.png",
+      "types": [
+        "steel"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        167
+      ]
     },
     {
       "number": 167,
@@ -1670,7 +2984,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/perrserker.png"
+      "sprite": "assets/sprites/perrserker.png",
+      "types": [
+        "steel"
+      ],
+      "evolvesFrom": [
+        166
+      ],
+      "evolvesTo": []
     },
     {
       "number": 168,
@@ -1680,7 +3001,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/sneasel-hisui.png"
+      "sprite": "assets/sprites/sneasel-hisui.png",
+      "types": [
+        "fighting",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        169
+      ]
     },
     {
       "number": 169,
@@ -1690,7 +3019,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/sneasler.png"
+      "sprite": "assets/sprites/sneasler.png",
+      "types": [
+        "fighting",
+        "poison"
+      ],
+      "evolvesFrom": [
+        168
+      ],
+      "evolvesTo": []
     },
     {
       "number": 170,
@@ -1700,7 +3037,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "A Team Somber grunt abandoned this poor guy",
       "availability": "Available",
-      "sprite": "assets/sprites/mime-jr.png"
+      "sprite": "assets/sprites/mime-jr.png",
+      "types": [
+        "psychic",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        171
+      ]
     },
     {
       "number": 171,
@@ -1710,7 +3055,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/mr-mime-galar.png"
+      "sprite": "assets/sprites/mr-mime-galar.png",
+      "types": [
+        "ice",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        170
+      ],
+      "evolvesTo": [
+        172
+      ]
     },
     {
       "number": 172,
@@ -1720,7 +3075,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/mr-rime.png"
+      "sprite": "assets/sprites/mr-rime.png",
+      "types": [
+        "ice",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        171
+      ],
+      "evolvesTo": []
     },
     {
       "number": 173,
@@ -1730,7 +3093,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/togepi.png"
+      "sprite": "assets/sprites/togepi.png",
+      "types": [
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        174
+      ]
     },
     {
       "number": 174,
@@ -1740,7 +3110,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/togetic.png"
+      "sprite": "assets/sprites/togetic.png",
+      "types": [
+        "fairy",
+        "flying"
+      ],
+      "evolvesFrom": [
+        173
+      ],
+      "evolvesTo": [
+        175
+      ]
     },
     {
       "number": 175,
@@ -1750,7 +3130,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/togekiss.png"
+      "sprite": "assets/sprites/togekiss.png",
+      "types": [
+        "fairy",
+        "flying"
+      ],
+      "evolvesFrom": [
+        174
+      ],
+      "evolvesTo": []
     },
     {
       "number": 176,
@@ -1760,7 +3148,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/mawile.png"
+      "sprite": "assets/sprites/mawile.png",
+      "types": [
+        "steel",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 177,
@@ -1770,7 +3164,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/carbink.png"
+      "sprite": "assets/sprites/carbink.png",
+      "types": [
+        "rock",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 178,
@@ -1780,7 +3180,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/dreepy.png"
+      "sprite": "assets/sprites/dreepy.png",
+      "types": [
+        "dragon",
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        179
+      ]
     },
     {
       "number": 179,
@@ -1790,7 +3198,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/drakloak.png"
+      "sprite": "assets/sprites/drakloak.png",
+      "types": [
+        "dragon",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        178
+      ],
+      "evolvesTo": [
+        180
+      ]
     },
     {
       "number": 180,
@@ -1800,7 +3218,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dragapult.png"
+      "sprite": "assets/sprites/dragapult.png",
+      "types": [
+        "dragon",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        179
+      ],
+      "evolvesTo": []
     },
     {
       "number": 181,
@@ -1810,7 +3236,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/sableye.png"
+      "sprite": "assets/sprites/sableye.png",
+      "types": [
+        "dark",
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 182,
@@ -1820,7 +3252,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Become a full ranger and then talk to the person in the daycare",
       "availability": "Available",
-      "sprite": "assets/sprites/ditto.png"
+      "sprite": "assets/sprites/ditto.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 183,
@@ -1830,7 +3267,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "Walk around in the garden for a bit",
       "availability": "Available",
-      "sprite": "assets/sprites/rotom.png"
+      "sprite": "assets/sprites/rotom.png",
+      "types": [
+        "electric",
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 184,
@@ -1840,7 +3283,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "In the basement of one of the rich houses",
       "availability": "Available",
-      "sprite": "assets/sprites/litwick.png"
+      "sprite": "assets/sprites/litwick.png",
+      "types": [
+        "ghost",
+        "fire"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        185
+      ]
     },
     {
       "number": 185,
@@ -1850,7 +3301,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lampent.png"
+      "sprite": "assets/sprites/lampent.png",
+      "types": [
+        "ghost",
+        "fire"
+      ],
+      "evolvesFrom": [
+        184
+      ],
+      "evolvesTo": [
+        186
+      ]
     },
     {
       "number": 186,
@@ -1860,7 +3321,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/chandelure.png"
+      "sprite": "assets/sprites/chandelure.png",
+      "types": [
+        "ghost",
+        "fire"
+      ],
+      "evolvesFrom": [
+        185
+      ],
+      "evolvesTo": []
     },
     {
       "number": 187,
@@ -1870,7 +3339,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pancham.png"
+      "sprite": "assets/sprites/pancham.png",
+      "types": [
+        "fighting"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        188
+      ]
     },
     {
       "number": 188,
@@ -1880,7 +3356,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pangoro.png"
+      "sprite": "assets/sprites/pangoro.png",
+      "types": [
+        "fighting",
+        "dark"
+      ],
+      "evolvesFrom": [
+        187
+      ],
+      "evolvesTo": []
     },
     {
       "number": 189,
@@ -1890,7 +3374,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/oranguru.png"
+      "sprite": "assets/sprites/oranguru.png",
+      "types": [
+        "normal",
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 190,
@@ -1900,7 +3390,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/passimian.png"
+      "sprite": "assets/sprites/passimian.png",
+      "types": [
+        "fighting"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 191,
@@ -1910,7 +3405,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/ralts.png"
+      "sprite": "assets/sprites/ralts.png",
+      "types": [
+        "psychic",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        192
+      ]
     },
     {
       "number": 192,
@@ -1920,7 +3423,18 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/kirlia.png"
+      "sprite": "assets/sprites/kirlia.png",
+      "types": [
+        "psychic",
+        "fairy"
+      ],
+      "evolvesFrom": [
+        191
+      ],
+      "evolvesTo": [
+        193,
+        194
+      ]
     },
     {
       "number": 193,
@@ -1930,7 +3444,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gardevoir.png"
+      "sprite": "assets/sprites/gardevoir.png",
+      "types": [
+        "psychic",
+        "fairy"
+      ],
+      "evolvesFrom": [
+        192
+      ],
+      "evolvesTo": []
     },
     {
       "number": 194,
@@ -1940,7 +3462,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gallade.png"
+      "sprite": "assets/sprites/gallade.png",
+      "types": [
+        "psychic",
+        "fighting"
+      ],
+      "evolvesFrom": [
+        192
+      ],
+      "evolvesTo": []
     },
     {
       "number": 195,
@@ -1950,7 +3480,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Get a fake ID made from the Somber HQ in Silversun",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-935.png"
+      "sprite": "assets/sprites/pokeapi-935.png",
+      "types": [
+        "fire"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        196,
+        197
+      ]
     },
     {
       "number": 196,
@@ -1960,7 +3498,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-937.png"
+      "sprite": "assets/sprites/pokeapi-937.png",
+      "types": [
+        "fire",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        195
+      ],
+      "evolvesTo": []
     },
     {
       "number": 197,
@@ -1970,7 +3516,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-936.png"
+      "sprite": "assets/sprites/pokeapi-936.png",
+      "types": [
+        "fire",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        195
+      ],
+      "evolvesTo": []
     },
     {
       "number": 198,
@@ -1980,7 +3534,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/mareep.png"
+      "sprite": "assets/sprites/mareep.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        199
+      ]
     },
     {
       "number": 199,
@@ -1990,7 +3551,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/flaaffy.png"
+      "sprite": "assets/sprites/flaaffy.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [
+        198
+      ],
+      "evolvesTo": [
+        200
+      ]
     },
     {
       "number": 200,
@@ -2000,7 +3570,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ampharos.png"
+      "sprite": "assets/sprites/ampharos.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [
+        199
+      ],
+      "evolvesTo": []
     },
     {
       "number": 201,
@@ -2010,7 +3587,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-965.png"
+      "sprite": "assets/sprites/pokeapi-965.png",
+      "types": [
+        "steel",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        202
+      ]
     },
     {
       "number": 202,
@@ -2020,7 +3605,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-966.png"
+      "sprite": "assets/sprites/pokeapi-966.png",
+      "types": [
+        "steel",
+        "poison"
+      ],
+      "evolvesFrom": [
+        201
+      ],
+      "evolvesTo": []
     },
     {
       "number": 203,
@@ -2030,7 +3623,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/finneon.png"
+      "sprite": "assets/sprites/finneon.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        204
+      ]
     },
     {
       "number": 204,
@@ -2040,7 +3640,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lumineon.png"
+      "sprite": "assets/sprites/lumineon.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        203
+      ],
+      "evolvesTo": []
     },
     {
       "number": 205,
@@ -2050,7 +3657,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/skarmory.png"
+      "sprite": "assets/sprites/skarmory.png",
+      "types": [
+        "steel",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 206,
@@ -2060,7 +3673,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Offered by Greta the traveling merchant (Mysterious Egg)",
       "availability": "Available",
-      "sprite": "assets/sprites/honedge.png"
+      "sprite": "assets/sprites/honedge.png",
+      "types": [
+        "steel",
+        "ghost"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        207
+      ]
     },
     {
       "number": 207,
@@ -2070,7 +3691,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/doublade.png"
+      "sprite": "assets/sprites/doublade.png",
+      "types": [
+        "steel",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        206
+      ],
+      "evolvesTo": [
+        208
+      ]
     },
     {
       "number": 208,
@@ -2080,7 +3711,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/aegislash.png"
+      "sprite": "assets/sprites/aegislash.png",
+      "types": [
+        "steel",
+        "ghost"
+      ],
+      "evolvesFrom": [
+        207
+      ],
+      "evolvesTo": []
     },
     {
       "number": 209,
@@ -2090,7 +3729,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/scyther.png"
+      "sprite": "assets/sprites/scyther.png",
+      "types": [
+        "bug",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        210,
+        211
+      ]
     },
     {
       "number": 210,
@@ -2100,7 +3748,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/scizor.png"
+      "sprite": "assets/sprites/scizor.png",
+      "types": [
+        "bug",
+        "steel"
+      ],
+      "evolvesFrom": [
+        209
+      ],
+      "evolvesTo": []
     },
     {
       "number": 211,
@@ -2110,7 +3766,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/kleavor.png"
+      "sprite": "assets/sprites/kleavor.png",
+      "types": [
+        "bug",
+        "rock"
+      ],
+      "evolvesFrom": [
+        209
+      ],
+      "evolvesTo": []
     },
     {
       "number": 212,
@@ -2120,7 +3784,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Get promoted to Associate Ranger first",
       "availability": "Available",
-      "sprite": "assets/sprites/kangaskhan.png"
+      "sprite": "assets/sprites/kangaskhan.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 213,
@@ -2130,7 +3799,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Trade",
       "availability": "Available",
-      "sprite": "assets/sprites/pinsir.png"
+      "sprite": "assets/sprites/pinsir.png",
+      "types": [
+        "bug"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 214,
@@ -2140,7 +3814,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/furfrou.png"
+      "sprite": "assets/sprites/furfrou.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 215,
@@ -2150,7 +3829,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-962.png"
+      "sprite": "assets/sprites/pokeapi-962.png",
+      "types": [
+        "flying",
+        "dark"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 216,
@@ -2160,7 +3845,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/arrokuda.png"
+      "sprite": "assets/sprites/arrokuda.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        217
+      ]
     },
     {
       "number": 217,
@@ -2170,7 +3862,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/barraskewda.png"
+      "sprite": "assets/sprites/barraskewda.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        216
+      ],
+      "evolvesTo": []
     },
     {
       "number": 218,
@@ -2180,7 +3879,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/bruxish.png"
+      "sprite": "assets/sprites/bruxish.png",
+      "types": [
+        "water",
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 219,
@@ -2190,7 +3895,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/carvanha.png"
+      "sprite": "assets/sprites/carvanha.png",
+      "types": [
+        "water",
+        "dark"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        220
+      ]
     },
     {
       "number": 220,
@@ -2200,7 +3913,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/sharpedo.png"
+      "sprite": "assets/sprites/sharpedo.png",
+      "types": [
+        "water",
+        "dark"
+      ],
+      "evolvesFrom": [
+        219
+      ],
+      "evolvesTo": []
     },
     {
       "number": 221,
@@ -2210,7 +3931,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/slowpoke-galar.png"
+      "sprite": "assets/sprites/slowpoke-galar.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        222,
+        223
+      ]
     },
     {
       "number": 222,
@@ -2220,7 +3949,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/slowbro-galar.png"
+      "sprite": "assets/sprites/slowbro-galar.png",
+      "types": [
+        "poison",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        221
+      ],
+      "evolvesTo": []
     },
     {
       "number": 223,
@@ -2230,7 +3967,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/slowking-galar.png"
+      "sprite": "assets/sprites/slowking-galar.png",
+      "types": [
+        "poison",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        221
+      ],
+      "evolvesTo": []
     },
     {
       "number": 224,
@@ -2240,7 +3985,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/oshawott.png"
+      "sprite": "assets/sprites/oshawott.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        225
+      ]
     },
     {
       "number": 225,
@@ -2250,7 +4002,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "Trolling Rod",
       "availability": "Available",
-      "sprite": "assets/sprites/dewott.png"
+      "sprite": "assets/sprites/dewott.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        224
+      ],
+      "evolvesTo": [
+        226
+      ]
     },
     {
       "number": 226,
@@ -2260,7 +4021,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/samurott.png"
+      "sprite": "assets/sprites/samurott.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        225
+      ],
+      "evolvesTo": []
     },
     {
       "number": 227,
@@ -2270,7 +4038,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tynamo.png"
+      "sprite": "assets/sprites/tynamo.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        228
+      ]
     },
     {
       "number": 228,
@@ -2280,7 +4055,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/eelektrik.png"
+      "sprite": "assets/sprites/eelektrik.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [
+        227
+      ],
+      "evolvesTo": [
+        229
+      ]
     },
     {
       "number": 229,
@@ -2290,7 +4074,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/eelektross.png"
+      "sprite": "assets/sprites/eelektross.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [
+        228
+      ],
+      "evolvesTo": []
     },
     {
       "number": 230,
@@ -2300,7 +4091,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/corsola.png"
+      "sprite": "assets/sprites/corsola.png",
+      "types": [
+        "water",
+        "rock"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        231
+      ]
     },
     {
       "number": 231,
@@ -2310,7 +4109,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/cursola.png"
+      "sprite": "assets/sprites/cursola.png",
+      "types": [
+        "ghost"
+      ],
+      "evolvesFrom": [
+        230
+      ],
+      "evolvesTo": []
     },
     {
       "number": 232,
@@ -2320,7 +4126,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/mareanie.png"
+      "sprite": "assets/sprites/mareanie.png",
+      "types": [
+        "poison",
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        233
+      ]
     },
     {
       "number": 233,
@@ -2330,7 +4144,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/toxapex.png"
+      "sprite": "assets/sprites/toxapex.png",
+      "types": [
+        "poison",
+        "water"
+      ],
+      "evolvesFrom": [
+        232
+      ],
+      "evolvesTo": []
     },
     {
       "number": 234,
@@ -2340,7 +4162,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/voltorb-hisui.png"
+      "sprite": "assets/sprites/voltorb-hisui.png",
+      "types": [
+        "electric",
+        "grass"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        235
+      ]
     },
     {
       "number": 235,
@@ -2350,7 +4180,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/electrode-hisui.png"
+      "sprite": "assets/sprites/electrode-hisui.png",
+      "types": [
+        "electric",
+        "grass"
+      ],
+      "evolvesFrom": [
+        234
+      ],
+      "evolvesTo": []
     },
     {
       "number": 236,
@@ -2360,7 +4198,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/electrike.png"
+      "sprite": "assets/sprites/electrike.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        237
+      ]
     },
     {
       "number": 237,
@@ -2370,7 +4215,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Get promoted to Associate Ranger first",
       "availability": "Available",
-      "sprite": "assets/sprites/manectric.png"
+      "sprite": "assets/sprites/manectric.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [
+        236
+      ],
+      "evolvesTo": []
     },
     {
       "number": 238,
@@ -2380,7 +4232,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/yamper.png"
+      "sprite": "assets/sprites/yamper.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        239
+      ]
     },
     {
       "number": 239,
@@ -2390,7 +4249,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/boltund.png"
+      "sprite": "assets/sprites/boltund.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [
+        238
+      ],
+      "evolvesTo": []
     },
     {
       "number": 240,
@@ -2400,7 +4266,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/geodude-alola.png"
+      "sprite": "assets/sprites/geodude-alola.png",
+      "types": [
+        "rock",
+        "electric"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        241
+      ]
     },
     {
       "number": 241,
@@ -2410,7 +4284,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/graveler-alola.png"
+      "sprite": "assets/sprites/graveler-alola.png",
+      "types": [
+        "rock",
+        "electric"
+      ],
+      "evolvesFrom": [
+        240
+      ],
+      "evolvesTo": [
+        242
+      ]
     },
     {
       "number": 242,
@@ -2420,7 +4304,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/golem-alola.png"
+      "sprite": "assets/sprites/golem-alola.png",
+      "types": [
+        "rock",
+        "electric"
+      ],
+      "evolvesFrom": [
+        241
+      ],
+      "evolvesTo": []
     },
     {
       "number": 243,
@@ -2430,7 +4322,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Trade",
       "availability": "Available",
-      "sprite": "assets/sprites/houndour.png"
+      "sprite": "assets/sprites/houndour.png",
+      "types": [
+        "dark",
+        "fire"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        244
+      ]
     },
     {
       "number": 244,
@@ -2440,7 +4340,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/houndoom.png"
+      "sprite": "assets/sprites/houndoom.png",
+      "types": [
+        "dark",
+        "fire"
+      ],
+      "evolvesFrom": [
+        243
+      ],
+      "evolvesTo": []
     },
     {
       "number": 245,
@@ -2450,7 +4358,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/ponyta-galar.png"
+      "sprite": "assets/sprites/ponyta-galar.png",
+      "types": [
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        246
+      ]
     },
     {
       "number": 246,
@@ -2460,7 +4375,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/rapidash-galar.png"
+      "sprite": "assets/sprites/rapidash-galar.png",
+      "types": [
+        "psychic",
+        "fairy"
+      ],
+      "evolvesFrom": [
+        245
+      ],
+      "evolvesTo": []
     },
     {
       "number": 247,
@@ -2470,7 +4393,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/wooloo.png"
+      "sprite": "assets/sprites/wooloo.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        248
+      ]
     },
     {
       "number": 248,
@@ -2480,7 +4410,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dubwool.png"
+      "sprite": "assets/sprites/dubwool.png",
+      "types": [
+        "normal"
+      ],
+      "evolvesFrom": [
+        247
+      ],
+      "evolvesTo": []
     },
     {
       "number": 249,
@@ -2490,7 +4427,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "Talk to the girl throwing stones at the Wingulls",
       "availability": "Available",
-      "sprite": "assets/sprites/wingull.png"
+      "sprite": "assets/sprites/wingull.png",
+      "types": [
+        "water",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        250
+      ]
     },
     {
       "number": 250,
@@ -2500,7 +4445,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pelipper.png"
+      "sprite": "assets/sprites/pelipper.png",
+      "types": [
+        "water",
+        "flying"
+      ],
+      "evolvesFrom": [
+        249
+      ],
+      "evolvesTo": []
     },
     {
       "number": 251,
@@ -2510,7 +4463,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/goomy.png"
+      "sprite": "assets/sprites/goomy.png",
+      "types": [
+        "dragon"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        252
+      ]
     },
     {
       "number": 252,
@@ -2520,7 +4480,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/sliggoo-hisui.png"
+      "sprite": "assets/sprites/sliggoo-hisui.png",
+      "types": [
+        "steel",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        251
+      ],
+      "evolvesTo": [
+        253
+      ]
     },
     {
       "number": 253,
@@ -2530,7 +4500,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/goodra-hisui.png"
+      "sprite": "assets/sprites/goodra-hisui.png",
+      "types": [
+        "steel",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        252
+      ],
+      "evolvesTo": []
     },
     {
       "number": 254,
@@ -2540,7 +4518,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/squirtle.png"
+      "sprite": "assets/sprites/squirtle.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        255
+      ]
     },
     {
       "number": 255,
@@ -2550,7 +4535,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/wartortle.png"
+      "sprite": "assets/sprites/wartortle.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        254
+      ],
+      "evolvesTo": [
+        256
+      ]
     },
     {
       "number": 256,
@@ -2560,7 +4554,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Wake it up with a Pokeflute",
       "availability": "Available",
-      "sprite": "assets/sprites/blastoise.png"
+      "sprite": "assets/sprites/blastoise.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        255
+      ],
+      "evolvesTo": []
     },
     {
       "number": 257,
@@ -2570,7 +4571,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/charmander.png"
+      "sprite": "assets/sprites/charmander.png",
+      "types": [
+        "fire"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        258
+      ]
     },
     {
       "number": 258,
@@ -2580,7 +4588,16 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/charmeleon.png"
+      "sprite": "assets/sprites/charmeleon.png",
+      "types": [
+        "fire"
+      ],
+      "evolvesFrom": [
+        257
+      ],
+      "evolvesTo": [
+        259
+      ]
     },
     {
       "number": 259,
@@ -2590,7 +4607,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Wake it up with a Pokeflute",
       "availability": "Available",
-      "sprite": "assets/sprites/charizard.png"
+      "sprite": "assets/sprites/charizard.png",
+      "types": [
+        "fire",
+        "flying"
+      ],
+      "evolvesFrom": [
+        258
+      ],
+      "evolvesTo": []
     },
     {
       "number": 260,
@@ -2600,7 +4625,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/bulbasaur.png"
+      "sprite": "assets/sprites/bulbasaur.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        261
+      ]
     },
     {
       "number": 261,
@@ -2610,7 +4643,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ivysaur.png"
+      "sprite": "assets/sprites/ivysaur.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "evolvesFrom": [
+        260
+      ],
+      "evolvesTo": [
+        262
+      ]
     },
     {
       "number": 262,
@@ -2620,7 +4663,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Wake it up with a Pokeflute",
       "availability": "Available",
-      "sprite": "assets/sprites/venusaur.png"
+      "sprite": "assets/sprites/venusaur.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "evolvesFrom": [
+        261
+      ],
+      "evolvesTo": []
     },
     {
       "number": 263,
@@ -2630,7 +4681,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/jangmo-o.png"
+      "sprite": "assets/sprites/jangmo-o.png",
+      "types": [
+        "dragon"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        264
+      ]
     },
     {
       "number": 264,
@@ -2640,7 +4698,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/hakamo-o.png"
+      "sprite": "assets/sprites/hakamo-o.png",
+      "types": [
+        "dragon",
+        "fighting"
+      ],
+      "evolvesFrom": [
+        263
+      ],
+      "evolvesTo": [
+        265
+      ]
     },
     {
       "number": 265,
@@ -2650,7 +4718,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/kommo-o.png"
+      "sprite": "assets/sprites/kommo-o.png",
+      "types": [
+        "dragon",
+        "fighting"
+      ],
+      "evolvesFrom": [
+        264
+      ],
+      "evolvesTo": []
     },
     {
       "number": 266,
@@ -2660,7 +4736,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/snom.png"
+      "sprite": "assets/sprites/snom.png",
+      "types": [
+        "ice",
+        "bug"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        267
+      ]
     },
     {
       "number": 267,
@@ -2670,7 +4754,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/frosmoth.png"
+      "sprite": "assets/sprites/frosmoth.png",
+      "types": [
+        "ice",
+        "bug"
+      ],
+      "evolvesFrom": [
+        266
+      ],
+      "evolvesTo": []
     },
     {
       "number": 268,
@@ -2680,7 +4772,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-940.png"
+      "sprite": "assets/sprites/pokeapi-940.png",
+      "types": [
+        "electric",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        269
+      ]
     },
     {
       "number": 269,
@@ -2690,7 +4790,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-941.png"
+      "sprite": "assets/sprites/pokeapi-941.png",
+      "types": [
+        "electric",
+        "flying"
+      ],
+      "evolvesFrom": [
+        268
+      ],
+      "evolvesTo": []
     },
     {
       "number": 270,
@@ -2700,7 +4808,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/beldum.png"
+      "sprite": "assets/sprites/beldum.png",
+      "types": [
+        "steel",
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        271
+      ]
     },
     {
       "number": 271,
@@ -2710,7 +4826,17 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/metang.png"
+      "sprite": "assets/sprites/metang.png",
+      "types": [
+        "steel",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        270
+      ],
+      "evolvesTo": [
+        272
+      ]
     },
     {
       "number": 272,
@@ -2720,7 +4846,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/metagross.png"
+      "sprite": "assets/sprites/metagross.png",
+      "types": [
+        "steel",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        271
+      ],
+      "evolvesTo": []
     },
     {
       "number": 273,
@@ -2730,7 +4864,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/absol.png"
+      "sprite": "assets/sprites/absol.png",
+      "types": [
+        "dark"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 274,
@@ -2740,7 +4879,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Paldea Blaze. Get promoted to Associate Ranger first",
       "availability": "Available",
-      "sprite": "assets/sprites/tauros.png"
+      "sprite": "assets/sprites/tauros.png",
+      "types": [
+        "fighting"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 275,
@@ -2750,7 +4894,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/surskit.png"
+      "sprite": "assets/sprites/surskit.png",
+      "types": [
+        "bug",
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        276
+      ]
     },
     {
       "number": 276,
@@ -2760,7 +4912,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/masquerain.png"
+      "sprite": "assets/sprites/masquerain.png",
+      "types": [
+        "bug",
+        "flying"
+      ],
+      "evolvesFrom": [
+        275
+      ],
+      "evolvesTo": []
     },
     {
       "number": 277,
@@ -2770,7 +4930,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/clauncher.png"
+      "sprite": "assets/sprites/clauncher.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        278
+      ]
     },
     {
       "number": 278,
@@ -2780,7 +4947,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/clawitzer.png"
+      "sprite": "assets/sprites/clawitzer.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [
+        277
+      ],
+      "evolvesTo": []
     },
     {
       "number": 279,
@@ -2790,7 +4964,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/alomomola.png"
+      "sprite": "assets/sprites/alomomola.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 280,
@@ -2800,7 +4979,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/magikarp.png"
+      "sprite": "assets/sprites/magikarp.png",
+      "types": [
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        281
+      ]
     },
     {
       "number": 281,
@@ -2810,7 +4996,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gyarados.png"
+      "sprite": "assets/sprites/gyarados.png",
+      "types": [
+        "water",
+        "flying"
+      ],
+      "evolvesFrom": [
+        280
+      ],
+      "evolvesTo": []
     },
     {
       "number": 282,
@@ -2820,7 +5014,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Greta sells a stone in Route 5. Place it on the empty patch.",
       "availability": "Available",
-      "sprite": "assets/sprites/spiritomb.png"
+      "sprite": "assets/sprites/spiritomb.png",
+      "types": [
+        "ghost",
+        "dark"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 283,
@@ -2830,7 +5030,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/baltoy.png"
+      "sprite": "assets/sprites/baltoy.png",
+      "types": [
+        "ground",
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        284
+      ]
     },
     {
       "number": 284,
@@ -2840,7 +5048,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/claydol.png"
+      "sprite": "assets/sprites/claydol.png",
+      "types": [
+        "ground",
+        "psychic"
+      ],
+      "evolvesFrom": [
+        283
+      ],
+      "evolvesTo": []
     },
     {
       "number": 285,
@@ -2850,7 +5066,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dhelmise.png"
+      "sprite": "assets/sprites/dhelmise.png",
+      "types": [
+        "ghost",
+        "grass"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 286,
@@ -2860,7 +5082,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/mimikyu.png"
+      "sprite": "assets/sprites/mimikyu.png",
+      "types": [
+        "ghost",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 287,
@@ -2870,7 +5098,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/lileep.png"
+      "sprite": "assets/sprites/lileep.png",
+      "types": [
+        "rock",
+        "grass"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        288
+      ]
     },
     {
       "number": 288,
@@ -2880,7 +5116,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/cradily.png"
+      "sprite": "assets/sprites/cradily.png",
+      "types": [
+        "rock",
+        "grass"
+      ],
+      "evolvesFrom": [
+        287
+      ],
+      "evolvesTo": []
     },
     {
       "number": 289,
@@ -2890,7 +5134,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/archen.png"
+      "sprite": "assets/sprites/archen.png",
+      "types": [
+        "rock",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        290
+      ]
     },
     {
       "number": 290,
@@ -2900,7 +5152,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/archeops.png"
+      "sprite": "assets/sprites/archeops.png",
+      "types": [
+        "rock",
+        "flying"
+      ],
+      "evolvesFrom": [
+        289
+      ],
+      "evolvesTo": []
     },
     {
       "number": 291,
@@ -2910,7 +5170,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/amaura.png"
+      "sprite": "assets/sprites/amaura.png",
+      "types": [
+        "rock",
+        "ice"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        292
+      ]
     },
     {
       "number": 292,
@@ -2920,7 +5188,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/aurorus.png"
+      "sprite": "assets/sprites/aurorus.png",
+      "types": [
+        "rock",
+        "ice"
+      ],
+      "evolvesFrom": [
+        291
+      ],
+      "evolvesTo": []
     },
     {
       "number": 293,
@@ -2930,7 +5206,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/shieldon.png"
+      "sprite": "assets/sprites/shieldon.png",
+      "types": [
+        "rock",
+        "steel"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        294
+      ]
     },
     {
       "number": 294,
@@ -2940,7 +5224,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/bastiodon.png"
+      "sprite": "assets/sprites/bastiodon.png",
+      "types": [
+        "rock",
+        "steel"
+      ],
+      "evolvesFrom": [
+        293
+      ],
+      "evolvesTo": []
     },
     {
       "number": 295,
@@ -2950,7 +5242,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tyrunt.png"
+      "sprite": "assets/sprites/tyrunt.png",
+      "types": [
+        "rock",
+        "dragon"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        296
+      ]
     },
     {
       "number": 296,
@@ -2960,7 +5260,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/tyrantrum.png"
+      "sprite": "assets/sprites/tyrantrum.png",
+      "types": [
+        "rock",
+        "dragon"
+      ],
+      "evolvesFrom": [
+        295
+      ],
+      "evolvesTo": []
     },
     {
       "number": 297,
@@ -2970,7 +5278,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/omanyte.png"
+      "sprite": "assets/sprites/omanyte.png",
+      "types": [
+        "rock",
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        298
+      ]
     },
     {
       "number": 298,
@@ -2980,7 +5296,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/omastar.png"
+      "sprite": "assets/sprites/omastar.png",
+      "types": [
+        "rock",
+        "water"
+      ],
+      "evolvesFrom": [
+        297
+      ],
+      "evolvesTo": []
     },
     {
       "number": 299,
@@ -2990,7 +5314,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/kabuto.png"
+      "sprite": "assets/sprites/kabuto.png",
+      "types": [
+        "rock",
+        "water"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        300
+      ]
     },
     {
       "number": 300,
@@ -3000,7 +5332,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/kabutops.png"
+      "sprite": "assets/sprites/kabutops.png",
+      "types": [
+        "rock",
+        "water"
+      ],
+      "evolvesFrom": [
+        299
+      ],
+      "evolvesTo": []
     },
     {
       "number": 301,
@@ -3010,7 +5350,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/cranidos.png"
+      "sprite": "assets/sprites/cranidos.png",
+      "types": [
+        "rock"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        302
+      ]
     },
     {
       "number": 302,
@@ -3020,7 +5367,14 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/rampardos.png"
+      "sprite": "assets/sprites/rampardos.png",
+      "types": [
+        "rock"
+      ],
+      "evolvesFrom": [
+        301
+      ],
+      "evolvesTo": []
     },
     {
       "number": 303,
@@ -3030,7 +5384,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/relicanth.png"
+      "sprite": "assets/sprites/relicanth.png",
+      "types": [
+        "water",
+        "rock"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 304,
@@ -3040,7 +5400,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tirtouga.png"
+      "sprite": "assets/sprites/tirtouga.png",
+      "types": [
+        "water",
+        "rock"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": [
+        305
+      ]
     },
     {
       "number": 305,
@@ -3050,7 +5418,15 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/carracosta.png"
+      "sprite": "assets/sprites/carracosta.png",
+      "types": [
+        "water",
+        "rock"
+      ],
+      "evolvesFrom": [
+        304
+      ],
+      "evolvesTo": []
     },
     {
       "number": 306,
@@ -3060,7 +5436,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/aerodactyl.png"
+      "sprite": "assets/sprites/aerodactyl.png",
+      "types": [
+        "rock",
+        "flying"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 307,
@@ -3070,7 +5452,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-985.png"
+      "sprite": "assets/sprites/pokeapi-985.png",
+      "types": [
+        "fairy",
+        "psychic"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 308,
@@ -3080,7 +5468,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Scan the ancient carving with the Archaeolens 2.0",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-987.png"
+      "sprite": "assets/sprites/pokeapi-987.png",
+      "types": [
+        "ghost",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 309,
@@ -3090,7 +5484,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Scan the ancient carving with the Archaeolens 2.0",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-984.png"
+      "sprite": "assets/sprites/pokeapi-984.png",
+      "types": [
+        "ground",
+        "fighting"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 310,
@@ -3100,7 +5500,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Scan the ancient carving with the Archaeolens 2.0",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-1005.png"
+      "sprite": "assets/sprites/pokeapi-1005.png",
+      "types": [
+        "dragon",
+        "dark"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 311,
@@ -3110,7 +5516,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/zarude.png"
+      "sprite": "assets/sprites/zarude.png",
+      "types": [
+        "dark",
+        "grass"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 312,
@@ -3120,7 +5532,12 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/zeraora.png"
+      "sprite": "assets/sprites/zeraora.png",
+      "types": [
+        "electric"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 313,
@@ -3130,7 +5547,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/celebi.png"
+      "sprite": "assets/sprites/celebi.png",
+      "types": [
+        "psychic",
+        "grass"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 314,
@@ -3140,7 +5563,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/diancie.png"
+      "sprite": "assets/sprites/diancie.png",
+      "types": [
+        "rock",
+        "fairy"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     },
     {
       "number": 315,
@@ -3150,7 +5579,13 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Sorry! Prof Tenebris has it for research",
       "availability": "Unobtainable",
-      "sprite": "assets/sprites/pokeapi-1007.png"
+      "sprite": "assets/sprites/pokeapi-1007.png",
+      "types": [
+        "fighting",
+        "dragon"
+      ],
+      "evolvesFrom": [],
+      "evolvesTo": []
     }
   ],
   "megas": [

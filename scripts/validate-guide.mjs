@@ -34,6 +34,16 @@ for (const pokemon of [...data.dex, ...data.megas]) {
   }
 }
 
+const dexNumbers = new Set(data.dex.map((pokemon) => pokemon.number));
+for (const pokemon of data.dex) {
+  check(Array.isArray(pokemon.types) && pokemon.types.length > 0, `${pokemon.name} has no type metadata`);
+  check(Array.isArray(pokemon.evolvesFrom), `${pokemon.name} has invalid evolvesFrom metadata`);
+  check(Array.isArray(pokemon.evolvesTo), `${pokemon.name} has invalid evolvesTo metadata`);
+  for (const relation of [...pokemon.evolvesFrom, ...pokemon.evolvesTo]) {
+    check(dexNumbers.has(relation), `${pokemon.name} links to missing Dreamstone dex number ${relation}`);
+  }
+}
+
 for (const file of ["index.html", "styles.css", "app.js", "data/dreamstone-data.js"]) {
   try {
     const stat = await fs.stat(path.join(rootDir, file));
@@ -74,6 +84,10 @@ if (errors.length) {
         directEncounters: data.dex.filter((pokemon) => pokemon.availability === "Available").length,
         uniqueLocations: locationCounts.size,
         spriteReferencesChecked: data.dex.length + data.megas.length,
+        typedPokemon: data.dex.filter((pokemon) => pokemon.types.length).length,
+        pokemonWithEvolutionLinks: data.dex.filter(
+          (pokemon) => pokemon.evolvesFrom.length || pokemon.evolvesTo.length,
+        ).length,
         locationsWithMostPokemon: [...locationCounts.entries()]
           .sort((a, b) => b[1] - a[1])
           .slice(0, 5)

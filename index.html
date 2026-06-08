@@ -8,6 +8,11 @@
       content="An offline capture guide and Pokédex tracker for Pokémon Dreamstone Mysteries."
     />
     <title>Dreamstone Field Guide</title>
+    <script>
+      document.documentElement.dataset.theme =
+        localStorage.getItem("dreamstone-field-guide-theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    </script>
     <link rel="stylesheet" href="styles.css" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="app.js" defer></script>
@@ -22,6 +27,9 @@
           <span>Dreamstone Field Guide</span>
         </a>
         <div class="topbar__actions">
+          <button class="soft-button" id="theme-toggle" type="button" aria-pressed="false">
+            Dark mode
+          </button>
           <button class="soft-button" id="spoiler-toggle" type="button" aria-pressed="true">
             Notes hidden
           </button>
@@ -85,11 +93,18 @@
           <p id="result-count">Showing all Pokémon</p>
         </div>
 
-        <form class="filter-panel" id="filters">
+        <div class="sticky-search">
           <label class="search-field">
-            <span>Search</span>
-            <input id="search" type="search" placeholder="Name, location, or note..." />
+            <span>Search the Dreamstone dex</span>
+            <input id="search" type="search" placeholder="Name, type, location, evolution, or note..." />
           </label>
+          <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
+            <span class="back-to-top__label">Back to top</span>
+            <span aria-hidden="true">↑</span>
+          </button>
+        </div>
+
+        <form class="filter-panel" id="filters">
           <label>
             <span>Location</span>
             <select id="location-filter">
@@ -106,6 +121,12 @@
             <span>Region / form</span>
             <select id="region-filter">
               <option value="">All forms</option>
+            </select>
+          </label>
+          <label>
+            <span>Type</span>
+            <select id="type-filter">
+              <option value="">All types</option>
             </select>
           </label>
           <label>
@@ -133,6 +154,11 @@
           </label>
           <button class="clear-button" id="clear-filters" type="button">Clear filters</button>
         </form>
+
+        <aside class="quick-locations" aria-label="Quick location filters">
+          <span>Quick locations</span>
+          <div class="quick-location-list" id="quick-location-list"></div>
+        </aside>
 
         <aside class="rarity-legend" aria-label="Rarity guide">
           <strong>Encounter rates</strong>
@@ -197,8 +223,10 @@
       <p>
         Sprites from
         <a href="https://github.com/msikma/pokesprite">msikma/PokéSprite</a>; Gen 9 fallbacks from
-        <a href="https://github.com/PokeAPI/sprites">PokéAPI/sprites</a>. Pokémon images are ©
-        Nintendo / Creatures Inc. / GAME FREAK Inc.
+        <a href="https://github.com/PokeAPI/sprites">PokéAPI/sprites</a>. Types and direct evolution
+        relationships use canonical <a href="https://pokeapi.co/">PokéAPI</a> data; evolution
+        methods may differ in the ROM hack. Pokémon images are © Nintendo / Creatures Inc. / GAME
+        FREAK Inc.
       </p>
       <p>
         <a href="https://www.pokeharbor.com/2025/04/pokemon-dreamstone-mysteries-gba/"
@@ -220,7 +248,10 @@
           <div>
             <span class="pokemon-number"></span>
             <h3 class="pokemon-name"></h3>
-            <span class="region-badge" hidden></span>
+            <div class="pokemon-tags">
+              <span class="region-badge" hidden></span>
+              <div class="pokemon-types"></div>
+            </div>
           </div>
         </div>
         <dl class="pokemon-card__facts">
@@ -233,6 +264,16 @@
             <dd class="pokemon-rarity"></dd>
           </div>
         </dl>
+        <div class="pokemon-evolutions" hidden>
+          <div class="evolution-group evolves-from" hidden>
+            <span>Evolves from</span>
+            <div class="evolution-links"></div>
+          </div>
+          <div class="evolution-group evolves-to" hidden>
+            <span>Evolves to</span>
+            <div class="evolution-links"></div>
+          </div>
+        </div>
         <div class="pokemon-note" hidden>
           <span>Field note</span>
           <p></p>
