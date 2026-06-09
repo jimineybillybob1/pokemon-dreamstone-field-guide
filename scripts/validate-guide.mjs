@@ -165,6 +165,8 @@ check(
 );
 check(html.includes('data-view="team"'), "Team Builder tab is missing");
 check(html.includes('id="team-grid"'), "Team Builder grid is missing");
+check(html.includes('class="team-matchups"'), "Dex team coverage field is missing");
+check(html.includes("https://pokemondb.net/type"), "Type-chart source link is missing");
 
 const localReferences = [...html.matchAll(/\s(?:src|href)="([^"]+)"/g)]
   .map((match) => match[1])

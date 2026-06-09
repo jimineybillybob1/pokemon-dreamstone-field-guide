@@ -127,6 +127,69 @@ moveData.moves.forEach((move) => {
     });
 });
 const pokemonOptions = [...data.dex].sort((a, b) => a.number - b.number);
+const typeChart = {
+  normal: { rock: 0.5, ghost: 0, steel: 0.5 },
+  fire: {
+    fire: 0.5,
+    water: 0.5,
+    grass: 2,
+    ice: 2,
+    bug: 2,
+    rock: 0.5,
+    dragon: 0.5,
+    steel: 2,
+  },
+  water: { fire: 2, water: 0.5, grass: 0.5, ground: 2, rock: 2, dragon: 0.5 },
+  electric: { water: 2, electric: 0.5, grass: 0.5, ground: 0, flying: 2, dragon: 0.5 },
+  grass: {
+    fire: 0.5,
+    water: 2,
+    grass: 0.5,
+    poison: 0.5,
+    ground: 2,
+    flying: 0.5,
+    bug: 0.5,
+    rock: 2,
+    dragon: 0.5,
+    steel: 0.5,
+  },
+  ice: { fire: 0.5, water: 0.5, grass: 2, ice: 0.5, ground: 2, flying: 2, dragon: 2, steel: 0.5 },
+  fighting: {
+    normal: 2,
+    ice: 2,
+    poison: 0.5,
+    flying: 0.5,
+    psychic: 0.5,
+    bug: 0.5,
+    rock: 2,
+    ghost: 0,
+    dark: 2,
+    steel: 2,
+    fairy: 0.5,
+  },
+  poison: { grass: 2, poison: 0.5, ground: 0.5, rock: 0.5, ghost: 0.5, steel: 0, fairy: 2 },
+  ground: { fire: 2, electric: 2, grass: 0.5, poison: 2, flying: 0, bug: 0.5, rock: 2, steel: 2 },
+  flying: { electric: 0.5, grass: 2, fighting: 2, bug: 2, rock: 0.5, steel: 0.5 },
+  psychic: { fighting: 2, poison: 2, psychic: 0.5, dark: 0, steel: 0.5 },
+  bug: {
+    fire: 0.5,
+    grass: 2,
+    fighting: 0.5,
+    poison: 0.5,
+    flying: 0.5,
+    psychic: 2,
+    ghost: 0.5,
+    dark: 2,
+    steel: 0.5,
+    fairy: 0.5,
+  },
+  rock: { fire: 2, ice: 2, fighting: 0.5, ground: 0.5, flying: 2, bug: 2, steel: 0.5 },
+  ghost: { normal: 0, psychic: 2, ghost: 2, dark: 0.5 },
+  dragon: { dragon: 2, steel: 0.5, fairy: 0 },
+  dark: { fighting: 0.5, psychic: 2, ghost: 2, dark: 0.5, fairy: 0.5 },
+  steel: { fire: 0.5, water: 0.5, electric: 0.5, ice: 2, rock: 2, steel: 0.5, fairy: 2 },
+  fairy: { fire: 0.5, fighting: 2, poison: 0.5, dragon: 2, dark: 2, steel: 0.5 },
+};
 const locationsForPokemon = (pokemon) => {
   const pokerexLocations = uniqueSorted([
     ...(encounterLocationsByGuideNumber.get(pokemon.number) || []),
@@ -352,18 +415,101 @@ function persistTeam() {
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
 }
 
+function refreshTeamAndDex() {
+  renderTeam();
+  elements.grid.querySelectorAll(".pokemon-card").forEach((card) => {
+    const pokemon = pokemonByNumber.get(Number(card.dataset.number));
+    const container = card.querySelector(".team-matchups");
+    if (!pokemon || !container) return;
+    container.replaceChildren();
+    renderTeamMatchups(container, pokemon);
+  });
+}
+
 function setTeamPokemon(slotIndex, pokemonNumber, retainMoves = false) {
   const slot = state.team[slotIndex];
   slot.pokemonNumber = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
   if (!retainMoves) slot.moves = [null, null, null, null];
   persistTeam();
-  renderTeam();
+  refreshTeamAndDex();
 }
 
 function setTeamMove(slotIndex, moveIndex, moveId) {
   state.team[slotIndex].moves[moveIndex] = moveById.has(moveId) ? moveId : null;
   persistTeam();
-  renderTeam();
+  refreshTeamAndDex();
+}
+
+function moveEffectiveness(moveType, targetTypes) {
+  const matchups = typeChart[moveType.toLowerCase()] || {};
+  return targetTypes.reduce((multiplier, type) => multiplier * (matchups[type] ?? 1), 1);
+}
+
+function superEffectiveTeamMoves(targetPokemon) {
+  const results = [];
+  const seen = new Set();
+  state.team.forEach((slot) => {
+    const teamPokemon = pokemonByNumber.get(slot.pokemonNumber);
+    if (!teamPokemon) return;
+    slot.moves.forEach((moveId) => {
+      const move = moveById.get(moveId);
+      const key = `${teamPokemon.number}:${moveId}`;
+      if (!move || move.category === "Status" || seen.has(key)) return;
+      const multiplier = moveEffectiveness(move.type, targetPokemon.types);
+      if (multiplier <= 1) return;
+      seen.add(key);
+      results.push({ pokemon: teamPokemon, move, multiplier });
+    });
+  });
+  return results.sort(
+    (a, b) =>
+      b.multiplier - a.multiplier ||
+      b.move.power - a.move.power ||
+      a.pokemon.name.localeCompare(b.pokemon.name) ||
+      a.move.name.localeCompare(b.move.name),
+  );
+}
+
+function renderTeamMatchups(container, targetPokemon) {
+  const heading = document.createElement("header");
+  heading.innerHTML = `
+    <span>Weak to your team</span>
+    <small>Type matchup only; abilities not considered</small>
+  `;
+  const matches = superEffectiveTeamMoves(targetPokemon);
+  if (!matches.length) {
+    const empty = document.createElement("p");
+    empty.className = "team-matchups__empty";
+    empty.textContent = state.team.some((slot) => slot.moves.some(Boolean))
+      ? "No selected damage-dealing team moves are super effective."
+      : "Add damage-dealing moves in Team Builder to see coverage.";
+    container.append(heading, empty);
+    return;
+  }
+
+  const list = document.createElement("div");
+  list.className = "team-matchups__list";
+  matches.forEach(({ pokemon, move, multiplier }) => {
+    const entry = document.createElement("article");
+    entry.className = "team-matchup";
+    entry.innerHTML = `
+      <img src="${pokemon.sprite}" alt="" width="38" height="38" loading="lazy">
+      <div class="team-matchup__identity">
+        <strong></strong>
+        <span></span>
+      </div>
+      <span class="type-badge" data-type="${move.type.toLowerCase()}">${move.type}</span>
+      <dl>
+        <div><dt>Effective</dt><dd>${multiplier}x</dd></div>
+        <div><dt>Power</dt><dd>${move.power || "-"}</dd></div>
+        <div><dt>Accuracy</dt><dd>${move.accuracy ? `${move.accuracy}%` : "-"}</dd></div>
+      </dl>
+    `;
+    entry.querySelector(".team-matchup__identity strong").textContent = pokemon.name.replaceAll("_", " ");
+    entry.querySelector(".team-matchup__identity span").textContent = move.name;
+    list.append(entry);
+  });
+  container.append(heading, list);
 }
 
 function createPokemonPicker(slotIndex, selectedNumber) {
@@ -592,6 +738,7 @@ function renderPokemonCard(pokemon) {
   rarity.dataset.rarity = pokemon.rarity;
   card.querySelector(".pokemon-bst").textContent = pokemon.bst || "N/A";
   renderPokemonStats(card, pokemon);
+  renderTeamMatchups(card.querySelector(".team-matchups"), pokemon);
 
   if (pokemon.region) {
     region.hidden = false;
@@ -1111,7 +1258,7 @@ function bindControls() {
       moves: [null, null, null, null],
     }));
     persistTeam();
-    renderTeam();
+    refreshTeamAndDex();
   });
   elements.collectionSearch.addEventListener("input", () => {
     state.collectionSearch = elements.collectionSearch.value;

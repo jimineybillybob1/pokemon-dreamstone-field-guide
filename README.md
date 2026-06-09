@@ -14,6 +14,7 @@ Open `index.html` in a browser. The guide includes:
 - ROM-extracted base stats and BST bars on every curated Dex card
 - A searchable 934-move catalogue with move details and learner compatibility
 - A persistent six-slot team builder with compatible moves and retain-on-evolution movesets
+- Live Dex-card coverage showing super-effective damage moves selected in the Team Builder
 - Pokémon types and clickable direct evolution links
 - Persistent light and dark themes
 - Sticky search and quick location filters ordered to match the encounter atlas
@@ -79,6 +80,7 @@ Replace `assets/icons/app-icon-master.png`, then run:
 - Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)
+- Team matchup type chart: [Pokemon Database](https://pokemondb.net/type)
 - Gen 9 fallback sprites: [PokeAPI/sprites](https://github.com/PokeAPI/sprites)
 
 Pokémon images are © Nintendo / Creatures Inc. / GAME FREAK Inc.

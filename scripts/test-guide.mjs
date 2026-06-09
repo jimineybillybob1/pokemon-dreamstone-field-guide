@@ -62,6 +62,12 @@ await check(
   )).startsWith("40.2"),
   "Gothita BST bar is not scaled against 720",
 );
+await check(
+  (await page.locator(".pokemon-card[data-number='1'] .team-matchups__empty").textContent()).includes(
+    "Team Builder",
+  ),
+  "Empty team coverage guidance is missing",
+);
 await check((await page.locator(".pokemon-stats header small").count()) === 0, "Stat-scale caption is still visible");
 await check(
   (await page.locator(".region-badge:not([hidden])").count()) === 38,
@@ -163,6 +169,8 @@ await check(
   (await page.locator(".team-card[data-slot='1'] .team-move-details__effect").count()) === 1,
   "Selected team move effect is missing",
 );
+await page.locator(".team-card[data-slot='1'] .team-move-slot").nth(1).locator("select").selectOption("247");
+await page.locator(".team-card[data-slot='1'] .team-move-slot").nth(2).locator("select").selectOption("85");
 await page.locator(".team-card[data-slot='1'] .team-evolve-button", { hasText: "Gothorita" }).click();
 await check(
   (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothorita",
@@ -176,6 +184,32 @@ await check(
   (await page.locator(".team-card[data-slot='1'] .team-move-retained").textContent()) === "Retained after change",
   "Move retained after evolution was not labelled",
 );
+await page.locator(".view-tab[data-view='dex']").click();
+const gothitaCoverage = page.locator(".pokemon-card[data-number='1'] .team-matchup");
+await check((await gothitaCoverage.count()) === 1, "Gothita coverage did not show exactly one super-effective move");
+await check(
+  (await gothitaCoverage.textContent()).includes("Gothorita") &&
+    (await gothitaCoverage.textContent()).includes("Shadow Ball") &&
+    (await gothitaCoverage.textContent()).includes("2x") &&
+    (await gothitaCoverage.textContent()).includes("80") &&
+    (await gothitaCoverage.textContent()).includes("100%"),
+  "Gothita coverage is missing the attacker, move, effectiveness, power, or accuracy",
+);
+await check(
+  !(await gothitaCoverage.textContent()).includes("Mean Look"),
+  "Status move Mean Look was incorrectly included in Dex coverage",
+);
+await check(
+  (await page.locator(".pokemon-card[data-number='249'] .team-matchup").textContent()).includes("4x"),
+  "Dual-type 4x effectiveness is missing for Wingull",
+);
+await check(
+  (await page.locator(".pokemon-card[data-number='93'] .team-matchup").count()) === 0,
+  "Ghost move incorrectly bypassed Hisuian Zorua's Normal-type immunity",
+);
+await page.locator(".pokemon-card[data-number='1'] .team-matchups").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-coverage.png"), fullPage: false });
+await page.locator(".view-tab[data-view='team']").click();
 await page.locator(".team-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-builder.png"), fullPage: false });
 
@@ -322,6 +356,14 @@ await check(
   (await page.locator(".team-card[data-slot='1'] .team-move-slot").first().locator("select").inputValue()) === "212",
   "Saved team move did not persist after reload",
 );
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-slot").nth(1).locator("select").inputValue()) === "247",
+  "Saved damage move did not persist after reload",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-slot").nth(2).locator("select").inputValue()) === "85",
+  "Saved dual-type coverage move did not persist after reload",
+);
 await page.locator(".team-card[data-slot='1']").scrollIntoViewIfNeeded();
 await check(
   await page.locator(".team-card[data-slot='1']").evaluate((element) => element.scrollWidth <= element.clientWidth),
@@ -337,6 +379,8 @@ await check(
   "Mobile stat card has horizontal overflow",
 );
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-dex-stats.png"), fullPage: false });
+await page.locator(".pokemon-card[data-number='1'] .team-matchups").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-team-coverage.png"), fullPage: false });
 await page.locator(".view-tab[data-view='moves']").click();
 await page.locator("#move-search").fill("Pound");
 await page.locator(".move-card .move-learners summary").click();
@@ -373,9 +417,11 @@ console.log(
         "tmp/guide-desktop-location-map.png",
         "tmp/guide-desktop-moves.png",
         "tmp/guide-desktop-team-builder.png",
+        "tmp/guide-desktop-team-coverage.png",
         "tmp/guide-mobile-dex-stats.png",
         "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-team-builder.png",
+        "tmp/guide-mobile-team-coverage.png",
         "tmp/guide-mobile-collection.png",
         "tmp/guide-mobile-location-map.png",
       ],
