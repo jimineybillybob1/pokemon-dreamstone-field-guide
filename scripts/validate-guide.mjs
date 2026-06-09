@@ -6,12 +6,15 @@ import { fileURLToPath } from "node:url";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataSource = await fs.readFile(path.join(rootDir, "data", "dreamstone-data.js"), "utf8");
 const encounterSource = await fs.readFile(path.join(rootDir, "data", "pokerex-encounters.js"), "utf8");
+const moveSource = await fs.readFile(path.join(rootDir, "data", "pokerex-moves.js"), "utf8");
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(dataSource, context);
 vm.runInContext(encounterSource, context);
+vm.runInContext(moveSource, context);
 const data = context.window.DREAMSTONE_DATA;
 const encounters = context.window.DREAMSTONE_ENCOUNTERS;
+const moves = context.window.DREAMSTONE_MOVES;
 
 const errors = [];
 const check = (condition, message) => {
@@ -31,6 +34,23 @@ check(
 check(
   encounters.encounterSpecies.filter((pokemon) => !pokemon.guideNumber).length === 12,
   "Expected 12 Pokerex wild entries missing from the curated guide",
+);
+check(moves.moves.length === 934, `Expected 934 Pokerex moves, found ${moves.moves.length}`);
+check(
+  moves.moves.every(
+    (move) =>
+      move.name &&
+      move.type &&
+      move.category &&
+      ["levelUp", "evolution", "egg", "teachable"].every((method) => Array.isArray(move.learners[method])),
+  ),
+  "Pokerex move details or learner groups are invalid",
+);
+check(
+  moves.moves.find((move) => move.name === "Pound")?.learners.levelUp.some(
+    (learner) => learner.name === "Gothita" && learner.level === 1 && learner.guideNumber === 1,
+  ),
+  "Pound is missing Gothita's level-up learner detail",
 );
 check(
   data.dex.filter((pokemon) => pokemon.statsSource === "Pokerex").length === 314,
@@ -110,7 +130,14 @@ for (const pokemon of data.dex) {
   }
 }
 
-for (const file of ["index.html", "styles.css", "app.js", "data/dreamstone-data.js", "data/pokerex-encounters.js"]) {
+for (const file of [
+  "index.html",
+  "styles.css",
+  "app.js",
+  "data/dreamstone-data.js",
+  "data/pokerex-encounters.js",
+  "data/pokerex-moves.js",
+]) {
   try {
     const stat = await fs.stat(path.join(rootDir, file));
     check(stat.size > 0, `${file} is empty`);
@@ -159,6 +186,7 @@ if (errors.length) {
         uniqueLocations: locationCounts.size,
         pokerexEncounterMaps: encounters.locations.length,
         pokerexWildSpeciesForms: encounters.encounterSpecies.length,
+        pokerexMoves: moves.moves.length,
         collectionEntries:
           data.dex.length + encounters.encounterSpecies.filter((pokemon) => !pokemon.guideNumber).length,
         spriteReferencesChecked: data.dex.length + data.megas.length,

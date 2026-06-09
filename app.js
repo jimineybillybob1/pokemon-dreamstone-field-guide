@@ -1,5 +1,6 @@
 const data = window.DREAMSTONE_DATA;
 const encounters = window.DREAMSTONE_ENCOUNTERS;
+const moveData = window.DREAMSTONE_MOVES;
 const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
@@ -10,6 +11,14 @@ const state = {
   theme: document.documentElement.dataset.theme || "light",
   collectionStatus: "all",
   collectionSearch: "",
+  moveLimit: 100,
+  moveFilters: {
+    search: "",
+    type: "",
+    category: "",
+    method: "",
+    sort: "id",
+  },
   filters: {
     search: "",
     location: "",
@@ -45,6 +54,10 @@ const elements = {
   quickLocationList: document.querySelector("#quick-location-list"),
   locationList: document.querySelector("#location-list"),
   locationSearch: document.querySelector("#location-search"),
+  moveList: document.querySelector("#move-list"),
+  moveResultCount: document.querySelector("#move-result-count"),
+  moveEmptyState: document.querySelector("#move-empty-state"),
+  showMoreMoves: document.querySelector("#show-more-moves"),
   megaGrid: document.querySelector("#mega-grid"),
   megaNote: document.querySelector("#mega-note"),
   itemList: document.querySelector("#item-list"),
@@ -105,6 +118,27 @@ const statDefinitions = [
   { key: "spd", label: "Spe", max: 120 },
   { key: "bst", label: "BST", max: 720 },
 ];
+const learnerMethodDefinitions = [
+  { key: "levelUp", label: "Level Up" },
+  { key: "evolution", label: "Evolution" },
+  { key: "egg", label: "Egg" },
+  { key: "teachable", label: "Teachable" },
+];
+const moveSearchTextById = new Map(
+  moveData.moves.map((move) => [
+    move.id,
+    [
+      move.name,
+      move.type,
+      move.category,
+      move.description,
+      move.effect,
+      ...Object.values(move.learners).flatMap((learners) => learners.map((learner) => learner.name)),
+    ]
+      .join(" ")
+      .toLowerCase(),
+  ]),
+);
 
 function setSelectOptions(id, values) {
   const select = document.querySelector(id);
@@ -121,6 +155,8 @@ function initializeSummary() {
   setSelectOptions("#rarity-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.rarity)));
   setSelectOptions("#region-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.region)));
   setSelectOptions("#type-filter", uniqueSorted(data.dex.flatMap((pokemon) => pokemon.types)));
+  setSelectOptions("#move-type-filter", uniqueSorted(moveData.moves.map((move) => move.type)));
+  setSelectOptions("#move-category-filter", uniqueSorted(moveData.moves.map((move) => move.category)));
   setSelectOptions(
     "#availability-filter",
     uniqueSorted(data.dex.map((pokemon) => pokemon.availability)),
@@ -260,7 +296,6 @@ function renderPokemonStats(card, pokemon) {
   const heading = document.createElement("header");
   heading.innerHTML = `
     <span>Base stats</span>
-    <small>120 stat scale · 720 BST scale</small>
   `;
   const rows = document.createElement("div");
   rows.className = "pokemon-stats__rows";
@@ -271,7 +306,7 @@ function renderPokemonStats(card, pokemon) {
     row.className = `pokemon-stat pokemon-stat--${key}`;
     row.innerHTML = `
       <span>${label}</span>
-      <div class="pokemon-stat__track" title="${label}: ${value} / ${max} scale">
+      <div class="pokemon-stat__track" title="${label}: ${value}">
         <span class="pokemon-stat__fill" style="width: ${Math.min((value / max) * 100, 100)}%"></span>
       </div>
       <strong>${value}</strong>
@@ -442,6 +477,143 @@ function renderCollection() {
   elements.collectionResultCount.textContent = `Showing ${pokemon.length} of ${collectionDex.length} Pokémon`;
 }
 
+function renderMoveLearners(container, move) {
+  const fragment = document.createDocumentFragment();
+  learnerMethodDefinitions.forEach(({ key, label }) => {
+    const learners = move.learners[key];
+    if (!learners.length) return;
+    const group = document.createElement("section");
+    group.className = "move-learner-group";
+    const heading = document.createElement("h4");
+    heading.textContent = `${label} · ${learners.length}`;
+    const list = document.createElement("div");
+    list.className = "move-learner-list";
+    learners.forEach((learner) => {
+      const entry = document.createElement(learner.guideNumber ? "button" : "span");
+      if (learner.guideNumber) {
+        entry.type = "button";
+        entry.className = "move-learner is-linked";
+        entry.addEventListener("click", () => focusPokemon(learner.guideNumber));
+      } else {
+        entry.className = "move-learner";
+      }
+      entry.textContent = `${learner.name}${Number.isFinite(learner.level) ? ` · Lv. ${learner.level}` : ""}`;
+      list.append(entry);
+    });
+    group.append(heading, list);
+    fragment.append(group);
+  });
+  container.replaceChildren(fragment);
+}
+
+function renderMoveCard(move) {
+  const card = document.createElement("article");
+  card.className = "move-card";
+  const header = document.createElement("header");
+  header.className = "move-card__heading";
+  header.innerHTML = `
+    <div>
+      <span>No. ${String(move.id).padStart(3, "0")}</span>
+      <h3></h3>
+    </div>
+    <div class="move-card__badges">
+      <span class="type-badge" data-type="${move.type.toLowerCase()}">${move.type}</span>
+      <span class="move-category" data-category="${move.category.toLowerCase()}">${move.category}</span>
+    </div>
+  `;
+  header.querySelector("h3").textContent = move.name;
+
+  const metrics = document.createElement("dl");
+  metrics.className = "move-card__metrics";
+  [
+    ["Power", move.power || "—"],
+    ["Accuracy", move.accuracy ? `${move.accuracy}%` : "—"],
+    ["PP", move.pp || "—"],
+    ["Priority", Number.isFinite(move.priority) ? (move.priority > 0 ? `+${move.priority}` : move.priority) : "—"],
+    ["Contact", move.contact ? "Yes" : "No"],
+    ["Learners", move.learnerCount],
+  ].forEach(([label, value]) => {
+    const fact = document.createElement("div");
+    fact.innerHTML = `<dt>${label}</dt><dd>${value}</dd>`;
+    metrics.append(fact);
+  });
+
+  const copy = document.createElement("div");
+  copy.className = "move-card__copy";
+  const description = document.createElement("p");
+  description.textContent = move.description || "No description extracted.";
+  copy.append(description);
+  if (move.effect) {
+    const effect = document.createElement("p");
+    effect.className = "move-card__effect";
+    const label = document.createElement("strong");
+    label.textContent = "Effect";
+    effect.append(label, document.createTextNode(move.effect));
+    copy.append(effect);
+  }
+
+  const methodSummary = document.createElement("div");
+  methodSummary.className = "move-method-summary";
+  learnerMethodDefinitions.forEach(({ key, label }) => {
+    if (!move.learners[key].length) return;
+    const chip = document.createElement("span");
+    chip.dataset.method = key;
+    chip.textContent = `${label} ${move.learners[key].length}`;
+    methodSummary.append(chip);
+  });
+
+  card.append(header, metrics, copy, methodSummary);
+  if (Object.values(move.learners).some((learners) => learners.length)) {
+    const details = document.createElement("details");
+    details.className = "move-learners";
+    const summary = document.createElement("summary");
+    summary.textContent = `Learner details · ${move.learnerCount} species / forms`;
+    const body = document.createElement("div");
+    body.className = "move-learners__body";
+    details.addEventListener("toggle", () => {
+      if (details.open && !body.childElementCount) renderMoveLearners(body, move);
+    });
+    details.append(summary, body);
+    card.append(details);
+  }
+  return card;
+}
+
+function filteredMoves() {
+  const filters = state.moveFilters;
+  const search = filters.search.toLowerCase();
+  const result = moveData.moves.filter((move) => {
+    if (search && !moveSearchTextById.get(move.id).includes(search)) return false;
+    if (filters.type && move.type !== filters.type) return false;
+    if (filters.category && move.category !== filters.category) return false;
+    if (filters.method && !move.learners[filters.method].length) return false;
+    return true;
+  });
+  result.sort((a, b) => {
+    if (filters.sort === "name") return a.name.localeCompare(b.name);
+    if (filters.sort === "power") return b.power - a.power || a.name.localeCompare(b.name);
+    if (filters.sort === "learners") return b.learnerCount - a.learnerCount || a.name.localeCompare(b.name);
+    return a.id - b.id;
+  });
+  return result;
+}
+
+function renderMoves(resetLimit = false) {
+  if (resetLimit) state.moveLimit = 100;
+  const moves = filteredMoves();
+  const visible = moves.slice(0, state.moveLimit);
+  const fragment = document.createDocumentFragment();
+  visible.forEach((move) => fragment.append(renderMoveCard(move)));
+  elements.moveList.replaceChildren(fragment);
+  elements.moveEmptyState.hidden = moves.length !== 0;
+  elements.showMoreMoves.hidden = visible.length === moves.length;
+  elements.showMoreMoves.textContent = `Show more moves · ${moves.length - visible.length} remaining`;
+  elements.moveResultCount.textContent =
+    moves.length === moveData.moves.length
+      ? `Showing ${visible.length} of all ${moveData.moves.length} moves`
+      : `Showing ${visible.length} of ${moves.length} matching moves`;
+}
+
 function activateView(viewName) {
   document.querySelectorAll(".view-tab").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.view === viewName);
@@ -450,6 +622,7 @@ function activateView(viewName) {
     view.classList.toggle("is-active", view.id === `view-${viewName}`);
   });
   if (viewName === "caught") renderCollection();
+  if (viewName === "moves") renderMoves();
 }
 
 function resetDexFilters() {
@@ -658,6 +831,29 @@ function bindControls() {
   });
 
   elements.locationSearch.addEventListener("input", () => renderLocations(elements.locationSearch.value));
+  const moveBindings = {
+    "#move-search": "search",
+    "#move-type-filter": "type",
+    "#move-category-filter": "category",
+    "#move-method-filter": "method",
+    "#move-sort": "sort",
+  };
+  Object.entries(moveBindings).forEach(([selector, key]) => {
+    const control = document.querySelector(selector);
+    control.addEventListener("input", () => {
+      state.moveFilters[key] = control.value;
+      renderMoves(true);
+    });
+  });
+  document.querySelector("#clear-move-filters").addEventListener("click", () => {
+    Object.assign(state.moveFilters, { search: "", type: "", category: "", method: "", sort: "id" });
+    document.querySelector("#move-filters").reset();
+    renderMoves(true);
+  });
+  elements.showMoreMoves.addEventListener("click", () => {
+    state.moveLimit += 100;
+    renderMoves();
+  });
   elements.collectionSearch.addEventListener("input", () => {
     state.collectionSearch = elements.collectionSearch.value;
     renderCollection();
@@ -698,6 +894,7 @@ bindControls();
 updateProgress();
 renderQuickLocations();
 renderDex();
+renderMoves();
 renderCollection();
 renderLocations();
 renderMegas();

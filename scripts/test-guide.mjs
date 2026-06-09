@@ -61,6 +61,7 @@ await check(
   )).startsWith("40.2"),
   "Gothita BST bar is not scaled against 720",
 );
+await check((await page.locator(".pokemon-stats header small").count()) === 0, "Stat-scale caption is still visible");
 await check(
   (await page.locator(".region-badge:not([hidden])").count()) === 38,
   "Unexpected visible regional badge count",
@@ -127,6 +128,44 @@ await check((await page.locator(".collection-card").count()) === 327, "Expected 
 await check((await page.locator("#total-count").textContent()) === "327", "Capture total did not include Pokerex wild entries");
 await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");
 
+await page.locator(".view-tab[data-view='moves']").click();
+await check(await page.locator("#view-moves").evaluate((element) => element.classList.contains("is-active")), "Moves view did not open");
+await check((await page.locator(".move-card").count()) === 100, "Moves view did not render its first 100 moves");
+await check((await page.locator(".move-card").first().locator("h3").textContent()) === "Pound", "First move is not Pound");
+await check(
+  (await page.locator(".move-card").first().locator(".move-card__metrics").textContent()).includes("40"),
+  "Pound power is missing",
+);
+await page.locator(".move-card").first().locator(".move-learners summary").click();
+await check(
+  (await page.locator(".move-card").first().locator(".move-learner.is-linked", { hasText: "Gothita" }).textContent()).includes(
+    "Lv. 1",
+  ),
+  "Pound learner details are missing Gothita's level",
+);
+await page.locator(".move-card").first().locator(".move-learner.is-linked", { hasText: /^Gothita/ }).click();
+await page.waitForTimeout(500);
+await check(page.url().endsWith("#pokemon-1"), "Move learner link did not open Gothita's Dex card");
+await page.locator(".view-tab[data-view='moves']").click();
+await page.locator("#move-search").fill("Moongeist Beam");
+await check((await page.locator(".move-card").count()) === 1, "Move search did not isolate Moongeist Beam");
+await check(
+  (await page.locator(".move-card").locator(".move-category").textContent()) === "Special",
+  "Moongeist Beam category is incorrect",
+);
+await page.locator("#clear-move-filters").click();
+await page.locator("#move-type-filter").selectOption("Fire");
+await check(
+  (await page.locator(".move-card .type-badge").allTextContents()).every((type) => type === "Fire"),
+  "Move type filter included a non-Fire move",
+);
+await page.locator("#clear-move-filters").click();
+await page.locator("#show-more-moves").click();
+await check((await page.locator(".move-card").count()) === 200, "Show more moves did not reveal the next page");
+await page.locator("#view-moves .section-heading").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-moves.png"), fullPage: false });
+
+await page.locator(".view-tab[data-view='dex']").click();
 await page.locator(".pokemon-card[data-number='1'] .caught-button").click();
 await check((await page.locator("#caught-tab-count").textContent()) === "1", "Caught tab count did not update");
 await check((await page.locator("#collection-caught-count").textContent()) === "1", "Collection summary did not update");
@@ -231,6 +270,15 @@ await check(
   "Mobile stat card has horizontal overflow",
 );
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-dex-stats.png"), fullPage: false });
+await page.locator(".view-tab[data-view='moves']").click();
+await page.locator("#move-search").fill("Pound");
+await page.locator(".move-card .move-learners summary").click();
+await page.locator(".move-card").scrollIntoViewIfNeeded();
+await check(
+  await page.locator(".move-card").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile move card has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-moves.png"), fullPage: false });
 await page.locator(".view-tab[data-view='caught']").click();
 await check((await page.locator(".collection-card").count()) === 327, "Mobile collection did not render all cards");
 await page.locator("#view-caught").scrollIntoViewIfNeeded();
@@ -256,7 +304,9 @@ console.log(
         "tmp/guide-desktop-controls.png",
         "tmp/guide-desktop-collection.png",
         "tmp/guide-desktop-location-map.png",
+        "tmp/guide-desktop-moves.png",
         "tmp/guide-mobile-dex-stats.png",
+        "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-collection.png",
         "tmp/guide-mobile-location-map.png",
       ],

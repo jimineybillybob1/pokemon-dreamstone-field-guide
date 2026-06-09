@@ -1,8 +1,8 @@
 # Dreamstone Field Guide
 
-An offline capture guide and progress tracker for **Pokémon Dreamstone Mysteries**. Wild encounter
-details and maps come from Pokerex's ROM extraction; gift, special, Mega Evolution, and item notes
-come from `Dreamstone Mysteries _ Dex (temporary).xlsx`.
+An offline capture guide and progress tracker for **Pokémon Dreamstone Mysteries**. Wild encounters,
+maps, base stats, moves, and learners come from Pokerex's ROM extraction; gift, special, Mega
+Evolution, and item notes come from `Dreamstone Mysteries _ Dex (temporary).xlsx`.
 
 **Live guide:** https://jimineybillybob1.github.io/pokemon-dreamstone-field-guide/
 
@@ -12,6 +12,7 @@ Open `index.html` in a browser. The guide includes:
 - A 327-entry caught collection including 12 wild entries missing from the temporary dex
 - 38 active Dreamstone encounter maps with exact methods, rates, levels, and time-of-day tables
 - ROM-extracted base stats and BST bars on every curated Dex card
+- A searchable 934-move catalogue with move details and learner compatibility
 - Pokémon types and clickable direct evolution links
 - Persistent light and dark themes
 - Sticky search and quick location filters ordered to match the encounter atlas
@@ -43,7 +44,7 @@ sprites downloaded from `PokeAPI/sprites`. Place the public Pokerex Dreamstone e
 `tmp/pokerex-dreamstone-data.json` before rebuilding so each Dex entry receives its ROM-extracted
 base stats and BST. Koraidon is absent from the extraction and uses canonical stats.
 
-## Regenerate Pokerex Encounters
+## Regenerate Pokerex Data
 
 Place the public Pokerex Dreamstone export at `tmp/pokerex-dreamstone-data.json`, then run:
 
@@ -53,10 +54,14 @@ Place the public Pokerex Dreamstone export at `tmp/pokerex-dreamstone-data.json`
 
 & 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
   'scripts\build-pokerex-encounters.mjs'
+
+& 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
+  'scripts\build-pokerex-moves.mjs'
 ```
 
-Only Dreamstone's active custom map groups are imported. Inaccessible inherited Emerald encounter
-tables are intentionally excluded.
+Only Dreamstone's active custom map groups are imported into the encounter atlas. Inaccessible
+inherited Emerald encounter tables are intentionally excluded; the Moves tab mirrors Pokerex's full
+ROM move and learner extraction.
 
 ## Regenerate App Icons
 
@@ -69,7 +74,7 @@ Replace `assets/icons/app-icon-master.png`, then run:
 
 ## Credits
 
-- Wild encounters, maps, and Pokémon base stats: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/pokemon)
+- Wild encounters, maps, Pokémon base stats, moves, and learners: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/moves)
 - Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)

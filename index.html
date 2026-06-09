@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
+    <script src="data/pokerex-moves.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -93,6 +94,7 @@
 
       <nav class="view-tabs" aria-label="Guide views">
         <button class="view-tab is-active" type="button" data-view="dex">Full Dex</button>
+        <button class="view-tab" type="button" data-view="moves">Moves</button>
         <button class="view-tab" type="button" data-view="caught">
           Caught <span class="tab-count" id="caught-tab-count">0</span>
         </button>
@@ -194,6 +196,67 @@
         </div>
       </section>
 
+      <section class="guide-view" id="view-moves">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Battle reference</p>
+            <h2>Dreamstone Moves</h2>
+          </div>
+          <p id="move-result-count">Showing all moves</p>
+        </div>
+        <aside class="source-note">
+          Move details and compatibility come from
+          <a href="https://pokerex.io/dreamstone-mysteries/v1.0/moves" target="_blank" rel="noreferrer"
+            >Pokerex</a
+          >. Machine and tutor compatibility are combined as <strong>Teachable</strong>.
+        </aside>
+        <form class="move-filter-panel" id="move-filters">
+          <label class="move-search">
+            <span>Search moves or learners</span>
+            <input id="move-search" type="search" placeholder="Move, effect, description, or Pokémon..." />
+          </label>
+          <label>
+            <span>Type</span>
+            <select id="move-type-filter">
+              <option value="">All types</option>
+            </select>
+          </label>
+          <label>
+            <span>Category</span>
+            <select id="move-category-filter">
+              <option value="">All categories</option>
+            </select>
+          </label>
+          <label>
+            <span>Learn method</span>
+            <select id="move-method-filter">
+              <option value="">All methods</option>
+              <option value="levelUp">Level Up</option>
+              <option value="evolution">Evolution</option>
+              <option value="egg">Egg</option>
+              <option value="teachable">Teachable</option>
+            </select>
+          </label>
+          <label>
+            <span>Sort</span>
+            <select id="move-sort">
+              <option value="id">Move number</option>
+              <option value="name">Name</option>
+              <option value="power">Power</option>
+              <option value="learners">Learners</option>
+            </select>
+          </label>
+          <button class="clear-button" id="clear-move-filters" type="button">Clear filters</button>
+        </form>
+        <div class="move-list" id="move-list"></div>
+        <button class="show-more-moves" id="show-more-moves" type="button" hidden>Show more moves</button>
+        <div class="empty-state" id="move-empty-state" hidden>
+          <span class="empty-state__stone" aria-hidden="true"></span>
+          <h3>No moves found</h3>
+          <p>Try clearing a filter or searching for another learner.</p>
+        </div>
+      </section>
+
       <section class="guide-view" id="view-caught">
         <div class="section-heading">
           <div>
@@ -288,8 +351,8 @@
 
     <footer>
       <p>
-        Wild encounter details and maps come from the
-        <a href="https://pokerex.io/dreamstone-mysteries/v1.0/locations">Pokerex ROM extraction</a>.
+        Wild encounters, maps, Pokémon stats, moves, and learners come from the
+        <a href="https://pokerex.io/dreamstone-mysteries/v1.0/moves">Pokerex ROM extraction</a>.
         Gift, special, Mega Evolution, and important-item notes come from the temporary Dreamstone
         Mysteries dex.
       </p>
