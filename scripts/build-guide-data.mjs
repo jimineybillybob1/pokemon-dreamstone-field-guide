@@ -15,6 +15,7 @@ const spriteSourceDir = path.join(rootDir, "vendor", "pokesprite", "pokemon-gen8
 const spriteOutputDir = path.join(rootDir, "assets", "sprites");
 const outputPath = path.join(rootDir, "data", "dreamstone-data.js");
 const metadataPath = path.join(rootDir, "data", "pokemon-metadata.json");
+const pokerexPath = path.join(rootDir, "tmp", "pokerex-dreamstone-data.json");
 
 const clean = (value) => {
   if (value === null || value === undefined) return "";
@@ -79,6 +80,47 @@ const pokeApiFallbackIds = new Map(
 
 const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(inputPath));
 const pokemonMetadata = JSON.parse(await fs.readFile(metadataPath, "utf8"));
+const pokerexPokemon = JSON.parse(await fs.readFile(pokerexPath, "utf8")).data.pokemon;
+const regionalPrefixes = {
+  Alola: "Alolan ",
+  Galar: "Galarian ",
+  Hisui: "Hisuian ",
+  Paldea: "Paldean ",
+};
+const canonicalStatFallbacks = new Map([
+  [
+    "koraidon",
+    {
+      stats: { hp: 100, atk: 135, def: 115, spa: 85, spdef: 100, spd: 135 },
+      bst: 670,
+      source: "Canonical fallback",
+    },
+  ],
+]);
+const pokerexPokemonByName = new Map();
+for (const pokemon of pokerexPokemon) {
+  const key = normalizeName(pokemon.name.replace(/ \(\d+\)$/, ""));
+  if (!pokerexPokemonByName.has(key)) pokerexPokemonByName.set(key, []);
+  pokerexPokemonByName.get(key).push(pokemon);
+}
+
+const statsForPokemon = (name, region) => {
+  const baseName = name.replaceAll("_", " ");
+  const regionalName = `${regionalPrefixes[region] || ""}${baseName}`;
+  const candidates =
+    pokerexPokemonByName.get(normalizeName(regionalName)) ||
+    pokerexPokemonByName.get(normalizeName(baseName)) ||
+    [];
+  const pokemon = candidates[0];
+  if (pokemon?.stats && Number.isFinite(pokemon.bst)) {
+    return {
+      stats: pokemon.stats,
+      bst: pokemon.bst,
+      source: "Pokerex",
+    };
+  }
+  return canonicalStatFallbacks.get(normalizeName(baseName)) || null;
+};
 
 const sheetRows = (name) => workbook.worksheets.getItem(name).getUsedRange().values;
 const pokedexRows = sheetRows("Pokedex");
@@ -139,6 +181,7 @@ for (const row of pokedexRows.slice(2)) {
   const notes = clean(row[5]);
   const sprite = await resolveSprite(name, region);
   const metadata = pokemonMetadata[number] || {};
+  const statMetadata = statsForPokemon(name, region);
 
   if (sprite.missing) missingSprites.push(sprite.missing);
   if (sprite.source) spritesToCopy.set(sprite.filename, sprite.source);
@@ -160,6 +203,9 @@ for (const row of pokedexRows.slice(2)) {
     types: metadata.types || [],
     evolvesFrom: metadata.evolvesFrom || [],
     evolvesTo: metadata.evolvesTo || [],
+    stats: statMetadata?.stats || {},
+    bst: statMetadata?.bst || null,
+    statsSource: statMetadata?.source || "",
   });
 }
 
@@ -246,6 +292,10 @@ console.log(
       pokemonWithEvolutionLinks: dex.filter(
         (pokemon) => pokemon.evolvesFrom.length || pokemon.evolvesTo.length,
       ).length,
+      pokemonWithStats: dex.filter((pokemon) => pokemon.bst).length,
+      pokerexStats: dex.filter((pokemon) => pokemon.statsSource === "Pokerex").length,
+      canonicalStatFallbacks: dex.filter((pokemon) => pokemon.statsSource === "Canonical fallback")
+        .map((pokemon) => pokemon.name),
       regions: [...new Set(dex.map((pokemon) => pokemon.region).filter(Boolean))].sort(),
       rarities: [...new Set(dex.map((pokemon) => pokemon.rarity).filter(Boolean))].sort(),
       locations: [...new Set(dex.map((pokemon) => pokemon.location).filter(Boolean))].sort(),

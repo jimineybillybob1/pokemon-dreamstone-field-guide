@@ -44,6 +44,24 @@ await check(
   "Gothita is missing its Psychic type badge",
 );
 await check(
+  (await page.locator(".pokemon-card[data-number='1'] .pokemon-bst").textContent()) === "290",
+  "Gothita is missing its Pokerex BST",
+);
+await check(
+  (await page.locator(".pokemon-card[data-number='1'] .pokemon-stat").count()) === 7,
+  "Gothita is missing its base-stat bars",
+);
+await check(
+  (await page.locator(".pokemon-card[data-number='1'] .pokemon-stat--spa strong").textContent()) === "55",
+  "Gothita Special Attack is incorrect",
+);
+await check(
+  (await page.locator(".pokemon-card[data-number='1'] .pokemon-stat--bst .pokemon-stat__fill").evaluate(
+    (element) => element.style.width,
+  )).startsWith("40.2"),
+  "Gothita BST bar is not scaled against 720",
+);
+await check(
   (await page.locator(".region-badge:not([hidden])").count()) === 38,
   "Unexpected visible regional badge count",
 );
@@ -205,6 +223,14 @@ await page.screenshot({ path: path.join(outputDir, "guide-desktop-collection.png
 await page.setViewportSize({ width: 390, height: 844 });
 await page.reload();
 await check((await page.locator(".pokemon-card").count()) === 315, "Mobile view did not render all cards");
+await page.locator(".pokemon-card[data-number='1']").scrollIntoViewIfNeeded();
+await check(
+  await page.locator(".pokemon-card[data-number='1']").evaluate(
+    (element) => element.scrollWidth <= element.clientWidth,
+  ),
+  "Mobile stat card has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-dex-stats.png"), fullPage: false });
 await page.locator(".view-tab[data-view='caught']").click();
 await check((await page.locator(".collection-card").count()) === 327, "Mobile collection did not render all cards");
 await page.locator("#view-caught").scrollIntoViewIfNeeded();
@@ -230,6 +256,7 @@ console.log(
         "tmp/guide-desktop-controls.png",
         "tmp/guide-desktop-collection.png",
         "tmp/guide-desktop-location-map.png",
+        "tmp/guide-mobile-dex-stats.png",
         "tmp/guide-mobile-collection.png",
         "tmp/guide-mobile-location-map.png",
       ],

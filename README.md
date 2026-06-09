@@ -11,6 +11,7 @@ Open `index.html` in a browser. The guide includes:
 - A searchable and filterable 315-entry curated Pokédex
 - A 327-entry caught collection including 12 wild entries missing from the temporary dex
 - 38 active Dreamstone encounter maps with exact methods, rates, levels, and time-of-day tables
+- ROM-extracted base stats and BST bars on every curated Dex card
 - Pokémon types and clickable direct evolution links
 - Persistent light and dark themes
 - Sticky search and quick location filters ordered to match the encounter atlas
@@ -38,7 +39,9 @@ workspace Node dependencies linked at `node_modules`.
 ```
 
 PokéSprite supplies the Gen 8-style box sprites. Species introduced after Gen 8 use local fallback
-sprites downloaded from `PokeAPI/sprites`.
+sprites downloaded from `PokeAPI/sprites`. Place the public Pokerex Dreamstone export at
+`tmp/pokerex-dreamstone-data.json` before rebuilding so each Dex entry receives its ROM-extracted
+base stats and BST. Koraidon is absent from the extraction and uses canonical stats.
 
 ## Regenerate Pokerex Encounters
 
@@ -66,7 +69,7 @@ Replace `assets/icons/app-icon-master.png`, then run:
 
 ## Credits
 
-- Wild encounters and maps: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/locations)
+- Wild encounters, maps, and Pokémon base stats: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/pokemon)
 - Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)

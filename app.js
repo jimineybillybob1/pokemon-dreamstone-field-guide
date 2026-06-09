@@ -96,6 +96,15 @@ const formatLocations = (locations, limit = 3) => {
   const visible = locations.slice(0, limit).join(", ");
   return locations.length > limit ? `${visible} +${locations.length - limit} more` : visible;
 };
+const statDefinitions = [
+  { key: "hp", label: "HP", max: 120 },
+  { key: "atk", label: "Atk", max: 120 },
+  { key: "def", label: "Def", max: 120 },
+  { key: "spa", label: "SpA", max: 120 },
+  { key: "spdef", label: "SpD", max: 120 },
+  { key: "spd", label: "Spe", max: 120 },
+  { key: "bst", label: "BST", max: 720 },
+];
 
 function setSelectOptions(id, values) {
   const select = document.querySelector(id);
@@ -243,6 +252,35 @@ function renderLocationLinks(container, locations, fallback) {
   container.replaceChildren(fragment);
 }
 
+function renderPokemonStats(card, pokemon) {
+  const section = card.querySelector(".pokemon-stats");
+  if (!pokemon.bst || !pokemon.stats) return;
+
+  section.hidden = false;
+  const heading = document.createElement("header");
+  heading.innerHTML = `
+    <span>Base stats</span>
+    <small>120 stat scale · 720 BST scale</small>
+  `;
+  const rows = document.createElement("div");
+  rows.className = "pokemon-stats__rows";
+  statDefinitions.forEach(({ key, label, max }) => {
+    const value = key === "bst" ? pokemon.bst : pokemon.stats[key];
+    if (!Number.isFinite(value)) return;
+    const row = document.createElement("div");
+    row.className = `pokemon-stat pokemon-stat--${key}`;
+    row.innerHTML = `
+      <span>${label}</span>
+      <div class="pokemon-stat__track" title="${label}: ${value} / ${max} scale">
+        <span class="pokemon-stat__fill" style="width: ${Math.min((value / max) * 100, 100)}%"></span>
+      </div>
+      <strong>${value}</strong>
+    `;
+    rows.append(row);
+  });
+  section.append(heading, rows);
+}
+
 function renderPokemonCard(pokemon) {
   const card = elements.cardTemplate.content.firstElementChild.cloneNode(true);
   const caughtButton = card.querySelector(".caught-button");
@@ -273,6 +311,8 @@ function renderPokemonCard(pokemon) {
   const rarity = card.querySelector(".pokemon-rarity");
   rarity.textContent = pokemon.rarity || (pokemon.location ? "Not listed" : "N/A");
   rarity.dataset.rarity = pokemon.rarity;
+  card.querySelector(".pokemon-bst").textContent = pokemon.bst || "N/A";
+  renderPokemonStats(card, pokemon);
 
   if (pokemon.region) {
     region.hidden = false;

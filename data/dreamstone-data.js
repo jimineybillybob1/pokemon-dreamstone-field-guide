@@ -1,5 +1,5 @@
 window.DREAMSTONE_DATA = {
-  "generatedAt": "2026-06-08T22:26:33.544Z",
+  "generatedAt": "2026-06-09T13:43:58.474Z",
   "sourceWorkbook": "Dreamstone Mysteries _ Dex (temporary).xlsx",
   "dex": [
     {
@@ -17,7 +17,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         2
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 30,
+        "def": 50,
+        "spd": 45,
+        "spa": 55,
+        "spdef": 65
+      },
+      "bst": 290,
+      "statsSource": "Pokerex"
     },
     {
       "number": 2,
@@ -36,7 +46,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         3
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 45,
+        "def": 70,
+        "spd": 55,
+        "spa": 75,
+        "spdef": 85
+      },
+      "bst": 390,
+      "statsSource": "Pokerex"
     },
     {
       "number": 3,
@@ -53,7 +73,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         2
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 55,
+        "def": 95,
+        "spd": 65,
+        "spa": 95,
+        "spdef": 110
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 4,
@@ -70,7 +100,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         5
-      ]
+      ],
+      "stats": {
+        "hp": 75,
+        "atk": 80,
+        "def": 55,
+        "spd": 35,
+        "spa": 25,
+        "spdef": 35
+      },
+      "bst": 305,
+      "statsSource": "Pokerex"
     },
     {
       "number": 5,
@@ -89,7 +129,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         6
-      ]
+      ],
+      "stats": {
+        "hp": 75,
+        "atk": 95,
+        "def": 75,
+        "spd": 40,
+        "spa": 40,
+        "spdef": 50
+      },
+      "bst": 375,
+      "statsSource": "Pokerex"
     },
     {
       "number": 6,
@@ -106,7 +156,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         5
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 105,
+        "atk": 140,
+        "def": 95,
+        "spd": 45,
+        "spa": 55,
+        "spdef": 65
+      },
+      "bst": 505,
+      "statsSource": "Pokerex"
     },
     {
       "number": 7,
@@ -124,7 +184,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         8
-      ]
+      ],
+      "stats": {
+        "hp": 38,
+        "atk": 30,
+        "def": 41,
+        "spd": 60,
+        "spa": 30,
+        "spdef": 41
+      },
+      "bst": 240,
+      "statsSource": "Pokerex"
     },
     {
       "number": 8,
@@ -144,7 +214,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         9
-      ]
+      ],
+      "stats": {
+        "hp": 78,
+        "atk": 70,
+        "def": 61,
+        "spd": 100,
+        "spa": 50,
+        "spdef": 61
+      },
+      "bst": 420,
+      "statsSource": "Pokerex"
     },
     {
       "number": 9,
@@ -162,7 +242,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         8
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 93,
+        "atk": 90,
+        "def": 101,
+        "spd": 95,
+        "spa": 60,
+        "spdef": 81
+      },
+      "bst": 520,
+      "statsSource": "Pokerex"
     },
     {
       "number": 10,
@@ -180,7 +270,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         11
-      ]
+      ],
+      "stats": {
+        "hp": 30,
+        "atk": 56,
+        "def": 35,
+        "spd": 72,
+        "spa": 25,
+        "spdef": 35
+      },
+      "bst": 253,
+      "statsSource": "Pokerex"
     },
     {
       "number": 11,
@@ -198,7 +298,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         10
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 71,
+        "def": 70,
+        "spd": 77,
+        "spa": 40,
+        "spdef": 80
+      },
+      "bst": 413,
+      "statsSource": "Pokerex"
     },
     {
       "number": 12,
@@ -216,7 +326,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         13
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 55,
+        "def": 50,
+        "spd": 43,
+        "spa": 36,
+        "spdef": 30
+      },
+      "bst": 264,
+      "statsSource": "Pokerex"
     },
     {
       "number": 13,
@@ -236,7 +356,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         14
-      ]
+      ],
+      "stats": {
+        "hp": 62,
+        "atk": 77,
+        "def": 62,
+        "spd": 65,
+        "spa": 50,
+        "spdef": 42
+      },
+      "bst": 358,
+      "statsSource": "Pokerex"
     },
     {
       "number": 14,
@@ -254,7 +384,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         13
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 115,
+        "def": 80,
+        "spd": 93,
+        "spa": 65,
+        "spdef": 55
+      },
+      "bst": 488,
+      "statsSource": "Pokerex"
     },
     {
       "number": 15,
@@ -271,7 +411,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         16
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 95,
+        "spd": 35,
+        "spa": 40,
+        "spdef": 50
+      },
+      "bst": 320,
+      "statsSource": "Pokerex"
     },
     {
       "number": 16,
@@ -289,7 +439,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         15
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 80,
+        "def": 110,
+        "spd": 45,
+        "spa": 50,
+        "spdef": 80
+      },
+      "bst": 425,
+      "statsSource": "Pokerex"
     },
     {
       "number": 17,
@@ -306,7 +466,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         18
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 65,
+        "def": 40,
+        "spd": 60,
+        "spa": 30,
+        "spdef": 40
+      },
+      "bst": 280,
+      "statsSource": "Pokerex"
     },
     {
       "number": 18,
@@ -323,7 +493,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         17
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 115,
+        "def": 65,
+        "spd": 112,
+        "spa": 55,
+        "spdef": 65
+      },
+      "bst": 487,
+      "statsSource": "Pokerex"
     },
     {
       "number": 19,
@@ -340,7 +520,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         20
-      ]
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 45,
+        "def": 48,
+        "spd": 35,
+        "spa": 60,
+        "spdef": 65
+      },
+      "bst": 323,
+      "statsSource": "Pokerex"
     },
     {
       "number": 20,
@@ -357,7 +547,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         19
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 70,
+        "def": 73,
+        "spd": 60,
+        "spa": 95,
+        "spdef": 90
+      },
+      "bst": 483,
+      "statsSource": "Pokerex"
     },
     {
       "number": 21,
@@ -374,7 +574,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         22
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 80,
+        "def": 50,
+        "spd": 40,
+        "spa": 50,
+        "spdef": 50
+      },
+      "bst": 330,
+      "statsSource": "Pokerex"
     },
     {
       "number": 22,
@@ -393,7 +603,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         23
-      ]
+      ],
+      "stats": {
+        "hp": 90,
+        "atk": 130,
+        "def": 75,
+        "spd": 55,
+        "spa": 75,
+        "spdef": 75
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 23,
@@ -411,7 +631,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         22
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 130,
+        "atk": 140,
+        "def": 105,
+        "spd": 50,
+        "spa": 45,
+        "spdef": 80
+      },
+      "bst": 550,
+      "statsSource": "Pokerex"
     },
     {
       "number": 24,
@@ -429,7 +659,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         25
-      ]
+      ],
+      "stats": {
+        "hp": 30,
+        "atk": 40,
+        "def": 55,
+        "spd": 60,
+        "spa": 40,
+        "spdef": 55
+      },
+      "bst": 280,
+      "statsSource": "Pokerex"
     },
     {
       "number": 25,
@@ -447,7 +687,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         24
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 60,
+        "def": 75,
+        "spd": 80,
+        "spa": 60,
+        "spdef": 75
+      },
+      "bst": 410,
+      "statsSource": "Pokerex"
     },
     {
       "number": 26,
@@ -465,7 +715,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         27
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 45,
+        "def": 45,
+        "spd": 58,
+        "spa": 35,
+        "spdef": 64
+      },
+      "bst": 297,
+      "statsSource": "Pokerex"
     },
     {
       "number": 27,
@@ -485,7 +745,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         28
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 55,
+        "def": 55,
+        "spd": 78,
+        "spa": 45,
+        "spdef": 82
+      },
+      "bst": 380,
+      "statsSource": "Pokerex"
     },
     {
       "number": 28,
@@ -503,7 +773,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         27
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 75,
+        "def": 77,
+        "spd": 94,
+        "spa": 70,
+        "spdef": 105
+      },
+      "bst": 506,
+      "statsSource": "Pokerex"
     },
     {
       "number": 29,
@@ -521,7 +801,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         30
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 30,
+        "def": 35,
+        "spd": 55,
+        "spa": 45,
+        "spdef": 40
+      },
+      "bst": 245,
+      "statsSource": "Pokerex"
     },
     {
       "number": 30,
@@ -539,7 +829,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         29
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 70,
+        "def": 80,
+        "spd": 123,
+        "spa": 97,
+        "spdef": 80
+      },
+      "bst": 535,
+      "statsSource": "Pokerex"
     },
     {
       "number": 31,
@@ -557,7 +857,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         32
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 70,
+        "def": 100,
+        "spd": 30,
+        "spa": 40,
+        "spdef": 40
+      },
+      "bst": 330,
+      "statsSource": "Pokerex"
     },
     {
       "number": 32,
@@ -577,7 +887,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         33
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 90,
+        "def": 140,
+        "spd": 40,
+        "spa": 50,
+        "spdef": 50
+      },
+      "bst": 430,
+      "statsSource": "Pokerex"
     },
     {
       "number": 33,
@@ -595,7 +915,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         32
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 110,
+        "def": 180,
+        "spd": 50,
+        "spa": 60,
+        "spdef": 60
+      },
+      "bst": 530,
+      "statsSource": "Pokerex"
     },
     {
       "number": 34,
@@ -612,7 +942,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         35
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 60,
+        "def": 45,
+        "spd": 55,
+        "spa": 25,
+        "spdef": 45
+      },
+      "bst": 275,
+      "statsSource": "Pokerex"
     },
     {
       "number": 35,
@@ -631,7 +971,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         36
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 80,
+        "def": 65,
+        "spd": 60,
+        "spa": 35,
+        "spdef": 65
+      },
+      "bst": 370,
+      "statsSource": "Pokerex"
     },
     {
       "number": 36,
@@ -648,7 +998,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         35
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 110,
+        "def": 90,
+        "spd": 80,
+        "spa": 45,
+        "spdef": 90
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 37,
@@ -665,7 +1025,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         38
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 65,
+        "def": 90,
+        "spd": 15,
+        "spa": 35,
+        "spdef": 35
+      },
+      "bst": 290,
+      "statsSource": "Pokerex"
     },
     {
       "number": 38,
@@ -683,7 +1053,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         37
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 90,
+        "def": 140,
+        "spd": 40,
+        "spa": 60,
+        "spdef": 60
+      },
+      "bst": 465,
+      "statsSource": "Pokerex"
     },
     {
       "number": 39,
@@ -701,7 +1081,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         40
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 40,
+        "def": 60,
+        "spd": 50,
+        "spa": 40,
+        "spdef": 75
+      },
+      "bst": 310,
+      "statsSource": "Pokerex"
     },
     {
       "number": 40,
@@ -719,7 +1109,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         39
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 70,
+        "def": 90,
+        "spd": 80,
+        "spa": 70,
+        "spdef": 105
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 41,
@@ -737,7 +1137,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         42
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 45,
+        "def": 45,
+        "spd": 50,
+        "spa": 74,
+        "spdef": 54
+      },
+      "bst": 308,
+      "statsSource": "Pokerex"
     },
     {
       "number": 42,
@@ -755,7 +1165,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         41
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 71,
+        "atk": 60,
+        "def": 106,
+        "spd": 70,
+        "spa": 121,
+        "spdef": 80
+      },
+      "bst": 508,
+      "statsSource": "Pokerex"
     },
     {
       "number": 43,
@@ -772,7 +1192,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         44
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 45,
+        "def": 45,
+        "spd": 50,
+        "spa": 74,
+        "spdef": 54
+      },
+      "bst": 308,
+      "statsSource": "Pokerex"
     },
     {
       "number": 44,
@@ -789,7 +1219,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         43
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 65,
+        "def": 65,
+        "spd": 70,
+        "spa": 134,
+        "spdef": 114
+      },
+      "bst": 508,
+      "statsSource": "Pokerex"
     },
     {
       "number": 45,
@@ -806,7 +1246,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         46
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 66,
+        "def": 44,
+        "spd": 85,
+        "spa": 44,
+        "spdef": 56
+      },
+      "bst": 350,
+      "statsSource": "Pokerex"
     },
     {
       "number": 46,
@@ -823,7 +1273,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         45
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 65,
+        "atk": 76,
+        "def": 84,
+        "spd": 105,
+        "spa": 54,
+        "spdef": 96
+      },
+      "bst": 480,
+      "statsSource": "Pokerex"
     },
     {
       "number": 47,
@@ -840,7 +1300,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         48
-      ]
+      ],
+      "stats": {
+        "hp": 25,
+        "atk": 20,
+        "def": 20,
+        "spd": 45,
+        "spa": 25,
+        "spdef": 45
+      },
+      "bst": 180,
+      "statsSource": "Pokerex"
     },
     {
       "number": 48,
@@ -860,7 +1330,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         49
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 35,
+        "def": 80,
+        "spd": 30,
+        "spa": 50,
+        "spdef": 90
+      },
+      "bst": 335,
+      "statsSource": "Pokerex"
     },
     {
       "number": 49,
@@ -878,7 +1358,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         48
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 45,
+        "def": 110,
+        "spd": 90,
+        "spa": 80,
+        "spdef": 120
+      },
+      "bst": 505,
+      "statsSource": "Pokerex"
     },
     {
       "number": 50,
@@ -896,7 +1386,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         51
-      ]
+      ],
+      "stats": {
+        "hp": 38,
+        "atk": 40,
+        "def": 52,
+        "spd": 27,
+        "spa": 40,
+        "spdef": 72
+      },
+      "bst": 269,
+      "statsSource": "Pokerex"
     },
     {
       "number": 51,
@@ -914,7 +1414,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         50
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 68,
+        "atk": 70,
+        "def": 92,
+        "spd": 42,
+        "spa": 50,
+        "spdef": 132
+      },
+      "bst": 454,
+      "statsSource": "Pokerex"
     },
     {
       "number": 52,
@@ -931,7 +1441,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         53
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 35,
+        "def": 50,
+        "spd": 30,
+        "spa": 70,
+        "spdef": 50
+      },
+      "bst": 280,
+      "statsSource": "Pokerex"
     },
     {
       "number": 53,
@@ -949,7 +1469,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         52
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 105,
+        "def": 75,
+        "spd": 105,
+        "spa": 50,
+        "spdef": 75
+      },
+      "bst": 480,
+      "statsSource": "Pokerex"
     },
     {
       "number": 54,
@@ -966,7 +1496,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         55
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 49,
+        "def": 65,
+        "spd": 45,
+        "spa": 49,
+        "spdef": 65
+      },
+      "bst": 318,
+      "statsSource": "Pokerex"
     },
     {
       "number": 55,
@@ -985,7 +1525,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         56
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 62,
+        "def": 80,
+        "spd": 60,
+        "spa": 63,
+        "spdef": 80
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 56,
@@ -1002,7 +1552,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         55
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 82,
+        "def": 100,
+        "spd": 80,
+        "spa": 83,
+        "spdef": 100
+      },
+      "bst": 525,
+      "statsSource": "Pokerex"
     },
     {
       "number": 57,
@@ -1020,7 +1580,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         58
-      ]
+      ],
+      "stats": {
+        "hp": 75,
+        "atk": 38,
+        "def": 38,
+        "spd": 67,
+        "spa": 56,
+        "spdef": 56
+      },
+      "bst": 330,
+      "statsSource": "Pokerex"
     },
     {
       "number": 58,
@@ -1038,7 +1608,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         57
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 125,
+        "atk": 58,
+        "def": 58,
+        "spd": 67,
+        "spa": 76,
+        "spdef": 76
+      },
+      "bst": 460,
+      "statsSource": "Pokerex"
     },
     {
       "number": 59,
@@ -1055,7 +1635,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         60
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 80,
+        "def": 35,
+        "spd": 70,
+        "spa": 35,
+        "spdef": 45
+      },
+      "bst": 305,
+      "statsSource": "Pokerex"
     },
     {
       "number": 60,
@@ -1074,7 +1664,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         61
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 105,
+        "def": 60,
+        "spd": 95,
+        "spa": 60,
+        "spdef": 70
+      },
+      "bst": 455,
+      "statsSource": "Pokerex"
     },
     {
       "number": 61,
@@ -1092,7 +1692,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         60
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 110,
+        "atk": 115,
+        "def": 80,
+        "spd": 90,
+        "spa": 50,
+        "spdef": 90
+      },
+      "bst": 535,
+      "statsSource": "Pokerex"
     },
     {
       "number": 62,
@@ -1110,7 +1720,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         63
-      ]
+      ],
+      "stats": {
+        "hp": 30,
+        "atk": 45,
+        "def": 59,
+        "spd": 57,
+        "spa": 30,
+        "spdef": 39
+      },
+      "bst": 260,
+      "statsSource": "Pokerex"
     },
     {
       "number": 63,
@@ -1130,7 +1750,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         64
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 55,
+        "def": 99,
+        "spd": 47,
+        "spa": 40,
+        "spdef": 79
+      },
+      "bst": 360,
+      "statsSource": "Pokerex"
     },
     {
       "number": 64,
@@ -1148,7 +1778,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         63
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 100,
+        "def": 89,
+        "spd": 112,
+        "spa": 55,
+        "spdef": 69
+      },
+      "bst": 485,
+      "statsSource": "Pokerex"
     },
     {
       "number": 65,
@@ -1166,7 +1806,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         66
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 75,
+        "def": 45,
+        "spd": 55,
+        "spa": 65,
+        "spdef": 50
+      },
+      "bst": 350,
+      "statsSource": "Pokerex"
     },
     {
       "number": 66,
@@ -1184,7 +1834,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         65
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 115,
+        "def": 80,
+        "spd": 90,
+        "spa": 95,
+        "spdef": 80
+      },
+      "bst": 555,
+      "statsSource": "Pokerex"
     },
     {
       "number": 67,
@@ -1202,7 +1862,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         68
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 65,
+        "def": 45,
+        "spd": 45,
+        "spa": 50,
+        "spdef": 50
+      },
+      "bst": 305,
+      "statsSource": "Pokerex"
     },
     {
       "number": 68,
@@ -1220,7 +1890,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         67
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 100,
+        "atk": 115,
+        "def": 65,
+        "spd": 65,
+        "spa": 90,
+        "spdef": 90
+      },
+      "bst": 525,
+      "statsSource": "Pokerex"
     },
     {
       "number": 69,
@@ -1237,7 +1917,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         70
-      ]
+      ],
+      "stats": {
+        "hp": 30,
+        "atk": 40,
+        "def": 50,
+        "spd": 30,
+        "spa": 40,
+        "spdef": 50
+      },
+      "bst": 240,
+      "statsSource": "Pokerex"
     },
     {
       "number": 70,
@@ -1257,7 +1947,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         71
-      ]
+      ],
+      "stats": {
+        "hp": 80,
+        "atk": 60,
+        "def": 90,
+        "spd": 50,
+        "spa": 60,
+        "spdef": 70
+      },
+      "bst": 410,
+      "statsSource": "Pokerex"
     },
     {
       "number": 71,
@@ -1275,7 +1975,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         70
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 110,
+        "atk": 80,
+        "def": 120,
+        "spd": 30,
+        "spa": 80,
+        "spdef": 90
+      },
+      "bst": 510,
+      "statsSource": "Pokerex"
     },
     {
       "number": 72,
@@ -1292,7 +2002,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         73
-      ]
+      ],
+      "stats": {
+        "hp": 39,
+        "atk": 52,
+        "def": 43,
+        "spd": 65,
+        "spa": 60,
+        "spdef": 50
+      },
+      "bst": 309,
+      "statsSource": "Pokerex"
     },
     {
       "number": 73,
@@ -1311,7 +2031,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         74
-      ]
+      ],
+      "stats": {
+        "hp": 58,
+        "atk": 64,
+        "def": 58,
+        "spd": 80,
+        "spa": 80,
+        "spdef": 65
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 74,
@@ -1329,7 +2059,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         73
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 73,
+        "atk": 84,
+        "def": 78,
+        "spd": 95,
+        "spa": 119,
+        "spdef": 85
+      },
+      "bst": 534,
+      "statsSource": "Pokerex"
     },
     {
       "number": 75,
@@ -1346,7 +2086,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         76
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 28,
+        "def": 28,
+        "spd": 50,
+        "spa": 47,
+        "spdef": 52
+      },
+      "bst": 245,
+      "statsSource": "Pokerex"
     },
     {
       "number": 76,
@@ -1363,7 +2113,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         75
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 58,
+        "def": 58,
+        "spd": 90,
+        "spa": 87,
+        "spdef": 92
+      },
+      "bst": 455,
+      "statsSource": "Pokerex"
     },
     {
       "number": 77,
@@ -1381,7 +2141,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         78
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 85,
+        "def": 42,
+        "spd": 91,
+        "spa": 85,
+        "spdef": 42
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 78,
@@ -1399,7 +2169,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         77
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 100,
+        "atk": 125,
+        "def": 52,
+        "spd": 71,
+        "spa": 105,
+        "spdef": 52
+      },
+      "bst": 505,
+      "statsSource": "Pokerex"
     },
     {
       "number": 79,
@@ -1416,7 +2196,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         80
-      ]
+      ],
+      "stats": {
+        "hp": 33,
+        "atk": 46,
+        "def": 40,
+        "spd": 45,
+        "spa": 21,
+        "spdef": 25
+      },
+      "bst": 210,
+      "statsSource": "Pokerex"
     },
     {
       "number": 80,
@@ -1434,7 +2224,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         79
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 71,
+        "atk": 102,
+        "def": 78,
+        "spd": 92,
+        "spa": 52,
+        "spdef": 55
+      },
+      "bst": 450,
+      "statsSource": "Pokerex"
     },
     {
       "number": 81,
@@ -1451,7 +2251,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         82
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 48,
+        "def": 45,
+        "spd": 42,
+        "spa": 43,
+        "spdef": 90
+      },
+      "bst": 328,
+      "statsSource": "Pokerex"
     },
     {
       "number": 82,
@@ -1468,7 +2278,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         81
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 73,
+        "def": 70,
+        "spd": 67,
+        "spa": 73,
+        "spdef": 115
+      },
+      "bst": 483,
+      "statsSource": "Pokerex"
     },
     {
       "number": 83,
@@ -1486,7 +2306,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         86
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 35,
+        "def": 55,
+        "spd": 15,
+        "spa": 65,
+        "spdef": 75
+      },
+      "bst": 285,
+      "statsSource": "Pokerex"
     },
     {
       "number": 86,
@@ -1504,7 +2334,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         83
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 45,
+        "def": 80,
+        "spd": 30,
+        "spa": 90,
+        "spdef": 100
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 84,
@@ -1522,7 +2362,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         85
-      ]
+      ],
+      "stats": {
+        "hp": 69,
+        "atk": 55,
+        "def": 45,
+        "spd": 15,
+        "spa": 55,
+        "spdef": 55
+      },
+      "bst": 294,
+      "statsSource": "Pokerex"
     },
     {
       "number": 85,
@@ -1540,7 +2390,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         84
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 114,
+        "atk": 85,
+        "def": 70,
+        "spd": 30,
+        "spa": 85,
+        "spdef": 80
+      },
+      "bst": 464,
+      "statsSource": "Pokerex"
     },
     {
       "number": 87,
@@ -1558,7 +2418,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         88
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 45,
+        "def": 30,
+        "spd": 50,
+        "spa": 55,
+        "spdef": 40
+      },
+      "bst": 265,
+      "statsSource": "Pokerex"
     },
     {
       "number": 88,
@@ -1578,7 +2448,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         89
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 60,
+        "def": 45,
+        "spd": 70,
+        "spa": 75,
+        "spdef": 55
+      },
+      "bst": 370,
+      "statsSource": "Pokerex"
     },
     {
       "number": 89,
@@ -1596,7 +2476,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         88
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 120,
+        "def": 65,
+        "spd": 60,
+        "spa": 95,
+        "spdef": 75
+      },
+      "bst": 510,
+      "statsSource": "Pokerex"
     },
     {
       "number": 90,
@@ -1613,7 +2503,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         91
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 45,
+        "def": 40,
+        "spd": 60,
+        "spa": 62,
+        "spdef": 60
+      },
+      "bst": 307,
+      "statsSource": "Pokerex"
     },
     {
       "number": 91,
@@ -1632,7 +2532,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         92
-      ]
+      ],
+      "stats": {
+        "hp": 59,
+        "atk": 59,
+        "def": 58,
+        "spd": 73,
+        "spa": 90,
+        "spdef": 70
+      },
+      "bst": 409,
+      "statsSource": "Pokerex"
     },
     {
       "number": 92,
@@ -1650,7 +2560,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         91
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 69,
+        "def": 72,
+        "spd": 104,
+        "spa": 114,
+        "spdef": 100
+      },
+      "bst": 534,
+      "statsSource": "Pokerex"
     },
     {
       "number": 93,
@@ -1668,7 +2588,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         94
-      ]
+      ],
+      "stats": {
+        "hp": 35,
+        "atk": 60,
+        "def": 40,
+        "spd": 70,
+        "spa": 85,
+        "spdef": 40
+      },
+      "bst": 330,
+      "statsSource": "Pokerex"
     },
     {
       "number": 94,
@@ -1686,7 +2616,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         93
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 55,
+        "atk": 100,
+        "def": 60,
+        "spd": 110,
+        "spa": 125,
+        "spdef": 60
+      },
+      "bst": 510,
+      "statsSource": "Pokerex"
     },
     {
       "number": 95,
@@ -1704,7 +2644,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         96
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 30,
+        "def": 35,
+        "spd": 55,
+        "spa": 50,
+        "spdef": 70
+      },
+      "bst": 280,
+      "statsSource": "Pokerex"
     },
     {
       "number": 96,
@@ -1724,7 +2674,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         97
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 60,
+        "def": 45,
+        "spd": 65,
+        "spa": 100,
+        "spdef": 80
+      },
+      "bst": 400,
+      "statsSource": "Pokerex"
     },
     {
       "number": 97,
@@ -1742,7 +2702,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         96
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 70,
+        "def": 65,
+        "spd": 90,
+        "spa": 125,
+        "spdef": 105
+      },
+      "bst": 515,
+      "statsSource": "Pokerex"
     },
     {
       "number": 98,
@@ -1759,7 +2729,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         99
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 85,
+        "def": 40,
+        "spd": 68,
+        "spa": 30,
+        "spdef": 45
+      },
+      "bst": 328,
+      "statsSource": "Pokerex"
     },
     {
       "number": 99,
@@ -1777,7 +2757,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         98
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 110,
+        "atk": 135,
+        "def": 60,
+        "spd": 88,
+        "spa": 50,
+        "spdef": 65
+      },
+      "bst": 508,
+      "statsSource": "Pokerex"
     },
     {
       "number": 100,
@@ -1795,7 +2785,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         101
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 60,
+        "def": 60,
+        "spd": 30,
+        "spa": 60,
+        "spdef": 60
+      },
+      "bst": 320,
+      "statsSource": "Pokerex"
     },
     {
       "number": 101,
@@ -1813,7 +2813,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         100
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 65,
+        "atk": 75,
+        "def": 90,
+        "spd": 44,
+        "spa": 97,
+        "spdef": 123
+      },
+      "bst": 494,
+      "statsSource": "Pokerex"
     },
     {
       "number": 102,
@@ -1831,7 +2841,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         103
-      ]
+      ],
+      "stats": {
+        "hp": 80,
+        "atk": 80,
+        "def": 50,
+        "spd": 25,
+        "spa": 40,
+        "spdef": 50
+      },
+      "bst": 325,
+      "statsSource": "Pokerex"
     },
     {
       "number": 103,
@@ -1849,7 +2869,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         102
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 105,
+        "atk": 105,
+        "def": 75,
+        "spd": 50,
+        "spa": 65,
+        "spdef": 100
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 104,
@@ -1867,7 +2897,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         105
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 95,
+        "def": 85,
+        "spd": 85,
+        "spa": 55,
+        "spdef": 55
+      },
+      "bst": 440,
+      "statsSource": "Pokerex"
     },
     {
       "number": 105,
@@ -1885,7 +2925,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         104
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 115,
+        "def": 95,
+        "spd": 85,
+        "spa": 65,
+        "spdef": 65
+      },
+      "bst": 510,
+      "statsSource": "Pokerex"
     },
     {
       "number": 106,
@@ -1903,7 +2953,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         107
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 38,
+        "def": 35,
+        "spd": 40,
+        "spa": 54,
+        "spdef": 35
+      },
+      "bst": 242,
+      "statsSource": "Pokerex"
     },
     {
       "number": 107,
@@ -1921,7 +2981,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         106
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 98,
+        "def": 70,
+        "spd": 75,
+        "spa": 114,
+        "spdef": 70
+      },
+      "bst": 502,
+      "statsSource": "Pokerex"
     },
     {
       "number": 108,
@@ -1938,7 +3008,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         109
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 40,
+        "spd": 64,
+        "spa": 50,
+        "spdef": 40
+      },
+      "bst": 294,
+      "statsSource": "Pokerex"
     },
     {
       "number": 109,
@@ -1958,7 +3038,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         110
-      ]
+      ],
+      "stats": {
+        "hp": 75,
+        "atk": 65,
+        "def": 55,
+        "spd": 69,
+        "spa": 65,
+        "spdef": 55
+      },
+      "bst": 384,
+      "statsSource": "Pokerex"
     },
     {
       "number": 110,
@@ -1976,7 +3066,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         109
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 105,
+        "atk": 95,
+        "def": 75,
+        "spd": 74,
+        "spa": 85,
+        "spdef": 75
+      },
+      "bst": 509,
+      "statsSource": "Pokerex"
     },
     {
       "number": 111,
@@ -1994,7 +3094,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         112
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 65,
+        "def": 45,
+        "spd": 95,
+        "spa": 75,
+        "spdef": 45
+      },
+      "bst": 390,
+      "statsSource": "Pokerex"
     },
     {
       "number": 112,
@@ -2012,7 +3122,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         111
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 86,
+        "atk": 76,
+        "def": 86,
+        "spd": 95,
+        "spa": 116,
+        "spdef": 56
+      },
+      "bst": 515,
+      "statsSource": "Pokerex"
     },
     {
       "number": 113,
@@ -2030,7 +3150,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         114
-      ]
+      ],
+      "stats": {
+        "hp": 48,
+        "atk": 61,
+        "def": 40,
+        "spd": 50,
+        "spa": 61,
+        "spdef": 40
+      },
+      "bst": 300,
+      "statsSource": "Pokerex"
     },
     {
       "number": 114,
@@ -2048,7 +3178,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         113
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 83,
+        "atk": 106,
+        "def": 65,
+        "spd": 85,
+        "spa": 86,
+        "spdef": 65
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 115,
@@ -2066,7 +3206,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         116
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 45,
+        "def": 45,
+        "spd": 15,
+        "spa": 25,
+        "spdef": 25
+      },
+      "bst": 210,
+      "statsSource": "Pokerex"
     },
     {
       "number": 116,
@@ -2084,7 +3234,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         115
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 130,
+        "atk": 75,
+        "def": 60,
+        "spd": 20,
+        "spa": 45,
+        "spdef": 100
+      },
+      "bst": 430,
+      "statsSource": "Pokerex"
     },
     {
       "number": 117,
@@ -2101,7 +3261,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         118
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 65,
+        "def": 64,
+        "spd": 43,
+        "spa": 44,
+        "spdef": 48
+      },
+      "bst": 314,
+      "statsSource": "Pokerex"
     },
     {
       "number": 118,
@@ -2120,7 +3290,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         119
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 80,
+        "def": 80,
+        "spd": 58,
+        "spa": 59,
+        "spdef": 63
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 119,
@@ -2137,7 +3317,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         118
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 105,
+        "def": 100,
+        "spd": 78,
+        "spa": 79,
+        "spdef": 83
+      },
+      "bst": 530,
+      "statsSource": "Pokerex"
     },
     {
       "number": 120,
@@ -2155,7 +3345,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         121
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 40,
+        "def": 35,
+        "spd": 70,
+        "spa": 50,
+        "spdef": 100
+      },
+      "bst": 335,
+      "statsSource": "Pokerex"
     },
     {
       "number": 121,
@@ -2173,7 +3373,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         120
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 70,
+        "def": 65,
+        "spd": 100,
+        "spa": 80,
+        "spdef": 120
+      },
+      "bst": 515,
+      "statsSource": "Pokerex"
     },
     {
       "number": 122,
@@ -2190,7 +3400,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         123
-      ]
+      ],
+      "stats": {
+        "hp": 20,
+        "atk": 15,
+        "def": 20,
+        "spd": 80,
+        "spa": 10,
+        "spdef": 55
+      },
+      "bst": 200,
+      "statsSource": "Pokerex"
     },
     {
       "number": 123,
@@ -2207,7 +3427,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         122
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 60,
+        "def": 79,
+        "spd": 81,
+        "spa": 100,
+        "spdef": 125
+      },
+      "bst": 540,
+      "statsSource": "Pokerex"
     },
     {
       "number": 124,
@@ -2224,7 +3454,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         125
-      ]
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 92,
+        "def": 65,
+        "spd": 98,
+        "spa": 80,
+        "spdef": 55
+      },
+      "bst": 460,
+      "statsSource": "Pokerex"
     },
     {
       "number": 125,
@@ -2242,7 +3482,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         124
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 120,
+        "atk": 112,
+        "def": 65,
+        "spd": 78,
+        "spa": 80,
+        "spdef": 75
+      },
+      "bst": 530,
+      "statsSource": "Pokerex"
     },
     {
       "number": 126,
@@ -2260,7 +3510,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         127
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 50,
+        "def": 43,
+        "spd": 62,
+        "spa": 40,
+        "spdef": 38
+      },
+      "bst": 278,
+      "statsSource": "Pokerex"
     },
     {
       "number": 127,
@@ -2280,7 +3540,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         128
-      ]
+      ],
+      "stats": {
+        "hp": 62,
+        "atk": 73,
+        "def": 55,
+        "spd": 84,
+        "spa": 56,
+        "spdef": 52
+      },
+      "bst": 382,
+      "statsSource": "Pokerex"
     },
     {
       "number": 128,
@@ -2298,7 +3568,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         127
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 78,
+        "atk": 81,
+        "def": 71,
+        "spd": 126,
+        "spa": 74,
+        "spdef": 69
+      },
+      "bst": 499,
+      "statsSource": "Pokerex"
     },
     {
       "number": 129,
@@ -2318,7 +3598,17 @@ window.DREAMSTONE_DATA = {
         130,
         131,
         132
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 40,
+        "def": 80,
+        "spd": 20,
+        "spa": 40,
+        "spdef": 40
+      },
+      "bst": 260,
+      "statsSource": "Pokerex"
     },
     {
       "number": 130,
@@ -2336,7 +3626,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         129
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 110,
+        "def": 80,
+        "spd": 70,
+        "spa": 95,
+        "spdef": 60
+      },
+      "bst": 485,
+      "statsSource": "Pokerex"
     },
     {
       "number": 131,
@@ -2354,7 +3654,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         129
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 110,
+        "atk": 85,
+        "def": 80,
+        "spd": 30,
+        "spa": 100,
+        "spdef": 80
+      },
+      "bst": 485,
+      "statsSource": "Pokerex"
     },
     {
       "number": 132,
@@ -2374,7 +3684,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         133
-      ]
+      ],
+      "stats": {
+        "hp": 80,
+        "atk": 80,
+        "def": 110,
+        "spd": 40,
+        "spa": 95,
+        "spdef": 80
+      },
+      "bst": 485,
+      "statsSource": "Pokerex"
     },
     {
       "number": 133,
@@ -2392,7 +3712,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         132
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 106,
+        "atk": 80,
+        "def": 110,
+        "spd": 44,
+        "spa": 120,
+        "spdef": 80
+      },
+      "bst": 540,
+      "statsSource": "Pokerex"
     },
     {
       "number": 134,
@@ -2409,7 +3739,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         135
-      ]
+      ],
+      "stats": {
+        "hp": 44,
+        "atk": 75,
+        "def": 35,
+        "spd": 45,
+        "spa": 63,
+        "spdef": 33
+      },
+      "bst": 295,
+      "statsSource": "Pokerex"
     },
     {
       "number": 135,
@@ -2426,7 +3766,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         134
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 64,
+        "atk": 115,
+        "def": 65,
+        "spd": 65,
+        "spa": 83,
+        "spdef": 63
+      },
+      "bst": 455,
+      "statsSource": "Pokerex"
     },
     {
       "number": 136,
@@ -2443,7 +3793,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         137
-      ]
+      ],
+      "stats": {
+        "hp": 10,
+        "atk": 55,
+        "def": 25,
+        "spd": 95,
+        "spa": 35,
+        "spdef": 45
+      },
+      "bst": 265,
+      "statsSource": "Pokerex"
     },
     {
       "number": 137,
@@ -2460,7 +3820,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         136
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 35,
+        "atk": 100,
+        "def": 50,
+        "spd": 120,
+        "spa": 50,
+        "spdef": 70
+      },
+      "bst": 425,
+      "statsSource": "Pokerex"
     },
     {
       "number": 138,
@@ -2477,7 +3847,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         139
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 61,
+        "def": 60,
+        "spd": 34,
+        "spa": 30,
+        "spdef": 55
+      },
+      "bst": 290,
+      "statsSource": "Pokerex"
     },
     {
       "number": 139,
@@ -2494,7 +3874,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         138
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 72,
+        "atk": 101,
+        "def": 100,
+        "spd": 68,
+        "spa": 50,
+        "spdef": 97
+      },
+      "bst": 488,
+      "statsSource": "Pokerex"
     },
     {
       "number": 140,
@@ -2511,7 +3901,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         141
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 30,
+        "def": 50,
+        "spd": 45,
+        "spa": 65,
+        "spdef": 50
+      },
+      "bst": 285,
+      "statsSource": "Pokerex"
     },
     {
       "number": 141,
@@ -2528,7 +3928,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         140
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 50,
+        "def": 80,
+        "spd": 65,
+        "spa": 95,
+        "spdef": 90
+      },
+      "bst": 455,
+      "statsSource": "Pokerex"
     },
     {
       "number": 142,
@@ -2545,7 +3955,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         143
-      ]
+      ],
+      "stats": {
+        "hp": 73,
+        "atk": 95,
+        "def": 62,
+        "spd": 85,
+        "spa": 85,
+        "spdef": 65
+      },
+      "bst": 465,
+      "statsSource": "Pokerex"
     },
     {
       "number": 143,
@@ -2563,7 +3983,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         142
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 103,
+        "atk": 105,
+        "def": 72,
+        "spd": 65,
+        "spa": 105,
+        "spdef": 75
+      },
+      "bst": 525,
+      "statsSource": "Pokerex"
     },
     {
       "number": 144,
@@ -2580,7 +4010,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         145
-      ]
+      ],
+      "stats": {
+        "hp": 38,
+        "atk": 41,
+        "def": 40,
+        "spd": 65,
+        "spa": 50,
+        "spdef": 65
+      },
+      "bst": 299,
+      "statsSource": "Pokerex"
     },
     {
       "number": 145,
@@ -2598,7 +4038,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         144
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 73,
+        "atk": 67,
+        "def": 75,
+        "spd": 109,
+        "spa": 81,
+        "spdef": 100
+      },
+      "bst": 505,
+      "statsSource": "Pokerex"
     },
     {
       "number": 146,
@@ -2616,7 +4066,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         147
-      ]
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 83,
+        "def": 50,
+        "spd": 60,
+        "spa": 37,
+        "spdef": 50
+      },
+      "bst": 350,
+      "statsSource": "Pokerex"
     },
     {
       "number": 147,
@@ -2634,7 +4094,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         146
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 110,
+        "atk": 83,
+        "def": 70,
+        "spd": 65,
+        "spa": 112,
+        "spdef": 70
+      },
+      "bst": 510,
+      "statsSource": "Pokerex"
     },
     {
       "number": 148,
@@ -2651,7 +4121,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         149
-      ]
+      ],
+      "stats": {
+        "hp": 38,
+        "atk": 35,
+        "def": 40,
+        "spd": 35,
+        "spa": 27,
+        "spdef": 25
+      },
+      "bst": 200,
+      "statsSource": "Pokerex"
     },
     {
       "number": 149,
@@ -2670,7 +4150,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         150
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 22,
+        "def": 60,
+        "spd": 29,
+        "spa": 27,
+        "spdef": 30
+      },
+      "bst": 213,
+      "statsSource": "Pokerex"
     },
     {
       "number": 150,
@@ -2688,7 +4178,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         149
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 52,
+        "def": 50,
+        "spd": 89,
+        "spa": 90,
+        "spdef": 50
+      },
+      "bst": 411,
+      "statsSource": "Pokerex"
     },
     {
       "number": 151,
@@ -2705,7 +4205,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         152
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 69,
+        "def": 85,
+        "spd": 28,
+        "spa": 32,
+        "spdef": 35
+      },
+      "bst": 304,
+      "statsSource": "Pokerex"
     },
     {
       "number": 152,
@@ -2723,7 +4233,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         151
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 127,
+        "def": 184,
+        "spd": 38,
+        "spa": 34,
+        "spdef": 36
+      },
+      "bst": 514,
+      "statsSource": "Pokerex"
     },
     {
       "number": 153,
@@ -2741,7 +4261,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         154
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 75,
+        "def": 90,
+        "spd": 40,
+        "spa": 10,
+        "spdef": 35
+      },
+      "bst": 300,
+      "statsSource": "Pokerex"
     },
     {
       "number": 154,
@@ -2759,7 +4289,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         153
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 100,
+        "def": 120,
+        "spd": 65,
+        "spa": 25,
+        "spdef": 65
+      },
+      "bst": 450,
+      "statsSource": "Pokerex"
     },
     {
       "number": 155,
@@ -2777,7 +4317,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         156
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 40,
+        "spd": 50,
+        "spa": 30,
+        "spdef": 30
+      },
+      "bst": 250,
+      "statsSource": "Pokerex"
     },
     {
       "number": 156,
@@ -2797,7 +4347,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         157
-      ]
+      ],
+      "stats": {
+        "hp": 100,
+        "atk": 100,
+        "def": 80,
+        "spd": 50,
+        "spa": 60,
+        "spdef": 60
+      },
+      "bst": 450,
+      "statsSource": "Pokerex"
     },
     {
       "number": 157,
@@ -2815,7 +4375,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         156
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 110,
+        "atk": 130,
+        "def": 80,
+        "spd": 80,
+        "spa": 70,
+        "spdef": 60
+      },
+      "bst": 530,
+      "statsSource": "Pokerex"
     },
     {
       "number": 158,
@@ -2833,7 +4403,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         159
-      ]
+      ],
+      "stats": {
+        "hp": 48,
+        "atk": 35,
+        "def": 42,
+        "spd": 60,
+        "spa": 105,
+        "spdef": 60
+      },
+      "bst": 350,
+      "statsSource": "Pokerex"
     },
     {
       "number": 159,
@@ -2851,7 +4431,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         158
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 83,
+        "atk": 55,
+        "def": 90,
+        "spd": 86,
+        "spa": 130,
+        "spdef": 81
+      },
+      "bst": 525,
+      "statsSource": "Pokerex"
     },
     {
       "number": 160,
@@ -2868,7 +4458,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         161
-      ]
+      ],
+      "stats": {
+        "hp": 108,
+        "atk": 68,
+        "def": 45,
+        "spd": 43,
+        "spa": 30,
+        "spdef": 40
+      },
+      "bst": 334,
+      "statsSource": "Pokerex"
     },
     {
       "number": 161,
@@ -2885,7 +4485,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         160
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 170,
+        "atk": 113,
+        "def": 65,
+        "spd": 73,
+        "spa": 45,
+        "spdef": 55
+      },
+      "bst": 521,
+      "statsSource": "Pokerex"
     },
     {
       "number": 162,
@@ -2901,7 +4511,17 @@ window.DREAMSTONE_DATA = {
         "flying"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 60,
+        "def": 100,
+        "spd": 60,
+        "spa": 60,
+        "spdef": 100
+      },
+      "bst": 440,
+      "statsSource": "Pokerex"
     },
     {
       "number": 163,
@@ -2919,7 +4539,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         164
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 75,
+        "def": 45,
+        "spd": 55,
+        "spa": 35,
+        "spdef": 45
+      },
+      "bst": 320,
+      "statsSource": "Pokerex"
     },
     {
       "number": 164,
@@ -2939,7 +4569,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         165
-      ]
+      ],
+      "stats": {
+        "hp": 90,
+        "atk": 95,
+        "def": 66,
+        "spd": 62,
+        "spa": 45,
+        "spdef": 65
+      },
+      "bst": 423,
+      "statsSource": "Pokerex"
     },
     {
       "number": 165,
@@ -2957,7 +4597,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         164
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 115,
+        "atk": 145,
+        "def": 92,
+        "spd": 87,
+        "spa": 75,
+        "spdef": 86
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 166,
@@ -2974,7 +4624,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         167
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 65,
+        "def": 55,
+        "spd": 40,
+        "spa": 40,
+        "spdef": 40
+      },
+      "bst": 290,
+      "statsSource": "Pokerex"
     },
     {
       "number": 167,
@@ -2991,7 +4651,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         166
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 110,
+        "def": 100,
+        "spd": 50,
+        "spa": 50,
+        "spdef": 60
+      },
+      "bst": 440,
+      "statsSource": "Pokerex"
     },
     {
       "number": 168,
@@ -3009,7 +4679,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         169
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 95,
+        "def": 55,
+        "spd": 115,
+        "spa": 35,
+        "spdef": 75
+      },
+      "bst": 430,
+      "statsSource": "Pokerex"
     },
     {
       "number": 169,
@@ -3027,7 +4707,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         168
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 130,
+        "def": 60,
+        "spd": 120,
+        "spa": 40,
+        "spdef": 80
+      },
+      "bst": 510,
+      "statsSource": "Pokerex"
     },
     {
       "number": 170,
@@ -3045,7 +4735,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         171
-      ]
+      ],
+      "stats": {
+        "hp": 20,
+        "atk": 25,
+        "def": 45,
+        "spd": 60,
+        "spa": 70,
+        "spdef": 90
+      },
+      "bst": 310,
+      "statsSource": "Pokerex"
     },
     {
       "number": 171,
@@ -3065,7 +4765,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         172
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 65,
+        "def": 65,
+        "spd": 100,
+        "spa": 90,
+        "spdef": 90
+      },
+      "bst": 460,
+      "statsSource": "Pokerex"
     },
     {
       "number": 172,
@@ -3083,7 +4793,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         171
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 85,
+        "def": 75,
+        "spd": 70,
+        "spa": 110,
+        "spdef": 100
+      },
+      "bst": 520,
+      "statsSource": "Pokerex"
     },
     {
       "number": 173,
@@ -3100,7 +4820,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         174
-      ]
+      ],
+      "stats": {
+        "hp": 35,
+        "atk": 20,
+        "def": 65,
+        "spd": 20,
+        "spa": 40,
+        "spdef": 65
+      },
+      "bst": 245,
+      "statsSource": "Pokerex"
     },
     {
       "number": 174,
@@ -3120,7 +4850,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         175
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 40,
+        "def": 85,
+        "spd": 40,
+        "spa": 80,
+        "spdef": 105
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 175,
@@ -3138,7 +4878,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         174
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 50,
+        "def": 95,
+        "spd": 80,
+        "spa": 120,
+        "spdef": 115
+      },
+      "bst": 545,
+      "statsSource": "Pokerex"
     },
     {
       "number": 176,
@@ -3154,7 +4904,17 @@ window.DREAMSTONE_DATA = {
         "fairy"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 50,
+        "atk": 85,
+        "def": 85,
+        "spd": 50,
+        "spa": 55,
+        "spdef": 55
+      },
+      "bst": 380,
+      "statsSource": "Pokerex"
     },
     {
       "number": 177,
@@ -3170,7 +4930,17 @@ window.DREAMSTONE_DATA = {
         "fairy"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 150,
+        "spd": 50,
+        "spa": 50,
+        "spdef": 150
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 178,
@@ -3188,7 +4958,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         179
-      ]
+      ],
+      "stats": {
+        "hp": 28,
+        "atk": 60,
+        "def": 30,
+        "spd": 82,
+        "spa": 40,
+        "spdef": 30
+      },
+      "bst": 270,
+      "statsSource": "Pokerex"
     },
     {
       "number": 179,
@@ -3208,7 +4988,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         180
-      ]
+      ],
+      "stats": {
+        "hp": 68,
+        "atk": 80,
+        "def": 50,
+        "spd": 102,
+        "spa": 60,
+        "spdef": 50
+      },
+      "bst": 410,
+      "statsSource": "Pokerex"
     },
     {
       "number": 180,
@@ -3226,7 +5016,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         179
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 88,
+        "atk": 120,
+        "def": 75,
+        "spd": 142,
+        "spa": 100,
+        "spdef": 75
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 181,
@@ -3242,7 +5042,17 @@ window.DREAMSTONE_DATA = {
         "ghost"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 50,
+        "atk": 75,
+        "def": 75,
+        "spd": 50,
+        "spa": 65,
+        "spdef": 65
+      },
+      "bst": 380,
+      "statsSource": "Pokerex"
     },
     {
       "number": 182,
@@ -3257,7 +5067,17 @@ window.DREAMSTONE_DATA = {
         "normal"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 48,
+        "atk": 48,
+        "def": 48,
+        "spd": 48,
+        "spa": 48,
+        "spdef": 48
+      },
+      "bst": 288,
+      "statsSource": "Pokerex"
     },
     {
       "number": 183,
@@ -3273,7 +5093,17 @@ window.DREAMSTONE_DATA = {
         "ghost"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 77,
+        "spd": 91,
+        "spa": 95,
+        "spdef": 77
+      },
+      "bst": 440,
+      "statsSource": "Pokerex"
     },
     {
       "number": 184,
@@ -3291,7 +5121,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         185
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 30,
+        "def": 55,
+        "spd": 20,
+        "spa": 65,
+        "spdef": 55
+      },
+      "bst": 275,
+      "statsSource": "Pokerex"
     },
     {
       "number": 185,
@@ -3311,7 +5151,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         186
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 40,
+        "def": 60,
+        "spd": 55,
+        "spa": 95,
+        "spdef": 60
+      },
+      "bst": 370,
+      "statsSource": "Pokerex"
     },
     {
       "number": 186,
@@ -3329,7 +5179,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         185
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 55,
+        "def": 90,
+        "spd": 80,
+        "spa": 145,
+        "spdef": 90
+      },
+      "bst": 520,
+      "statsSource": "Pokerex"
     },
     {
       "number": 187,
@@ -3346,7 +5206,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         188
-      ]
+      ],
+      "stats": {
+        "hp": 67,
+        "atk": 82,
+        "def": 62,
+        "spd": 43,
+        "spa": 46,
+        "spdef": 48
+      },
+      "bst": 348,
+      "statsSource": "Pokerex"
     },
     {
       "number": 188,
@@ -3364,7 +5234,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         187
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 124,
+        "def": 78,
+        "spd": 58,
+        "spa": 69,
+        "spdef": 71
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 189,
@@ -3380,7 +5260,17 @@ window.DREAMSTONE_DATA = {
         "psychic"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 90,
+        "atk": 60,
+        "def": 80,
+        "spd": 60,
+        "spa": 90,
+        "spdef": 110
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 190,
@@ -3395,7 +5285,17 @@ window.DREAMSTONE_DATA = {
         "fighting"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 100,
+        "atk": 120,
+        "def": 90,
+        "spd": 80,
+        "spa": 40,
+        "spdef": 60
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 191,
@@ -3413,7 +5313,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         192
-      ]
+      ],
+      "stats": {
+        "hp": 28,
+        "atk": 25,
+        "def": 25,
+        "spd": 40,
+        "spa": 45,
+        "spdef": 35
+      },
+      "bst": 198,
+      "statsSource": "Pokerex"
     },
     {
       "number": 192,
@@ -3434,7 +5344,17 @@ window.DREAMSTONE_DATA = {
       "evolvesTo": [
         193,
         194
-      ]
+      ],
+      "stats": {
+        "hp": 38,
+        "atk": 35,
+        "def": 35,
+        "spd": 50,
+        "spa": 65,
+        "spdef": 55
+      },
+      "bst": 278,
+      "statsSource": "Pokerex"
     },
     {
       "number": 193,
@@ -3452,7 +5372,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         192
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 68,
+        "atk": 65,
+        "def": 65,
+        "spd": 80,
+        "spa": 125,
+        "spdef": 115
+      },
+      "bst": 518,
+      "statsSource": "Pokerex"
     },
     {
       "number": 194,
@@ -3470,7 +5400,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         192
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 68,
+        "atk": 125,
+        "def": 65,
+        "spd": 80,
+        "spa": 65,
+        "spdef": 115
+      },
+      "bst": 518,
+      "statsSource": "Pokerex"
     },
     {
       "number": 195,
@@ -3488,7 +5428,17 @@ window.DREAMSTONE_DATA = {
       "evolvesTo": [
         196,
         197
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 50,
+        "def": 40,
+        "spd": 35,
+        "spa": 50,
+        "spdef": 40
+      },
+      "bst": 255,
+      "statsSource": "Pokerex"
     },
     {
       "number": 196,
@@ -3506,7 +5456,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         195
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 125,
+        "def": 80,
+        "spd": 85,
+        "spa": 60,
+        "spdef": 100
+      },
+      "bst": 525,
+      "statsSource": "Pokerex"
     },
     {
       "number": 197,
@@ -3524,7 +5484,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         195
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 60,
+        "def": 100,
+        "spd": 75,
+        "spa": 125,
+        "spdef": 80
+      },
+      "bst": 525,
+      "statsSource": "Pokerex"
     },
     {
       "number": 198,
@@ -3541,7 +5511,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         199
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 40,
+        "def": 40,
+        "spd": 35,
+        "spa": 65,
+        "spdef": 45
+      },
+      "bst": 280,
+      "statsSource": "Pokerex"
     },
     {
       "number": 199,
@@ -3560,7 +5540,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         200
-      ]
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 55,
+        "def": 55,
+        "spd": 45,
+        "spa": 80,
+        "spdef": 60
+      },
+      "bst": 365,
+      "statsSource": "Pokerex"
     },
     {
       "number": 200,
@@ -3577,7 +5567,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         199
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 90,
+        "atk": 75,
+        "def": 85,
+        "spd": 55,
+        "spa": 115,
+        "spdef": 90
+      },
+      "bst": 510,
+      "statsSource": "Pokerex"
     },
     {
       "number": 201,
@@ -3595,7 +5595,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         202
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 70,
+        "def": 63,
+        "spd": 47,
+        "spa": 30,
+        "spdef": 45
+      },
+      "bst": 300,
+      "statsSource": "Pokerex"
     },
     {
       "number": 202,
@@ -3613,7 +5623,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         201
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 119,
+        "def": 90,
+        "spd": 90,
+        "spa": 54,
+        "spdef": 67
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 203,
@@ -3630,7 +5650,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         204
-      ]
+      ],
+      "stats": {
+        "hp": 49,
+        "atk": 49,
+        "def": 56,
+        "spd": 66,
+        "spa": 49,
+        "spdef": 61
+      },
+      "bst": 330,
+      "statsSource": "Pokerex"
     },
     {
       "number": 204,
@@ -3647,7 +5677,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         203
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 69,
+        "atk": 69,
+        "def": 76,
+        "spd": 91,
+        "spa": 69,
+        "spdef": 86
+      },
+      "bst": 460,
+      "statsSource": "Pokerex"
     },
     {
       "number": 205,
@@ -3663,7 +5703,17 @@ window.DREAMSTONE_DATA = {
         "flying"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 65,
+        "atk": 80,
+        "def": 140,
+        "spd": 70,
+        "spa": 40,
+        "spdef": 70
+      },
+      "bst": 465,
+      "statsSource": "Pokerex"
     },
     {
       "number": 206,
@@ -3681,7 +5731,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         207
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 80,
+        "def": 100,
+        "spd": 28,
+        "spa": 35,
+        "spdef": 37
+      },
+      "bst": 325,
+      "statsSource": "Pokerex"
     },
     {
       "number": 207,
@@ -3701,7 +5761,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         208
-      ]
+      ],
+      "stats": {
+        "hp": 59,
+        "atk": 110,
+        "def": 150,
+        "spd": 35,
+        "spa": 45,
+        "spdef": 49
+      },
+      "bst": 448,
+      "statsSource": "Pokerex"
     },
     {
       "number": 208,
@@ -3719,7 +5789,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         207
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 50,
+        "def": 140,
+        "spd": 60,
+        "spa": 50,
+        "spdef": 140
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 209,
@@ -3738,7 +5818,17 @@ window.DREAMSTONE_DATA = {
       "evolvesTo": [
         210,
         211
-      ]
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 110,
+        "def": 80,
+        "spd": 105,
+        "spa": 55,
+        "spdef": 80
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 210,
@@ -3756,7 +5846,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         209
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 130,
+        "def": 100,
+        "spd": 65,
+        "spa": 55,
+        "spdef": 80
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 211,
@@ -3774,7 +5874,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         209
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 135,
+        "def": 95,
+        "spd": 85,
+        "spa": 45,
+        "spdef": 70
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 212,
@@ -3789,7 +5899,17 @@ window.DREAMSTONE_DATA = {
         "normal"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 105,
+        "atk": 95,
+        "def": 80,
+        "spd": 90,
+        "spa": 40,
+        "spdef": 80
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 213,
@@ -3804,7 +5924,17 @@ window.DREAMSTONE_DATA = {
         "bug"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 65,
+        "atk": 125,
+        "def": 100,
+        "spd": 85,
+        "spa": 55,
+        "spdef": 70
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 214,
@@ -3819,7 +5949,17 @@ window.DREAMSTONE_DATA = {
         "normal"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 80,
+        "def": 60,
+        "spd": 102,
+        "spa": 65,
+        "spdef": 90
+      },
+      "bst": 472,
+      "statsSource": "Pokerex"
     },
     {
       "number": 215,
@@ -3835,7 +5975,17 @@ window.DREAMSTONE_DATA = {
         "dark"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 103,
+        "def": 85,
+        "spd": 82,
+        "spa": 60,
+        "spdef": 85
+      },
+      "bst": 485,
+      "statsSource": "Pokerex"
     },
     {
       "number": 216,
@@ -3852,7 +6002,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         217
-      ]
+      ],
+      "stats": {
+        "hp": 41,
+        "atk": 63,
+        "def": 40,
+        "spd": 66,
+        "spa": 40,
+        "spdef": 30
+      },
+      "bst": 280,
+      "statsSource": "Pokerex"
     },
     {
       "number": 217,
@@ -3869,7 +6029,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         216
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 61,
+        "atk": 123,
+        "def": 60,
+        "spd": 136,
+        "spa": 60,
+        "spdef": 50
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 218,
@@ -3885,7 +6055,17 @@ window.DREAMSTONE_DATA = {
         "psychic"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 68,
+        "atk": 105,
+        "def": 70,
+        "spd": 92,
+        "spa": 70,
+        "spdef": 70
+      },
+      "bst": 475,
+      "statsSource": "Pokerex"
     },
     {
       "number": 219,
@@ -3903,7 +6083,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         220
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 90,
+        "def": 20,
+        "spd": 65,
+        "spa": 65,
+        "spdef": 20
+      },
+      "bst": 305,
+      "statsSource": "Pokerex"
     },
     {
       "number": 220,
@@ -3921,7 +6111,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         219
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 120,
+        "def": 40,
+        "spd": 95,
+        "spa": 95,
+        "spdef": 40
+      },
+      "bst": 460,
+      "statsSource": "Pokerex"
     },
     {
       "number": 221,
@@ -3939,7 +6139,17 @@ window.DREAMSTONE_DATA = {
       "evolvesTo": [
         222,
         223
-      ]
+      ],
+      "stats": {
+        "hp": 90,
+        "atk": 65,
+        "def": 65,
+        "spd": 15,
+        "spa": 40,
+        "spdef": 40
+      },
+      "bst": 315,
+      "statsSource": "Pokerex"
     },
     {
       "number": 222,
@@ -3957,7 +6167,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         221
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 100,
+        "def": 95,
+        "spd": 30,
+        "spa": 100,
+        "spdef": 70
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 223,
@@ -3975,7 +6195,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         221
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 65,
+        "def": 80,
+        "spd": 30,
+        "spa": 110,
+        "spdef": 110
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 224,
@@ -3992,7 +6222,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         225
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 55,
+        "def": 45,
+        "spd": 45,
+        "spa": 63,
+        "spdef": 45
+      },
+      "bst": 308,
+      "statsSource": "Pokerex"
     },
     {
       "number": 225,
@@ -4011,7 +6251,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         226
-      ]
+      ],
+      "stats": {
+        "hp": 75,
+        "atk": 75,
+        "def": 60,
+        "spd": 60,
+        "spa": 83,
+        "spdef": 60
+      },
+      "bst": 413,
+      "statsSource": "Pokerex"
     },
     {
       "number": 226,
@@ -4028,7 +6278,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         225
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 100,
+        "def": 85,
+        "spd": 70,
+        "spa": 108,
+        "spdef": 70
+      },
+      "bst": 528,
+      "statsSource": "Pokerex"
     },
     {
       "number": 227,
@@ -4045,7 +6305,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         228
-      ]
+      ],
+      "stats": {
+        "hp": 35,
+        "atk": 55,
+        "def": 40,
+        "spd": 60,
+        "spa": 45,
+        "spdef": 40
+      },
+      "bst": 275,
+      "statsSource": "Pokerex"
     },
     {
       "number": 228,
@@ -4064,7 +6334,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         229
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 85,
+        "def": 70,
+        "spd": 40,
+        "spa": 75,
+        "spdef": 70
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 229,
@@ -4081,7 +6361,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         228
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 85,
+        "atk": 115,
+        "def": 80,
+        "spd": 50,
+        "spa": 105,
+        "spdef": 80
+      },
+      "bst": 515,
+      "statsSource": "Pokerex"
     },
     {
       "number": 230,
@@ -4099,7 +6389,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         231
-      ]
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 55,
+        "def": 95,
+        "spd": 35,
+        "spa": 65,
+        "spdef": 95
+      },
+      "bst": 410,
+      "statsSource": "Pokerex"
     },
     {
       "number": 231,
@@ -4116,7 +6416,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         230
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 95,
+        "def": 50,
+        "spd": 30,
+        "spa": 145,
+        "spdef": 130
+      },
+      "bst": 510,
+      "statsSource": "Pokerex"
     },
     {
       "number": 232,
@@ -4134,7 +6444,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         233
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 53,
+        "def": 62,
+        "spd": 45,
+        "spa": 43,
+        "spdef": 52
+      },
+      "bst": 305,
+      "statsSource": "Pokerex"
     },
     {
       "number": 233,
@@ -4152,7 +6472,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         232
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 50,
+        "atk": 63,
+        "def": 152,
+        "spd": 35,
+        "spa": 53,
+        "spdef": 142
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 234,
@@ -4170,7 +6500,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         235
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 30,
+        "def": 50,
+        "spd": 100,
+        "spa": 55,
+        "spdef": 55
+      },
+      "bst": 330,
+      "statsSource": "Pokerex"
     },
     {
       "number": 235,
@@ -4188,7 +6528,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         234
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 50,
+        "def": 70,
+        "spd": 150,
+        "spa": 80,
+        "spdef": 80
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 236,
@@ -4205,7 +6555,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         237
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 45,
+        "def": 40,
+        "spd": 65,
+        "spa": 65,
+        "spdef": 40
+      },
+      "bst": 295,
+      "statsSource": "Pokerex"
     },
     {
       "number": 237,
@@ -4222,7 +6582,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         236
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 75,
+        "def": 60,
+        "spd": 105,
+        "spa": 105,
+        "spdef": 60
+      },
+      "bst": 475,
+      "statsSource": "Pokerex"
     },
     {
       "number": 238,
@@ -4239,7 +6609,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         239
-      ]
+      ],
+      "stats": {
+        "hp": 59,
+        "atk": 45,
+        "def": 50,
+        "spd": 26,
+        "spa": 40,
+        "spdef": 50
+      },
+      "bst": 270,
+      "statsSource": "Pokerex"
     },
     {
       "number": 239,
@@ -4256,7 +6636,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         238
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 69,
+        "atk": 90,
+        "def": 60,
+        "spd": 121,
+        "spa": 90,
+        "spdef": 60
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 240,
@@ -4274,7 +6664,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         241
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 80,
+        "def": 100,
+        "spd": 20,
+        "spa": 30,
+        "spdef": 30
+      },
+      "bst": 300,
+      "statsSource": "Pokerex"
     },
     {
       "number": 241,
@@ -4294,7 +6694,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         242
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 95,
+        "def": 115,
+        "spd": 35,
+        "spa": 45,
+        "spdef": 45
+      },
+      "bst": 390,
+      "statsSource": "Pokerex"
     },
     {
       "number": 242,
@@ -4312,7 +6722,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         241
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 120,
+        "def": 130,
+        "spd": 45,
+        "spa": 55,
+        "spdef": 65
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 243,
@@ -4330,7 +6750,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         244
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 60,
+        "def": 30,
+        "spd": 65,
+        "spa": 80,
+        "spdef": 50
+      },
+      "bst": 330,
+      "statsSource": "Pokerex"
     },
     {
       "number": 244,
@@ -4348,7 +6778,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         243
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 90,
+        "def": 50,
+        "spd": 95,
+        "spa": 110,
+        "spdef": 80
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 245,
@@ -4365,7 +6805,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         246
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 85,
+        "def": 55,
+        "spd": 90,
+        "spa": 65,
+        "spdef": 65
+      },
+      "bst": 410,
+      "statsSource": "Pokerex"
     },
     {
       "number": 246,
@@ -4383,7 +6833,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         245
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 65,
+        "atk": 100,
+        "def": 70,
+        "spd": 105,
+        "spa": 80,
+        "spdef": 80
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 247,
@@ -4400,7 +6860,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         248
-      ]
+      ],
+      "stats": {
+        "hp": 42,
+        "atk": 40,
+        "def": 55,
+        "spd": 48,
+        "spa": 40,
+        "spdef": 45
+      },
+      "bst": 270,
+      "statsSource": "Pokerex"
     },
     {
       "number": 248,
@@ -4417,7 +6887,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         247
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 72,
+        "atk": 80,
+        "def": 100,
+        "spd": 88,
+        "spa": 60,
+        "spdef": 90
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 249,
@@ -4435,7 +6915,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         250
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 30,
+        "def": 30,
+        "spd": 85,
+        "spa": 55,
+        "spdef": 30
+      },
+      "bst": 270,
+      "statsSource": "Pokerex"
     },
     {
       "number": 250,
@@ -4453,7 +6943,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         249
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 50,
+        "def": 100,
+        "spd": 65,
+        "spa": 95,
+        "spdef": 70
+      },
+      "bst": 440,
+      "statsSource": "Pokerex"
     },
     {
       "number": 251,
@@ -4470,7 +6970,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         252
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 50,
+        "def": 35,
+        "spd": 40,
+        "spa": 55,
+        "spdef": 75
+      },
+      "bst": 300,
+      "statsSource": "Pokerex"
     },
     {
       "number": 252,
@@ -4490,7 +7000,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         253
-      ]
+      ],
+      "stats": {
+        "hp": 58,
+        "atk": 75,
+        "def": 83,
+        "spd": 40,
+        "spa": 83,
+        "spdef": 113
+      },
+      "bst": 452,
+      "statsSource": "Pokerex"
     },
     {
       "number": 253,
@@ -4508,7 +7028,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         252
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 100,
+        "def": 100,
+        "spd": 60,
+        "spa": 110,
+        "spdef": 150
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 254,
@@ -4525,7 +7055,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         255
-      ]
+      ],
+      "stats": {
+        "hp": 44,
+        "atk": 48,
+        "def": 65,
+        "spd": 43,
+        "spa": 50,
+        "spdef": 64
+      },
+      "bst": 314,
+      "statsSource": "Pokerex"
     },
     {
       "number": 255,
@@ -4544,7 +7084,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         256
-      ]
+      ],
+      "stats": {
+        "hp": 59,
+        "atk": 63,
+        "def": 80,
+        "spd": 58,
+        "spa": 65,
+        "spdef": 80
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 256,
@@ -4561,7 +7111,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         255
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 79,
+        "atk": 83,
+        "def": 100,
+        "spd": 78,
+        "spa": 85,
+        "spdef": 105
+      },
+      "bst": 530,
+      "statsSource": "Pokerex"
     },
     {
       "number": 257,
@@ -4578,7 +7138,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         258
-      ]
+      ],
+      "stats": {
+        "hp": 39,
+        "atk": 52,
+        "def": 43,
+        "spd": 65,
+        "spa": 60,
+        "spdef": 50
+      },
+      "bst": 309,
+      "statsSource": "Pokerex"
     },
     {
       "number": 258,
@@ -4597,7 +7167,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         259
-      ]
+      ],
+      "stats": {
+        "hp": 58,
+        "atk": 64,
+        "def": 58,
+        "spd": 80,
+        "spa": 80,
+        "spdef": 65
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 259,
@@ -4615,7 +7195,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         258
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 78,
+        "atk": 84,
+        "def": 78,
+        "spd": 100,
+        "spa": 109,
+        "spdef": 85
+      },
+      "bst": 534,
+      "statsSource": "Pokerex"
     },
     {
       "number": 260,
@@ -4633,7 +7223,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         261
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 49,
+        "def": 49,
+        "spd": 45,
+        "spa": 65,
+        "spdef": 65
+      },
+      "bst": 318,
+      "statsSource": "Pokerex"
     },
     {
       "number": 261,
@@ -4653,7 +7253,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         262
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 62,
+        "def": 63,
+        "spd": 60,
+        "spa": 80,
+        "spdef": 80
+      },
+      "bst": 405,
+      "statsSource": "Pokerex"
     },
     {
       "number": 262,
@@ -4671,7 +7281,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         261
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 82,
+        "def": 83,
+        "spd": 80,
+        "spa": 100,
+        "spdef": 100
+      },
+      "bst": 525,
+      "statsSource": "Pokerex"
     },
     {
       "number": 263,
@@ -4688,7 +7308,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         264
-      ]
+      ],
+      "stats": {
+        "hp": 45,
+        "atk": 55,
+        "def": 65,
+        "spd": 45,
+        "spa": 45,
+        "spdef": 45
+      },
+      "bst": 300,
+      "statsSource": "Pokerex"
     },
     {
       "number": 264,
@@ -4708,7 +7338,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         265
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 75,
+        "def": 90,
+        "spd": 65,
+        "spa": 65,
+        "spdef": 70
+      },
+      "bst": 420,
+      "statsSource": "Pokerex"
     },
     {
       "number": 265,
@@ -4726,7 +7366,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         264
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 110,
+        "def": 125,
+        "spd": 85,
+        "spa": 100,
+        "spdef": 105
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 266,
@@ -4744,7 +7394,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         267
-      ]
+      ],
+      "stats": {
+        "hp": 30,
+        "atk": 25,
+        "def": 35,
+        "spd": 20,
+        "spa": 45,
+        "spdef": 30
+      },
+      "bst": 185,
+      "statsSource": "Pokerex"
     },
     {
       "number": 267,
@@ -4762,7 +7422,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         266
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 65,
+        "def": 60,
+        "spd": 65,
+        "spa": 125,
+        "spdef": 90
+      },
+      "bst": 475,
+      "statsSource": "Pokerex"
     },
     {
       "number": 268,
@@ -4780,7 +7450,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         269
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 40,
+        "def": 35,
+        "spd": 70,
+        "spa": 55,
+        "spdef": 40
+      },
+      "bst": 280,
+      "statsSource": "Pokerex"
     },
     {
       "number": 269,
@@ -4798,7 +7478,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         268
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 70,
+        "def": 60,
+        "spd": 125,
+        "spa": 105,
+        "spdef": 60
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 270,
@@ -4816,7 +7506,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         271
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 55,
+        "def": 80,
+        "spd": 30,
+        "spa": 35,
+        "spdef": 60
+      },
+      "bst": 300,
+      "statsSource": "Pokerex"
     },
     {
       "number": 271,
@@ -4836,7 +7536,17 @@ window.DREAMSTONE_DATA = {
       ],
       "evolvesTo": [
         272
-      ]
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 75,
+        "def": 100,
+        "spd": 50,
+        "spa": 55,
+        "spdef": 80
+      },
+      "bst": 420,
+      "statsSource": "Pokerex"
     },
     {
       "number": 272,
@@ -4854,7 +7564,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         271
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 135,
+        "def": 130,
+        "spd": 70,
+        "spa": 95,
+        "spdef": 90
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 273,
@@ -4869,7 +7589,17 @@ window.DREAMSTONE_DATA = {
         "dark"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 65,
+        "atk": 130,
+        "def": 60,
+        "spd": 75,
+        "spa": 75,
+        "spdef": 60
+      },
+      "bst": 465,
+      "statsSource": "Pokerex"
     },
     {
       "number": 274,
@@ -4884,7 +7614,17 @@ window.DREAMSTONE_DATA = {
         "fighting"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 110,
+        "def": 105,
+        "spd": 100,
+        "spa": 30,
+        "spdef": 70
+      },
+      "bst": 490,
+      "statsSource": "Pokerex"
     },
     {
       "number": 275,
@@ -4902,7 +7642,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         276
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 30,
+        "def": 32,
+        "spd": 65,
+        "spa": 50,
+        "spdef": 52
+      },
+      "bst": 269,
+      "statsSource": "Pokerex"
     },
     {
       "number": 276,
@@ -4920,7 +7670,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         275
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 60,
+        "def": 62,
+        "spd": 80,
+        "spa": 100,
+        "spdef": 82
+      },
+      "bst": 454,
+      "statsSource": "Pokerex"
     },
     {
       "number": 277,
@@ -4937,7 +7697,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         278
-      ]
+      ],
+      "stats": {
+        "hp": 50,
+        "atk": 53,
+        "def": 62,
+        "spd": 44,
+        "spa": 58,
+        "spdef": 63
+      },
+      "bst": 330,
+      "statsSource": "Pokerex"
     },
     {
       "number": 278,
@@ -4954,7 +7724,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         277
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 71,
+        "atk": 73,
+        "def": 88,
+        "spd": 59,
+        "spa": 120,
+        "spdef": 89
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 279,
@@ -4969,7 +7749,17 @@ window.DREAMSTONE_DATA = {
         "water"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 165,
+        "atk": 75,
+        "def": 80,
+        "spd": 65,
+        "spa": 40,
+        "spdef": 45
+      },
+      "bst": 470,
+      "statsSource": "Pokerex"
     },
     {
       "number": 280,
@@ -4986,7 +7776,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         281
-      ]
+      ],
+      "stats": {
+        "hp": 20,
+        "atk": 10,
+        "def": 55,
+        "spd": 80,
+        "spa": 15,
+        "spdef": 20
+      },
+      "bst": 200,
+      "statsSource": "Pokerex"
     },
     {
       "number": 281,
@@ -5004,7 +7804,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         280
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 95,
+        "atk": 125,
+        "def": 79,
+        "spd": 81,
+        "spa": 60,
+        "spdef": 100
+      },
+      "bst": 540,
+      "statsSource": "Pokerex"
     },
     {
       "number": 282,
@@ -5020,7 +7830,17 @@ window.DREAMSTONE_DATA = {
         "dark"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 50,
+        "atk": 92,
+        "def": 108,
+        "spd": 35,
+        "spa": 92,
+        "spdef": 108
+      },
+      "bst": 485,
+      "statsSource": "Pokerex"
     },
     {
       "number": 283,
@@ -5038,7 +7858,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         284
-      ]
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 40,
+        "def": 55,
+        "spd": 55,
+        "spa": 40,
+        "spdef": 70
+      },
+      "bst": 300,
+      "statsSource": "Pokerex"
     },
     {
       "number": 284,
@@ -5056,7 +7886,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         283
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 70,
+        "def": 105,
+        "spd": 75,
+        "spa": 70,
+        "spdef": 120
+      },
+      "bst": 500,
+      "statsSource": "Pokerex"
     },
     {
       "number": 285,
@@ -5072,7 +7912,17 @@ window.DREAMSTONE_DATA = {
         "grass"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 131,
+        "def": 100,
+        "spd": 40,
+        "spa": 86,
+        "spdef": 90
+      },
+      "bst": 517,
+      "statsSource": "Pokerex"
     },
     {
       "number": 286,
@@ -5088,7 +7938,17 @@ window.DREAMSTONE_DATA = {
         "fairy"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 55,
+        "atk": 90,
+        "def": 80,
+        "spd": 96,
+        "spa": 50,
+        "spdef": 105
+      },
+      "bst": 476,
+      "statsSource": "Pokerex"
     },
     {
       "number": 287,
@@ -5106,7 +7966,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         288
-      ]
+      ],
+      "stats": {
+        "hp": 66,
+        "atk": 41,
+        "def": 77,
+        "spd": 23,
+        "spa": 61,
+        "spdef": 87
+      },
+      "bst": 355,
+      "statsSource": "Pokerex"
     },
     {
       "number": 288,
@@ -5124,7 +7994,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         287
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 86,
+        "atk": 81,
+        "def": 97,
+        "spd": 43,
+        "spa": 81,
+        "spdef": 107
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 289,
@@ -5142,7 +8022,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         290
-      ]
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 112,
+        "def": 45,
+        "spd": 70,
+        "spa": 74,
+        "spdef": 45
+      },
+      "bst": 401,
+      "statsSource": "Pokerex"
     },
     {
       "number": 290,
@@ -5160,7 +8050,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         289
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 75,
+        "atk": 140,
+        "def": 65,
+        "spd": 110,
+        "spa": 112,
+        "spdef": 65
+      },
+      "bst": 567,
+      "statsSource": "Pokerex"
     },
     {
       "number": 291,
@@ -5178,7 +8078,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         292
-      ]
+      ],
+      "stats": {
+        "hp": 77,
+        "atk": 59,
+        "def": 50,
+        "spd": 46,
+        "spa": 67,
+        "spdef": 63
+      },
+      "bst": 362,
+      "statsSource": "Pokerex"
     },
     {
       "number": 292,
@@ -5196,7 +8106,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         291
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 123,
+        "atk": 77,
+        "def": 72,
+        "spd": 58,
+        "spa": 99,
+        "spdef": 92
+      },
+      "bst": 521,
+      "statsSource": "Pokerex"
     },
     {
       "number": 293,
@@ -5214,7 +8134,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         294
-      ]
+      ],
+      "stats": {
+        "hp": 30,
+        "atk": 42,
+        "def": 118,
+        "spd": 30,
+        "spa": 42,
+        "spdef": 88
+      },
+      "bst": 350,
+      "statsSource": "Pokerex"
     },
     {
       "number": 294,
@@ -5232,7 +8162,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         293
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 52,
+        "def": 168,
+        "spd": 30,
+        "spa": 47,
+        "spdef": 138
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 295,
@@ -5250,7 +8190,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         296
-      ]
+      ],
+      "stats": {
+        "hp": 58,
+        "atk": 89,
+        "def": 77,
+        "spd": 48,
+        "spa": 45,
+        "spdef": 45
+      },
+      "bst": 362,
+      "statsSource": "Pokerex"
     },
     {
       "number": 296,
@@ -5268,7 +8218,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         295
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 82,
+        "atk": 121,
+        "def": 119,
+        "spd": 71,
+        "spa": 69,
+        "spdef": 59
+      },
+      "bst": 521,
+      "statsSource": "Pokerex"
     },
     {
       "number": 297,
@@ -5286,7 +8246,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         298
-      ]
+      ],
+      "stats": {
+        "hp": 35,
+        "atk": 40,
+        "def": 100,
+        "spd": 35,
+        "spa": 90,
+        "spdef": 55
+      },
+      "bst": 355,
+      "statsSource": "Pokerex"
     },
     {
       "number": 298,
@@ -5304,7 +8274,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         297
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 70,
+        "atk": 60,
+        "def": 125,
+        "spd": 55,
+        "spa": 115,
+        "spdef": 70
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 299,
@@ -5322,7 +8302,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         300
-      ]
+      ],
+      "stats": {
+        "hp": 30,
+        "atk": 80,
+        "def": 90,
+        "spd": 55,
+        "spa": 55,
+        "spdef": 45
+      },
+      "bst": 355,
+      "statsSource": "Pokerex"
     },
     {
       "number": 300,
@@ -5340,7 +8330,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         299
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 60,
+        "atk": 115,
+        "def": 105,
+        "spd": 80,
+        "spa": 65,
+        "spdef": 70
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 301,
@@ -5357,7 +8357,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         302
-      ]
+      ],
+      "stats": {
+        "hp": 67,
+        "atk": 125,
+        "def": 40,
+        "spd": 58,
+        "spa": 30,
+        "spdef": 30
+      },
+      "bst": 350,
+      "statsSource": "Pokerex"
     },
     {
       "number": 302,
@@ -5374,7 +8384,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         301
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 97,
+        "atk": 165,
+        "def": 60,
+        "spd": 58,
+        "spa": 65,
+        "spdef": 50
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 303,
@@ -5390,7 +8410,17 @@ window.DREAMSTONE_DATA = {
         "rock"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 100,
+        "atk": 90,
+        "def": 130,
+        "spd": 55,
+        "spa": 45,
+        "spdef": 65
+      },
+      "bst": 485,
+      "statsSource": "Pokerex"
     },
     {
       "number": 304,
@@ -5408,7 +8438,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [],
       "evolvesTo": [
         305
-      ]
+      ],
+      "stats": {
+        "hp": 54,
+        "atk": 78,
+        "def": 103,
+        "spd": 22,
+        "spa": 53,
+        "spdef": 45
+      },
+      "bst": 355,
+      "statsSource": "Pokerex"
     },
     {
       "number": 305,
@@ -5426,7 +8466,17 @@ window.DREAMSTONE_DATA = {
       "evolvesFrom": [
         304
       ],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 74,
+        "atk": 108,
+        "def": 133,
+        "spd": 32,
+        "spa": 83,
+        "spdef": 65
+      },
+      "bst": 495,
+      "statsSource": "Pokerex"
     },
     {
       "number": 306,
@@ -5442,7 +8492,17 @@ window.DREAMSTONE_DATA = {
         "flying"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 80,
+        "atk": 105,
+        "def": 65,
+        "spd": 130,
+        "spa": 60,
+        "spdef": 75
+      },
+      "bst": 515,
+      "statsSource": "Pokerex"
     },
     {
       "number": 307,
@@ -5458,7 +8518,17 @@ window.DREAMSTONE_DATA = {
         "psychic"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 115,
+        "atk": 65,
+        "def": 99,
+        "spd": 111,
+        "spa": 65,
+        "spdef": 115
+      },
+      "bst": 570,
+      "statsSource": "Pokerex"
     },
     {
       "number": 308,
@@ -5474,7 +8544,17 @@ window.DREAMSTONE_DATA = {
         "fairy"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 55,
+        "atk": 55,
+        "def": 55,
+        "spd": 135,
+        "spa": 135,
+        "spdef": 135
+      },
+      "bst": 570,
+      "statsSource": "Pokerex"
     },
     {
       "number": 309,
@@ -5490,7 +8570,17 @@ window.DREAMSTONE_DATA = {
         "fighting"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 115,
+        "atk": 131,
+        "def": 131,
+        "spd": 87,
+        "spa": 53,
+        "spdef": 53
+      },
+      "bst": 570,
+      "statsSource": "Pokerex"
     },
     {
       "number": 310,
@@ -5506,7 +8596,17 @@ window.DREAMSTONE_DATA = {
         "dark"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 105,
+        "atk": 139,
+        "def": 71,
+        "spd": 119,
+        "spa": 55,
+        "spdef": 101
+      },
+      "bst": 590,
+      "statsSource": "Pokerex"
     },
     {
       "number": 311,
@@ -5522,7 +8622,17 @@ window.DREAMSTONE_DATA = {
         "grass"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 105,
+        "atk": 120,
+        "def": 105,
+        "spd": 105,
+        "spa": 70,
+        "spdef": 95
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 312,
@@ -5537,7 +8647,17 @@ window.DREAMSTONE_DATA = {
         "electric"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 88,
+        "atk": 112,
+        "def": 75,
+        "spd": 143,
+        "spa": 102,
+        "spdef": 80
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 313,
@@ -5553,7 +8673,17 @@ window.DREAMSTONE_DATA = {
         "grass"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 100,
+        "atk": 100,
+        "def": 100,
+        "spd": 100,
+        "spa": 100,
+        "spdef": 100
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 314,
@@ -5569,7 +8699,17 @@ window.DREAMSTONE_DATA = {
         "fairy"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 50,
+        "atk": 100,
+        "def": 150,
+        "spd": 50,
+        "spa": 100,
+        "spdef": 150
+      },
+      "bst": 600,
+      "statsSource": "Pokerex"
     },
     {
       "number": 315,
@@ -5585,7 +8725,17 @@ window.DREAMSTONE_DATA = {
         "dragon"
       ],
       "evolvesFrom": [],
-      "evolvesTo": []
+      "evolvesTo": [],
+      "stats": {
+        "hp": 100,
+        "atk": 135,
+        "def": 115,
+        "spa": 85,
+        "spdef": 100,
+        "spd": 135
+      },
+      "bst": 670,
+      "statsSource": "Canonical fallback"
     }
   ],
   "megas": [

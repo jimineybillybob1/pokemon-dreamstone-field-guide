@@ -32,6 +32,15 @@ check(
   encounters.encounterSpecies.filter((pokemon) => !pokemon.guideNumber).length === 12,
   "Expected 12 Pokerex wild entries missing from the curated guide",
 );
+check(
+  data.dex.filter((pokemon) => pokemon.statsSource === "Pokerex").length === 314,
+  "Expected Pokerex stats for 314 curated entries",
+);
+check(
+  data.dex.filter((pokemon) => pokemon.statsSource === "Canonical fallback").length === 1 &&
+    data.dex.find((pokemon) => pokemon.statsSource === "Canonical fallback")?.name === "Koraidon",
+  "Expected Koraidon to be the only canonical stat fallback",
+);
 const rangerInstitute = encounters.locations.find((location) => location.name === "Ranger Institute");
 check(
   rangerInstitute?.methods.some((method) => method.label === "Grass / cave · Morning") &&
@@ -87,6 +96,15 @@ for (const pokemon of data.dex) {
   check(Array.isArray(pokemon.types) && pokemon.types.length > 0, `${pokemon.name} has no type metadata`);
   check(Array.isArray(pokemon.evolvesFrom), `${pokemon.name} has invalid evolvesFrom metadata`);
   check(Array.isArray(pokemon.evolvesTo), `${pokemon.name} has invalid evolvesTo metadata`);
+  check(
+    ["hp", "atk", "def", "spa", "spdef", "spd"].every((stat) => Number.isFinite(pokemon.stats?.[stat])),
+    `${pokemon.name} has invalid base stats`,
+  );
+  check(Number.isFinite(pokemon.bst), `${pokemon.name} has no BST`);
+  check(
+    Object.values(pokemon.stats || {}).reduce((total, stat) => total + stat, 0) === pokemon.bst,
+    `${pokemon.name} base stats do not total its BST`,
+  );
   for (const relation of [...pokemon.evolvesFrom, ...pokemon.evolvesTo]) {
     check(dexNumbers.has(relation), `${pokemon.name} links to missing Dreamstone dex number ${relation}`);
   }
@@ -148,6 +166,7 @@ if (errors.length) {
         pokemonWithEvolutionLinks: data.dex.filter(
           (pokemon) => pokemon.evolvesFrom.length || pokemon.evolvesTo.length,
         ).length,
+        pokemonWithStats: data.dex.filter((pokemon) => pokemon.bst).length,
         locationsWithMostPokemon: [...locationCounts.entries()]
           .sort((a, b) => b[1] - a[1])
           .slice(0, 5)

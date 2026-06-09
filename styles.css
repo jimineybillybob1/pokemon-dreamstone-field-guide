@@ -750,7 +750,7 @@ main {
 
 .pokemon-card__facts {
   display: grid;
-  grid-template-columns: 1fr 0.65fr;
+  grid-template-columns: 1.3fr 0.62fr 0.45fr;
   margin: 0;
   border-top: 1px solid var(--line);
 }
@@ -793,6 +793,17 @@ main {
   color: #82651f;
 }
 
+.pokemon-card__bst-fact {
+  background: rgba(114, 87, 212, 0.055);
+}
+
+.pokemon-bst {
+  color: var(--violet-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem !important;
+  line-height: 1 !important;
+}
+
 .pokemon-location {
   display: flex;
   flex-wrap: wrap;
@@ -821,6 +832,95 @@ main {
 .pokemon-location-link:hover {
   border-color: var(--violet);
   background: rgba(114, 87, 212, 0.16);
+}
+
+.pokemon-stats {
+  margin: 0 12px 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 11px;
+}
+
+.pokemon-stats header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.pokemon-stats header span {
+  color: var(--muted);
+  font-size: 0.59rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.pokemon-stats header small {
+  color: var(--muted);
+  font-size: 0.55rem;
+}
+
+.pokemon-stats__rows {
+  display: grid;
+  gap: 5px;
+}
+
+.pokemon-stat {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 28px;
+  gap: 7px;
+  align-items: center;
+  --stat-color: var(--violet);
+}
+
+.pokemon-stat > span,
+.pokemon-stat > strong {
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
+.pokemon-stat > span {
+  color: var(--muted);
+}
+
+.pokemon-stat > strong {
+  color: var(--ink);
+  text-align: right;
+}
+
+.pokemon-stat__track {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--paper-deep);
+}
+
+.pokemon-stat__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--stat-color);
+}
+
+.pokemon-stat--hp { --stat-color: #4ba975; }
+.pokemon-stat--atk { --stat-color: #d66a55; }
+.pokemon-stat--def { --stat-color: #d0a745; }
+.pokemon-stat--spa { --stat-color: #8a6fd2; }
+.pokemon-stat--spdef { --stat-color: #5e8fc8; }
+.pokemon-stat--spd { --stat-color: #4ca5a5; }
+
+.pokemon-stat--bst {
+  margin-top: 3px;
+  border-top: 1px solid var(--line);
+  padding-top: 7px;
+  --stat-color: linear-gradient(90deg, var(--violet), var(--gold));
+}
+
+.pokemon-stat--bst > span,
+.pokemon-stat--bst > strong {
+  color: var(--violet-dark);
 }
 
 .pokemon-evolutions {
@@ -1519,6 +1619,14 @@ html[data-theme="dark"] .sprite-well {
 html[data-theme="dark"] .pokemon-note {
   color: #d8d0eb;
   background: #2c2843;
+}
+
+html[data-theme="dark"] .pokemon-card__bst-fact {
+  background: rgba(155, 133, 237, 0.07);
+}
+
+html[data-theme="dark"] .pokemon-stat__track {
+  background: #211f31;
 }
 
 html[data-theme="dark"] .evolution-link {
