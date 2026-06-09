@@ -34,11 +34,28 @@ await page.evaluate(() => localStorage.clear());
 await page.reload();
 await check((await page.title()) === "Dreamstone Field Guide", "Unexpected page title");
 await check((await page.locator("link[rel='manifest']").getAttribute("href")) === "site.webmanifest", "Web app manifest is missing");
+await check(
+  (await page.locator("meta[property='og:image']").getAttribute("content")).endsWith(
+    "/assets/art/dreamstone-social-preview.png",
+  ),
+  "Dreamstone social preview metadata is missing",
+);
 await check((await page.locator("link[rel='apple-touch-icon']").count()) === 5, "Apple touch icons are missing");
 await check(
   (await page.locator("meta[name='apple-mobile-web-app-capable']").getAttribute("content")) === "yes",
   "Apple standalone metadata is missing",
 );
+await check(
+  (await page.locator(".hero__logo").evaluate((element) => element.naturalWidth)) === 1000,
+  "Dreamstone hero logo did not load",
+);
+await check(
+  (await page.locator(".hero").evaluate((element) => getComputedStyle(element).backgroundImage)).includes(
+    "dreamstone-hero.png",
+  ),
+  "Dreamstone masthead artwork is missing",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-masthead.png"), fullPage: false });
 await check((await page.locator(".pokemon-card").count()) === 315, "Expected all 315 Pokémon cards");
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .type-badge").allTextContents()).includes("psychic"),
@@ -346,6 +363,8 @@ await page.screenshot({ path: path.join(outputDir, "guide-desktop-collection.png
 
 await page.setViewportSize({ width: 390, height: 844 });
 await page.reload();
+await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-masthead.png"), fullPage: false });
 await check((await page.locator(".pokemon-card").count()) === 315, "Mobile view did not render all cards");
 await page.locator(".view-tab[data-view='team']").click();
 await check(
@@ -413,12 +432,14 @@ console.log(
       collectionEntries: 327,
       screenshots: [
         "tmp/guide-desktop-controls.png",
+        "tmp/guide-desktop-masthead.png",
         "tmp/guide-desktop-collection.png",
         "tmp/guide-desktop-location-map.png",
         "tmp/guide-desktop-moves.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-coverage.png",
         "tmp/guide-mobile-dex-stats.png",
+        "tmp/guide-mobile-masthead.png",
         "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-team-builder.png",
         "tmp/guide-mobile-team-coverage.png",

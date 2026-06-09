@@ -143,6 +143,9 @@ for (const file of [
   "data/dreamstone-data.js",
   "data/pokerex-encounters.js",
   "data/pokerex-moves.js",
+  "assets/art/dreamstone-hero.png",
+  "assets/art/dreamstone-logo.png",
+  "assets/art/dreamstone-social-preview.png",
 ]) {
   try {
     const stat = await fs.stat(path.join(rootDir, file));
@@ -167,6 +170,9 @@ check(html.includes('data-view="team"'), "Team Builder tab is missing");
 check(html.includes('id="team-grid"'), "Team Builder grid is missing");
 check(html.includes('class="team-matchups"'), "Dex team coverage field is missing");
 check(html.includes("https://pokemondb.net/type"), "Type-chart source link is missing");
+check(html.includes('class="hero__logo"'), "Dreamstone hero logo is missing");
+check(html.includes("assets/art/dreamstone-social-preview.png"), "Dreamstone social preview is missing");
+check(html.includes("https://www.steamgriddb.com/game/5494497"), "SteamGridDB artwork credit is missing");
 
 const localReferences = [...html.matchAll(/\s(?:src|href)="([^"]+)"/g)]
   .map((match) => match[1])

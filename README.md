@@ -26,6 +26,7 @@ Open `index.html` in a browser. The guide includes:
 - Local sprites, so the guide works offline
 - Links to Pokerex's full-resolution maps
 - iOS/iPadOS Home Screen icon and standalone web-app metadata
+- Dreamstone masthead, official logo, and share preview artwork from SteamGridDB
 
 ## Regenerate From The Workbook
 
@@ -81,6 +82,7 @@ Replace `assets/icons/app-icon-master.png`, then run:
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)
 - Team matchup type chart: [Pokemon Database](https://pokemondb.net/type)
+- Masthead, official logo, and social preview artwork: [SteamGridDB](https://www.steamgriddb.com/game/5494497), uploaded by sirensongss
 - Gen 9 fallback sprites: [PokeAPI/sprites](https://github.com/PokeAPI/sprites)
 
 Pokémon images are © Nintendo / Creatures Inc. / GAME FREAK Inc.
