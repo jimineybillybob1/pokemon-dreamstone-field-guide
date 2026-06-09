@@ -1,4 +1,5 @@
 const data = window.DREAMSTONE_DATA;
+const encounters = window.DREAMSTONE_ENCOUNTERS;
 const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden";
 const themeKey = "dreamstone-field-guide-theme";
@@ -53,12 +54,46 @@ const uniqueSorted = (values) =>
   [...new Set(values.filter(Boolean))].sort((a, b) =>
     a.localeCompare(b, undefined, { numeric: true }),
   );
-const dexId = (pokemon) => String(pokemon.number);
+const encounterLocationsByGuideNumber = new Map();
+encounters.encounterSpecies
+  .filter((pokemon) => pokemon.guideNumber)
+  .forEach((pokemon) => {
+    if (!encounterLocationsByGuideNumber.has(pokemon.guideNumber)) {
+      encounterLocationsByGuideNumber.set(pokemon.guideNumber, new Set());
+    }
+    pokemon.locations.forEach((location) =>
+      encounterLocationsByGuideNumber.get(pokemon.guideNumber).add(location),
+    );
+  });
+const syntheticCollectionEntries = encounters.encounterSpecies
+  .filter((pokemon) => !pokemon.guideNumber)
+  .map((pokemon) => ({
+    ...pokemon,
+    number: null,
+    location: pokemon.locations[0] || "",
+    rarity: "Wild encounter",
+    availability: "Available",
+    evolvesFrom: [],
+    evolvesTo: [],
+    source: "Pokerex",
+  }));
+const collectionDex = [...data.dex, ...syntheticCollectionEntries];
+const dexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
-const directLocations = uniqueSorted(
-  data.dex.filter((pokemon) => pokemon.availability === "Available").map((pokemon) => pokemon.location),
-);
+const locationsForPokemon = (pokemon) => {
+  const pokerexLocations = uniqueSorted([
+    ...(encounterLocationsByGuideNumber.get(pokemon.number) || []),
+    ...(pokemon.locations || []),
+  ]);
+  return pokerexLocations.length ? pokerexLocations : uniqueSorted([pokemon.location]);
+};
+const directLocations = uniqueSorted(encounters.locations.map((location) => location.name));
+const formatLocations = (locations, limit = 3) => {
+  if (!locations.length) return "";
+  const visible = locations.slice(0, limit).join(", ");
+  return locations.length > limit ? `${visible} +${locations.length - limit} more` : visible;
+};
 
 function setSelectOptions(id, values) {
   const select = document.querySelector(id);
@@ -66,16 +101,10 @@ function setSelectOptions(id, values) {
 }
 
 function initializeSummary() {
-  document.querySelector("#available-count").textContent = data.dex.filter(
-    (pokemon) => pokemon.availability === "Available",
-  ).length;
-  document.querySelector("#special-count").textContent = data.dex.filter(
-    (pokemon) => pokemon.availability === "Evolution / special",
-  ).length;
-  document.querySelector("#unobtainable-count").textContent = data.dex.filter(
-    (pokemon) => pokemon.availability === "Unobtainable",
-  ).length;
-  document.querySelector("#location-count").textContent = directLocations.length;
+  document.querySelector("#available-count").textContent = encounters.encounterSpecies.length;
+  document.querySelector("#special-count").textContent = collectionDex.length;
+  document.querySelector("#unobtainable-count").textContent = data.dex.length;
+  document.querySelector("#location-count").textContent = encounters.locations.length;
 
   setSelectOptions("#location-filter", directLocations);
   setSelectOptions("#rarity-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.rarity)));
@@ -118,20 +147,20 @@ function setLocationFilter(location) {
 }
 
 function updateProgress() {
-  const caughtCount = data.dex.filter(isCaught).length;
-  const percent = Math.round((caughtCount / data.dex.length) * 100);
+  const caughtCount = collectionDex.filter(isCaught).length;
+  const percent = Math.round((caughtCount / collectionDex.length) * 100);
   elements.caughtCount.textContent = caughtCount;
-  elements.totalCount.textContent = data.dex.length;
+  elements.totalCount.textContent = collectionDex.length;
   elements.progressPercent.textContent = `${percent}%`;
   elements.progressBar.style.width = `${percent}%`;
   elements.caughtTabCount.textContent = caughtCount;
   elements.collectionCaughtCount.textContent = caughtCount;
-  elements.collectionMissingCount.textContent = data.dex.length - caughtCount;
+  elements.collectionMissingCount.textContent = collectionDex.length - caughtCount;
   elements.collectionPercent.textContent = `${percent}%`;
   elements.collectionProgressBar.style.width = `${percent}%`;
   elements.progressBar.parentElement.setAttribute(
     "aria-label",
-    `${caughtCount} of ${data.dex.length} Pokémon caught`,
+    `${caughtCount} of ${collectionDex.length} Pokémon caught`,
   );
 }
 
@@ -205,8 +234,10 @@ function renderPokemonCard(pokemon) {
   card.querySelector(".pokemon-number").textContent = `No. ${String(pokemon.number).padStart(3, "0")}`;
   card.querySelector(".pokemon-name").textContent = pokemon.name.replaceAll("_", " ");
   renderTypeBadges(card.querySelector(".pokemon-types"), pokemon.types);
+  const encounterLocations = locationsForPokemon(pokemon);
   card.querySelector(".pokemon-location").textContent =
-    pokemon.location || (pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolve / special method");
+    formatLocations(encounterLocations) ||
+    (pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolve / special method");
   const rarity = card.querySelector(".pokemon-rarity");
   rarity.textContent = pokemon.rarity || (pokemon.location ? "Not listed" : "N/A");
   rarity.dataset.rarity = pokemon.rarity;
@@ -235,13 +266,14 @@ function filteredPokemon() {
   const rarityOrder = { Unique: 0, Rare: 1, Uncommon: 2, Common: 3, "": 4 };
   const search = f.search.toLowerCase();
   const result = data.dex.filter((pokemon) => {
+    const encounterLocations = locationsForPokemon(pokemon);
     const relatedNames = [...pokemon.evolvesFrom, ...pokemon.evolvesTo]
       .map((number) => pokemonByNumber.get(number)?.name || "")
       .join(" ");
     const haystack = [
       pokemon.name,
       pokemon.region,
-      pokemon.location,
+      encounterLocations.join(" "),
       pokemon.rarity,
       pokemon.notes,
       pokemon.types.join(" "),
@@ -250,7 +282,7 @@ function filteredPokemon() {
       .join(" ")
       .toLowerCase();
     if (search && !haystack.includes(search)) return false;
-    if (f.location && pokemon.location !== f.location) return false;
+    if (f.location && !encounterLocations.includes(f.location)) return false;
     if (f.rarity && pokemon.rarity !== f.rarity) return false;
     if (f.region && pokemon.region !== f.region) return false;
     if (f.type && !pokemon.types.includes(f.type)) return false;
@@ -262,7 +294,9 @@ function filteredPokemon() {
 
   result.sort((a, b) => {
     if (f.sort === "name") return a.name.localeCompare(b.name);
-    if (f.sort === "location") return (a.location || "zzz").localeCompare(b.location || "zzz") || a.number - b.number;
+    if (f.sort === "location") {
+      return (locationsForPokemon(a)[0] || "zzz").localeCompare(locationsForPokemon(b)[0] || "zzz") || a.number - b.number;
+    }
     if (f.sort === "rarity") return rarityOrder[a.rarity] - rarityOrder[b.rarity] || a.number - b.number;
     return a.number - b.number;
   });
@@ -283,11 +317,11 @@ function renderDex() {
 
 function renderCollection() {
   const search = state.collectionSearch.toLowerCase();
-  const pokemon = data.dex.filter((entry) => {
+  const pokemon = collectionDex.filter((entry) => {
     if (state.collectionStatus === "caught" && !isCaught(entry)) return false;
     if (state.collectionStatus === "missing" && isCaught(entry)) return false;
     if (!search) return true;
-    return [entry.name, entry.region, entry.location, entry.types.join(" ")]
+    return [entry.name, entry.region, locationsForPokemon(entry).join(" "), entry.types.join(" ")]
       .join(" ")
       .toLowerCase()
       .includes(search);
@@ -303,18 +337,18 @@ function renderCollection() {
     const jump = document.createElement("button");
     jump.type = "button";
     jump.className = "collection-card__jump";
-    jump.setAttribute("aria-label", `Open full card for ${entry.name}`);
+    jump.setAttribute("aria-label", `Open encounter details for ${entry.name}`);
     jump.innerHTML = `
       <span class="collection-card__sprite">
         <img src="${entry.sprite}" alt="" width="64" height="64" loading="lazy">
       </span>
       <span class="collection-card__copy">
-        <small>No. ${String(entry.number).padStart(3, "0")}</small>
+        <small>${entry.number ? `No. ${String(entry.number).padStart(3, "0")}` : "Pokerex wild entry"}</small>
         <strong>${entry.name.replaceAll("_", " ")}</strong>
-        <span>${entry.location || "Evolution / special"}</span>
+        <span>${formatLocations(locationsForPokemon(entry), 1) || "Evolution / special"}</span>
       </span>
     `;
-    jump.addEventListener("click", () => focusPokemon(entry.number));
+    jump.addEventListener("click", () => openCollectionEntry(entry));
 
     const toggle = document.createElement("button");
     toggle.type = "button";
@@ -333,7 +367,7 @@ function renderCollection() {
 
   elements.collectionGrid.replaceChildren(fragment);
   elements.collectionEmptyState.hidden = pokemon.length !== 0;
-  elements.collectionResultCount.textContent = `Showing ${pokemon.length} of ${data.dex.length} Pokémon`;
+  elements.collectionResultCount.textContent = `Showing ${pokemon.length} of ${collectionDex.length} Pokémon`;
 }
 
 function activateView(viewName) {
@@ -377,35 +411,80 @@ function focusPokemon(number) {
   });
 }
 
-function renderLocations(search = "") {
-  const groups = new Map();
-  const normalizedSearch = search.trim().toLowerCase();
-  data.dex
-    .filter((pokemon) => pokemon.availability === "Available")
-    .forEach((pokemon) => {
-      if (!groups.has(pokemon.location)) groups.set(pokemon.location, []);
-      groups.get(pokemon.location).push(pokemon);
-    });
+function openCollectionEntry(entry) {
+  if (entry.number) {
+    focusPokemon(entry.number);
+    return;
+  }
+  const location = entry.locations?.[0];
+  if (!location) return;
+  activateView("locations");
+  elements.locationSearch.value = location;
+  renderLocations(location);
+  requestAnimationFrame(() => {
+    const card = [...document.querySelectorAll(".location-card")].find(
+      (element) => element.dataset.location === location,
+    );
+    card?.scrollIntoView({ behavior: "smooth", block: "start" });
+    card?.classList.add("is-highlighted");
+    window.setTimeout(() => card?.classList.remove("is-highlighted"), 2200);
+  });
+}
 
+function renderLocations(search = "") {
+  const normalizedSearch = search.trim().toLowerCase();
   const fragment = document.createDocumentFragment();
-  [...groups.entries()]
-    .filter(([location]) => !normalizedSearch || location.toLowerCase().includes(normalizedSearch))
-    .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
-    .forEach(([location, pokemon]) => {
+  encounters.locations
+    .filter((location) => {
+      if (!normalizedSearch) return true;
+      return (
+        location.name.toLowerCase().includes(normalizedSearch) ||
+        location.methods.some((method) =>
+          method.species.some((pokemon) => pokemon.name.toLowerCase().includes(normalizedSearch)),
+        )
+      );
+    })
+    .forEach((location) => {
+      const uniquePokemon = new Map();
+      location.methods.forEach((method) =>
+        method.species.forEach((pokemon) => uniquePokemon.set(pokemon.trackingId, pokemon)),
+      );
+      const caughtCount = [...uniquePokemon.values()].filter(isCaught).length;
       const card = document.createElement("article");
       card.className = "location-card";
-      const caughtCount = pokemon.filter(isCaught).length;
+      card.dataset.location = location.name;
       card.innerHTML = `
         <div class="location-card__heading">
-          <h3>${location}</h3>
-          <span>${caughtCount} / ${pokemon.length} caught</span>
+          <div>
+            <span>${location.mapType || "wild area"}</span>
+            <h3>${location.name}</h3>
+          </div>
+          <span>${caughtCount} / ${uniquePokemon.size} caught</span>
         </div>
-        <div class="location-card__pokemon"></div>
+        <div class="location-card__body">
+          <a class="location-map" href="${location.map.fullImage}" target="_blank" rel="noreferrer">
+            <img src="${location.map.thumbnail}" alt="${location.name} map" loading="lazy">
+            <span>Open full map · ${location.map.width} × ${location.map.height}px</span>
+          </a>
+          <div class="encounter-methods"></div>
+        </div>
+        <a class="pokerex-map-link" href="${location.map.pokerexUrl}" target="_blank" rel="noreferrer">
+          View this map on Pokerex
+        </a>
       `;
-      const list = card.querySelector(".location-card__pokemon");
-      pokemon
-        .sort((a, b) => a.number - b.number)
-        .forEach((entry) => {
+      const methods = card.querySelector(".encounter-methods");
+      location.methods.forEach((method) => {
+        const section = document.createElement("section");
+        section.className = "encounter-method";
+        section.innerHTML = `
+          <header>
+            <h4>${method.label}</h4>
+            <span>Encounter rate ${method.encounterRate}</span>
+          </header>
+          <div class="location-card__pokemon"></div>
+        `;
+        const list = section.querySelector(".location-card__pokemon");
+        method.species.forEach((entry) => {
           const button = document.createElement("button");
           button.type = "button";
           button.className = "location-pokemon";
@@ -418,12 +497,14 @@ function renderLocations(search = "") {
             <img src="${entry.sprite}" alt="" width="52" height="52" loading="lazy">
             <span>
               <strong>${entry.name.replaceAll("_", " ")}</strong>
-              <span>${entry.rarity || "Rarity not listed"}${entry.region ? ` · ${entry.region}` : ""}</span>
+              <span>Lv. ${entry.minLevel}${entry.maxLevel !== entry.minLevel ? `–${entry.maxLevel}` : ""} · ${entry.rate}%</span>
             </span>
           `;
           button.addEventListener("click", () => toggleCaught(entry));
           list.append(button);
         });
+        methods.append(section);
+      });
       fragment.append(card);
     });
   elements.locationList.replaceChildren(fragment);

@@ -15,6 +15,7 @@
     </script>
     <link rel="stylesheet" href="styles.css" />
     <script src="data/dreamstone-data.js" defer></script>
+    <script src="data/pokerex-encounters.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -41,8 +42,8 @@
         <p class="eyebrow">Cormoria Capture Companion</p>
         <h1>Find them. Track them.<br /><span>Complete the mystery.</span></h1>
         <p class="hero__intro">
-          A searchable, route-by-route field guide built from the temporary Dreamstone Mysteries
-          dex. Your caught Pokémon are saved on this device.
+          A searchable, route-by-route field guide using ROM-extracted Pokerex encounters. Your
+          caught Pokémon are saved on this device.
         </p>
         <div class="progress-panel">
           <div class="progress-panel__copy">
@@ -61,19 +62,19 @@
       <section class="stat-strip" aria-label="Guide summary">
         <article>
           <span class="stat-strip__value" id="available-count">0</span>
-          <span class="stat-strip__label">Direct encounters</span>
+          <span class="stat-strip__label">Wild species / forms</span>
         </article>
         <article>
           <span class="stat-strip__value" id="location-count">0</span>
-          <span class="stat-strip__label">Primary locations</span>
+          <span class="stat-strip__label">Encounter maps</span>
         </article>
         <article>
           <span class="stat-strip__value" id="special-count">0</span>
-          <span class="stat-strip__label">Evolution / special</span>
+          <span class="stat-strip__label">Collection entries</span>
         </article>
         <article>
           <span class="stat-strip__value" id="unobtainable-count">0</span>
-          <span class="stat-strip__label">Unobtainable</span>
+          <span class="stat-strip__label">Curated Dex entries</span>
         </article>
       </section>
 
@@ -231,11 +232,17 @@
       <section class="guide-view" id="view-locations">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Route planner</p>
-            <h2>Pokémon by Primary Location</h2>
+            <p class="eyebrow">ROM encounter atlas</p>
+            <h2>Detailed Wild Encounters</h2>
           </div>
-          <p>Only direct encounters are listed here.</p>
+          <p>Maps, methods, rates, and levels extracted from Dreamstone Mysteries v1.0.</p>
         </div>
+        <aside class="source-note location-source-note">
+          Encounter details and maps come from
+          <a href="https://pokerex.io/dreamstone-mysteries/v1.0/locations" target="_blank" rel="noreferrer"
+            >Pokerex</a
+          >. Inaccessible inherited Emerald maps are excluded.
+        </aside>
         <label class="location-search">
           <span>Find a location</span>
           <input id="location-search" type="search" placeholder="Route 1, Mt. Ceram..." />
@@ -268,8 +275,10 @@
 
     <footer>
       <p>
-        Encounter data comes from <strong>Dreamstone Mysteries _ Dex (temporary).xlsx</strong>.
-        Treat it as a living document and report discrepancies to the game creator.
+        Wild encounter details and maps come from the
+        <a href="https://pokerex.io/dreamstone-mysteries/v1.0/locations">Pokerex ROM extraction</a>.
+        Gift, special, Mega Evolution, and important-item notes come from the temporary Dreamstone
+        Mysteries dex.
       </p>
       <p>
         Sprites from
@@ -307,7 +316,7 @@
         </div>
         <dl class="pokemon-card__facts">
           <div>
-            <dt>Primary location</dt>
+            <dt>Encounter locations</dt>
             <dd class="pokemon-location"></dd>
           </div>
           <div>

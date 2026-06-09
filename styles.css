@@ -1129,6 +1129,16 @@ body.notes-hidden .item-card__location {
   gap: 15px;
 }
 
+.location-source-note {
+  max-width: none;
+}
+
+.location-source-note a,
+.pokerex-map-link {
+  color: inherit;
+  font-weight: 900;
+}
+
 .location-card {
   overflow: hidden;
   border: 1px solid var(--line);
@@ -1146,6 +1156,11 @@ body.notes-hidden .item-card__location {
   background: rgba(114, 87, 212, 0.055);
 }
 
+.location-card__heading > div {
+  display: grid;
+  gap: 4px;
+}
+
 .location-card h3 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
@@ -1159,9 +1174,88 @@ body.notes-hidden .item-card__location {
   text-transform: uppercase;
 }
 
+.location-card__body {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.34fr) minmax(0, 1fr);
+  gap: 15px;
+  align-items: start;
+  padding: 15px;
+}
+
+.location-map {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--muted);
+  background: var(--paper-deep);
+  text-decoration: none;
+}
+
+.location-map:hover {
+  border-color: var(--violet);
+}
+
+.location-map img {
+  width: 100%;
+  max-height: 330px;
+  background: #171425;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.location-map span,
+.pokerex-map-link {
+  padding: 9px 11px;
+  font-size: 0.63rem;
+}
+
+.pokerex-map-link {
+  display: block;
+  border-top: 1px solid var(--line);
+  color: var(--violet);
+  background: rgba(114, 87, 212, 0.04);
+  text-align: right;
+  text-decoration: none;
+}
+
+.encounter-methods {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.encounter-method {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.encounter-method header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--paper-deep);
+  padding: 9px 11px;
+}
+
+.encounter-method h4 {
+  margin: 0;
+  color: var(--violet-dark);
+  font-size: 0.76rem;
+}
+
+.encounter-method header span {
+  color: var(--muted);
+  font-size: 0.59rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
 .location-card__pokemon {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: var(--line);
 }
@@ -1411,6 +1505,15 @@ html[data-theme="dark"] .location-card__heading {
   background: rgba(155, 133, 237, 0.07);
 }
 
+html[data-theme="dark"] .location-map,
+html[data-theme="dark"] .encounter-method header {
+  background: #29263a;
+}
+
+html[data-theme="dark"] .pokerex-map-link {
+  background: rgba(155, 133, 237, 0.07);
+}
+
 html[data-theme="dark"] .location-pokemon {
   color: var(--ink);
   background: #211f31;
@@ -1440,6 +1543,14 @@ html[data-theme="dark"] .source-note {
 
   .location-card__pokemon {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .location-card__body {
+    grid-template-columns: 1fr;
+  }
+
+  .location-map {
+    max-width: 520px;
   }
 
   .mega-grid {
@@ -1587,6 +1698,14 @@ html[data-theme="dark"] .source-note {
   .location-card__pokemon,
   .mega-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .location-card__body {
+    padding: 10px;
+  }
+
+  .location-map {
+    max-width: none;
   }
 
   .collection-grid {

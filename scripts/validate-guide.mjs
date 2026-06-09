@@ -5,10 +5,13 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataSource = await fs.readFile(path.join(rootDir, "data", "dreamstone-data.js"), "utf8");
+const encounterSource = await fs.readFile(path.join(rootDir, "data", "pokerex-encounters.js"), "utf8");
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(dataSource, context);
+vm.runInContext(encounterSource, context);
 const data = context.window.DREAMSTONE_DATA;
+const encounters = context.window.DREAMSTONE_ENCOUNTERS;
 
 const errors = [];
 const check = (condition, message) => {
@@ -20,6 +23,51 @@ check(data.dex.length === 315, `Expected 315 Pokémon, found ${data.dex.length}`
 check(new Set(data.dex.map((pokemon) => pokemon.number)).size === data.dex.length, "Duplicate dex numbers");
 check(data.megas.length === 18, `Expected 18 Mega choices, found ${data.megas.length}`);
 check(data.importantItems.length === 5, `Expected 5 important items, found ${data.importantItems.length}`);
+check(encounters.locations.length === 38, `Expected 38 Pokerex encounter maps, found ${encounters.locations.length}`);
+check(
+  encounters.encounterSpecies.length === 138,
+  `Expected 138 Pokerex wild species/form slots, found ${encounters.encounterSpecies.length}`,
+);
+check(
+  encounters.encounterSpecies.filter((pokemon) => !pokemon.guideNumber).length === 12,
+  "Expected 12 Pokerex wild entries missing from the curated guide",
+);
+const rangerInstitute = encounters.locations.find((location) => location.name === "Ranger Institute");
+check(
+  rangerInstitute?.methods.some((method) => method.label === "Grass / cave · Morning") &&
+    rangerInstitute?.methods.some((method) => method.label === "Grass / cave · Day") &&
+    rangerInstitute?.methods.some((method) => method.label === "Grass / cave · Night"),
+  "Ranger Institute time-of-day encounter tables are missing",
+);
+
+for (const location of encounters.locations) {
+  check(Boolean(location.name), "Pokerex location has no name");
+  check(Boolean(location.map.thumbnail), `${location.name} has no map thumbnail`);
+  check(Boolean(location.map.fullImage), `${location.name} has no full map image`);
+  try {
+    const stat = await fs.stat(path.join(rootDir, location.map.thumbnail));
+    check(stat.size > 0, `${location.name} map thumbnail is empty`);
+  } catch {
+    errors.push(`${location.name} map thumbnail does not exist: ${location.map.thumbnail}`);
+  }
+  check(location.methods.length > 0, `${location.name} has no encounter methods`);
+  for (const method of location.methods) {
+    check(method.species.length > 0, `${location.name} ${method.label} has no species`);
+    check(
+      method.species.reduce((total, pokemon) => total + pokemon.rate, 0) === 100,
+      `${location.name} ${method.label} encounter rates do not total 100`,
+    );
+  }
+}
+
+for (const pokemon of encounters.encounterSpecies.filter((entry) => !entry.guideNumber)) {
+  try {
+    const stat = await fs.stat(path.join(rootDir, pokemon.sprite));
+    check(stat.size > 0, `${pokemon.name} Pokerex sprite is empty`);
+  } catch {
+    errors.push(`${pokemon.name} Pokerex sprite does not exist: ${pokemon.sprite}`);
+  }
+}
 
 for (const pokemon of [...data.dex, ...data.megas]) {
   check(Boolean(pokemon.name), "Entry has no name");
@@ -44,7 +92,7 @@ for (const pokemon of data.dex) {
   }
 }
 
-for (const file of ["index.html", "styles.css", "app.js", "data/dreamstone-data.js"]) {
+for (const file of ["index.html", "styles.css", "app.js", "data/dreamstone-data.js", "data/pokerex-encounters.js"]) {
   try {
     const stat = await fs.stat(path.join(rootDir, file));
     check(stat.size > 0, `${file} is empty`);
@@ -83,6 +131,10 @@ if (errors.length) {
         pokemon: data.dex.length,
         directEncounters: data.dex.filter((pokemon) => pokemon.availability === "Available").length,
         uniqueLocations: locationCounts.size,
+        pokerexEncounterMaps: encounters.locations.length,
+        pokerexWildSpeciesForms: encounters.encounterSpecies.length,
+        collectionEntries:
+          data.dex.length + encounters.encounterSpecies.filter((pokemon) => !pokemon.guideNumber).length,
         spriteReferencesChecked: data.dex.length + data.megas.length,
         typedPokemon: data.dex.filter((pokemon) => pokemon.types.length).length,
         pokemonWithEvolutionLinks: data.dex.filter(

@@ -1,21 +1,25 @@
 # Dreamstone Field Guide
 
-An offline capture guide and progress tracker for **Pokémon Dreamstone Mysteries**, generated from
-`Dreamstone Mysteries _ Dex (temporary).xlsx`.
+An offline capture guide and progress tracker for **Pokémon Dreamstone Mysteries**. Wild encounter
+details and maps come from Pokerex's ROM extraction; gift, special, Mega Evolution, and item notes
+come from `Dreamstone Mysteries _ Dex (temporary).xlsx`.
 
 **Live guide:** https://jimineybillybob1.github.io/pokemon-dreamstone-field-guide/
 
 Open `index.html` in a browser. The guide includes:
 
-- A searchable and filterable 315-entry Pokédex
+- A searchable and filterable 315-entry curated Pokédex
+- A 327-entry caught collection including 12 wild entries missing from the temporary dex
+- 38 active Dreamstone encounter maps with exact methods, rates, levels, and time-of-day tables
 - Pokémon types and clickable direct evolution links
 - Persistent light and dark themes
 - Sticky search and quick location filters
-- A route-by-route capture view
+- A route-by-route capture view with local map thumbnails
 - Persistent caught tracking using browser local storage
 - Notes hidden by default for a more spoiler-conscious first playthrough
 - Mega Evolution choices and important-item locations from the workbook
 - Local sprites, so the guide works offline
+- Links to Pokerex's full-resolution maps
 
 ## Regenerate From The Workbook
 
@@ -34,9 +38,25 @@ workspace Node dependencies linked at `node_modules`.
 PokéSprite supplies the Gen 8-style box sprites. Species introduced after Gen 8 use local fallback
 sprites downloaded from `PokeAPI/sprites`.
 
+## Regenerate Pokerex Encounters
+
+Place the public Pokerex Dreamstone export at `tmp/pokerex-dreamstone-data.json`, then run:
+
+```powershell
+& 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
+  'scripts\download-pokerex-assets.mjs'
+
+& 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
+  'scripts\build-pokerex-encounters.mjs'
+```
+
+Only Dreamstone's active custom map groups are imported. Inaccessible inherited Emerald encounter
+tables are intentionally excluded.
+
 ## Credits
 
-- Encounter data: the supplied Dreamstone Mysteries temporary dex
+- Wild encounters and maps: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/locations)
+- Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)
 - Gen 9 fallback sprites: [PokeAPI/sprites](https://github.com/PokeAPI/sprites)
