@@ -1,12 +1,12 @@
 const data = window.DREAMSTONE_DATA;
 const encounters = window.DREAMSTONE_ENCOUNTERS;
 const storageKey = "dreamstone-field-guide-caught";
-const notesKey = "dreamstone-field-guide-notes-hidden";
+const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
 
 const state = {
   caught: new Set(JSON.parse(localStorage.getItem(storageKey) || "[]")),
-  notesHidden: localStorage.getItem(notesKey) !== "false",
+  notesHidden: localStorage.getItem(notesKey) === "true",
   theme: document.documentElement.dataset.theme || "light",
   collectionStatus: "all",
   collectionSearch: "",
@@ -213,6 +213,34 @@ function renderEvolutionLinks(card, relationNumbers, selector) {
   });
 }
 
+function renderLocationLinks(container, locations, fallback) {
+  if (!locations.length) {
+    container.textContent = fallback;
+    return;
+  }
+  const fragment = document.createDocumentFragment();
+  locations.forEach((location) => {
+    const hasEncounterMap = encounters.locations.some(
+      (encounterLocation) => encounterLocation.name === location,
+    );
+    if (!hasEncounterMap) {
+      const label = document.createElement("span");
+      label.className = "pokemon-location-label";
+      label.textContent = location;
+      fragment.append(label);
+      return;
+    }
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "pokemon-location-link";
+    button.textContent = location;
+    button.setAttribute("aria-label", `Open encounters for ${location}`);
+    button.addEventListener("click", () => openLocation(location));
+    fragment.append(button);
+  });
+  container.replaceChildren(fragment);
+}
+
 function renderPokemonCard(pokemon) {
   const card = elements.cardTemplate.content.firstElementChild.cloneNode(true);
   const caughtButton = card.querySelector(".caught-button");
@@ -235,9 +263,11 @@ function renderPokemonCard(pokemon) {
   card.querySelector(".pokemon-name").textContent = pokemon.name.replaceAll("_", " ");
   renderTypeBadges(card.querySelector(".pokemon-types"), pokemon.types);
   const encounterLocations = locationsForPokemon(pokemon);
-  card.querySelector(".pokemon-location").textContent =
-    formatLocations(encounterLocations) ||
-    (pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolve / special method");
+  renderLocationLinks(
+    card.querySelector(".pokemon-location"),
+    encounterLocations,
+    pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolve / special method",
+  );
   const rarity = card.querySelector(".pokemon-rarity");
   rarity.textContent = pokemon.rarity || (pokemon.location ? "Not listed" : "N/A");
   rarity.dataset.rarity = pokemon.rarity;
@@ -411,13 +441,7 @@ function focusPokemon(number) {
   });
 }
 
-function openCollectionEntry(entry) {
-  if (entry.number) {
-    focusPokemon(entry.number);
-    return;
-  }
-  const location = entry.locations?.[0];
-  if (!location) return;
+function openLocation(location) {
   activateView("locations");
   elements.locationSearch.value = location;
   renderLocations(location);
@@ -429,6 +453,15 @@ function openCollectionEntry(entry) {
     card?.classList.add("is-highlighted");
     window.setTimeout(() => card?.classList.remove("is-highlighted"), 2200);
   });
+}
+
+function openCollectionEntry(entry) {
+  if (entry.number) {
+    focusPokemon(entry.number);
+    return;
+  }
+  const location = entry.locations?.[0];
+  if (location) openLocation(location);
 }
 
 function renderLocations(search = "") {

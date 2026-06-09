@@ -793,6 +793,36 @@ main {
   color: #82651f;
 }
 
+.pokemon-location {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pokemon-location-link,
+.pokemon-location-label {
+  border: 1px solid rgba(114, 87, 212, 0.24);
+  border-radius: 999px;
+  color: var(--violet-dark);
+  background: rgba(114, 87, 212, 0.08);
+  padding: 3px 7px;
+  font: inherit;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-align: left;
+}
+
+.pokemon-location-label {
+  color: var(--muted);
+  border-color: var(--line);
+  background: var(--paper-deep);
+}
+
+.pokemon-location-link:hover {
+  border-color: var(--violet);
+  background: rgba(114, 87, 212, 0.16);
+}
+
 .pokemon-evolutions {
   display: grid;
   gap: 8px;
@@ -1499,6 +1529,11 @@ html[data-theme="dark"] .evolution-link {
 html[data-theme="dark"] .evolution-link:hover {
   color: #fff;
   background: #393252;
+}
+
+html[data-theme="dark"] .pokemon-location-link {
+  color: #d8caff;
+  background: rgba(155, 133, 237, 0.12);
 }
 
 html[data-theme="dark"] .location-card__heading {

@@ -14,9 +14,10 @@ Open `index.html` in a browser. The guide includes:
 - Pokémon types and clickable direct evolution links
 - Persistent light and dark themes
 - Sticky search and quick location filters
+- Clickable Pokémon-card locations that open the matching encounter map
 - A route-by-route capture view with local map thumbnails
 - Persistent caught tracking using browser local storage
-- Notes hidden by default for a more spoiler-conscious first playthrough
+- Field notes visible by default, with an optional notes-hidden toggle
 - Mega Evolution choices and important-item locations from the workbook
 - Local sprites, so the guide works offline
 - Links to Pokerex's full-resolution maps

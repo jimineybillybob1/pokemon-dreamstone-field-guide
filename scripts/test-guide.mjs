@@ -63,6 +63,37 @@ await check(
   (await page.locator(".sticky-search").evaluate((element) => getComputedStyle(element).position)) === "sticky",
   "Search bar is not sticky",
 );
+await check(
+  !(await page.locator("body").evaluate((element) => element.classList.contains("notes-hidden"))),
+  "Field notes were hidden by default",
+);
+await check(
+  (await page.locator(".pokemon-card[data-number='17'] .pokemon-note p").evaluate(
+    (element) => getComputedStyle(element).filter,
+  )) === "none",
+  "Visible field note is still blurred",
+);
+await page.locator("#spoiler-toggle").click();
+await check(
+  (await page.locator(".pokemon-card[data-number='17'] .pokemon-note p").evaluate(
+    (element) => getComputedStyle(element).filter,
+  )) !== "none",
+  "Notes toggle did not hide field notes",
+);
+await page.locator("#spoiler-toggle").click();
+await check(
+  (await page.locator(".pokemon-card[data-number='1'] .pokemon-location-label").textContent()) === "Starter",
+  "Special location label is missing",
+);
+await page.locator(".pokemon-card[data-number='17'] .pokemon-location-link", { hasText: /^Route 1$/ }).click();
+await page.waitForTimeout(500);
+await check(
+  await page.locator("#view-locations").evaluate((element) => element.classList.contains("is-active")),
+  "Pokémon location link did not open the Locations tab",
+);
+await check((await page.locator("#location-search").inputValue()) === "Route 1", "Location link did not select Route 1");
+await check((await page.locator(".location-card").count()) === 1, "Location link did not isolate its encounter map");
+await page.locator(".view-tab[data-view='dex']").click();
 await check((await page.locator(".quick-location").count()) === 36, "Unexpected quick-location count");
 await check((await page.locator(".collection-card").count()) === 327, "Expected all 327 collection cards");
 await check((await page.locator("#total-count").textContent()) === "327", "Capture total did not include Pokerex wild entries");
