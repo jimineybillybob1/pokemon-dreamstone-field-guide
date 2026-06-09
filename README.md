@@ -12,7 +12,7 @@ Open `index.html` in a browser. The guide includes:
 - A 327-entry caught collection including 12 wild entries missing from the temporary dex
 - 38 active Dreamstone encounter maps with exact methods, rates, levels, and time-of-day tables
 - ROM-extracted base stats and BST bars on every curated Dex card
-- A searchable 934-move catalogue with move details and learner compatibility
+- A searchable 934-move catalogue with move details, learner compatibility, and all 19 move tutors
 - A persistent six-slot team builder with compatible moves and retain-on-evolution movesets
 - Live Dex-card coverage showing super-effective damage moves selected in the Team Builder
 - Pokémon types and clickable direct evolution links
@@ -66,7 +66,7 @@ Place the public Pokerex Dreamstone export at `tmp/pokerex-dreamstone-data.json`
 
 Only Dreamstone's active custom map groups are imported into the encounter atlas. Inaccessible
 inherited Emerald encounter tables are intentionally excluded; the Moves tab mirrors Pokerex's full
-ROM move and learner extraction.
+ROM move and learner extraction, including tutor locations.
 
 ## Regenerate App Icons
 
@@ -110,7 +110,7 @@ Relevant Cloudflare documentation:
 
 ## Credits
 
-- Wild encounters, maps, Pokémon base stats, moves, and learners: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/moves)
+- Wild encounters, maps, Pokémon base stats, moves, learners, and tutor locations: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/moves/tutor)
 - Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)

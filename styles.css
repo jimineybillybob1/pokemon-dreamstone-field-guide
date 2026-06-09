@@ -1591,6 +1591,33 @@ body.notes-hidden .item-card__location {
   white-space: pre-line;
 }
 
+.move-mode-tabs {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.move-mode-tabs button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.62);
+  padding: 8px 13px;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.move-mode-tabs button:hover,
+.move-mode-tabs button.is-active {
+  border-color: var(--violet);
+  color: var(--violet-dark);
+  background: rgba(114, 87, 212, 0.1);
+}
+
+.move-mode-tabs .tab-count {
+  margin-left: 4px;
+}
+
 .move-filter-panel {
   display: grid;
   grid-template-columns: 2fr repeat(4, minmax(125px, 0.75fr)) auto;
@@ -1762,6 +1789,37 @@ body.notes-hidden .item-card__location {
   font-size: 0.56rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
+}
+
+.move-tutor-locations {
+  display: grid;
+  gap: 6px;
+  border-left: 2px solid var(--violet);
+  background: rgba(114, 87, 212, 0.065);
+  padding: 8px 9px;
+}
+
+.move-tutor-locations strong {
+  color: var(--ink);
+  font-size: 0.56rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.move-tutor-locations div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.move-tutor-locations span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--violet-dark);
+  background: var(--paper-deep);
+  padding: 3px 7px;
+  font-size: 0.62rem;
+  font-weight: 900;
 }
 
 .move-method-summary {
@@ -2466,6 +2524,7 @@ html[data-theme="dark"] body {
 html[data-theme="dark"] .stat-strip,
 html[data-theme="dark"] .filter-panel,
 html[data-theme="dark"] .move-filter-panel,
+html[data-theme="dark"] .move-mode-tabs button,
 html[data-theme="dark"] .move-card,
 html[data-theme="dark"] .team-toolbar,
 html[data-theme="dark"] .team-card,

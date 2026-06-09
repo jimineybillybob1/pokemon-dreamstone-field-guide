@@ -94,17 +94,29 @@ const moves = source.moves.map((move) => {
   };
 });
 
+const tutors = (source.moveTutors || [])
+  .filter((tutor) => tutor.kind === "tutor" && movesById.has(tutor.moveId))
+  .map((tutor) => ({
+    moveId: tutor.moveId,
+    location: tutor.locationName,
+    mapGroup: tutor.mapGroup,
+    mapNum: tutor.mapNum,
+    regionMapId: tutor.regionMapId,
+  }));
+
 const output = {
   generatedAt: new Date().toISOString(),
   source: {
     name: "Pokerex ROM extraction",
     url: "https://pokerex.io/dreamstone-mysteries/v1.0/moves",
+    tutorUrl: "https://pokerex.io/dreamstone-mysteries/v1.0/moves/tutor",
     extractedAt: pokerex.extractedAt,
     version: pokerex.version,
     learnerMethods:
       "Level-up, evolution, and egg methods are explicit; Pokerex combines machine and tutor compatibility as teachable.",
   },
   moves,
+  tutors,
 };
 
 await fs.writeFile(outputPath, `window.DREAMSTONE_MOVES=${JSON.stringify(output)};\n`, "utf8");
@@ -117,6 +129,7 @@ console.log(
       movesWithDescriptions: moves.filter((move) => move.description).length,
       movesWithEffects: moves.filter((move) => move.effect).length,
       movesWithLearners: moves.filter((move) => move.learnerCount).length,
+      tutors: tutors.length,
       linkedLearners: moves.reduce(
         (total, move) =>
           total +

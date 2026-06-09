@@ -312,6 +312,18 @@ await check(
 await page.locator("#clear-move-filters").click();
 await page.locator("#show-more-moves").click();
 await check((await page.locator(".move-card").count()) === 200, "Show more moves did not reveal the next page");
+await page.locator("[data-move-mode='tutors']").click();
+await check((await page.locator(".move-card").count()) === 19, "Move tutors view did not render all 19 tutors");
+await check(
+  (await page.locator(".move-tutor-locations").count()) === 19,
+  "Move tutor cards are missing tutor locations",
+);
+await check(
+  (await page.locator(".move-card", { hasText: "Aurora Veil" }).textContent()).includes("Vilethorn Woods"),
+  "Aurora Veil tutor location is missing",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-move-tutors.png"), fullPage: false });
+await page.locator("[data-move-mode='all']").click();
 await page.locator("#view-moves .section-heading").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-moves.png"), fullPage: false });
 
@@ -494,6 +506,7 @@ console.log(
         "tmp/guide-desktop-collection.png",
         "tmp/guide-desktop-location-map.png",
         "tmp/guide-desktop-moves.png",
+        "tmp/guide-desktop-move-tutors.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-coverage.png",
         "tmp/guide-mobile-dex-stats.png",

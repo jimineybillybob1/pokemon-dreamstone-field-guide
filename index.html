@@ -120,7 +120,6 @@
       <nav class="view-tabs" aria-label="Guide views">
         <button class="view-tab is-active" type="button" data-view="dex">Full Dex</button>
         <button class="view-tab" type="button" data-view="team">Team Builder</button>
-        <button class="view-tab" type="button" data-view="save">Save &amp; Sync</button>
         <button class="view-tab" type="button" data-view="moves">Moves</button>
         <button class="view-tab" type="button" data-view="caught">
           Caught <span class="tab-count" id="caught-tab-count">0</span>
@@ -128,6 +127,7 @@
         <button class="view-tab" type="button" data-view="locations">By Location</button>
         <button class="view-tab" type="button" data-view="megas">Mega Choices</button>
         <button class="view-tab" type="button" data-view="items">Important Items</button>
+        <button class="view-tab" type="button" data-view="save">Save &amp; Sync</button>
       </nav>
 
       <section class="guide-view is-active" id="view-dex">
@@ -254,8 +254,20 @@
           Move details and compatibility come from
           <a href="https://pokerex.io/dreamstone-mysteries/v1.0/moves" target="_blank" rel="noreferrer"
             >Pokerex</a
+          >. Tutor locations come from
+          <a
+            href="https://pokerex.io/dreamstone-mysteries/v1.0/moves/tutor"
+            target="_blank"
+            rel="noreferrer"
+            >Pokerex's tutor guide</a
           >. Machine and tutor compatibility are combined as <strong>Teachable</strong>.
         </aside>
+        <nav class="move-mode-tabs" aria-label="Move reference sections">
+          <button class="is-active" type="button" data-move-mode="all">All moves</button>
+          <button type="button" data-move-mode="tutors">
+            Move tutors <span class="tab-count" id="tutor-count">0</span>
+          </button>
+        </nav>
         <form class="move-filter-panel" id="move-filters">
           <label class="move-search">
             <span>Search moves or learners</span>

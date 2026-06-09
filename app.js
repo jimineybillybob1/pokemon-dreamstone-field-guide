@@ -36,6 +36,7 @@ const state = {
   collectionStatus: "all",
   collectionSearch: "",
   moveLimit: 100,
+  moveMode: "all",
   team: loadTeam(),
   syncCode: localStorage.getItem(syncCodeKey) || "",
   moveFilters: {
@@ -129,6 +130,12 @@ const validCaughtIds = new Set(collectionDex.map(dexId));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
 const moveById = new Map(moveData.moves.map((move) => [move.id, move]));
+const tutorsByMoveId = new Map();
+(moveData.tutors || []).forEach((tutor) => {
+  if (!tutorsByMoveId.has(tutor.moveId)) tutorsByMoveId.set(tutor.moveId, []);
+  tutorsByMoveId.get(tutor.moveId).push(tutor);
+});
+const tutorMoveIds = new Set(tutorsByMoveId.keys());
 const compatibleMoveIdsByPokemon = new Map(data.dex.map((pokemon) => [pokemon.number, new Set()]));
 moveData.moves.forEach((move) => {
   Object.values(move.learners)
@@ -239,6 +246,7 @@ const moveSearchTextById = new Map(
       move.category,
       move.description,
       move.effect,
+      ...(tutorsByMoveId.get(move.id) || []).map((tutor) => tutor.location),
       ...Object.values(move.learners).flatMap((learners) => learners.map((learner) => learner.name)),
     ]
       .join(" ")
@@ -263,6 +271,7 @@ function initializeSummary() {
   setSelectOptions("#type-filter", uniqueSorted(data.dex.flatMap((pokemon) => pokemon.types)));
   setSelectOptions("#move-type-filter", uniqueSorted(moveData.moves.map((move) => move.type)));
   setSelectOptions("#move-category-filter", uniqueSorted(moveData.moves.map((move) => move.category)));
+  document.querySelector("#tutor-count").textContent = tutorMoveIds.size;
   setSelectOptions(
     "#availability-filter",
     uniqueSorted(data.dex.map((pokemon) => pokemon.availability)),
@@ -1169,6 +1178,22 @@ function renderMoveCard(move) {
     copy.append(effect);
   }
 
+  const tutorLocations = tutorsByMoveId.get(move.id) || [];
+  if (state.moveMode === "tutors" && tutorLocations.length) {
+    const locations = document.createElement("div");
+    locations.className = "move-tutor-locations";
+    const label = document.createElement("strong");
+    label.textContent = tutorLocations.length === 1 ? "Tutor location" : "Tutor locations";
+    const list = document.createElement("div");
+    uniqueInOrder(tutorLocations.map((tutor) => tutor.location)).forEach((location) => {
+      const badge = document.createElement("span");
+      badge.textContent = location;
+      list.append(badge);
+    });
+    locations.append(label, list);
+    copy.append(locations);
+  }
+
   const methodSummary = document.createElement("div");
   methodSummary.className = "move-method-summary";
   learnerMethodDefinitions.forEach(({ key, label }) => {
@@ -1199,7 +1224,9 @@ function renderMoveCard(move) {
 function filteredMoves() {
   const filters = state.moveFilters;
   const search = filters.search.toLowerCase();
-  const result = moveData.moves.filter((move) => {
+  const sourceMoves =
+    state.moveMode === "tutors" ? moveData.moves.filter((move) => tutorMoveIds.has(move.id)) : moveData.moves;
+  const result = sourceMoves.filter((move) => {
     if (search && !moveSearchTextById.get(move.id).includes(search)) return false;
     if (filters.type && move.type !== filters.type) return false;
     if (filters.category && move.category !== filters.category) return false;
@@ -1225,10 +1252,12 @@ function renderMoves(resetLimit = false) {
   elements.moveEmptyState.hidden = moves.length !== 0;
   elements.showMoreMoves.hidden = visible.length === moves.length;
   elements.showMoreMoves.textContent = `Show more moves · ${moves.length - visible.length} remaining`;
+  const total = state.moveMode === "tutors" ? tutorMoveIds.size : moveData.moves.length;
+  const noun = state.moveMode === "tutors" ? "move tutors" : "moves";
   elements.moveResultCount.textContent =
-    moves.length === moveData.moves.length
-      ? `Showing ${visible.length} of all ${moveData.moves.length} moves`
-      : `Showing ${visible.length} of ${moves.length} matching moves`;
+    moves.length === total
+      ? `Showing ${visible.length} of all ${total} ${noun}`
+      : `Showing ${visible.length} of ${moves.length} matching ${noun}`;
 }
 
 function activateView(viewName) {
@@ -1471,6 +1500,15 @@ function bindControls() {
     Object.assign(state.moveFilters, { search: "", type: "", category: "", method: "", sort: "id" });
     document.querySelector("#move-filters").reset();
     renderMoves(true);
+  });
+  document.querySelectorAll("[data-move-mode]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.moveMode = button.dataset.moveMode;
+      document.querySelectorAll("[data-move-mode]").forEach((entry) => {
+        entry.classList.toggle("is-active", entry === button);
+      });
+      renderMoves(true);
+    });
   });
   elements.showMoreMoves.addEventListener("click", () => {
     state.moveLimit += 100;

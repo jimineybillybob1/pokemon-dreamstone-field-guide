@@ -36,6 +36,11 @@ check(
   "Expected 12 Pokerex wild entries missing from the curated guide",
 );
 check(moves.moves.length === 934, `Expected 934 Pokerex moves, found ${moves.moves.length}`);
+check(moves.tutors.length === 19, `Expected 19 Pokerex move tutors, found ${moves.tutors.length}`);
+check(
+  moves.tutors.every((tutor) => tutor.moveId && tutor.location && moves.moves.some((move) => move.id === tutor.moveId)),
+  "Pokerex move tutor details are invalid",
+);
 check(
   moves.moves.every(
     (move) =>
@@ -177,6 +182,11 @@ check(html.includes('class="hero__logo"'), "Dreamstone hero logo is missing");
 check(html.includes("assets/art/dreamstone-social-preview.png"), "Dreamstone social preview is missing");
 check(html.includes("https://www.steamgriddb.com/game/5494497"), "SteamGridDB artwork credit is missing");
 check(html.includes('data-view="save"'), "Save & Sync tab is missing");
+check(
+  html.indexOf('data-view="save"') > html.indexOf('data-view="items"'),
+  "Save & Sync is not the final primary tab",
+);
+check(html.includes('data-move-mode="tutors"'), "Move tutors sub-tab is missing");
 check(html.includes('id="export-save"'), "Save export control is missing");
 check(html.includes('id="sync-code"'), "Cloud sync UUID control is missing");
 
