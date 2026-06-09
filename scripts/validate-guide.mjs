@@ -102,8 +102,16 @@ for (const file of ["index.html", "styles.css", "app.js", "data/dreamstone-data.
 }
 
 const html = await fs.readFile(path.join(rootDir, "index.html"), "utf8");
+const manifest = JSON.parse(await fs.readFile(path.join(rootDir, "site.webmanifest"), "utf8"));
 const htmlIds = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
 check(new Set(htmlIds).size === htmlIds.length, "index.html contains duplicate element IDs");
+check(manifest.name === "Dreamstone Field Guide", "Manifest has an unexpected app name");
+check(manifest.display === "standalone", "Manifest is not configured for standalone display");
+check(manifest.icons.length === 2, "Manifest should contain 192px and 512px icons");
+check(
+  (html.match(/rel="apple-touch-icon"/g) || []).length === 5,
+  "Expected five Apple touch icon declarations",
+);
 
 const localReferences = [...html.matchAll(/\s(?:src|href)="([^"]+)"/g)]
   .map((match) => match[1])

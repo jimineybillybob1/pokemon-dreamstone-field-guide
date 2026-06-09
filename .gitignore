@@ -2,3 +2,4 @@ node_modules/
 vendor/
 .gh-auth.*
 tmp/
+__pycache__/

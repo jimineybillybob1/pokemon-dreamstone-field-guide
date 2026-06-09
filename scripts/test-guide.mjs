@@ -32,6 +32,12 @@ const check = async (condition, message) => {
 
 await page.goto(guideUrl);
 await check((await page.title()) === "Dreamstone Field Guide", "Unexpected page title");
+await check((await page.locator("link[rel='manifest']").getAttribute("href")) === "site.webmanifest", "Web app manifest is missing");
+await check((await page.locator("link[rel='apple-touch-icon']").count()) === 5, "Apple touch icons are missing");
+await check(
+  (await page.locator("meta[name='apple-mobile-web-app-capable']").getAttribute("content")) === "yes",
+  "Apple standalone metadata is missing",
+);
 await check((await page.locator(".pokemon-card").count()) === 315, "Expected all 315 Pokémon cards");
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .type-badge").allTextContents()).includes("psychic"),

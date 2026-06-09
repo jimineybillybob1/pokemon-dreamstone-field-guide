@@ -20,6 +20,7 @@ Open `index.html` in a browser. The guide includes:
 - Mega Evolution choices and important-item locations from the workbook
 - Local sprites, so the guide works offline
 - Links to Pokerex's full-resolution maps
+- iOS/iPadOS Home Screen icon and standalone web-app metadata
 
 ## Regenerate From The Workbook
 
@@ -52,6 +53,15 @@ Place the public Pokerex Dreamstone export at `tmp/pokerex-dreamstone-data.json`
 
 Only Dreamstone's active custom map groups are imported. Inaccessible inherited Emerald encounter
 tables are intentionally excluded.
+
+## Regenerate App Icons
+
+Replace `assets/icons/app-icon-master.png`, then run:
+
+```powershell
+& 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
+  'scripts\generate-app-icons.py'
+```
 
 ## Credits
 
