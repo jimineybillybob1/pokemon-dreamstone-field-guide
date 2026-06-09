@@ -1,0 +1,1 @@
+window.DREAMSTONE_SYNC_ENDPOINT = "";

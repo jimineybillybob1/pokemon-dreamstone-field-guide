@@ -230,6 +230,54 @@ await page.locator(".view-tab[data-view='team']").click();
 await page.locator(".team-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-builder.png"), fullPage: false });
 
+await page.locator(".view-tab[data-view='save']").click();
+await check(
+  await page.locator("#view-save").evaluate((element) => element.classList.contains("is-active")),
+  "Save & Sync view did not open",
+);
+await check((await page.locator("#save-team-count").textContent()) === "1", "Save summary did not include the team");
+await check(await page.locator("#upload-cloud-save").isDisabled(), "Cloud upload was enabled without an endpoint");
+await check(await page.locator("#download-cloud-save").isDisabled(), "Cloud download was enabled without an endpoint");
+const downloadPromise = page.waitForEvent("download");
+await page.locator("#export-save").click();
+const saveDownload = await downloadPromise;
+const saveBuffer = await fs.readFile(await saveDownload.path());
+const exportedSave = JSON.parse(saveBuffer.toString("utf8"));
+await check(exportedSave.format === "dreamstone-field-guide-save", "Exported save has an unexpected format");
+await check(exportedSave.version === 1, "Exported save has an unexpected version");
+await check(exportedSave.team[0].pokemonNumber === 2, "Exported save is missing Gothorita");
+await check(exportedSave.team[0].moves[1] === 247, "Exported save is missing Shadow Ball");
+await page.locator("#create-sync-code").click();
+await check(
+  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
+    await page.locator("#sync-code").inputValue(),
+  ),
+  "Generated sync UUID is invalid",
+);
+await check(
+  await page.evaluate(async () => {
+    const code = crypto.randomUUID();
+    const save = createSaveDocument();
+    const encrypted = await encryptSave(save, code);
+    const decrypted = await decryptSave(encrypted.envelope, code);
+    return encrypted.id.length === 64 && decrypted.format === save.format && decrypted.team.length === 6;
+  }),
+  "Client-side save encryption round trip failed",
+);
+await page.locator(".view-tab[data-view='team']").click();
+await page.locator(".team-card[data-slot='1'] .team-card__clear").click();
+await check((await page.locator(".team-card__empty").count()) === 6, "Team did not clear before import test");
+page.once("dialog", (dialog) => dialog.accept());
+await page.locator("#import-save-file").setInputFiles({
+  name: "dreamstone-test-save.json",
+  mimeType: "application/json",
+  buffer: saveBuffer,
+});
+await check(
+  (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothorita",
+  "Imported save did not restore the team",
+);
+
 await page.locator(".view-tab[data-view='moves']").click();
 await check(await page.locator("#view-moves").evaluate((element) => element.classList.contains("is-active")), "Moves view did not open");
 await check((await page.locator(".move-card").count()) === 100, "Moves view did not render its first 100 moves");
@@ -383,6 +431,16 @@ await check(
   (await page.locator(".team-card[data-slot='1'] .team-move-slot").nth(2).locator("select").inputValue()) === "85",
   "Saved dual-type coverage move did not persist after reload",
 );
+await page.locator(".view-tab[data-view='save']").click();
+await check(
+  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
+    await page.locator("#sync-code").inputValue(),
+  ),
+  "Sync UUID did not persist after reload",
+);
+await page.locator("#view-save").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-save-sync.png"), fullPage: false });
+await page.locator(".view-tab[data-view='team']").click();
 await page.locator(".team-card[data-slot='1']").scrollIntoViewIfNeeded();
 await check(
   await page.locator(".team-card[data-slot='1']").evaluate((element) => element.scrollWidth <= element.clientWidth),
@@ -443,6 +501,7 @@ console.log(
         "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-team-builder.png",
         "tmp/guide-mobile-team-coverage.png",
+        "tmp/guide-mobile-save-sync.png",
         "tmp/guide-mobile-collection.png",
         "tmp/guide-mobile-location-map.png",
       ],

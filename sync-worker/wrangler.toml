@@ -1,0 +1,10 @@
+name = "dreamstone-field-guide-sync"
+main = "src/index.js"
+compatibility_date = "2026-06-09"
+
+[vars]
+ALLOWED_ORIGINS = "https://jimineybillybob1.github.io"
+
+[[kv_namespaces]]
+binding = "SAVES"
+id = "CLOUDFLARE_KV_NAMESPACE_ID"

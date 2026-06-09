@@ -5,6 +5,10 @@ const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
 const teamStorageKey = "dreamstone-field-guide-team";
+const syncCodeKey = "dreamstone-field-guide-sync-code";
+const saveFormat = "dreamstone-field-guide-save";
+const saveVersion = 1;
+const syncEndpoint = (window.DREAMSTONE_SYNC_ENDPOINT || "").replace(/\/+$/, "");
 
 function loadTeam() {
   try {
@@ -33,6 +37,7 @@ const state = {
   collectionSearch: "",
   moveLimit: 100,
   team: loadTeam(),
+  syncCode: localStorage.getItem(syncCodeKey) || "",
   moveFilters: {
     search: "",
     type: "",
@@ -80,6 +85,11 @@ const elements = {
   moveEmptyState: document.querySelector("#move-empty-state"),
   showMoreMoves: document.querySelector("#show-more-moves"),
   teamGrid: document.querySelector("#team-grid"),
+  saveCaughtCount: document.querySelector("#save-caught-count"),
+  saveTeamCount: document.querySelector("#save-team-count"),
+  syncCode: document.querySelector("#sync-code"),
+  syncServiceStatus: document.querySelector("#sync-service-status"),
+  saveOperationStatus: document.querySelector("#save-operation-status"),
   megaGrid: document.querySelector("#mega-grid"),
   megaNote: document.querySelector("#mega-note"),
   itemList: document.querySelector("#item-list"),
@@ -115,6 +125,7 @@ const syntheticCollectionEntries = encounters.encounterSpecies
   }));
 const collectionDex = [...data.dex, ...syntheticCollectionEntries];
 const dexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
+const validCaughtIds = new Set(collectionDex.map(dexId));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
 const moveById = new Map(moveData.moves.map((move) => [move.id, move]));
@@ -300,6 +311,7 @@ function updateProgress() {
   elements.collectionMissingCount.textContent = collectionDex.length - caughtCount;
   elements.collectionPercent.textContent = `${percent}%`;
   elements.collectionProgressBar.style.width = `${percent}%`;
+  updateSaveSummary();
   elements.progressBar.parentElement.setAttribute(
     "aria-label",
     `${caughtCount} of ${collectionDex.length} Pokémon caught`,
@@ -413,6 +425,220 @@ function renderPokemonStats(card, pokemon) {
 
 function persistTeam() {
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
+  updateSaveSummary();
+}
+
+function updateSaveSummary() {
+  if (!elements.saveCaughtCount || !elements.saveTeamCount) return;
+  elements.saveCaughtCount.textContent = collectionDex.filter(isCaught).length;
+  elements.saveTeamCount.textContent = state.team.filter((slot) => slot.pokemonNumber).length;
+}
+
+function createSaveDocument() {
+  return {
+    format: saveFormat,
+    version: saveVersion,
+    exportedAt: new Date().toISOString(),
+    caught: [...state.caught].sort((a, b) =>
+      String(a).localeCompare(String(b), undefined, { numeric: true }),
+    ),
+    team: state.team.map((slot) => ({
+      pokemonNumber: slot.pokemonNumber,
+      moves: [...slot.moves],
+    })),
+    preferences: {
+      theme: state.theme,
+      notesHidden: state.notesHidden,
+    },
+  };
+}
+
+function validateSaveDocument(input) {
+  if (!input || input.format !== saveFormat || input.version !== saveVersion) {
+    throw new Error("This is not a supported Dreamstone Field Guide save.");
+  }
+  if (!Array.isArray(input.caught) || !Array.isArray(input.team)) {
+    throw new Error("The save is missing caught progress or team data.");
+  }
+  const caught = [...new Set(input.caught.map(String).filter((id) => validCaughtIds.has(id)))];
+  const team = Array.from({ length: 6 }, (_, slotIndex) => {
+    const slot = input.team[slotIndex] || {};
+    const pokemonNumber = pokemonByNumber.has(Number(slot.pokemonNumber))
+      ? Number(slot.pokemonNumber)
+      : null;
+    const moves = Array.from({ length: 4 }, (__, moveIndex) => {
+      const moveId = Number(slot.moves?.[moveIndex]);
+      return moveById.has(moveId) ? moveId : null;
+    });
+    return { pokemonNumber, moves };
+  });
+  return {
+    format: saveFormat,
+    version: saveVersion,
+    exportedAt: typeof input.exportedAt === "string" ? input.exportedAt : null,
+    caught,
+    team,
+    preferences: {
+      theme: input.preferences?.theme === "dark" ? "dark" : "light",
+      notesHidden: input.preferences?.notesHidden === true,
+    },
+  };
+}
+
+function applySaveDocument(input) {
+  const save = validateSaveDocument(input);
+  state.caught = new Set(save.caught);
+  state.team = save.team;
+  localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
+  localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
+  setNotesHidden(save.preferences.notesHidden);
+  setTheme(save.preferences.theme);
+  updateProgress();
+  renderDex();
+  renderTeam();
+  renderCollection();
+  renderLocations(elements.locationSearch.value);
+  return save;
+}
+
+function setSaveStatus(message, type = "") {
+  elements.saveOperationStatus.textContent = message;
+  elements.saveOperationStatus.dataset.status = type;
+}
+
+function exportSave() {
+  const blob = new Blob([`${JSON.stringify(createSaveDocument(), null, 2)}\n`], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `dreamstone-field-guide-save-${new Date().toISOString().slice(0, 10)}.json`;
+  link.click();
+  URL.revokeObjectURL(url);
+  setSaveStatus("Save exported. Keep the file somewhere safe.", "success");
+}
+
+async function importSaveFile(file) {
+  if (!file) return;
+  try {
+    const save = validateSaveDocument(JSON.parse(await file.text()));
+    if (!window.confirm("Replace this device's current Dreamstone progress with the imported save?")) return;
+    applySaveDocument(save);
+    setSaveStatus("Save imported successfully.", "success");
+  } catch (error) {
+    setSaveStatus(error.message || "The selected save could not be imported.", "error");
+  }
+}
+
+const bytesToBase64Url = (bytes) =>
+  btoa(String.fromCharCode(...bytes)).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");
+
+const base64UrlToBytes = (value) => {
+  const base64 = value.replaceAll("-", "+").replaceAll("_", "/").padEnd(Math.ceil(value.length / 4) * 4, "=");
+  return Uint8Array.from(atob(base64), (character) => character.charCodeAt(0));
+};
+
+const bytesToHex = (bytes) => [...bytes].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+
+function normalizedSyncCode() {
+  const code = elements.syncCode.value.trim().toLowerCase();
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(code)) {
+    throw new Error("Enter a valid sync UUID, or create a new one.");
+  }
+  state.syncCode = code;
+  localStorage.setItem(syncCodeKey, code);
+  updateSyncControls();
+  return code;
+}
+
+async function syncIdentity(code) {
+  const digest = new Uint8Array(
+    await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`dreamstone:${code}`)),
+  );
+  return {
+    id: bytesToHex(digest),
+    key: await crypto.subtle.importKey("raw", digest, "AES-GCM", false, ["encrypt", "decrypt"]),
+  };
+}
+
+async function encryptSave(save, code) {
+  const { id, key } = await syncIdentity(code);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ciphertext = new Uint8Array(
+    await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(JSON.stringify(save))),
+  );
+  return {
+    id,
+    envelope: {
+      version: 1,
+      iv: bytesToBase64Url(iv),
+      ciphertext: bytesToBase64Url(ciphertext),
+      updatedAt: new Date().toISOString(),
+    },
+  };
+}
+
+async function decryptSave(envelope, code) {
+  if (envelope?.version !== 1 || !envelope.iv || !envelope.ciphertext) {
+    throw new Error("The cloud save has an unsupported encrypted format.");
+  }
+  const { key } = await syncIdentity(code);
+  try {
+    const plaintext = await crypto.subtle.decrypt(
+      { name: "AES-GCM", iv: base64UrlToBytes(envelope.iv) },
+      key,
+      base64UrlToBytes(envelope.ciphertext),
+    );
+    return validateSaveDocument(JSON.parse(new TextDecoder().decode(plaintext)));
+  } catch {
+    throw new Error("The sync UUID could not decrypt this cloud save.");
+  }
+}
+
+function updateSyncControls() {
+  const configured = Boolean(syncEndpoint);
+  const hasCode = Boolean(state.syncCode);
+  elements.syncCode.value = state.syncCode;
+  document.querySelector("#upload-cloud-save").disabled = !configured;
+  document.querySelector("#download-cloud-save").disabled = !configured;
+  document.querySelector("#copy-sync-code").disabled = !hasCode;
+  document.querySelector("#forget-sync-code").disabled = !hasCode;
+  elements.syncServiceStatus.textContent = configured
+    ? "Cloud sync service connected. Saves are encrypted before upload."
+    : "Cloud sync is not connected yet. Export and import already work; complete the Cloudflare setup to enable it.";
+  elements.syncServiceStatus.dataset.connected = String(configured);
+}
+
+async function cloudSave(method) {
+  if (!syncEndpoint) throw new Error("Cloud sync is not connected yet.");
+  const code = normalizedSyncCode();
+  if (method === "PUT") {
+    const { id, envelope } = await encryptSave(createSaveDocument(), code);
+    const response = await fetch(`${syncEndpoint}/saves/${id}`, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(envelope),
+    });
+    if (!response.ok) throw new Error("The encrypted save could not be uploaded.");
+    return envelope;
+  }
+  const { id } = await syncIdentity(code);
+  const response = await fetch(`${syncEndpoint}/saves/${id}`);
+  if (response.status === 404) throw new Error("No cloud save exists for this UUID yet.");
+  if (!response.ok) throw new Error("The encrypted cloud save could not be downloaded.");
+  return decryptSave(await response.json(), code);
+}
+
+async function copySyncCode() {
+  const code = normalizedSyncCode();
+  try {
+    await navigator.clipboard.writeText(code);
+  } catch {
+    elements.syncCode.select();
+    document.execCommand("copy");
+  }
+  setSaveStatus("Sync UUID copied. Keep it private.", "success");
 }
 
 function refreshTeamAndDex() {
@@ -1015,6 +1241,10 @@ function activateView(viewName) {
   if (viewName === "caught") renderCollection();
   if (viewName === "moves") renderMoves();
   if (viewName === "team") renderTeam();
+  if (viewName === "save") {
+    updateSaveSummary();
+    updateSyncControls();
+  }
 }
 
 function resetDexFilters() {
@@ -1246,6 +1476,54 @@ function bindControls() {
     state.moveLimit += 100;
     renderMoves();
   });
+  document.querySelector("#export-save").addEventListener("click", exportSave);
+  document.querySelector("#import-save-button").addEventListener("click", () => {
+    document.querySelector("#import-save-file").click();
+  });
+  document.querySelector("#import-save-file").addEventListener("change", (event) => {
+    importSaveFile(event.target.files?.[0]);
+    event.target.value = "";
+  });
+  document.querySelector("#create-sync-code").addEventListener("click", () => {
+    state.syncCode = crypto.randomUUID();
+    localStorage.setItem(syncCodeKey, state.syncCode);
+    updateSyncControls();
+    setSaveStatus("New private sync UUID created. Save it somewhere secure.", "success");
+  });
+  elements.syncCode.addEventListener("input", () => {
+    state.syncCode = elements.syncCode.value.trim();
+    if (state.syncCode) localStorage.setItem(syncCodeKey, state.syncCode);
+    else localStorage.removeItem(syncCodeKey);
+    document.querySelector("#copy-sync-code").disabled = !state.syncCode;
+    document.querySelector("#forget-sync-code").disabled = !state.syncCode;
+  });
+  document.querySelector("#copy-sync-code").addEventListener("click", () => {
+    copySyncCode().catch((error) => setSaveStatus(error.message, "error"));
+  });
+  document.querySelector("#upload-cloud-save").addEventListener("click", async () => {
+    try {
+      await cloudSave("PUT");
+      setSaveStatus("Encrypted save uploaded to the cloud.", "success");
+    } catch (error) {
+      setSaveStatus(error.message || "Cloud upload failed.", "error");
+    }
+  });
+  document.querySelector("#download-cloud-save").addEventListener("click", async () => {
+    try {
+      const save = await cloudSave("GET");
+      if (!window.confirm("Replace this device's current progress with the encrypted cloud save?")) return;
+      applySaveDocument(save);
+      setSaveStatus("Encrypted cloud save loaded successfully.", "success");
+    } catch (error) {
+      setSaveStatus(error.message || "Cloud download failed.", "error");
+    }
+  });
+  document.querySelector("#forget-sync-code").addEventListener("click", () => {
+    state.syncCode = "";
+    localStorage.removeItem(syncCodeKey);
+    updateSyncControls();
+    setSaveStatus("This device forgot the sync UUID. The encrypted cloud save was not deleted.", "success");
+  });
   document.querySelector("#clear-team").addEventListener("click", () => {
     if (
       !state.team.some((slot) => slot.pokemonNumber) ||
@@ -1296,6 +1574,7 @@ function bindControls() {
 initializeSummary();
 setNotesHidden(state.notesHidden);
 setTheme(state.theme);
+updateSyncControls();
 bindControls();
 updateProgress();
 renderQuickLocations();

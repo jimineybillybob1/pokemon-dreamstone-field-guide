@@ -143,6 +143,9 @@ for (const file of [
   "data/dreamstone-data.js",
   "data/pokerex-encounters.js",
   "data/pokerex-moves.js",
+  "sync-config.js",
+  "sync-worker/src/index.js",
+  "sync-worker/wrangler.toml",
   "assets/art/dreamstone-hero.png",
   "assets/art/dreamstone-logo.png",
   "assets/art/dreamstone-social-preview.png",
@@ -173,6 +176,9 @@ check(html.includes("https://pokemondb.net/type"), "Type-chart source link is mi
 check(html.includes('class="hero__logo"'), "Dreamstone hero logo is missing");
 check(html.includes("assets/art/dreamstone-social-preview.png"), "Dreamstone social preview is missing");
 check(html.includes("https://www.steamgriddb.com/game/5494497"), "SteamGridDB artwork credit is missing");
+check(html.includes('data-view="save"'), "Save & Sync tab is missing");
+check(html.includes('id="export-save"'), "Save export control is missing");
+check(html.includes('id="sync-code"'), "Cloud sync UUID control is missing");
 
 const localReferences = [...html.matchAll(/\s(?:src|href)="([^"]+)"/g)]
   .map((match) => match[1])

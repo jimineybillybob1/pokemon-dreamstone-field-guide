@@ -21,6 +21,8 @@ Open `index.html` in a browser. The guide includes:
 - Clickable Pokémon-card locations that open the matching encounter map
 - A route-by-route capture view with local map thumbnails
 - Persistent caught tracking using browser local storage
+- Portable versioned save-file export and import
+- Optional encrypted UUID-based cloud sync across devices
 - Field notes visible by default, with an optional notes-hidden toggle
 - Mega Evolution choices and important-item locations from the workbook
 - Local sprites, so the guide works offline
@@ -74,6 +76,37 @@ Replace `assets/icons/app-icon-master.png`, then run:
 & 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
   'scripts\generate-app-icons.py'
 ```
+
+## Enable Encrypted Cloud Sync
+
+The guide works without a backend: export and import are always available. Cloud sync uses the
+Worker in `sync-worker/`, stores only browser-encrypted save data, and treats the UUID as the private
+recovery key. Losing the UUID means losing access to that cloud save. Cloud saves expire after 400
+days without a new upload.
+
+One-time setup:
+
+1. Create a [Cloudflare account](https://dash.cloudflare.com/) and enable a `workers.dev` subdomain
+   if prompted.
+2. In Cloudflare, create a Workers KV namespace named `dreamstone-field-guide-saves` and copy its
+   namespace ID.
+3. Create a Cloudflare API token using the **Edit Cloudflare Workers** template. It needs permission
+   to deploy Workers and edit Workers KV.
+4. Copy the Cloudflare account ID from the dashboard.
+5. In the GitHub repository, open **Settings > Secrets and variables > Actions** and add:
+   - Secret `CLOUDFLARE_API_TOKEN`
+   - Secret `CLOUDFLARE_ACCOUNT_ID`
+   - Variable `CLOUDFLARE_KV_NAMESPACE_ID`
+6. Run the **Deploy sync Worker** workflow from the GitHub Actions tab.
+7. Copy the deployed Worker URL, such as
+   `https://dreamstone-field-guide-sync.<your-subdomain>.workers.dev`.
+8. Add that URL as the GitHub Actions variable `DREAMSTONE_SYNC_ENDPOINT`.
+9. Run the **Deploy GitHub Pages** workflow. The live guide will then enable its cloud buttons.
+
+Relevant Cloudflare documentation:
+
+- [Workers KV getting started](https://developers.cloudflare.com/kv/get-started/)
+- [Deploy Workers with GitHub Actions](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/)
 
 ## Credits
 

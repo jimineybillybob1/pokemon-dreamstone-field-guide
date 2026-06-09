@@ -1,0 +1,29 @@
+name: Deploy sync Worker
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure KV namespace
+        env:
+          CLOUDFLARE_KV_NAMESPACE_ID: ${{ vars.CLOUDFLARE_KV_NAMESPACE_ID }}
+        run: |
+          test -n "$CLOUDFLARE_KV_NAMESPACE_ID"
+          sed "s/CLOUDFLARE_KV_NAMESPACE_ID/$CLOUDFLARE_KV_NAMESPACE_ID/" sync-worker/wrangler.toml > sync-worker/wrangler.deploy.toml
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: sync-worker
+          command: deploy --config wrangler.deploy.toml

@@ -2270,6 +2270,158 @@ body.notes-hidden .item-card__location {
   text-transform: uppercase;
 }
 
+.save-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.save-summary article {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.68);
+  padding: 14px 16px;
+}
+
+.save-summary span,
+.sync-code-field span {
+  color: var(--muted);
+  font-size: 0.61rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.save-summary strong {
+  color: var(--violet-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+}
+
+.save-management-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.save-panel {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 10px 30px rgba(48, 38, 88, 0.055);
+  padding: 20px;
+}
+
+.save-panel h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.45rem;
+}
+
+.save-panel p:not(.eyebrow) {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.save-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.save-actions button {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 8px 12px;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.save-primary-button {
+  color: #fff;
+  border-color: var(--violet) !important;
+  background: var(--violet);
+}
+
+.save-primary-button:hover {
+  background: var(--violet-dark);
+}
+
+.save-secondary-button {
+  color: var(--violet-dark);
+  background: var(--paper-deep);
+}
+
+.save-text-button {
+  color: var(--muted);
+  border-color: transparent !important;
+  background: transparent;
+}
+
+.save-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.sync-code-field {
+  display: grid;
+  gap: 6px;
+}
+
+.sync-code-field input {
+  width: 100%;
+  min-height: 43px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+  color: var(--ink);
+  background: #fff;
+  padding: 9px 11px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.75rem;
+}
+
+.sync-code-field input:focus {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(114, 87, 212, 0.12);
+}
+
+.sync-service-status {
+  border-left: 2px solid var(--gold);
+  background: rgba(231, 181, 83, 0.08);
+  padding: 8px 10px;
+}
+
+.sync-service-status[data-connected="true"] {
+  border-color: var(--teal);
+  background: rgba(66, 182, 163, 0.08);
+}
+
+.save-operation-status {
+  min-height: 22px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.save-operation-status[data-status="success"] {
+  color: #357f75;
+}
+
+.save-operation-status[data-status="error"] {
+  color: #a44a5e;
+}
+
 footer {
   display: grid;
   gap: 8px;
@@ -2317,6 +2469,8 @@ html[data-theme="dark"] .move-filter-panel,
 html[data-theme="dark"] .move-card,
 html[data-theme="dark"] .team-toolbar,
 html[data-theme="dark"] .team-card,
+html[data-theme="dark"] .save-summary article,
+html[data-theme="dark"] .save-panel,
 html[data-theme="dark"] .location-card,
 html[data-theme="dark"] .mega-card,
 html[data-theme="dark"] .item-card,
@@ -2389,7 +2543,8 @@ html[data-theme="dark"] .team-card__top {
 }
 
 html[data-theme="dark"] .team-pokemon-picker select,
-html[data-theme="dark"] .team-move-slot select {
+html[data-theme="dark"] .team-move-slot select,
+html[data-theme="dark"] .sync-code-field input {
   color: var(--ink);
   background: #211f31;
 }
@@ -2480,6 +2635,10 @@ html[data-theme="dark"] .source-note {
   }
 
   .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .save-management-grid {
     grid-template-columns: 1fr;
   }
 
@@ -2725,6 +2884,10 @@ html[data-theme="dark"] .source-note {
 
   .team-toolbar {
     display: grid;
+  }
+
+  .save-summary {
+    grid-template-columns: 1fr;
   }
 
   .team-card__identity {

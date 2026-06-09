@@ -28,6 +28,12 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Configure optional cloud sync endpoint
+        env:
+          DREAMSTONE_SYNC_ENDPOINT: ${{ vars.DREAMSTONE_SYNC_ENDPOINT }}
+        run: |
+          node -e "require('fs').writeFileSync('sync-config.js', 'window.DREAMSTONE_SYNC_ENDPOINT = ' + JSON.stringify(process.env.DREAMSTONE_SYNC_ENDPOINT || '') + ';\n')"
+
       - name: Upload static site
         uses: actions/upload-pages-artifact@v4
         with:

@@ -1,0 +1,8 @@
+{
+  "name": "dreamstone-field-guide-sync-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node test/worker.test.mjs"
+  }
+}
