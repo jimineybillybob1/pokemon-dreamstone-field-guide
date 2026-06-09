@@ -75,8 +75,8 @@
         <p class="eyebrow">Cormoria Capture Companion</p>
         <h1>Find them. Track them.<br /><span>Complete the mystery.</span></h1>
         <p class="hero__intro">
-          A searchable, route-by-route field guide using ROM-extracted Pokerex encounters. Your
-          caught Pokémon are saved on this device.
+          A searchable, route-by-route field guide for Dreamstone Mysteries. Your caught Pokémon
+          are saved on this device.
         </p>
         <div class="progress-panel">
           <div class="progress-panel__copy">
@@ -236,10 +236,12 @@
           </div>
           <p>Your six-slot team and selected moves are saved locally in this browser.</p>
         </div>
-        <aside class="source-note">
-          Move choices use Pokerex learner compatibility. Evolving a team member keeps its selected
-          moves, including any moves the evolved Pokemon cannot normally learn directly. Ability
-          choices use Pokerex's extracted assignments.
+        <aside class="guide-tip">
+          <span class="guide-tip__label">Team behavior</span>
+          <p>
+            Evolving or changing a team member keeps its selected moves, including moves the new
+            Pokémon cannot normally learn. Its selected ability will reset.
+          </p>
         </aside>
         <div class="team-toolbar">
           <p>Select a Pokemon for each slot, then choose an ability and up to four moves.</p>
@@ -256,17 +258,9 @@
           </div>
           <p id="move-result-count">Showing all moves</p>
         </div>
-        <aside class="source-note">
-          Move details and compatibility come from
-          <a href="https://pokerex.io/dreamstone-mysteries/v1.0/moves" target="_blank" rel="noreferrer"
-            >Pokerex</a
-          >. Tutor locations come from
-          <a
-            href="https://pokerex.io/dreamstone-mysteries/v1.0/moves/tutor"
-            target="_blank"
-            rel="noreferrer"
-            >Pokerex's tutor guide</a
-          >. Machine and tutor compatibility are combined as <strong>Teachable</strong>.
+        <aside class="guide-tip">
+          <span class="guide-tip__label">Compatibility</span>
+          <p>Machine and tutor compatibility are combined under <strong>Teachable</strong>.</p>
         </aside>
         <nav class="move-mode-tabs" aria-label="Move reference sections">
           <button class="is-active" type="button" data-move-mode="all">All moves</button>
@@ -332,12 +326,6 @@
           </div>
           <p id="ability-result-count">Showing all abilities</p>
         </div>
-        <aside class="source-note">
-          Ability descriptions and Pokémon assignments come from
-          <a href="https://pokerex.io/dreamstone-mysteries/v1.0/abilities" target="_blank" rel="noreferrer"
-            >Pokerex</a
-          >.
-        </aside>
         <form class="ability-filter-panel" id="ability-filters">
           <label>
             <span>Search abilities or Pokémon</span>
@@ -497,12 +485,6 @@
           </div>
           <p>Maps, methods, rates, and levels extracted from Dreamstone Mysteries v1.0.</p>
         </div>
-        <aside class="source-note location-source-note">
-          Encounter details and maps come from
-          <a href="https://pokerex.io/dreamstone-mysteries/v1.0/locations" target="_blank" rel="noreferrer"
-            >Pokerex</a
-          >. Inaccessible inherited Emerald maps are excluded.
-        </aside>
         <label class="location-search">
           <span>Find a location</span>
           <span class="search-input-wrap">
@@ -520,7 +502,7 @@
             <h2>Available Mega Evolutions</h2>
           </div>
         </div>
-        <aside class="source-note" id="mega-note"></aside>
+        <aside class="guide-tip guide-tip--mega" id="mega-note"></aside>
         <div class="mega-grid" id="mega-grid"></div>
       </section>
 

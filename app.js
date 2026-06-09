@@ -1276,7 +1276,7 @@ function renderCollection() {
         <img src="${entry.sprite}" alt="" width="64" height="64" loading="lazy">
       </span>
       <span class="collection-card__copy">
-        <small>${entry.number ? `No. ${String(entry.number).padStart(3, "0")}` : "Pokerex wild entry"}</small>
+        <small>${entry.number ? `No. ${String(entry.number).padStart(3, "0")}` : "Additional wild entry"}</small>
         <strong>${entry.name.replaceAll("_", " ")}</strong>
         <span>${formatLocations(locationsForPokemon(entry), 1) || "Evolution / special"}</span>
       </span>
@@ -1648,8 +1648,8 @@ function renderLocations(search = "") {
           </a>
           <div class="encounter-methods"></div>
         </div>
-        <a class="pokerex-map-link" href="${location.map.pokerexUrl}" target="_blank" rel="noreferrer">
-          View this map on Pokerex
+        <a class="map-reference-link" href="${location.map.pokerexUrl}" target="_blank" rel="noreferrer">
+          Open map reference
         </a>
       `;
       const methods = card.querySelector(".encounter-methods");
@@ -1692,7 +1692,16 @@ function renderLocations(search = "") {
 }
 
 function renderMegas() {
-  elements.megaNote.textContent = data.sourceNotes.megas;
+  elements.megaNote.innerHTML = `
+    <span class="guide-tip__label">Choice rules</span>
+    <div>
+      <strong>Four Mega Stones are available</strong>
+      <p>
+        You receive Aerodactylite, one Kanto starter Mega Stone, one Mega Stone from the choices
+        below, and Diancite.
+      </p>
+    </div>
+  `;
   const fragment = document.createDocumentFragment();
   data.megas.forEach((mega) => {
     const card = document.createElement("article");

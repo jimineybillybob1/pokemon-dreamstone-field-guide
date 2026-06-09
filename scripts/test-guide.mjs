@@ -59,6 +59,12 @@ await check(
   "Primary tabs are not in the expected order",
 );
 await check((await page.locator("[data-clear-search]").count()) === 5, "Search clear buttons are missing");
+await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
+await check((await page.locator(".guide-tip").count()) === 3, "Expected three compact guide tips");
+await check(
+  !(await page.locator("main").textContent()).includes("Pokerex"),
+  "Pokerex attribution is repeated inside a guide tab",
+);
 await check(
   (await page.locator("meta[name='apple-mobile-web-app-capable']").getAttribute("content")) === "yes",
   "Apple standalone metadata is missing",
@@ -518,6 +524,14 @@ await page.locator("[data-collection-status='all']").click();
 await page.locator("#collection-search").fill("");
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-collection.png"), fullPage: false });
 
+await page.setViewportSize({ width: 820, height: 1180 });
+await page.locator(".view-tab[data-view='moves']").click();
+await page.locator("#view-moves").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-tablet-moves-tip.png"), fullPage: false });
+await page.locator(".view-tab[data-view='megas']").click();
+await page.locator("#view-megas").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-tablet-mega-tip.png"), fullPage: false });
+
 await page.setViewportSize({ width: 390, height: 844 });
 await page.reload();
 await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
@@ -572,6 +586,8 @@ await page.screenshot({ path: path.join(outputDir, "guide-mobile-dex-stats.png")
 await page.locator(".pokemon-card[data-number='1'] .team-matchups").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-team-coverage.png"), fullPage: false });
 await page.locator(".view-tab[data-view='moves']").click();
+await page.locator("#view-moves").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-moves-tip.png"), fullPage: false });
 await page.locator("#move-search").fill("Pound");
 await page.locator(".move-card .move-learners summary").click();
 await page.locator(".move-card").scrollIntoViewIfNeeded();
@@ -620,8 +636,11 @@ console.log(
         "tmp/guide-desktop-team-search.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-coverage.png",
+        "tmp/guide-tablet-moves-tip.png",
+        "tmp/guide-tablet-mega-tip.png",
         "tmp/guide-mobile-dex-stats.png",
         "tmp/guide-mobile-masthead.png",
+        "tmp/guide-mobile-moves-tip.png",
         "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-abilities.png",
         "tmp/guide-mobile-team-builder.png",
