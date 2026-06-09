@@ -40,6 +40,7 @@
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
+    <script src="data/pokerex-abilities.js" defer></script>
     <script src="sync-config.js" defer></script>
     <script src="app.js" defer></script>
   </head>
@@ -119,12 +120,13 @@
 
       <nav class="view-tabs" aria-label="Guide views">
         <button class="view-tab is-active" type="button" data-view="dex">Full Dex</button>
-        <button class="view-tab" type="button" data-view="team">Team Builder</button>
-        <button class="view-tab" type="button" data-view="moves">Moves</button>
+        <button class="view-tab" type="button" data-view="locations">Locations</button>
         <button class="view-tab" type="button" data-view="caught">
           Caught <span class="tab-count" id="caught-tab-count">0</span>
         </button>
-        <button class="view-tab" type="button" data-view="locations">By Location</button>
+        <button class="view-tab" type="button" data-view="team">Team Builder</button>
+        <button class="view-tab" type="button" data-view="moves">Moves</button>
+        <button class="view-tab" type="button" data-view="abilities">Abilities</button>
         <button class="view-tab" type="button" data-view="megas">Mega Choices</button>
         <button class="view-tab" type="button" data-view="items">Important Items</button>
         <button class="view-tab" type="button" data-view="save">Save &amp; Sync</button>
@@ -142,7 +144,10 @@
         <div class="sticky-search">
           <label class="search-field">
             <span>Search the Dreamstone dex</span>
-            <input id="search" type="search" placeholder="Name, type, location, evolution, or note..." />
+            <span class="search-input-wrap">
+              <input id="search" type="search" placeholder="Name, type, location, evolution, or note..." />
+              <button class="search-clear" type="button" data-clear-search="#search" aria-label="Clear Dex search" hidden>&times;</button>
+            </span>
           </label>
           <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
             <span class="back-to-top__label">Back to top</span>
@@ -233,10 +238,11 @@
         </div>
         <aside class="source-note">
           Move choices use Pokerex learner compatibility. Evolving a team member keeps its selected
-          moves, including any moves the evolved Pokemon cannot normally learn directly.
+          moves, including any moves the evolved Pokemon cannot normally learn directly. Ability
+          choices use Pokerex's extracted assignments.
         </aside>
         <div class="team-toolbar">
-          <p>Select a Pokemon for each slot, then choose up to four moves.</p>
+          <p>Select a Pokemon for each slot, then choose an ability and up to four moves.</p>
           <button class="clear-button" id="clear-team" type="button">Clear team</button>
         </div>
         <div class="team-grid" id="team-grid"></div>
@@ -271,7 +277,10 @@
         <form class="move-filter-panel" id="move-filters">
           <label class="move-search">
             <span>Search moves or learners</span>
-            <input id="move-search" type="search" placeholder="Move, effect, description, or Pokémon..." />
+            <span class="search-input-wrap">
+              <input id="move-search" type="search" placeholder="Move, effect, description, or Pokémon..." />
+              <button class="search-clear" type="button" data-clear-search="#move-search" aria-label="Clear move search" hidden>&times;</button>
+            </span>
           </label>
           <label>
             <span>Type</span>
@@ -315,6 +324,46 @@
         </div>
       </section>
 
+      <section class="guide-view" id="view-abilities">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Battle traits</p>
+            <h2>Dreamstone Abilities</h2>
+          </div>
+          <p id="ability-result-count">Showing all abilities</p>
+        </div>
+        <aside class="source-note">
+          Ability descriptions and Pokémon assignments come from
+          <a href="https://pokerex.io/dreamstone-mysteries/v1.0/abilities" target="_blank" rel="noreferrer"
+            >Pokerex</a
+          >.
+        </aside>
+        <form class="ability-filter-panel" id="ability-filters">
+          <label>
+            <span>Search abilities or Pokémon</span>
+            <span class="search-input-wrap">
+              <input id="ability-search" type="search" placeholder="Ability, description, or Pokémon..." />
+              <button class="search-clear" type="button" data-clear-search="#ability-search" aria-label="Clear ability search" hidden>&times;</button>
+            </span>
+          </label>
+          <label>
+            <span>Sort</span>
+            <select id="ability-sort">
+              <option value="id">Ability number</option>
+              <option value="name">Name</option>
+              <option value="users">Pokémon users</option>
+            </select>
+          </label>
+          <button class="clear-button" id="clear-ability-filters" type="button">Clear filters</button>
+        </form>
+        <div class="ability-list" id="ability-list"></div>
+        <div class="empty-state" id="ability-empty-state" hidden>
+          <span class="empty-state__stone" aria-hidden="true"></span>
+          <h3>No abilities found</h3>
+          <p>Try clearing the search or looking for another Pokémon.</p>
+        </div>
+      </section>
+
       <section class="guide-view" id="view-save">
         <div class="section-heading">
           <div>
@@ -336,8 +385,8 @@
               <p class="eyebrow">Offline backup</p>
               <h3>Export or import a save file</h3>
               <p>
-                Exported JSON contains caught progress, team members, selected moves, theme, and
-                notes visibility.
+                Exported JSON contains caught progress, team members, selected abilities and moves,
+                theme, and notes visibility.
               </p>
             </div>
             <div class="save-actions">
@@ -419,7 +468,10 @@
         <div class="collection-controls">
           <label>
             <span>Search collection</span>
-            <input id="collection-search" type="search" placeholder="Name, type, or location..." />
+            <span class="search-input-wrap">
+              <input id="collection-search" type="search" placeholder="Name, type, or location..." />
+              <button class="search-clear" type="button" data-clear-search="#collection-search" aria-label="Clear collection search" hidden>&times;</button>
+            </span>
           </label>
           <div class="collection-status" role="group" aria-label="Collection status filter">
             <button class="is-active" type="button" data-collection-status="all">All</button>
@@ -453,7 +505,10 @@
         </aside>
         <label class="location-search">
           <span>Find a location</span>
-          <input id="location-search" type="search" placeholder="Route 1, Mt. Ceram..." />
+          <span class="search-input-wrap">
+            <input id="location-search" type="search" placeholder="Route 1, Mt. Ceram..." />
+            <button class="search-clear" type="button" data-clear-search="#location-search" aria-label="Clear location search" hidden>&times;</button>
+          </span>
         </label>
         <div class="location-list" id="location-list"></div>
       </section>
@@ -483,7 +538,7 @@
 
     <footer>
       <p>
-        Wild encounters, maps, Pokémon stats, moves, and learners come from the
+        Wild encounters, maps, Pokémon stats, moves, abilities, and learners come from the
         <a href="https://pokerex.io/dreamstone-mysteries/v1.0/moves">Pokerex ROM extraction</a>.
         Gift, special, Mega Evolution, and important-item notes come from the temporary Dreamstone
         Mysteries dex.

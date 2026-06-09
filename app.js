@@ -1,6 +1,7 @@
 const data = window.DREAMSTONE_DATA;
 const encounters = window.DREAMSTONE_ENCOUNTERS;
 const moveData = window.DREAMSTONE_MOVES;
+const abilityData = window.DREAMSTONE_ABILITIES;
 const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
@@ -20,11 +21,13 @@ function loadTeam() {
       moves: Array.from({ length: 4 }, (__, moveIndex) =>
         Number.isFinite(saved[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
       ),
+      abilityId: Number.isFinite(saved[index]?.abilityId) ? saved[index].abilityId : null,
     }));
   } catch {
     return Array.from({ length: 6 }, () => ({
       pokemonNumber: null,
       moves: [null, null, null, null],
+      abilityId: null,
     }));
   }
 }
@@ -37,6 +40,10 @@ const state = {
   collectionSearch: "",
   moveLimit: 100,
   moveMode: "all",
+  abilityFilters: {
+    search: "",
+    sort: "id",
+  },
   team: loadTeam(),
   syncCode: localStorage.getItem(syncCodeKey) || "",
   moveFilters: {
@@ -85,6 +92,9 @@ const elements = {
   moveResultCount: document.querySelector("#move-result-count"),
   moveEmptyState: document.querySelector("#move-empty-state"),
   showMoreMoves: document.querySelector("#show-more-moves"),
+  abilityList: document.querySelector("#ability-list"),
+  abilityResultCount: document.querySelector("#ability-result-count"),
+  abilityEmptyState: document.querySelector("#ability-empty-state"),
   teamGrid: document.querySelector("#team-grid"),
   saveCaughtCount: document.querySelector("#save-caught-count"),
   saveTeamCount: document.querySelector("#save-team-count"),
@@ -130,6 +140,19 @@ const validCaughtIds = new Set(collectionDex.map(dexId));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
 const moveById = new Map(moveData.moves.map((move) => [move.id, move]));
+const abilityById = new Map(abilityData.abilities.map((ability) => [ability.id, ability]));
+const abilitiesByPokemon = new Map(data.dex.map((pokemon) => [pokemon.number, []]));
+abilityData.abilities.forEach((ability) => {
+  ability.users.forEach((user) => {
+    if (user.guideNumber) abilitiesByPokemon.get(user.guideNumber)?.push({ ability, hidden: user.hidden });
+  });
+});
+abilitiesByPokemon.forEach((abilities, number) => {
+  const uniqueAbilities = [
+    ...new Map(abilities.map((entry) => [`${entry.ability.id}:${entry.hidden}`, entry])).values(),
+  ].sort((a, b) => a.ability.name.localeCompare(b.ability.name) || a.hidden - b.hidden);
+  abilitiesByPokemon.set(number, uniqueAbilities);
+});
 const tutorsByMoveId = new Map();
 (moveData.tutors || []).forEach((tutor) => {
   if (!tutorsByMoveId.has(tutor.moveId)) tutorsByMoveId.set(tutor.moveId, []);
@@ -251,6 +274,12 @@ const moveSearchTextById = new Map(
     ]
       .join(" ")
       .toLowerCase(),
+  ]),
+);
+const abilitySearchTextById = new Map(
+  abilityData.abilities.map((ability) => [
+    ability.id,
+    [ability.name, ability.description, ...ability.users.map((user) => user.name)].join(" ").toLowerCase(),
   ]),
 );
 
@@ -454,6 +483,7 @@ function createSaveDocument() {
     team: state.team.map((slot) => ({
       pokemonNumber: slot.pokemonNumber,
       moves: [...slot.moves],
+      abilityId: slot.abilityId,
     })),
     preferences: {
       theme: state.theme,
@@ -479,7 +509,10 @@ function validateSaveDocument(input) {
       const moveId = Number(slot.moves?.[moveIndex]);
       return moveById.has(moveId) ? moveId : null;
     });
-    return { pokemonNumber, moves };
+    const abilityId = Number(slot.abilityId);
+    const compatibleAbilities = abilitiesByPokemon.get(pokemonNumber) || [];
+    const validAbility = compatibleAbilities.some((entry) => entry.ability.id === abilityId);
+    return { pokemonNumber, moves, abilityId: validAbility ? abilityId : null };
   });
   return {
     format: saveFormat,
@@ -665,6 +698,7 @@ function setTeamPokemon(slotIndex, pokemonNumber, retainMoves = false) {
   const slot = state.team[slotIndex];
   slot.pokemonNumber = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
   if (!retainMoves) slot.moves = [null, null, null, null];
+  slot.abilityId = null;
   persistTeam();
   refreshTeamAndDex();
 }
@@ -673,6 +707,16 @@ function setTeamMove(slotIndex, moveIndex, moveId) {
   state.team[slotIndex].moves[moveIndex] = moveById.has(moveId) ? moveId : null;
   persistTeam();
   refreshTeamAndDex();
+}
+
+function setTeamAbility(slotIndex, abilityId) {
+  const slot = state.team[slotIndex];
+  const valid = (abilitiesByPokemon.get(slot.pokemonNumber) || []).some(
+    (entry) => entry.ability.id === abilityId,
+  );
+  slot.abilityId = valid ? abilityId : null;
+  persistTeam();
+  renderTeam();
 }
 
 function moveEffectiveness(moveType, targetTypes) {
@@ -850,6 +894,46 @@ function createTeamMoveSlot(slotIndex, moveIndex, pokemonNumber, selectedMoveId)
   return wrapper;
 }
 
+function createTeamAbilitySelector(slotIndex, pokemonNumber, selectedAbilityId) {
+  const section = document.createElement("section");
+  section.className = "team-card__ability";
+  const label = document.createElement("label");
+  const text = document.createElement("span");
+  text.textContent = "Ability";
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", `Choose ability for team slot ${slotIndex + 1}`);
+  select.add(new Option("Choose an ability...", ""));
+  const choices = abilitiesByPokemon.get(pokemonNumber) || [];
+  choices.forEach(({ ability, hidden }) => {
+    select.add(new Option(`${ability.name}${hidden ? " (Hidden Ability)" : ""}`, ability.id));
+  });
+  const selected = choices.find(({ ability }) => ability.id === selectedAbilityId);
+  select.value = selected?.ability.id || "";
+  select.addEventListener("change", () => setTeamAbility(slotIndex, Number(select.value)));
+  label.append(text, select);
+  section.append(label);
+
+  if (selected) {
+    const details = document.createElement("div");
+    details.className = "team-ability-details";
+    const heading = document.createElement("div");
+    heading.className = "team-ability-details__heading";
+    const name = document.createElement("strong");
+    name.textContent = selected.ability.name;
+    heading.append(name);
+    if (selected.hidden) {
+      const badge = document.createElement("span");
+      badge.textContent = "Hidden Ability";
+      heading.append(badge);
+    }
+    const description = document.createElement("p");
+    description.textContent = selected.ability.description || "No description extracted.";
+    details.append(heading, description);
+    section.append(details);
+  }
+  return section;
+}
+
 function renderTeamCard(slot, slotIndex) {
   const card = document.createElement("article");
   card.className = "team-card";
@@ -877,7 +961,7 @@ function renderTeamCard(slot, slotIndex) {
     empty.innerHTML = `
       <span class="empty-state__stone" aria-hidden="true"></span>
       <strong>Choose your next team member</strong>
-      <p>Pokemon details, compatible moves, and evolution choices will appear here.</p>
+      <p>Pokemon details, abilities, compatible moves, and evolution choices will appear here.</p>
     `;
     card.append(empty);
     return card;
@@ -905,6 +989,7 @@ function renderTeamCard(slot, slotIndex) {
   stats.setAttribute("aria-label", `${pokemon.name} base stats`);
   card.append(stats);
   renderPokemonStats(card, pokemon);
+  card.append(createTeamAbilitySelector(slotIndex, pokemon.number, slot.abilityId));
 
   if (pokemon.evolvesTo.length) {
     const evolution = document.createElement("div");
@@ -1046,6 +1131,7 @@ function renderDex() {
     pokemon.length === data.dex.length
       ? `Showing all ${data.dex.length} Pokémon`
       : `Showing ${pokemon.length} of ${data.dex.length} Pokémon`;
+  updateSearchClearButtons();
 }
 
 function renderCollection() {
@@ -1101,6 +1187,7 @@ function renderCollection() {
   elements.collectionGrid.replaceChildren(fragment);
   elements.collectionEmptyState.hidden = pokemon.length !== 0;
   elements.collectionResultCount.textContent = `Showing ${pokemon.length} of ${collectionDex.length} Pokémon`;
+  updateSearchClearButtons();
 }
 
 function renderMoveLearners(container, move) {
@@ -1258,6 +1345,85 @@ function renderMoves(resetLimit = false) {
     moves.length === total
       ? `Showing ${visible.length} of all ${total} ${noun}`
       : `Showing ${visible.length} of ${moves.length} matching ${noun}`;
+  updateSearchClearButtons();
+}
+
+function renderAbilityUsers(container, ability) {
+  const fragment = document.createDocumentFragment();
+  ability.users.forEach((user) => {
+    const entry = document.createElement(user.guideNumber ? "button" : "span");
+    if (user.guideNumber) {
+      entry.type = "button";
+      entry.className = "ability-user is-linked";
+      entry.addEventListener("click", () => focusPokemon(user.guideNumber));
+    } else {
+      entry.className = "ability-user";
+    }
+    entry.textContent = `${user.name}${user.hidden ? " · Hidden Ability" : ""}`;
+    fragment.append(entry);
+  });
+  container.replaceChildren(fragment);
+}
+
+function renderAbilityCard(ability) {
+  const card = document.createElement("article");
+  card.className = "ability-card";
+  const heading = document.createElement("header");
+  heading.innerHTML = `
+    <div><span>No. ${String(ability.id).padStart(3, "0")}</span><h3></h3></div>
+    <strong>${ability.userCount} Pokémon / forms</strong>
+  `;
+  heading.querySelector("h3").textContent = ability.name;
+  const description = document.createElement("p");
+  description.textContent = ability.description || "No description extracted.";
+  card.append(heading, description);
+  if (ability.users.length) {
+    const details = document.createElement("details");
+    details.className = "ability-users";
+    const summary = document.createElement("summary");
+    summary.textContent = `Pokémon users · ${ability.userCount}`;
+    const users = document.createElement("div");
+    users.className = "ability-user-list";
+    details.addEventListener("toggle", () => {
+      if (details.open && !users.childElementCount) renderAbilityUsers(users, ability);
+    });
+    details.append(summary, users);
+    card.append(details);
+  }
+  return card;
+}
+
+function filteredAbilities() {
+  const search = state.abilityFilters.search.toLowerCase();
+  const abilities = abilityData.abilities.filter(
+    (ability) => !search || abilitySearchTextById.get(ability.id).includes(search),
+  );
+  abilities.sort((a, b) => {
+    if (state.abilityFilters.sort === "name") return a.name.localeCompare(b.name);
+    if (state.abilityFilters.sort === "users") return b.userCount - a.userCount || a.name.localeCompare(b.name);
+    return a.id - b.id;
+  });
+  return abilities;
+}
+
+function renderAbilities() {
+  const abilities = filteredAbilities();
+  const fragment = document.createDocumentFragment();
+  abilities.forEach((ability) => fragment.append(renderAbilityCard(ability)));
+  elements.abilityList.replaceChildren(fragment);
+  elements.abilityEmptyState.hidden = abilities.length !== 0;
+  elements.abilityResultCount.textContent =
+    abilities.length === abilityData.abilities.length
+      ? `Showing all ${abilityData.abilities.length} abilities`
+      : `Showing ${abilities.length} matching abilities`;
+  updateSearchClearButtons();
+}
+
+function updateSearchClearButtons() {
+  document.querySelectorAll("[data-clear-search]").forEach((button) => {
+    const input = document.querySelector(button.dataset.clearSearch);
+    button.hidden = !input?.value;
+  });
 }
 
 function activateView(viewName) {
@@ -1269,6 +1435,7 @@ function activateView(viewName) {
   });
   if (viewName === "caught") renderCollection();
   if (viewName === "moves") renderMoves();
+  if (viewName === "abilities") renderAbilities();
   if (viewName === "team") renderTeam();
   if (viewName === "save") {
     updateSaveSummary();
@@ -1407,6 +1574,7 @@ function renderLocations(search = "") {
       fragment.append(card);
     });
   elements.locationList.replaceChildren(fragment);
+  updateSearchClearButtons();
 }
 
 function renderMegas() {
@@ -1514,6 +1682,22 @@ function bindControls() {
     state.moveLimit += 100;
     renderMoves();
   });
+  const abilityBindings = {
+    "#ability-search": "search",
+    "#ability-sort": "sort",
+  };
+  Object.entries(abilityBindings).forEach(([selector, key]) => {
+    const control = document.querySelector(selector);
+    control.addEventListener("input", () => {
+      state.abilityFilters[key] = control.value;
+      renderAbilities();
+    });
+  });
+  document.querySelector("#clear-ability-filters").addEventListener("click", () => {
+    Object.assign(state.abilityFilters, { search: "", sort: "id" });
+    document.querySelector("#ability-filters").reset();
+    renderAbilities();
+  });
   document.querySelector("#export-save").addEventListener("click", exportSave);
   document.querySelector("#import-save-button").addEventListener("click", () => {
     document.querySelector("#import-save-file").click();
@@ -1565,13 +1749,14 @@ function bindControls() {
   document.querySelector("#clear-team").addEventListener("click", () => {
     if (
       !state.team.some((slot) => slot.pokemonNumber) ||
-      !window.confirm("Clear all Pokemon and moves from your team?")
+      !window.confirm("Clear all Pokemon, abilities, and moves from your team?")
     ) {
       return;
     }
     state.team = Array.from({ length: 6 }, () => ({
       pokemonNumber: null,
       moves: [null, null, null, null],
+      abilityId: null,
     }));
     persistTeam();
     refreshTeamAndDex();
@@ -1579,6 +1764,15 @@ function bindControls() {
   elements.collectionSearch.addEventListener("input", () => {
     state.collectionSearch = elements.collectionSearch.value;
     renderCollection();
+  });
+  document.querySelectorAll("[data-clear-search]").forEach((button) => {
+    const input = document.querySelector(button.dataset.clearSearch);
+    input?.addEventListener("input", updateSearchClearButtons);
+    button.addEventListener("click", () => {
+      input.value = "";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.focus();
+    });
   });
   document.querySelectorAll("[data-collection-status]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -1619,6 +1813,7 @@ renderQuickLocations();
 renderDex();
 renderTeam();
 renderMoves();
+renderAbilities();
 renderCollection();
 renderLocations();
 renderMegas();

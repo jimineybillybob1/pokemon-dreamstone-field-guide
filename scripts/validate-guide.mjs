@@ -7,14 +7,17 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const dataSource = await fs.readFile(path.join(rootDir, "data", "dreamstone-data.js"), "utf8");
 const encounterSource = await fs.readFile(path.join(rootDir, "data", "pokerex-encounters.js"), "utf8");
 const moveSource = await fs.readFile(path.join(rootDir, "data", "pokerex-moves.js"), "utf8");
+const abilitySource = await fs.readFile(path.join(rootDir, "data", "pokerex-abilities.js"), "utf8");
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(dataSource, context);
 vm.runInContext(encounterSource, context);
 vm.runInContext(moveSource, context);
+vm.runInContext(abilitySource, context);
 const data = context.window.DREAMSTONE_DATA;
 const encounters = context.window.DREAMSTONE_ENCOUNTERS;
 const moves = context.window.DREAMSTONE_MOVES;
+const abilities = context.window.DREAMSTONE_ABILITIES;
 
 const errors = [];
 const check = (condition, message) => {
@@ -37,6 +40,19 @@ check(
 );
 check(moves.moves.length === 934, `Expected 934 Pokerex moves, found ${moves.moves.length}`);
 check(moves.tutors.length === 19, `Expected 19 Pokerex move tutors, found ${moves.tutors.length}`);
+check(abilities.abilities.length === 310, `Expected 310 Pokerex abilities, found ${abilities.abilities.length}`);
+check(
+  abilities.abilities.every(
+    (ability) => ability.id && ability.name && ability.description && Array.isArray(ability.users),
+  ),
+  "Pokerex ability details or users are invalid",
+);
+check(
+  abilities.abilities.find((ability) => ability.name === "Frisk")?.users.some(
+    (user) => user.name === "Gothita" && user.guideNumber === 1,
+  ),
+  "Frisk is missing Gothita's linked user detail",
+);
 check(
   moves.tutors.every((tutor) => tutor.moveId && tutor.location && moves.moves.some((move) => move.id === tutor.moveId)),
   "Pokerex move tutor details are invalid",
@@ -148,6 +164,7 @@ for (const file of [
   "data/dreamstone-data.js",
   "data/pokerex-encounters.js",
   "data/pokerex-moves.js",
+  "data/pokerex-abilities.js",
   "sync-config.js",
   "sync-worker/src/index.js",
   "sync-worker/wrangler.toml",
@@ -175,6 +192,7 @@ check(
   "Expected five Apple touch icon declarations",
 );
 check(html.includes('data-view="team"'), "Team Builder tab is missing");
+check(html.includes('data-view="abilities"'), "Abilities tab is missing");
 check(html.includes('id="team-grid"'), "Team Builder grid is missing");
 check(html.includes('class="team-matchups"'), "Dex team coverage field is missing");
 check(html.includes("https://pokemondb.net/type"), "Type-chart source link is missing");
@@ -187,6 +205,7 @@ check(
   "Save & Sync is not the final primary tab",
 );
 check(html.includes('data-move-mode="tutors"'), "Move tutors sub-tab is missing");
+check((html.match(/data-clear-search=/g) || []).length === 5, "Expected five in-field search clear buttons");
 check(html.includes('id="export-save"'), "Save export control is missing");
 check(html.includes('id="sync-code"'), "Cloud sync UUID control is missing");
 
@@ -219,6 +238,7 @@ if (errors.length) {
         pokerexEncounterMaps: encounters.locations.length,
         pokerexWildSpeciesForms: encounters.encounterSpecies.length,
         pokerexMoves: moves.moves.length,
+        pokerexAbilities: abilities.abilities.length,
         collectionEntries:
           data.dex.length + encounters.encounterSpecies.filter((pokemon) => !pokemon.guideNumber).length,
         spriteReferencesChecked: data.dex.length + data.megas.length,

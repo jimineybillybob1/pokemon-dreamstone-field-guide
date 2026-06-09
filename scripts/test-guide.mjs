@@ -42,6 +42,24 @@ await check(
 );
 await check((await page.locator("link[rel='apple-touch-icon']").count()) === 5, "Apple touch icons are missing");
 await check(
+  JSON.stringify(
+    (await page.locator(".view-tab").allTextContents()).map((text) => text.replace(/\s+/g, " ").trim()),
+  ) ===
+    JSON.stringify([
+      "Full Dex",
+      "Locations",
+      "Caught 0",
+      "Team Builder",
+      "Moves",
+      "Abilities",
+      "Mega Choices",
+      "Important Items",
+      "Save & Sync",
+    ]),
+  "Primary tabs are not in the expected order",
+);
+await check((await page.locator("[data-clear-search]").count()) === 5, "Search clear buttons are missing");
+await check(
   (await page.locator("meta[name='apple-mobile-web-app-capable']").getAttribute("content")) === "yes",
   "Apple standalone metadata is missing",
 );
@@ -151,6 +169,10 @@ await check(
 await check((await page.locator(".collection-card").count()) === 327, "Expected all 327 collection cards");
 await check((await page.locator("#total-count").textContent()) === "327", "Capture total did not include Pokerex wild entries");
 await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");
+await page.locator("#search").fill("Gothita");
+await check(!(await page.locator("[data-clear-search='#search']").isHidden()), "Dex search clear button did not appear");
+await page.locator("[data-clear-search='#search']").click();
+await check((await page.locator(".pokemon-card").count()) === 315, "Dex search clear button did not clear the search");
 
 await page.locator(".view-tab[data-view='team']").click();
 await check(await page.locator("#view-team").evaluate((element) => element.classList.contains("is-active")), "Team Builder view did not open");
@@ -168,6 +190,15 @@ await check(
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-pokemon-types").textContent()).includes("psychic"),
   "Team card is missing Gothita's type",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__ability select option").count()) === 4,
+  "Team card is missing Gothita's ability choices",
+);
+await page.locator(".team-card[data-slot='1'] .team-card__ability select").selectOption("119");
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-ability-details").textContent()).includes("Checks a foe's item."),
+  "Selected team ability details are missing",
 );
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-move-slot").count()) === 4,
@@ -201,6 +232,11 @@ await check(
   (await page.locator(".team-card[data-slot='1'] .team-move-retained").textContent()) === "Retained after change",
   "Move retained after evolution was not labelled",
 );
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__ability select").inputValue()) === "",
+  "Evolution did not reset the selected ability",
+);
+await page.locator(".team-card[data-slot='1'] .team-card__ability select").selectOption("119");
 await page.locator(".view-tab[data-view='dex']").click();
 const gothitaCoverage = page.locator(".pokemon-card[data-number='1'] .team-matchup");
 await check((await gothitaCoverage.count()) === 1, "Gothita coverage did not show exactly one super-effective move");
@@ -247,6 +283,7 @@ await check(exportedSave.format === "dreamstone-field-guide-save", "Exported sav
 await check(exportedSave.version === 1, "Exported save has an unexpected version");
 await check(exportedSave.team[0].pokemonNumber === 2, "Exported save is missing Gothorita");
 await check(exportedSave.team[0].moves[1] === 247, "Exported save is missing Shadow Ball");
+await check(exportedSave.team[0].abilityId === 119, "Exported save is missing Frisk");
 await page.locator("#create-sync-code").click();
 await check(
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
@@ -277,6 +314,10 @@ await check(
   (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothorita",
   "Imported save did not restore the team",
 );
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__ability select").inputValue()) === "119",
+  "Imported save did not restore the selected ability",
+);
 
 await page.locator(".view-tab[data-view='moves']").click();
 await check(await page.locator("#view-moves").evaluate((element) => element.classList.contains("is-active")), "Moves view did not open");
@@ -303,6 +344,9 @@ await check(
   (await page.locator(".move-card").locator(".move-category").textContent()) === "Special",
   "Moongeist Beam category is incorrect",
 );
+await check(!(await page.locator("[data-clear-search='#move-search']").isHidden()), "Move search clear button did not appear");
+await page.locator("[data-clear-search='#move-search']").click();
+await check((await page.locator(".move-card").count()) === 100, "Move search clear button did not clear the search");
 await page.locator("#clear-move-filters").click();
 await page.locator("#move-type-filter").selectOption("Fire");
 await check(
@@ -327,6 +371,31 @@ await page.locator("[data-move-mode='all']").click();
 await page.locator("#view-moves .section-heading").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-moves.png"), fullPage: false });
 
+await page.locator(".view-tab[data-view='abilities']").click();
+await check(
+  await page.locator("#view-abilities").evaluate((element) => element.classList.contains("is-active")),
+  "Abilities view did not open",
+);
+await check((await page.locator(".ability-card").count()) === 310, "Abilities view did not render all 310 abilities");
+await check((await page.locator(".ability-card").first().locator("h3").textContent()) === "Stench", "First ability is not Stench");
+await page.locator("#ability-search").fill("Frisk");
+await check((await page.locator(".ability-card").count()) === 1, "Ability search did not isolate Frisk");
+await check(
+  (await page.locator(".ability-card").textContent()).includes("Checks a foe's item."),
+  "Frisk description is missing",
+);
+await page.locator(".ability-card .ability-users summary").click();
+await page.waitForTimeout(100);
+await check(
+  (await page.locator(".ability-user.is-linked").allTextContents()).includes("Gothita"),
+  "Frisk is missing its linked Gothita user",
+);
+await check(!(await page.locator("[data-clear-search='#ability-search']").isHidden()), "Ability search clear button did not appear");
+await page.locator("[data-clear-search='#ability-search']").click();
+await check((await page.locator(".ability-card").count()) === 310, "Ability search clear button did not clear the search");
+await page.locator("#view-abilities .section-heading").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-abilities.png"), fullPage: false });
+
 await page.locator(".view-tab[data-view='dex']").click();
 await page.locator(".pokemon-card[data-number='1'] .caught-button").click();
 await check((await page.locator("#caught-tab-count").textContent()) === "1", "Caught tab count did not update");
@@ -344,6 +413,13 @@ await page.locator("[data-collection-status='missing']").click();
 await check((await page.locator(".collection-card").count()) === 326, "Missing filter did not exclude caught Pokémon");
 await page.locator("#collection-search").fill("Raticate");
 await check((await page.locator(".collection-card").count()) === 1, "Collection search did not find Raticate");
+await check(
+  !(await page.locator("[data-clear-search='#collection-search']").isHidden()),
+  "Collection search clear button did not appear",
+);
+await page.locator("[data-clear-search='#collection-search']").click();
+await check((await page.locator(".collection-card").count()) === 326, "Collection search clear button did not clear the search");
+await page.locator("#collection-search").fill("Raticate");
 await page.locator(".collection-card__jump").click();
 await page.waitForTimeout(500);
 await check(page.url().endsWith("#pokemon-11"), "Collection jump did not open the full card");
@@ -389,6 +465,13 @@ await check(
   (await page.locator(".location-pokemon", { hasText: "Alolan Rattata" }).textContent()).includes("40%"),
   "Route 1 Rattata encounter rate is incorrect",
 );
+await check(
+  !(await page.locator("[data-clear-search='#location-search']").isHidden()),
+  "Location search clear button did not appear",
+);
+await page.locator("[data-clear-search='#location-search']").click();
+await check((await page.locator(".location-card").count()) === 38, "Location search clear button did not clear the search");
+await page.locator("#location-search").fill("Route 1");
 await page.locator(".location-card").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-location-map.png"), fullPage: false });
 
@@ -443,6 +526,10 @@ await check(
   (await page.locator(".team-card[data-slot='1'] .team-move-slot").nth(2).locator("select").inputValue()) === "85",
   "Saved dual-type coverage move did not persist after reload",
 );
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__ability select").inputValue()) === "119",
+  "Saved team ability did not persist after reload",
+);
 await page.locator(".view-tab[data-view='save']").click();
 await check(
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
@@ -479,6 +566,14 @@ await check(
   "Mobile move card has horizontal overflow",
 );
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-moves.png"), fullPage: false });
+await page.locator(".view-tab[data-view='abilities']").click();
+await page.locator("#ability-search").fill("Frisk");
+await page.locator(".ability-card").scrollIntoViewIfNeeded();
+await check(
+  await page.locator(".ability-card").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile ability card has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-abilities.png"), fullPage: false });
 await page.locator(".view-tab[data-view='caught']").click();
 await check((await page.locator(".collection-card").count()) === 327, "Mobile collection did not render all cards");
 await page.locator("#view-caught").scrollIntoViewIfNeeded();
@@ -507,11 +602,13 @@ console.log(
         "tmp/guide-desktop-location-map.png",
         "tmp/guide-desktop-moves.png",
         "tmp/guide-desktop-move-tutors.png",
+        "tmp/guide-desktop-abilities.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-coverage.png",
         "tmp/guide-mobile-dex-stats.png",
         "tmp/guide-mobile-masthead.png",
         "tmp/guide-mobile-moves.png",
+        "tmp/guide-mobile-abilities.png",
         "tmp/guide-mobile-team-builder.png",
         "tmp/guide-mobile-team-coverage.png",
         "tmp/guide-mobile-save-sync.png",

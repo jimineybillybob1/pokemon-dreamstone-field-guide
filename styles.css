@@ -418,7 +418,7 @@ main {
 }
 
 .filter-panel label span,
-.location-search span {
+.location-search > span:first-child {
   color: var(--muted);
   font-size: 0.67rem;
   font-weight: 900;
@@ -477,7 +477,7 @@ main {
   gap: 5px;
 }
 
-.sticky-search .search-field span {
+.sticky-search .search-field > span:first-child {
   color: var(--muted);
   font-size: 0.62rem;
   font-weight: 900;
@@ -499,6 +499,48 @@ main {
 .sticky-search input:focus {
   border-color: var(--violet);
   box-shadow: 0 0 0 3px rgba(114, 87, 212, 0.12);
+}
+
+.search-input-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+.search-input-wrap input {
+  padding-right: 38px !important;
+}
+
+.search-input-wrap input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.search-clear {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  color: var(--muted);
+  background: var(--paper-deep);
+  padding: 0;
+  font-size: 1.1rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.search-clear:hover {
+  color: #fff;
+  background: var(--violet);
+}
+
+.search-clear[hidden] {
+  display: none;
 }
 
 .back-to-top {
@@ -1233,7 +1275,7 @@ body.notes-hidden .item-card__location {
   gap: 6px;
 }
 
-.collection-controls label span {
+.collection-controls label > span:first-child {
   color: var(--muted);
   font-size: 0.67rem;
   font-weight: 900;
@@ -1634,7 +1676,7 @@ body.notes-hidden .item-card__location {
   gap: 6px;
 }
 
-.move-filter-panel label span {
+.move-filter-panel label > span:first-child {
   color: var(--muted);
   font-size: 0.67rem;
   font-weight: 900;
@@ -1912,6 +1954,145 @@ body.notes-hidden .item-card__location {
   font-weight: 900;
 }
 
+.ability-filter-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(160px, 0.7fr) auto;
+  gap: 10px;
+  margin-bottom: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.62);
+  padding: 16px;
+}
+
+.ability-filter-panel label {
+  display: grid;
+  gap: 6px;
+}
+
+.ability-filter-panel label > span:first-child {
+  color: var(--muted);
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.ability-filter-panel input,
+.ability-filter-panel select {
+  width: 100%;
+  min-height: 43px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+  color: var(--ink);
+  background: #fff;
+  padding: 9px 11px;
+}
+
+.ability-filter-panel input:focus,
+.ability-filter-panel select:focus {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(114, 87, 212, 0.12);
+}
+
+.ability-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ability-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 8px 25px rgba(48, 38, 88, 0.045);
+}
+
+.ability-card > header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 15px 16px 12px;
+}
+
+.ability-card > header span {
+  color: var(--violet);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.ability-card > header h3 {
+  margin: 3px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.34rem;
+  letter-spacing: -0.025em;
+}
+
+.ability-card > header > strong {
+  color: var(--muted);
+  font-size: 0.62rem;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.ability-card > p {
+  min-height: 58px;
+  margin: 0;
+  color: var(--muted);
+  padding: 13px 16px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.ability-users {
+  border-top: 1px solid var(--line);
+}
+
+.ability-users summary {
+  color: var(--violet-dark);
+  background: rgba(114, 87, 212, 0.055);
+  padding: 10px 15px;
+  font-size: 0.66rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ability-user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 14px 15px;
+}
+
+.ability-user {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: var(--paper-deep);
+  padding: 4px 7px;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.ability-user.is-linked {
+  color: var(--violet-dark);
+}
+
+.ability-user.is-linked:hover {
+  border-color: var(--violet);
+  background: rgba(114, 87, 212, 0.1);
+}
+
 .mega-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -2067,6 +2248,7 @@ body.notes-hidden .item-card__location {
 }
 
 .team-pokemon-picker > span,
+.team-card__ability label > span,
 .team-move-slot label {
   color: var(--muted);
   font-size: 0.59rem;
@@ -2076,6 +2258,7 @@ body.notes-hidden .item-card__location {
 }
 
 .team-pokemon-picker select,
+.team-card__ability select,
 .team-move-slot select {
   width: 100%;
   min-width: 0;
@@ -2090,6 +2273,7 @@ body.notes-hidden .item-card__location {
 }
 
 .team-pokemon-picker select:focus,
+.team-card__ability select:focus,
 .team-move-slot select:focus {
   border-color: var(--violet);
   box-shadow: 0 0 0 3px rgba(114, 87, 212, 0.12);
@@ -2178,6 +2362,58 @@ body.notes-hidden .item-card__location {
 
 .team-card__stats {
   margin: 0 13px 13px;
+}
+
+.team-card__ability {
+  display: grid;
+  gap: 8px;
+  margin: 0 13px 13px;
+  border-top: 1px solid var(--line);
+  padding-top: 11px;
+}
+
+.team-card__ability label {
+  display: grid;
+  gap: 5px;
+}
+
+.team-ability-details {
+  display: grid;
+  gap: 5px;
+  border-left: 2px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  background: rgba(66, 182, 163, 0.07);
+  padding: 8px 9px;
+}
+
+.team-ability-details__heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
+
+.team-ability-details__heading strong {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.88rem;
+}
+
+.team-ability-details__heading span {
+  border-radius: 999px;
+  color: #286d63;
+  background: rgba(66, 182, 163, 0.17);
+  padding: 3px 7px;
+  font-size: 0.55rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.team-ability-details p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.69rem;
+  line-height: 1.45;
 }
 
 .team-card__evolutions {
@@ -2526,6 +2762,8 @@ html[data-theme="dark"] .filter-panel,
 html[data-theme="dark"] .move-filter-panel,
 html[data-theme="dark"] .move-mode-tabs button,
 html[data-theme="dark"] .move-card,
+html[data-theme="dark"] .ability-filter-panel,
+html[data-theme="dark"] .ability-card,
 html[data-theme="dark"] .team-toolbar,
 html[data-theme="dark"] .team-card,
 html[data-theme="dark"] .save-summary article,
@@ -2547,6 +2785,8 @@ html[data-theme="dark"] .filter-panel input,
 html[data-theme="dark"] .filter-panel select,
 html[data-theme="dark"] .move-filter-panel input,
 html[data-theme="dark"] .move-filter-panel select,
+html[data-theme="dark"] .ability-filter-panel input,
+html[data-theme="dark"] .ability-filter-panel select,
 html[data-theme="dark"] .location-search input,
 html[data-theme="dark"] .sticky-search input,
 html[data-theme="dark"] .collection-controls input {
@@ -2597,11 +2837,13 @@ html[data-theme="dark"] .team-matchup {
 
 html[data-theme="dark"] .move-learners summary,
 html[data-theme="dark"] .move-card__effect,
+html[data-theme="dark"] .ability-users summary,
 html[data-theme="dark"] .team-card__top {
   background: rgba(155, 133, 237, 0.07);
 }
 
 html[data-theme="dark"] .team-pokemon-picker select,
+html[data-theme="dark"] .team-card__ability select,
 html[data-theme="dark"] .team-move-slot select,
 html[data-theme="dark"] .sync-code-field input {
   color: var(--ink);
@@ -2690,6 +2932,10 @@ html[data-theme="dark"] .source-note {
   }
 
   .move-list {
+    grid-template-columns: 1fr;
+  }
+
+  .ability-list {
     grid-template-columns: 1fr;
   }
 
@@ -2824,6 +3070,14 @@ html[data-theme="dark"] .source-note {
 
   .move-filter-panel {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ability-filter-panel {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ability-filter-panel label:first-child {
+    grid-column: span 2;
   }
 
   .move-search {

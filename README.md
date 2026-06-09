@@ -1,7 +1,7 @@
 # Dreamstone Field Guide
 
 An offline capture guide and progress tracker for **Pokémon Dreamstone Mysteries**. Wild encounters,
-maps, base stats, moves, and learners come from Pokerex's ROM extraction; gift, special, Mega
+maps, base stats, moves, abilities, and learners come from Pokerex's ROM extraction; gift, special, Mega
 Evolution, and item notes come from `Dreamstone Mysteries _ Dex (temporary).xlsx`.
 
 **Live guide:** https://jimineybillybob1.github.io/pokemon-dreamstone-field-guide/
@@ -13,7 +13,9 @@ Open `index.html` in a browser. The guide includes:
 - 38 active Dreamstone encounter maps with exact methods, rates, levels, and time-of-day tables
 - ROM-extracted base stats and BST bars on every curated Dex card
 - A searchable 934-move catalogue with move details, learner compatibility, and all 19 move tutors
+- A searchable 310-ability catalogue with descriptions and linked Pokémon users
 - A persistent six-slot team builder with compatible moves and retain-on-evolution movesets
+- Persistent Team Builder ability selection with ability descriptions
 - Live Dex-card coverage showing super-effective damage moves selected in the Team Builder
 - Pokémon types and clickable direct evolution links
 - Persistent light and dark themes
@@ -62,11 +64,14 @@ Place the public Pokerex Dreamstone export at `tmp/pokerex-dreamstone-data.json`
 
 & 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
   'scripts\build-pokerex-moves.mjs'
+
+& 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
+  'scripts\build-pokerex-abilities.mjs'
 ```
 
 Only Dreamstone's active custom map groups are imported into the encounter atlas. Inaccessible
 inherited Emerald encounter tables are intentionally excluded; the Moves tab mirrors Pokerex's full
-ROM move and learner extraction, including tutor locations.
+ROM move, learner, ability, and tutor-location extraction.
 
 ## Regenerate App Icons
 
@@ -110,7 +115,7 @@ Relevant Cloudflare documentation:
 
 ## Credits
 
-- Wild encounters, maps, Pokémon base stats, moves, learners, and tutor locations: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/moves/tutor)
+- Wild encounters, maps, Pokémon base stats, moves, abilities, learners, and tutor locations: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/abilities)
 - Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)
