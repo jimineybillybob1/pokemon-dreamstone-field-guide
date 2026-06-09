@@ -4,6 +4,26 @@ const moveData = window.DREAMSTONE_MOVES;
 const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
+const teamStorageKey = "dreamstone-field-guide-team";
+
+function loadTeam() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(teamStorageKey) || "[]");
+    return Array.from({ length: 6 }, (_, index) => ({
+      pokemonNumber: Number.isFinite(saved[index]?.pokemonNumber)
+        ? saved[index].pokemonNumber
+        : null,
+      moves: Array.from({ length: 4 }, (__, moveIndex) =>
+        Number.isFinite(saved[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
+      ),
+    }));
+  } catch {
+    return Array.from({ length: 6 }, () => ({
+      pokemonNumber: null,
+      moves: [null, null, null, null],
+    }));
+  }
+}
 
 const state = {
   caught: new Set(JSON.parse(localStorage.getItem(storageKey) || "[]")),
@@ -12,6 +32,7 @@ const state = {
   collectionStatus: "all",
   collectionSearch: "",
   moveLimit: 100,
+  team: loadTeam(),
   moveFilters: {
     search: "",
     type: "",
@@ -58,6 +79,7 @@ const elements = {
   moveResultCount: document.querySelector("#move-result-count"),
   moveEmptyState: document.querySelector("#move-empty-state"),
   showMoreMoves: document.querySelector("#show-more-moves"),
+  teamGrid: document.querySelector("#team-grid"),
   megaGrid: document.querySelector("#mega-grid"),
   megaNote: document.querySelector("#mega-note"),
   itemList: document.querySelector("#item-list"),
@@ -95,6 +117,16 @@ const collectionDex = [...data.dex, ...syntheticCollectionEntries];
 const dexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
+const moveById = new Map(moveData.moves.map((move) => [move.id, move]));
+const compatibleMoveIdsByPokemon = new Map(data.dex.map((pokemon) => [pokemon.number, new Set()]));
+moveData.moves.forEach((move) => {
+  Object.values(move.learners)
+    .flat()
+    .forEach((learner) => {
+      if (learner.guideNumber) compatibleMoveIdsByPokemon.get(learner.guideNumber)?.add(move.id);
+    });
+});
+const pokemonOptions = [...data.dex].sort((a, b) => a.number - b.number);
 const locationsForPokemon = (pokemon) => {
   const pokerexLocations = uniqueSorted([
     ...(encounterLocationsByGuideNumber.get(pokemon.number) || []),
@@ -314,6 +346,218 @@ function renderPokemonStats(card, pokemon) {
     rows.append(row);
   });
   section.append(heading, rows);
+}
+
+function persistTeam() {
+  localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
+}
+
+function setTeamPokemon(slotIndex, pokemonNumber, retainMoves = false) {
+  const slot = state.team[slotIndex];
+  slot.pokemonNumber = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
+  if (!retainMoves) slot.moves = [null, null, null, null];
+  persistTeam();
+  renderTeam();
+}
+
+function setTeamMove(slotIndex, moveIndex, moveId) {
+  state.team[slotIndex].moves[moveIndex] = moveById.has(moveId) ? moveId : null;
+  persistTeam();
+  renderTeam();
+}
+
+function createPokemonPicker(slotIndex, selectedNumber) {
+  const label = document.createElement("label");
+  label.className = "team-pokemon-picker";
+  const text = document.createElement("span");
+  text.textContent = "Pokemon";
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", `Choose Pokemon for team slot ${slotIndex + 1}`);
+  select.add(new Option("Choose a Pokemon...", ""));
+  pokemonOptions.forEach((pokemon) => {
+    select.add(
+      new Option(
+        `No. ${String(pokemon.number).padStart(3, "0")} - ${pokemon.name.replaceAll("_", " ")}`,
+        pokemon.number,
+      ),
+    );
+  });
+  select.value = selectedNumber || "";
+  select.addEventListener("change", () => setTeamPokemon(slotIndex, Number(select.value)));
+  label.append(text, select);
+  return label;
+}
+
+function createTeamMoveDetails(move, retained) {
+  const details = document.createElement("div");
+  details.className = "team-move-details";
+  if (retained) details.classList.add("is-retained");
+
+  const heading = document.createElement("div");
+  heading.className = "team-move-details__heading";
+  const name = document.createElement("strong");
+  name.className = "team-move-name";
+  name.textContent = move.name;
+  const type = document.createElement("span");
+  type.className = "type-badge";
+  type.dataset.type = move.type.toLowerCase();
+  type.textContent = move.type;
+  const category = document.createElement("span");
+  category.className = "move-category";
+  category.dataset.category = move.category.toLowerCase();
+  category.textContent = move.category;
+  heading.append(name, type, category);
+  if (retained) {
+    const retainedBadge = document.createElement("span");
+    retainedBadge.className = "team-move-retained";
+    retainedBadge.textContent = "Retained after change";
+    heading.append(retainedBadge);
+  }
+
+  const metrics = document.createElement("dl");
+  metrics.className = "team-move-details__metrics";
+  [
+    ["Power", move.power || "-"],
+    ["Accuracy", move.accuracy ? `${move.accuracy}%` : "-"],
+  ].forEach(([label, value]) => {
+    const fact = document.createElement("div");
+    fact.innerHTML = `<dt>${label}</dt><dd>${value}</dd>`;
+    metrics.append(fact);
+  });
+
+  const description = document.createElement("p");
+  description.textContent = move.description || "No description extracted.";
+  details.append(heading, metrics, description);
+  if (move.effect) {
+    const effect = document.createElement("p");
+    effect.className = "team-move-details__effect";
+    const label = document.createElement("strong");
+    label.textContent = "Effect";
+    effect.append(label, document.createTextNode(move.effect));
+    details.append(effect);
+  }
+  return details;
+}
+
+function createTeamMoveSlot(slotIndex, moveIndex, pokemonNumber, selectedMoveId) {
+  const wrapper = document.createElement("section");
+  wrapper.className = "team-move-slot";
+  const label = document.createElement("label");
+  label.textContent = `Move ${moveIndex + 1}`;
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", `Choose move ${moveIndex + 1} for team slot ${slotIndex + 1}`);
+  select.add(new Option("Choose a move...", ""));
+
+  const compatibleIds = compatibleMoveIdsByPokemon.get(pokemonNumber) || new Set();
+  const compatibleMoves = [...compatibleIds]
+    .map((id) => moveById.get(id))
+    .filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const retained = selectedMoveId && !compatibleIds.has(selectedMoveId);
+  if (retained) {
+    const selectedMove = moveById.get(selectedMoveId);
+    if (selectedMove) select.add(new Option(`${selectedMove.name} (retained)`, selectedMove.id));
+  }
+  compatibleMoves.forEach((move) => select.add(new Option(move.name, move.id)));
+  select.value = selectedMoveId || "";
+  select.addEventListener("change", () => setTeamMove(slotIndex, moveIndex, Number(select.value)));
+  label.append(select);
+  wrapper.append(label);
+
+  const selectedMove = moveById.get(selectedMoveId);
+  if (selectedMove) wrapper.append(createTeamMoveDetails(selectedMove, retained));
+  return wrapper;
+}
+
+function renderTeamCard(slot, slotIndex) {
+  const card = document.createElement("article");
+  card.className = "team-card";
+  card.dataset.slot = slotIndex + 1;
+
+  const top = document.createElement("header");
+  top.className = "team-card__top";
+  const slotLabel = document.createElement("strong");
+  slotLabel.textContent = `Team slot ${slotIndex + 1}`;
+  top.append(slotLabel);
+  if (slot.pokemonNumber) {
+    const clear = document.createElement("button");
+    clear.type = "button";
+    clear.className = "team-card__clear";
+    clear.textContent = "Remove";
+    clear.addEventListener("click", () => setTeamPokemon(slotIndex, null));
+    top.append(clear);
+  }
+  card.append(top, createPokemonPicker(slotIndex, slot.pokemonNumber));
+
+  const pokemon = pokemonByNumber.get(slot.pokemonNumber);
+  if (!pokemon) {
+    const empty = document.createElement("div");
+    empty.className = "team-card__empty";
+    empty.innerHTML = `
+      <span class="empty-state__stone" aria-hidden="true"></span>
+      <strong>Choose your next team member</strong>
+      <p>Pokemon details, compatible moves, and evolution choices will appear here.</p>
+    `;
+    card.append(empty);
+    return card;
+  }
+
+  const identity = document.createElement("div");
+  identity.className = "team-card__identity";
+  identity.innerHTML = `
+    <div class="team-sprite-well">
+      <img src="${pokemon.sprite}" alt="" width="96" height="96" loading="lazy">
+    </div>
+    <div>
+      <span>No. ${String(pokemon.number).padStart(3, "0")}</span>
+      <h3></h3>
+      <div class="team-pokemon-types"></div>
+      <strong class="team-card__bst">BST ${pokemon.bst}</strong>
+    </div>
+  `;
+  identity.querySelector("h3").textContent = pokemon.name.replaceAll("_", " ");
+  renderTypeBadges(identity.querySelector(".team-pokemon-types"), pokemon.types);
+  card.append(identity);
+
+  const stats = document.createElement("section");
+  stats.className = "pokemon-stats team-card__stats";
+  stats.setAttribute("aria-label", `${pokemon.name} base stats`);
+  card.append(stats);
+  renderPokemonStats(card, pokemon);
+
+  if (pokemon.evolvesTo.length) {
+    const evolution = document.createElement("div");
+    evolution.className = "team-card__evolutions";
+    const label = document.createElement("span");
+    label.textContent = "Evolve this team member";
+    evolution.append(label);
+    pokemon.evolvesTo.forEach((number) => {
+      const evolved = pokemonByNumber.get(number);
+      if (!evolved) return;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "team-evolve-button";
+      button.innerHTML = `<img src="${evolved.sprite}" alt="" width="44" height="44"><span></span>`;
+      button.querySelector("span").textContent = `Evolve to ${evolved.name.replaceAll("_", " ")}`;
+      button.addEventListener("click", () => setTeamPokemon(slotIndex, number, true));
+      evolution.append(button);
+    });
+    card.append(evolution);
+  }
+
+  const moves = document.createElement("div");
+  moves.className = "team-card__moves";
+  slot.moves.forEach((moveId, moveIndex) => {
+    moves.append(createTeamMoveSlot(slotIndex, moveIndex, pokemon.number, moveId));
+  });
+  card.append(moves);
+  return card;
+}
+
+function renderTeam() {
+  const fragment = document.createDocumentFragment();
+  state.team.forEach((slot, index) => fragment.append(renderTeamCard(slot, index)));
+  elements.teamGrid.replaceChildren(fragment);
 }
 
 function renderPokemonCard(pokemon) {
@@ -623,6 +867,7 @@ function activateView(viewName) {
   });
   if (viewName === "caught") renderCollection();
   if (viewName === "moves") renderMoves();
+  if (viewName === "team") renderTeam();
 }
 
 function resetDexFilters() {
@@ -854,6 +1099,20 @@ function bindControls() {
     state.moveLimit += 100;
     renderMoves();
   });
+  document.querySelector("#clear-team").addEventListener("click", () => {
+    if (
+      !state.team.some((slot) => slot.pokemonNumber) ||
+      !window.confirm("Clear all Pokemon and moves from your team?")
+    ) {
+      return;
+    }
+    state.team = Array.from({ length: 6 }, () => ({
+      pokemonNumber: null,
+      moves: [null, null, null, null],
+    }));
+    persistTeam();
+    renderTeam();
+  });
   elements.collectionSearch.addEventListener("input", () => {
     state.collectionSearch = elements.collectionSearch.value;
     renderCollection();
@@ -894,6 +1153,7 @@ bindControls();
 updateProgress();
 renderQuickLocations();
 renderDex();
+renderTeam();
 renderMoves();
 renderCollection();
 renderLocations();

@@ -53,6 +53,12 @@ check(
   "Pound is missing Gothita's level-up learner detail",
 );
 check(
+  Object.values(moves.moves.find((move) => move.name === "Mean Look")?.learners || {})
+    .flat()
+    .some((learner) => learner.guideNumber === 1),
+  "Mean Look is missing Gothita's learner detail for the Team Builder",
+);
+check(
   data.dex.filter((pokemon) => pokemon.statsSource === "Pokerex").length === 314,
   "Expected Pokerex stats for 314 curated entries",
 );
@@ -157,6 +163,8 @@ check(
   (html.match(/rel="apple-touch-icon"/g) || []).length === 5,
   "Expected five Apple touch icon declarations",
 );
+check(html.includes('data-view="team"'), "Team Builder tab is missing");
+check(html.includes('id="team-grid"'), "Team Builder grid is missing");
 
 const localReferences = [...html.matchAll(/\s(?:src|href)="([^"]+)"/g)]
   .map((match) => match[1])

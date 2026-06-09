@@ -94,6 +94,7 @@
 
       <nav class="view-tabs" aria-label="Guide views">
         <button class="view-tab is-active" type="button" data-view="dex">Full Dex</button>
+        <button class="view-tab" type="button" data-view="team">Team Builder</button>
         <button class="view-tab" type="button" data-view="moves">Moves</button>
         <button class="view-tab" type="button" data-view="caught">
           Caught <span class="tab-count" id="caught-tab-count">0</span>
@@ -194,6 +195,25 @@
           <h3>No Pokémon found</h3>
           <p>Try clearing a filter or searching another location.</p>
         </div>
+      </section>
+
+      <section class="guide-view" id="view-team">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Plan your party</p>
+            <h2>Team Builder</h2>
+          </div>
+          <p>Your six-slot team and selected moves are saved locally in this browser.</p>
+        </div>
+        <aside class="source-note">
+          Move choices use Pokerex learner compatibility. Evolving a team member keeps its selected
+          moves, including any moves the evolved Pokemon cannot normally learn directly.
+        </aside>
+        <div class="team-toolbar">
+          <p>Select a Pokemon for each slot, then choose up to four moves.</p>
+          <button class="clear-button" id="clear-team" type="button">Clear team</button>
+        </div>
+        <div class="team-grid" id="team-grid"></div>
       </section>
 
       <section class="guide-view" id="view-moves">

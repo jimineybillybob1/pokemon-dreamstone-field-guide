@@ -13,6 +13,7 @@ Open `index.html` in a browser. The guide includes:
 - 38 active Dreamstone encounter maps with exact methods, rates, levels, and time-of-day tables
 - ROM-extracted base stats and BST bars on every curated Dex card
 - A searchable 934-move catalogue with move details and learner compatibility
+- A persistent six-slot team builder with compatible moves and retain-on-evolution movesets
 - Pokémon types and clickable direct evolution links
 - Persistent light and dark themes
 - Sticky search and quick location filters ordered to match the encounter atlas

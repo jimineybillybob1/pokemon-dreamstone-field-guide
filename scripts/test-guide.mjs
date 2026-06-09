@@ -19,7 +19,6 @@ const browser = await chromium.launch({
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const errors = [];
-await page.addInitScript(() => localStorage.clear());
 page.on("console", (message) => {
   if (message.type() === "error") errors.push(`Console: ${message.text()}`);
 });
@@ -31,6 +30,8 @@ const check = async (condition, message) => {
 };
 
 await page.goto(guideUrl);
+await page.evaluate(() => localStorage.clear());
+await page.reload();
 await check((await page.title()) === "Dreamstone Field Guide", "Unexpected page title");
 await check((await page.locator("link[rel='manifest']").getAttribute("href")) === "site.webmanifest", "Web app manifest is missing");
 await check((await page.locator("link[rel='apple-touch-icon']").count()) === 5, "Apple touch icons are missing");
@@ -127,6 +128,56 @@ await check(
 await check((await page.locator(".collection-card").count()) === 327, "Expected all 327 collection cards");
 await check((await page.locator("#total-count").textContent()) === "327", "Capture total did not include Pokerex wild entries");
 await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");
+
+await page.locator(".view-tab[data-view='team']").click();
+await check(await page.locator("#view-team").evaluate((element) => element.classList.contains("is-active")), "Team Builder view did not open");
+await check((await page.locator(".team-card").count()) === 6, "Team Builder did not render six slots");
+await check((await page.locator(".team-card__empty").count()) === 6, "Team Builder did not start with six empty slots");
+await page.locator(".team-card[data-slot='1'] .team-pokemon-picker select").selectOption("1");
+await check(
+  (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothita",
+  "Team slot did not select Gothita",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .pokemon-stat").count()) === 7,
+  "Team card is missing Gothita's base stats",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-pokemon-types").textContent()).includes("psychic"),
+  "Team card is missing Gothita's type",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-slot").count()) === 4,
+  "Team card does not contain four move slots",
+);
+await page.locator(".team-card[data-slot='1'] .team-move-slot").first().locator("select").selectOption("212");
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-details").textContent()).includes("Mean Look"),
+  "Selected team move details are missing",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-details").textContent()).includes("Accuracy"),
+  "Selected team move accuracy is missing",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-details__effect").count()) === 1,
+  "Selected team move effect is missing",
+);
+await page.locator(".team-card[data-slot='1'] .team-evolve-button", { hasText: "Gothorita" }).click();
+await check(
+  (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothorita",
+  "Team evolution button did not select Gothorita",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-slot").first().locator("select").inputValue()) === "212",
+  "Team evolution did not retain the selected move",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-retained").textContent()) === "Retained after change",
+  "Move retained after evolution was not labelled",
+);
+await page.locator(".team-card[data-slot='1']").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-builder.png"), fullPage: false });
 
 await page.locator(".view-tab[data-view='moves']").click();
 await check(await page.locator("#view-moves").evaluate((element) => element.classList.contains("is-active")), "Moves view did not open");
@@ -262,6 +313,22 @@ await page.screenshot({ path: path.join(outputDir, "guide-desktop-collection.png
 await page.setViewportSize({ width: 390, height: 844 });
 await page.reload();
 await check((await page.locator(".pokemon-card").count()) === 315, "Mobile view did not render all cards");
+await page.locator(".view-tab[data-view='team']").click();
+await check(
+  (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothorita",
+  "Saved team did not persist after reload",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-move-slot").first().locator("select").inputValue()) === "212",
+  "Saved team move did not persist after reload",
+);
+await page.locator(".team-card[data-slot='1']").scrollIntoViewIfNeeded();
+await check(
+  await page.locator(".team-card[data-slot='1']").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile team card has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-team-builder.png"), fullPage: false });
+await page.locator(".view-tab[data-view='dex']").click();
 await page.locator(".pokemon-card[data-number='1']").scrollIntoViewIfNeeded();
 await check(
   await page.locator(".pokemon-card[data-number='1']").evaluate(
@@ -305,8 +372,10 @@ console.log(
         "tmp/guide-desktop-collection.png",
         "tmp/guide-desktop-location-map.png",
         "tmp/guide-desktop-moves.png",
+        "tmp/guide-desktop-team-builder.png",
         "tmp/guide-mobile-dex-stats.png",
         "tmp/guide-mobile-moves.png",
+        "tmp/guide-mobile-team-builder.png",
         "tmp/guide-mobile-collection.png",
         "tmp/guide-mobile-location-map.png",
       ],
