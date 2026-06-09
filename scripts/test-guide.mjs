@@ -178,7 +178,21 @@ await page.locator(".view-tab[data-view='team']").click();
 await check(await page.locator("#view-team").evaluate((element) => element.classList.contains("is-active")), "Team Builder view did not open");
 await check((await page.locator(".team-card").count()) === 6, "Team Builder did not render six slots");
 await check((await page.locator(".team-card__empty").count()) === 6, "Team Builder did not start with six empty slots");
-await page.locator(".team-card[data-slot='1'] .team-pokemon-picker select").selectOption("1");
+const teamPokemonSearch = page.locator(".team-card[data-slot='1'] .team-pokemon-search input");
+await teamPokemonSearch.fill("Gothita");
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-pokemon-result").count()) === 1,
+  "Team Pokemon search did not isolate Gothita",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-pokemon-result img").count()) === 1,
+  "Team Pokemon search result is missing its sprite",
+);
+await teamPokemonSearch.scrollIntoViewIfNeeded();
+await page.evaluate(() => window.scrollBy({ top: 420, behavior: "instant" }));
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-search.png"), fullPage: false });
+await teamPokemonSearch.press("ArrowDown");
+await teamPokemonSearch.press("Enter");
 await check(
   (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothita",
   "Team slot did not select Gothita",
@@ -603,6 +617,7 @@ console.log(
         "tmp/guide-desktop-moves.png",
         "tmp/guide-desktop-move-tutors.png",
         "tmp/guide-desktop-abilities.png",
+        "tmp/guide-desktop-team-search.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-coverage.png",
         "tmp/guide-mobile-dex-stats.png",

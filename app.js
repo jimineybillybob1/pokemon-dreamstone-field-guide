@@ -792,25 +792,139 @@ function renderTeamMatchups(container, targetPokemon) {
 }
 
 function createPokemonPicker(slotIndex, selectedNumber) {
+  const picker = document.createElement("div");
+  picker.className = "team-pokemon-picker";
   const label = document.createElement("label");
-  label.className = "team-pokemon-picker";
-  const text = document.createElement("span");
-  text.textContent = "Pokemon";
-  const select = document.createElement("select");
-  select.setAttribute("aria-label", `Choose Pokemon for team slot ${slotIndex + 1}`);
-  select.add(new Option("Choose a Pokemon...", ""));
-  pokemonOptions.forEach((pokemon) => {
-    select.add(
-      new Option(
-        `No. ${String(pokemon.number).padStart(3, "0")} - ${pokemon.name.replaceAll("_", " ")}`,
-        pokemon.number,
-      ),
-    );
+  label.htmlFor = `team-pokemon-search-${slotIndex}`;
+  label.textContent = "Pokemon";
+  const inputWrap = document.createElement("div");
+  inputWrap.className = "team-pokemon-search";
+  const input = document.createElement("input");
+  const resultId = `team-pokemon-results-${slotIndex}`;
+  const selected = pokemonByNumber.get(selectedNumber);
+  input.id = `team-pokemon-search-${slotIndex}`;
+  input.type = "search";
+  input.placeholder = "Search by name, number, form, or type...";
+  input.autocomplete = "off";
+  input.spellcheck = false;
+  input.setAttribute("role", "combobox");
+  input.setAttribute("aria-autocomplete", "list");
+  input.setAttribute("aria-controls", resultId);
+  input.setAttribute("aria-expanded", "false");
+  input.setAttribute("aria-label", `Search Pokemon for team slot ${slotIndex + 1}`);
+  input.value = selected
+    ? `No. ${String(selected.number).padStart(3, "0")} - ${selected.name.replaceAll("_", " ")}`
+    : "";
+  const results = document.createElement("div");
+  results.id = resultId;
+  results.className = "team-pokemon-results";
+  results.setAttribute("role", "listbox");
+  results.hidden = true;
+  let activeIndex = -1;
+
+  const matchingPokemon = () => {
+    const query = input.value.trim().toLowerCase();
+    const selectedLabel = selected
+      ? `no. ${String(selected.number).padStart(3, "0")} - ${selected.name.replaceAll("_", " ")}`.toLowerCase()
+      : "";
+    if (!query || query === selectedLabel) return pokemonOptions.slice(0, 30);
+    return pokemonOptions
+      .filter((pokemon) =>
+        [
+          pokemon.name,
+          pokemon.number,
+          String(pokemon.number).padStart(3, "0"),
+          pokemon.region,
+          pokemon.types.join(" "),
+        ]
+          .join(" ")
+          .toLowerCase()
+          .includes(query),
+      )
+      .slice(0, 30);
+  };
+
+  const updateActiveResult = () => {
+    const options = [...results.querySelectorAll("[role='option']")];
+    options.forEach((option, index) => option.classList.toggle("is-active", index === activeIndex));
+    const active = options[activeIndex];
+    if (active) {
+      input.setAttribute("aria-activedescendant", active.id);
+      active.scrollIntoView({ block: "nearest" });
+    } else {
+      input.removeAttribute("aria-activedescendant");
+    }
+  };
+
+  const renderResults = () => {
+    const matches = matchingPokemon();
+    const fragment = document.createDocumentFragment();
+    matches.forEach((pokemon) => {
+      const option = document.createElement("button");
+      option.type = "button";
+      option.id = `team-pokemon-option-${slotIndex}-${pokemon.number}`;
+      option.className = "team-pokemon-result";
+      option.setAttribute("role", "option");
+      option.setAttribute("aria-selected", String(pokemon.number === selectedNumber));
+      option.innerHTML = `
+        <img src="${pokemon.sprite}" alt="" width="42" height="42" loading="lazy">
+        <span>
+          <small>No. ${String(pokemon.number).padStart(3, "0")}${pokemon.region ? ` · ${pokemon.region}` : ""}</small>
+          <strong></strong>
+          <span>${pokemon.types.join(" / ")}</span>
+        </span>
+      `;
+      option.querySelector("strong").textContent = pokemon.name.replaceAll("_", " ");
+      option.addEventListener("click", () => setTeamPokemon(slotIndex, pokemon.number));
+      fragment.append(option);
+    });
+    if (!matches.length) {
+      const empty = document.createElement("p");
+      empty.className = "team-pokemon-results__empty";
+      empty.textContent = "No Pokemon found.";
+      fragment.append(empty);
+    }
+    results.replaceChildren(fragment);
+    results.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+    activeIndex = -1;
+    updateActiveResult();
+  };
+
+  input.addEventListener("focus", () => {
+    input.select();
+    renderResults();
   });
-  select.value = selectedNumber || "";
-  select.addEventListener("change", () => setTeamPokemon(slotIndex, Number(select.value)));
-  label.append(text, select);
-  return label;
+  input.addEventListener("input", renderResults);
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (results.hidden) renderResults();
+      const options = [...results.querySelectorAll("[role='option']")];
+      const direction = event.key === "ArrowDown" ? 1 : -1;
+      activeIndex = Math.max(0, Math.min(options.length - 1, activeIndex + direction));
+      updateActiveResult();
+    } else if (event.key === "Enter" && activeIndex >= 0) {
+      event.preventDefault();
+      results.querySelectorAll("[role='option']")[activeIndex]?.click();
+    } else if (event.key === "Escape") {
+      results.hidden = true;
+      input.setAttribute("aria-expanded", "false");
+      input.removeAttribute("aria-activedescendant");
+    }
+  });
+  picker.addEventListener("focusout", () => {
+    window.setTimeout(() => {
+      if (picker.contains(document.activeElement)) return;
+      results.hidden = true;
+      input.setAttribute("aria-expanded", "false");
+      input.removeAttribute("aria-activedescendant");
+    }, 0);
+  });
+
+  inputWrap.append(input, results);
+  picker.append(label, inputWrap);
+  return picker;
 }
 
 function createTeamMoveDetails(move, retained) {

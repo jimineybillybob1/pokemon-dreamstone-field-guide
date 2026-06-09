@@ -2247,7 +2247,7 @@ body.notes-hidden .item-card__location {
   padding: 12px 13px;
 }
 
-.team-pokemon-picker > span,
+.team-pokemon-picker > label,
 .team-card__ability label > span,
 .team-move-slot label {
   color: var(--muted);
@@ -2257,7 +2257,7 @@ body.notes-hidden .item-card__location {
   text-transform: uppercase;
 }
 
-.team-pokemon-picker select,
+.team-pokemon-search input,
 .team-card__ability select,
 .team-move-slot select {
   width: 100%;
@@ -2272,11 +2272,96 @@ body.notes-hidden .item-card__location {
   font-size: 0.76rem;
 }
 
-.team-pokemon-picker select:focus,
+.team-pokemon-search input:focus,
 .team-card__ability select:focus,
 .team-move-slot select:focus {
   border-color: var(--violet);
   box-shadow: 0 0 0 3px rgba(114, 87, 212, 0.12);
+}
+
+.team-pokemon-search {
+  position: relative;
+  min-width: 0;
+}
+
+.team-pokemon-search input {
+  padding-right: 32px;
+}
+
+.team-pokemon-results {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 5px);
+  right: 0;
+  left: 0;
+  display: grid;
+  max-height: 330px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 16px 35px rgba(35, 29, 67, 0.2);
+  padding: 5px;
+}
+
+.team-pokemon-results[hidden] {
+  display: none;
+}
+
+.team-pokemon-result {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  border: 0;
+  border-radius: 8px;
+  color: var(--ink);
+  background: transparent;
+  padding: 5px;
+  text-align: left;
+}
+
+.team-pokemon-result:hover,
+.team-pokemon-result.is-active {
+  background: rgba(114, 87, 212, 0.1);
+}
+
+.team-pokemon-result[aria-selected="true"] {
+  background: rgba(66, 182, 163, 0.1);
+}
+
+.team-pokemon-result img {
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.team-pokemon-result > span {
+  display: grid;
+  min-width: 0;
+}
+
+.team-pokemon-result small,
+.team-pokemon-result > span > span {
+  color: var(--muted);
+  font-size: 0.57rem;
+  font-weight: 800;
+}
+
+.team-pokemon-result strong {
+  overflow: hidden;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.82rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team-pokemon-results__empty {
+  margin: 0;
+  color: var(--muted);
+  padding: 12px;
+  font-size: 0.7rem;
+  text-align: center;
 }
 
 .team-card__empty {
@@ -2842,12 +2927,17 @@ html[data-theme="dark"] .team-card__top {
   background: rgba(155, 133, 237, 0.07);
 }
 
-html[data-theme="dark"] .team-pokemon-picker select,
+html[data-theme="dark"] .team-pokemon-search input,
 html[data-theme="dark"] .team-card__ability select,
 html[data-theme="dark"] .team-move-slot select,
 html[data-theme="dark"] .sync-code-field input {
   color: var(--ink);
   background: #211f31;
+}
+
+html[data-theme="dark"] .team-pokemon-results {
+  background: #211f31;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.42);
 }
 
 html[data-theme="dark"] .team-sprite-well,

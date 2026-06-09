@@ -14,7 +14,7 @@ Open `index.html` in a browser. The guide includes:
 - ROM-extracted base stats and BST bars on every curated Dex card
 - A searchable 934-move catalogue with move details, learner compatibility, and all 19 move tutors
 - A searchable 310-ability catalogue with descriptions and linked Pokémon users
-- A persistent six-slot team builder with compatible moves and retain-on-evolution movesets
+- A persistent six-slot team builder with searchable Pokémon pickers, compatible moves, and retain-on-evolution movesets
 - Persistent Team Builder ability selection with ability descriptions
 - Live Dex-card coverage showing super-effective damage moves selected in the Team Builder
 - Pokémon types and clickable direct evolution links
