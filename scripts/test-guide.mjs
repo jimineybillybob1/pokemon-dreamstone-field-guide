@@ -95,6 +95,16 @@ await check((await page.locator("#location-search").inputValue()) === "Route 1",
 await check((await page.locator(".location-card").count()) === 1, "Location link did not isolate its encounter map");
 await page.locator(".view-tab[data-view='dex']").click();
 await check((await page.locator(".quick-location").count()) === 36, "Unexpected quick-location count");
+await check(
+  await page.evaluate(() => {
+    const chips = [...document.querySelectorAll(".quick-location")]
+      .slice(1)
+      .map((element) => element.textContent);
+    const locationOrder = [...new Set(window.DREAMSTONE_ENCOUNTERS.locations.map((location) => location.name))];
+    return JSON.stringify(chips) === JSON.stringify(locationOrder);
+  }),
+  "Quick locations do not match the Locations tab order",
+);
 await check((await page.locator(".collection-card").count()) === 327, "Expected all 327 collection cards");
 await check((await page.locator("#total-count").textContent()) === "327", "Capture total did not include Pokerex wild entries");
 await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");

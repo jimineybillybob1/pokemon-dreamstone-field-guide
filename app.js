@@ -54,6 +54,7 @@ const uniqueSorted = (values) =>
   [...new Set(values.filter(Boolean))].sort((a, b) =>
     a.localeCompare(b, undefined, { numeric: true }),
   );
+const uniqueInOrder = (values) => [...new Set(values.filter(Boolean))];
 const encounterLocationsByGuideNumber = new Map();
 encounters.encounterSpecies
   .filter((pokemon) => pokemon.guideNumber)
@@ -88,7 +89,8 @@ const locationsForPokemon = (pokemon) => {
   ]);
   return pokerexLocations.length ? pokerexLocations : uniqueSorted([pokemon.location]);
 };
-const directLocations = uniqueSorted(encounters.locations.map((location) => location.name));
+const quickLocations = uniqueInOrder(encounters.locations.map((location) => location.name));
+const locationFilterOptions = uniqueSorted(quickLocations);
 const formatLocations = (locations, limit = 3) => {
   if (!locations.length) return "";
   const visible = locations.slice(0, limit).join(", ");
@@ -106,7 +108,7 @@ function initializeSummary() {
   document.querySelector("#unobtainable-count").textContent = data.dex.length;
   document.querySelector("#location-count").textContent = encounters.locations.length;
 
-  setSelectOptions("#location-filter", directLocations);
+  setSelectOptions("#location-filter", locationFilterOptions);
   setSelectOptions("#rarity-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.rarity)));
   setSelectOptions("#region-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.region)));
   setSelectOptions("#type-filter", uniqueSorted(data.dex.flatMap((pokemon) => pokemon.types)));
@@ -118,7 +120,7 @@ function initializeSummary() {
 
 function renderQuickLocations() {
   const fragment = document.createDocumentFragment();
-  ["", ...directLocations].forEach((location) => {
+  ["", ...quickLocations].forEach((location) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "quick-location";
