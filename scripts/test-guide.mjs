@@ -63,8 +63,16 @@ await check((await page.locator("[data-clear-search]").count()) === 5, "Search c
 await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
 await check((await page.locator(".guide-tip").count()) === 3, "Expected three compact guide tips");
 await check((await page.locator(".stat-strip").count()) === 0, "Old guide-stat strip is still visible");
+await check((await page.locator(".progress-panel").count()) === 0, "Redundant masthead capture progress is still visible");
 await check((await page.locator(".journey-dashboard").count()) === 1, "Journey dashboard is missing");
 await check((await page.locator(".dashboard-badge").count()) === 8, "Dashboard badge tracker is incomplete");
+await check((await page.locator(".dashboard-badge .badge-sprite").count()) === 8, "Dashboard badge sprites are missing");
+await check(
+  (await page.locator(".dashboard-badge .badge-sprite").first().evaluate((element) => getComputedStyle(element).backgroundImage)).includes(
+    "badges.png",
+  ),
+  "Badge sprite sheet did not load",
+);
 await check((await page.locator(".dashboard-team-slot").count()) === 6, "Dashboard team overview is incomplete");
 await check((await page.locator(".sticky-tab-search").count()) === 4, "Sticky tab searches are missing");
 await check(
@@ -225,7 +233,10 @@ await check(
   "Quick locations do not match Pokerex's default order",
 );
 await check((await page.locator(".collection-card").count()) === 327, "Expected all 327 collection cards");
-await check((await page.locator("#total-count").textContent()) === "327", "Capture total did not include Pokerex wild entries");
+await check(
+  (await page.locator("#dashboard-total-count").textContent()) === "327",
+  "Capture total did not include Pokerex wild entries",
+);
 await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");
 await page.locator("#search").fill("Gothita");
 await check(!(await page.locator("[data-clear-search='#search']").isHidden()), "Dex search clear button did not appear");

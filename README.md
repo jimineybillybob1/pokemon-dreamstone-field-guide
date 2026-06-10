@@ -119,7 +119,7 @@ Relevant Cloudflare documentation:
 
 - Wild encounters, maps, Pokémon base stats, moves, abilities, learners, and tutor locations: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/abilities)
 - Gym rosters: [PokemonCoders](https://www.pokemoncoders.com/pokemon-dreamstone-mysteries-gym-leaders-guide/)
-- Gym leader trainer sprites: [Dreamstone Mysteries source](https://github.com/dsmyst/dreamstone-mysteries)
+- Gym leader trainer sprites and badge artwork: [Dreamstone Mysteries source](https://github.com/dsmyst/dreamstone-mysteries)
 - Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)

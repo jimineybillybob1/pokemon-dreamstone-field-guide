@@ -80,10 +80,6 @@ const elements = {
   cardTemplate: document.querySelector("#pokemon-card-template"),
   emptyState: document.querySelector("#empty-state"),
   resultCount: document.querySelector("#result-count"),
-  caughtCount: document.querySelector("#caught-count"),
-  totalCount: document.querySelector("#total-count"),
-  progressBar: document.querySelector("#progress-bar"),
-  progressPercent: document.querySelector("#progress-percent"),
   dashboardCaughtCount: document.querySelector("#dashboard-caught-count"),
   dashboardTotalCount: document.querySelector("#dashboard-total-count"),
   dashboardProgressBar: document.querySelector("#dashboard-progress-bar"),
@@ -498,6 +494,7 @@ function setLocationFilter(location) {
 
 function createBadgeButton(leader, compact = false) {
   const obtained = state.badges.has(leader.id);
+  const badgePosition = ((leader.order - 1) / (gymLeaders.length - 1)) * 100;
   const button = document.createElement("button");
   button.type = "button";
   button.className = compact ? "dashboard-badge" : "gym-badge-toggle";
@@ -505,8 +502,8 @@ function createBadgeButton(leader, compact = false) {
   button.setAttribute("aria-pressed", String(obtained));
   button.setAttribute("aria-label", `${obtained ? "Remove" : "Mark obtained"}: ${leader.badge}`);
   button.innerHTML = compact
-    ? `<span>${leader.order}</span><small>${leader.badge.replace(" Badge", "")}</small>`
-    : `<span class="gym-badge-toggle__stone">${leader.order}</span><span><strong>${leader.badge}</strong><small>${obtained ? "Obtained" : "Mark obtained"}</small></span>`;
+    ? `<span class="badge-sprite" style="--badge-position: ${badgePosition}%"></span><small>${leader.badge.replace(" Badge", "")}</small>`
+    : `<span class="badge-sprite gym-badge-toggle__stone" style="--badge-position: ${badgePosition}%"></span><span><strong>${leader.badge}</strong><small>${obtained ? "Obtained" : "Mark obtained"}</small></span>`;
   button.addEventListener("click", () => toggleBadge(leader.id));
   return button;
 }
@@ -548,10 +545,6 @@ function toggleBadge(id) {
 function updateProgress() {
   const caughtCount = collectionDex.filter(isCaught).length;
   const percent = Math.round((caughtCount / collectionDex.length) * 100);
-  elements.caughtCount.textContent = caughtCount;
-  elements.totalCount.textContent = collectionDex.length;
-  elements.progressPercent.textContent = `${percent}%`;
-  elements.progressBar.style.width = `${percent}%`;
   elements.dashboardCaughtCount.textContent = caughtCount;
   elements.dashboardTotalCount.textContent = collectionDex.length;
   elements.dashboardProgressBar.style.width = `${percent}%`;
@@ -562,10 +555,6 @@ function updateProgress() {
   elements.collectionPercent.textContent = `${percent}%`;
   elements.collectionProgressBar.style.width = `${percent}%`;
   updateSaveSummary();
-  elements.progressBar.parentElement.setAttribute(
-    "aria-label",
-    `${caughtCount} of ${collectionDex.length} Pokémon caught`,
-  );
   renderJourneyOverview();
 }
 
