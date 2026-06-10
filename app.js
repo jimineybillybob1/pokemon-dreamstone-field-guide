@@ -2191,8 +2191,10 @@ function updateSearchClearButtons() {
 
 function updateBackToTopVisibility() {
   const button = document.querySelector("#back-to-top");
-  const pageScrolls = document.documentElement.scrollHeight > window.innerHeight + 100;
-  button.hidden = !pageScrolls || window.scrollY < 420;
+  const scrollingElement = document.scrollingElement || document.documentElement;
+  const pageScrolls = scrollingElement.scrollHeight > scrollingElement.clientHeight + 20;
+  button.hidden = !pageScrolls;
+  button.classList.toggle("is-at-top", scrollingElement.scrollTop < 80);
 }
 
 function activateView(viewName) {
@@ -2586,6 +2588,11 @@ function bindControls() {
   });
   window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
   window.addEventListener("resize", updateBackToTopVisibility);
+  window.addEventListener("pageshow", updateBackToTopVisibility);
+  window.visualViewport?.addEventListener("resize", updateBackToTopVisibility);
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(updateBackToTopVisibility).observe(document.body);
+  }
 
   document.querySelector("#reset-progress").addEventListener("click", () => {
     if (!state.caught.size || !window.confirm("Clear all caught Pokémon from this guide?")) return;

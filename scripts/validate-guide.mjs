@@ -213,8 +213,9 @@ const localReferences = [...html.matchAll(/\s(?:src|href)="([^"]+)"/g)]
   .map((match) => match[1])
   .filter((reference) => !reference.startsWith("#") && !reference.startsWith("http"));
 for (const reference of localReferences) {
+  const localPath = reference.split(/[?#]/, 1)[0];
   try {
-    await fs.access(path.join(rootDir, reference));
+    await fs.access(path.join(rootDir, localPath));
   } catch {
     errors.push(`index.html references missing file: ${reference}`);
   }

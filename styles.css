@@ -634,9 +634,9 @@ button.journey-card:hover {
 
 .back-to-top {
   position: fixed;
-  z-index: 60;
-  right: max(16px, env(safe-area-inset-right));
-  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 1000;
+  right: max(18px, calc(env(safe-area-inset-right) + 10px));
+  bottom: max(22px, calc(env(safe-area-inset-bottom) + 18px));
   display: flex;
   gap: 5px;
   align-items: center;
@@ -657,9 +657,14 @@ button.journey-card:hover {
     transform 160ms ease;
 }
 
+.back-to-top.is-at-top {
+  opacity: 0.72;
+}
+
 .back-to-top:hover {
   background: var(--violet-dark);
   transform: translateY(-2px);
+  opacity: 1;
 }
 
 .back-to-top[hidden] {
@@ -3745,8 +3750,8 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .back-to-top {
-    right: max(10px, env(safe-area-inset-right));
-    bottom: max(10px, env(safe-area-inset-bottom));
+    right: max(12px, calc(env(safe-area-inset-right) + 8px));
+    bottom: max(76px, calc(env(safe-area-inset-bottom) + 64px));
     min-height: 42px;
     padding: 9px 12px;
   }

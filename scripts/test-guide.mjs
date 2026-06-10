@@ -31,9 +31,19 @@ const check = async (condition, message) => {
 
 const checkGlobalBackToTop = async (viewName) => {
   await page.locator(`.view-tab[data-view='${viewName}']`).click();
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  const pageScrollsAtTop = await page.evaluate(
+    () => document.documentElement.scrollHeight > window.innerHeight + 20,
+  );
+  if (!pageScrollsAtTop) return;
+  await page.waitForFunction(() => !document.querySelector("#back-to-top").hidden);
+  await check(
+    await page.locator("#back-to-top").isVisible(),
+    `Jump to Top control is not visible at the top of ${viewName}`,
+  );
   await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
   const pageScrolls = await page.evaluate(
-    () => document.documentElement.scrollHeight > window.innerHeight + 100,
+    () => document.documentElement.scrollHeight > window.innerHeight + 20,
   );
   if (!pageScrolls) return;
   await page.waitForFunction(() => !document.querySelector("#back-to-top").hidden);
