@@ -429,6 +429,13 @@ button.journey-card:hover {
   margin: 42px 0 34px;
 }
 
+.nav-icon-library {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 .view-tab {
   display: grid;
   grid-template-columns: 40px minmax(0, 1fr);
@@ -454,11 +461,13 @@ button.journey-card:hover {
 .view-tab__icon {
   width: 40px;
   height: 40px;
-  border-radius: 9px;
-  background: var(--paper-deep);
-  padding: 3px;
-  image-rendering: pixelated;
-  object-fit: contain;
+  overflow: visible;
+  color: var(--violet);
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.65;
 }
 
 .view-tab__label {
@@ -499,7 +508,7 @@ button.journey-card:hover {
 }
 
 .view-tab.is-active .view-tab__icon {
-  background: rgba(114, 87, 212, 0.14);
+  color: var(--violet-dark);
 }
 
 .guide-view {
@@ -3614,10 +3623,6 @@ html[data-theme="dark"] button.journey-card:hover {
 html[data-theme="dark"] .view-tab:hover,
 html[data-theme="dark"] .view-tab.is-active {
   background: #302b45;
-}
-
-html[data-theme="dark"] .view-tab__icon {
-  background: #29263a;
 }
 
 html[data-theme="dark"] .dashboard-team-slot,

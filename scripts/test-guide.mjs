@@ -82,6 +82,11 @@ await check(
   "Primary tabs are not in the expected order",
 );
 await check((await page.locator(".view-tab__icon").count()) === 11, "Guide menu icons are incomplete");
+await check((await page.locator(".view-tab img").count()) === 0, "Guide menu still uses raster sprite icons");
+await check(
+  await page.locator(".view-tab__icon").first().evaluate((element) => getComputedStyle(element).backgroundImage === "none"),
+  "Guide menu icons still have an inner background box",
+);
 await check(
   await page.locator(".view-tabs").evaluate((element) => element.scrollWidth <= element.clientWidth),
   "Desktop guide menu has horizontal overflow",

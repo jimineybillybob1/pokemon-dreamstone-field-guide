@@ -36,13 +36,13 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260610-8" />
+    <link rel="stylesheet" href="styles.css?v=20260610-9" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
     <script src="data/pokerex-abilities.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260610-8" defer></script>
+    <script src="app.js?v=20260610-9" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -110,48 +110,91 @@
       </section>
 
       <nav class="view-tabs" aria-label="Guide views">
+        <svg class="nav-icon-library" aria-hidden="true">
+          <symbol id="nav-icon-dex" viewBox="0 0 24 24">
+            <path d="M4 4.5h16v15H4zM4 8h16M8 11.5h4M8 15h7" />
+            <circle cx="16.5" cy="13.5" r="2.5" />
+          </symbol>
+          <symbol id="nav-icon-location" viewBox="0 0 24 24">
+            <path d="M12 21s6-6.2 6-12a6 6 0 1 0-12 0c0 5.8 6 12 6 12Z" />
+            <circle cx="12" cy="9" r="2.2" />
+          </symbol>
+          <symbol id="nav-icon-caught" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3 12h6M15 12h6" />
+            <circle cx="12" cy="12" r="3" />
+          </symbol>
+          <symbol id="nav-icon-gyms" viewBox="0 0 24 24">
+            <circle cx="12" cy="10" r="5" />
+            <path d="m8.5 14-2 7 5.5-3 5.5 3-2-7M12 7.2l.9 1.8 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3.9-1.8Z" />
+          </symbol>
+          <symbol id="nav-icon-team" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="3" />
+            <circle cx="5" cy="10" r="2" />
+            <circle cx="19" cy="10" r="2" />
+            <path d="M7 20v-2a5 5 0 0 1 10 0v2M1.5 20v-1.5A3.5 3.5 0 0 1 5 15M22.5 20v-1.5A3.5 3.5 0 0 0 19 15" />
+          </symbol>
+          <symbol id="nav-icon-planner" viewBox="0 0 24 24">
+            <path d="M7 4h10v17H4V4h3M17 4h3v17h-3M9 3h6v3H9zM8 10h8M8 14h8M8 18h5" />
+          </symbol>
+          <symbol id="nav-icon-moves" viewBox="0 0 24 24">
+            <path d="m5 4 14 16M19 4 5 20M4 3l4 1-3 3-1-4ZM20 3l-4 1 3 3 1-4ZM4 21l4-1-3-3-1 4ZM20 21l-4-1 3-3 1 4Z" />
+          </symbol>
+          <symbol id="nav-icon-abilities" viewBox="0 0 24 24">
+            <path d="m12 2 1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5L12 2ZM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z" />
+          </symbol>
+          <symbol id="nav-icon-mega" viewBox="0 0 24 24">
+            <path d="m12 2 8 6-3 11H7L4 8l8-6ZM4 8h16M7 19l5-11 5 11M12 2v6" />
+          </symbol>
+          <symbol id="nav-icon-items" viewBox="0 0 24 24">
+            <path d="M7 7h10l3 5v8H4v-8l3-5ZM9 7V4h6v3M4 12h16M9 15h6" />
+          </symbol>
+          <symbol id="nav-icon-save" viewBox="0 0 24 24">
+            <path d="M7 18H6a4 4 0 0 1-.5-8A6.5 6.5 0 0 1 18 8.5a4.5 4.5 0 0 1 0 9.5h-1M9 15l3 3 3-3M12 18V9" />
+          </symbol>
+        </svg>
         <button class="view-tab is-active" type="button" data-view="dex" aria-current="page">
-          <img class="view-tab__icon" src="assets/sprites/rotom.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-dex"></use></svg>
           <span class="view-tab__label">Full Dex</span>
         </button>
         <button class="view-tab" type="button" data-view="locations">
-          <img class="view-tab__icon" src="assets/sprites/wingull.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-location"></use></svg>
           <span class="view-tab__label">Locations</span>
         </button>
         <button class="view-tab" type="button" data-view="caught">
-          <img class="view-tab__icon" src="assets/icons/app-icon-192.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-caught"></use></svg>
           <span class="view-tab__label">Caught <span class="tab-count" id="caught-tab-count">0</span></span>
         </button>
         <button class="view-tab" type="button" data-view="gyms">
-          <img class="view-tab__icon" src="assets/trainers/raazi.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-gyms"></use></svg>
           <span class="view-tab__label">Gym Leaders</span>
         </button>
         <button class="view-tab" type="button" data-view="team">
-          <img class="view-tab__icon" src="assets/sprites/ralts.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-team"></use></svg>
           <span class="view-tab__label">Team Builder</span>
         </button>
         <button class="view-tab" type="button" data-view="planner">
-          <img class="view-tab__icon" src="assets/sprites/gothitelle.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-planner"></use></svg>
           <span class="view-tab__label">Team Planner</span>
         </button>
         <button class="view-tab" type="button" data-view="moves">
-          <img class="view-tab__icon" src="assets/sprites/aegislash.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-moves"></use></svg>
           <span class="view-tab__label">Moves</span>
         </button>
         <button class="view-tab" type="button" data-view="abilities">
-          <img class="view-tab__icon" src="assets/sprites/zoroark-hisui.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-abilities"></use></svg>
           <span class="view-tab__label">Abilities</span>
         </button>
         <button class="view-tab" type="button" data-view="megas">
-          <img class="view-tab__icon" src="assets/sprites/absol-mega.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-mega"></use></svg>
           <span class="view-tab__label">Mega Choices</span>
         </button>
         <button class="view-tab" type="button" data-view="items">
-          <img class="view-tab__icon" src="assets/sprites/carbink.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-items"></use></svg>
           <span class="view-tab__label">Important Items</span>
         </button>
         <button class="view-tab" type="button" data-view="save">
-          <img class="view-tab__icon" src="assets/sprites/celebi.png" alt="" width="40" height="40" />
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-save"></use></svg>
           <span class="view-tab__label">Save &amp; Sync</span>
         </button>
       </nav>
