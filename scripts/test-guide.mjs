@@ -231,9 +231,28 @@ await check(
 );
 await page.locator("#spoiler-toggle").click();
 await check(
-  (await page.locator(".pokemon-card[data-number='1'] .pokemon-location-label").textContent()) === "Starter",
-  "Special location label is missing",
+  (await page.locator(".pokemon-card[data-number='1'] .pokemon-location").textContent()) ===
+    "No wild encounter listed",
+  "PokÃ©mon without a Pokerex encounter did not receive the correct fallback",
 );
+await check(
+  await page.evaluate(() =>
+    data.dex.every((pokemon) => {
+      const expected = pokerexLocationsForPokemon(pokemon);
+      const card = document.querySelector(`.pokemon-card[data-number='${pokemon.number}']`);
+      const links = [...card.querySelectorAll(".pokemon-location-link")].map((link) => link.textContent);
+      if (expected.length) return JSON.stringify(links) === JSON.stringify(expected);
+      return links.length === 0 && card.querySelector(".pokemon-location").textContent === locationFallbackForPokemon(pokemon);
+    }),
+  ),
+  "One or more Full Dex locations do not exactly match Pokerex encounter data",
+);
+await page.locator("#search").fill("Mt Ceram");
+await check(
+  (await page.locator(".pokemon-card[data-number='259']").count()) === 0,
+  "Charizard was still searchable by its spreadsheet-only Mt Ceram location",
+);
+await page.locator("[data-clear-search='#search']").click();
 await page.locator(".pokemon-card[data-number='17'] .pokemon-location-link", { hasText: /^Route 1$/ }).click();
 await page.waitForTimeout(500);
 await check(
@@ -318,6 +337,12 @@ await page.locator(".view-tab[data-view='team']").click();
 await check(await page.locator("#view-team").evaluate((element) => element.classList.contains("is-active")), "Team Builder view did not open");
 await check((await page.locator(".team-card").count()) === 6, "Team Builder did not render six slots");
 await check((await page.locator(".team-card__empty").count()) === 6, "Team Builder did not start with six empty slots");
+await check(
+  (await page.locator("#team-offensive-coverage").textContent()).includes(
+    "Choose damage-dealing moves to see your offensive type coverage.",
+  ),
+  "Empty Team Builder offensive coverage guidance is missing",
+);
 const teamPokemonSearch = page.locator(".team-card[data-slot='1'] .team-pokemon-search input");
 await teamPokemonSearch.fill("Gothita");
 await check(
@@ -346,8 +371,10 @@ await check(
   "Team card is missing Gothita's type",
 );
 await check(
-  (await page.locator(".team-card[data-slot='1'] .team-card__locations").textContent()).includes("Starter"),
-  "Team card is missing Gothita's location",
+  (await page.locator(".team-card[data-slot='1'] .team-card__locations").textContent()).includes(
+    "No wild encounter listed",
+  ),
+  "Team card did not use the Pokerex-only location fallback",
 );
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__ability select option").count()) === 4,
@@ -394,6 +421,25 @@ await check(
 );
 await page.locator(".team-card[data-slot='1'] .team-move-slot").nth(1).locator("select").selectOption("247");
 await page.locator(".team-card[data-slot='1'] .team-move-slot").nth(2).locator("select").selectOption("85");
+await check(
+  (await page.locator("#team-offensive-coverage header").textContent()).includes(
+    "2 move types · 2 damaging moves",
+  ),
+  "Team Builder offensive coverage totals are incorrect",
+);
+await check(
+  (await page.locator("#team-offensive-coverage .coverage-type--selected").allTextContents()).join(" ").includes(
+    "Electric",
+  ) &&
+    (await page.locator("#team-offensive-coverage .coverage-type--selected").allTextContents()).join(" ").includes(
+      "Ghost",
+    ),
+  "Team Builder offensive coverage is missing selected damaging move types",
+);
+await check(
+  (await page.locator("#team-offensive-coverage .offensive-coverage__targets .type-badge").count()) === 4,
+  "Team Builder super-effective type coverage is incorrect",
+);
 await page.locator(".team-card[data-slot='1'] .team-evolve-button", { hasText: "Gothorita" }).click();
 await check(
   (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothorita",
@@ -441,6 +487,14 @@ await check(
   (await page.locator(".dashboard-team-slot.is-filled").count()) === 1,
   "Dashboard team overview did not update",
 );
+await check(
+  (await page.locator(".dashboard-team-slot.is-filled small").textContent()) === "Gothorita",
+  "Dashboard team overview is missing the PokÃ©mon name",
+);
+await check(
+  (await page.locator("#dashboard-team-names").textContent()) === "Gothorita",
+  "Dashboard team-name summary did not update",
+);
 await page.locator(".view-tab[data-view='gyms']").click();
 await check(
   (await page.locator(".gym-pokemon-card .team-matchup").count()) > 0,
@@ -465,7 +519,9 @@ await check(
 );
 await check(
   (await page.locator(".planner-card[data-slot='1'] .pokemon-stat").count()) === 7 &&
-    (await page.locator(".planner-card[data-slot='1'] .planner-locations").textContent()).includes("Starter"),
+    (await page.locator(".planner-card[data-slot='1'] .planner-locations").textContent()).includes(
+      "No wild encounter listed",
+    ),
   "Planner card is missing Gothita's stats or location",
 );
 await check(
@@ -491,6 +547,14 @@ await check(
   "Selected planner move is missing its learn method",
 );
 await check(
+  (await page.locator("#planner-offensive-coverage header").textContent()).includes(
+    "1 move type · 1 damaging move",
+  ) &&
+    (await page.locator("#planner-offensive-coverage .coverage-type--selected").textContent()).includes("Normal") &&
+    (await page.locator("#planner-offensive-coverage .offensive-coverage__targets .type-badge").count()) === 0,
+  "Team Planner offensive coverage did not update for Pound",
+);
+await check(
   await page.evaluate(() =>
     [
       "Mt Ceram",
@@ -513,16 +577,12 @@ await check(
 );
 await page.evaluate(() => setPlannerPokemon(1, 259));
 await check(
-  (await page.locator(".planner-card[data-slot='2'] .planner-locations .pokemon-location-link").textContent()) ===
-    "Mt. Ceram",
-  "Charizard's Mt. Ceram location is not selectable",
+  (await page.locator(".planner-card[data-slot='2'] .planner-locations .pokemon-location-link").count()) === 0 &&
+    (await page.locator(".planner-card[data-slot='2'] .planner-locations").textContent()).includes(
+      "No wild encounter listed",
+    ),
+  "Charizard still displays its non-Pokerex Mt. Ceram location",
 );
-await page.locator(".planner-card[data-slot='2'] .planner-locations .pokemon-location-link").click();
-await check(
-  await page.locator("#view-locations").evaluate((element) => element.classList.contains("is-active")),
-  "Charizard's Mt. Ceram link did not open the Locations tab",
-);
-await page.locator(".view-tab[data-view='planner']").click();
 await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-planner.png"), fullPage: false });
 

@@ -36,13 +36,13 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260610-4" />
+    <link rel="stylesheet" href="styles.css?v=20260610-6" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
     <script src="data/pokerex-abilities.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260610-4" defer></script>
+    <script src="app.js?v=20260610-6" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -106,7 +106,7 @@
         <button class="journey-card journey-card--team" type="button" data-open-view="team">
           <span class="journey-card__label">Current team</span>
           <span class="dashboard-team" id="dashboard-team"></span>
-          <small>Open Team Builder</small>
+          <small class="dashboard-team-names" id="dashboard-team-names">No team selected</small>
         </button>
       </section>
 
@@ -254,6 +254,7 @@
           <p>Select a Pokemon for each slot, then choose an ability and up to four moves.</p>
           <button class="clear-button" id="clear-team" type="button">Clear team</button>
         </div>
+        <section class="offensive-coverage" id="team-offensive-coverage" aria-label="Team offensive type coverage"></section>
         <div class="team-grid" id="team-grid"></div>
       </section>
 
@@ -272,6 +273,7 @@
           <p>This shortlist is saved separately from your current Team Builder party.</p>
           <button class="clear-button" id="clear-planner" type="button">Clear shortlist</button>
         </div>
+        <section class="offensive-coverage" id="planner-offensive-coverage" aria-label="Planned team offensive type coverage"></section>
         <div class="team-grid planner-grid" id="planner-grid"></div>
       </section>
 

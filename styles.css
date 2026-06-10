@@ -381,13 +381,15 @@ button.journey-card:hover {
 
 .dashboard-team-slot {
   display: grid;
+  grid-template-rows: 36px auto;
+  gap: 2px;
   place-items: center;
   min-width: 0;
-  aspect-ratio: 1;
   border: 1px dashed var(--line);
   border-radius: 10px;
   color: var(--muted);
   background: var(--paper-deep);
+  padding: 3px 2px;
   font-size: 0.62rem;
   font-weight: 900;
 }
@@ -397,10 +399,27 @@ button.journey-card:hover {
 }
 
 .dashboard-team-slot img {
-  width: 100%;
-  height: 100%;
+  width: 36px;
+  height: 36px;
   image-rendering: pixelated;
   object-fit: contain;
+}
+
+.dashboard-team-slot small {
+  width: 100%;
+  overflow: hidden;
+  font-size: 0.45rem;
+  line-height: 1.15;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-team-names {
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 0.55rem;
+  line-height: 1.35;
 }
 
 .view-tabs {
@@ -2561,6 +2580,99 @@ body.notes-hidden .item-card__location {
   min-height: 38px;
 }
 
+.offensive-coverage {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.75fr) minmax(250px, 1fr) minmax(420px, 2fr);
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.62);
+  padding: 14px;
+}
+
+.offensive-coverage > header {
+  display: grid;
+  gap: 5px;
+}
+
+.offensive-coverage > header div {
+  display: grid;
+  gap: 3px;
+}
+
+.offensive-coverage > header span,
+.offensive-coverage__group > strong {
+  color: var(--muted);
+  font-size: 0.61rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.offensive-coverage > header strong {
+  color: var(--violet-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+}
+
+.offensive-coverage > header small {
+  color: var(--muted);
+  font-size: 0.58rem;
+  line-height: 1.4;
+}
+
+.offensive-coverage__group {
+  display: grid;
+  gap: 7px;
+}
+
+.offensive-coverage__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.coverage-type {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  min-height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--paper-deep);
+  padding: 4px 8px;
+  font-size: 0.58rem;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.coverage-type.type-badge {
+  min-height: 24px;
+  border-color: transparent;
+  padding: 4px 8px;
+}
+
+.coverage-type b {
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  padding-left: 5px;
+  font-size: 0.53rem;
+}
+
+.offensive-coverage__empty {
+  grid-column: span 2;
+  margin: 0;
+  border-radius: 9px;
+  color: var(--muted);
+  background: rgba(114, 87, 212, 0.055);
+  padding: 10px 12px;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
 .team-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3427,6 +3539,7 @@ html[data-theme="dark"] .move-card,
 html[data-theme="dark"] .ability-filter-panel,
 html[data-theme="dark"] .ability-card,
 html[data-theme="dark"] .team-toolbar,
+html[data-theme="dark"] .offensive-coverage,
 html[data-theme="dark"] .team-card,
 html[data-theme="dark"] .planner-card,
 html[data-theme="dark"] .gym-leader-card,
@@ -3543,6 +3656,10 @@ html[data-theme="dark"] .team-pokemon-results {
   box-shadow: 0 16px 35px rgba(0, 0, 0, 0.42);
 }
 
+html[data-theme="dark"] .coverage-type:not(.type-badge) {
+  background: rgba(255, 255, 255, 0.045);
+}
+
 html[data-theme="dark"] .team-sprite-well,
 html[data-theme="dark"] .team-evolve-button {
   color: var(--ink);
@@ -3646,6 +3763,14 @@ html[data-theme="dark"] .guide-tip strong {
     grid-template-columns: 1fr;
   }
 
+  .offensive-coverage {
+    grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
+  }
+
+  .offensive-coverage > header {
+    grid-column: 1 / -1;
+  }
+
   .gym-team {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3732,6 +3857,11 @@ html[data-theme="dark"] .guide-tip strong {
   .journey-card--badges {
     grid-column: 1 / -1;
     grid-row: 2;
+  }
+
+  .journey-card--team {
+    grid-column: 1 / -1;
+    grid-row: 3;
   }
 
   .section-heading {
@@ -3849,6 +3979,18 @@ html[data-theme="dark"] .guide-tip strong {
     align-items: stretch;
   }
 
+  .offensive-coverage {
+    grid-template-columns: 1fr;
+  }
+
+  .offensive-coverage > header {
+    grid-column: auto;
+  }
+
+  .offensive-coverage__empty {
+    grid-column: auto;
+  }
+
   .collection-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3869,6 +4011,11 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .journey-card--badges {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .journey-card--team {
     grid-column: auto;
     grid-row: auto;
   }

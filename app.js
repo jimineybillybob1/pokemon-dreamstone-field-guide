@@ -110,6 +110,7 @@ const elements = {
   dashboardBadgeCount: document.querySelector("#dashboard-badge-count"),
   dashboardBadges: document.querySelector("#dashboard-badges"),
   dashboardTeam: document.querySelector("#dashboard-team"),
+  dashboardTeamNames: document.querySelector("#dashboard-team-names"),
   spoilerToggle: document.querySelector("#spoiler-toggle"),
   themeToggle: document.querySelector("#theme-toggle"),
   caughtTabCount: document.querySelector("#caught-tab-count"),
@@ -132,7 +133,9 @@ const elements = {
   abilityResultCount: document.querySelector("#ability-result-count"),
   abilityEmptyState: document.querySelector("#ability-empty-state"),
   teamGrid: document.querySelector("#team-grid"),
+  teamOffensiveCoverage: document.querySelector("#team-offensive-coverage"),
   plannerGrid: document.querySelector("#planner-grid"),
+  plannerOffensiveCoverage: document.querySelector("#planner-offensive-coverage"),
   gymBadgeCount: document.querySelector("#gym-badge-count"),
   gymLeaderList: document.querySelector("#gym-leader-list"),
   saveCaughtCount: document.querySelector("#save-caught-count"),
@@ -428,13 +431,16 @@ const typeChart = {
   steel: { fire: 0.5, water: 0.5, electric: 0.5, ice: 2, rock: 2, steel: 0.5, fairy: 2 },
   fairy: { fire: 0.5, fighting: 2, poison: 0.5, dragon: 2, dark: 2, steel: 0.5 },
 };
-const locationsForPokemon = (pokemon) => {
-  const pokerexLocations = uniqueSorted([
-    ...(encounterLocationsByGuideNumber.get(pokemon.number) || []),
-    ...(pokemon.locations || []),
-  ]);
-  return pokerexLocations.length ? pokerexLocations : uniqueSorted([pokemon.location]);
-};
+const battleTypes = Object.keys(typeChart);
+// Wild location UI is authoritative to Pokerex encounters; spreadsheet locations are legacy metadata only.
+const pokerexLocationsForPokemon = (pokemon) =>
+  uniqueSorted(
+    pokemon.number
+      ? [...(encounterLocationsByGuideNumber.get(pokemon.number) || [])]
+      : [...(pokemon.locations || [])],
+  );
+const locationFallbackForPokemon = (pokemon) =>
+  pokemon.availability === "Unobtainable" ? "Unobtainable" : "No wild encounter listed";
 const normalizedLocationName = (name) =>
   String(name || "")
     .toLowerCase()
@@ -632,11 +638,15 @@ function renderJourneyOverview() {
     entry.className = "dashboard-team-slot";
     entry.classList.toggle("is-filled", Boolean(pokemon));
     entry.innerHTML = pokemon
-      ? `<img src="${pokemon.sprite}" alt="${pokemon.name.replaceAll("_", " ")}" width="42" height="42">`
-      : `<span>${index + 1}</span>`;
+      ? `<img src="${pokemon.sprite}" alt="" width="36" height="36"><small>${pokemon.name.replaceAll("_", " ")}</small>`
+      : `<span>${index + 1}</span><small>Empty</small>`;
     team.append(entry);
   });
   elements.dashboardTeam.replaceChildren(team);
+  const teamNames = state.team
+    .map((slot) => pokemonByNumber.get(slot.pokemonNumber)?.name.replaceAll("_", " "))
+    .filter(Boolean);
+  elements.dashboardTeamNames.textContent = teamNames.length ? teamNames.join(", ") : "No team selected";
 }
 
 function persistBadges() {
@@ -1486,8 +1496,8 @@ function createPokemonLocationsSection(pokemon, className = "team-card__location
   const locationList = document.createElement("div");
   renderLocationLinks(
     locationList,
-    locationsForPokemon(pokemon),
-    pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolution",
+    pokerexLocationsForPokemon(pokemon),
+    locationFallbackForPokemon(pokemon),
   );
   locations.append(locationLabel, locationList);
   return locations;
@@ -1579,10 +1589,92 @@ function renderTeamCard(slot, slotIndex) {
   return card;
 }
 
+function selectedOffensiveMoves(slots) {
+  return slots.flatMap((slot) =>
+    slot.moves
+      .map((moveId) => moveById.get(moveId))
+      .filter((move) => move && move.category !== "Status"),
+  );
+}
+
+function renderOffensiveCoverage(container, slots) {
+  if (!container) return;
+  const moves = selectedOffensiveMoves(slots);
+  const moveTypeCounts = new Map();
+  moves.forEach((move) => {
+    const type = move.type.toLowerCase();
+    moveTypeCounts.set(type, (moveTypeCounts.get(type) || 0) + 1);
+  });
+
+  const heading = document.createElement("header");
+  const moveTypeLabel = moveTypeCounts.size === 1 ? "move type" : "move types";
+  const damagingMoveLabel = moves.length === 1 ? "damaging move" : "damaging moves";
+  heading.innerHTML = `
+    <div>
+      <span>Offensive type coverage</span>
+      <strong>${moveTypeCounts.size} ${moveTypeLabel} · ${moves.length} ${damagingMoveLabel}</strong>
+    </div>
+    <small>Based on selected moves; abilities are not considered</small>
+  `;
+
+  if (!moves.length) {
+    const empty = document.createElement("p");
+    empty.className = "offensive-coverage__empty";
+    empty.textContent = "Choose damage-dealing moves to see your offensive type coverage.";
+    container.replaceChildren(heading, empty);
+    return;
+  }
+
+  const selected = document.createElement("section");
+  selected.className = "offensive-coverage__group";
+  const selectedLabel = document.createElement("strong");
+  selectedLabel.textContent = "Offensive move types";
+  const selectedTypes = document.createElement("div");
+  selectedTypes.className = "offensive-coverage__types";
+  battleTypes
+    .filter((type) => moveTypeCounts.has(type))
+    .forEach((type) => {
+      const badge = document.createElement("span");
+      badge.className = "type-badge coverage-type coverage-type--selected";
+      badge.dataset.type = type;
+      badge.innerHTML = `<span>${titleCase(type)}</span><b>×${moveTypeCounts.get(type)}</b>`;
+      selectedTypes.append(badge);
+    });
+  selected.append(selectedLabel, selectedTypes);
+
+  const effective = document.createElement("section");
+  effective.className = "offensive-coverage__group";
+  const effectiveLabel = document.createElement("strong");
+  const coveredTypes = battleTypes.filter((targetType) =>
+    [...moveTypeCounts.keys()].some((moveType) => moveEffectiveness(moveType, [targetType]) > 1),
+  );
+  effectiveLabel.textContent = `Super-effective against ${coveredTypes.length} / ${battleTypes.length}`;
+  const targetTypes = document.createElement("div");
+  targetTypes.className = "offensive-coverage__types offensive-coverage__targets";
+  battleTypes.forEach((targetType) => {
+    const coveringTypes = [...moveTypeCounts.keys()].filter(
+      (moveType) => moveEffectiveness(moveType, [targetType]) > 1,
+    );
+    const badge = document.createElement("span");
+    badge.className = "coverage-type";
+    badge.classList.toggle("is-covered", coveringTypes.length > 0);
+    if (coveringTypes.length) badge.classList.add("type-badge");
+    badge.dataset.type = targetType;
+    badge.textContent = titleCase(targetType);
+    badge.title = coveringTypes.length
+      ? `Covered by ${coveringTypes.map(titleCase).join(", ")}`
+      : `No selected move is super effective against ${titleCase(targetType)}`;
+    targetTypes.append(badge);
+  });
+  effective.append(effectiveLabel, targetTypes);
+  container.replaceChildren(heading, selected, effective);
+}
+
 function renderTeam() {
   const fragment = document.createDocumentFragment();
   state.team.forEach((slot, index) => fragment.append(renderTeamCard(slot, index)));
   elements.teamGrid.replaceChildren(fragment);
+  renderOffensiveCoverage(elements.teamOffensiveCoverage, state.team);
 }
 
 function setPlannerPokemon(slotIndex, pokemonNumber) {
@@ -1742,6 +1834,7 @@ function renderPlanner() {
   const fragment = document.createDocumentFragment();
   state.planner.forEach((slot, index) => fragment.append(renderPlannerCard(slot, index)));
   elements.plannerGrid.replaceChildren(fragment);
+  renderOffensiveCoverage(elements.plannerOffensiveCoverage, state.planner);
 }
 
 function openPokemonLearnset(pokemon) {
@@ -1810,14 +1903,14 @@ function renderPokemonCard(pokemon) {
   card.querySelector(".pokemon-name").textContent = pokemon.name.replaceAll("_", " ");
   card.querySelector(".learnset-button").addEventListener("click", () => openPokemonLearnset(pokemon));
   renderTypeBadges(card.querySelector(".pokemon-types"), pokemon.types);
-  const encounterLocations = locationsForPokemon(pokemon);
+  const encounterLocations = pokerexLocationsForPokemon(pokemon);
   renderLocationLinks(
     card.querySelector(".pokemon-location"),
     encounterLocations,
-    pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolution",
+    locationFallbackForPokemon(pokemon),
   );
   const rarity = card.querySelector(".pokemon-rarity");
-  rarity.textContent = pokemon.rarity || (pokemon.location ? "Not listed" : "N/A");
+  rarity.textContent = pokemon.rarity || "N/A";
   rarity.dataset.rarity = pokemon.rarity;
   card.querySelector(".pokemon-bst").textContent = pokemon.bst || "N/A";
   renderPokemonStats(card, pokemon);
@@ -1847,7 +1940,7 @@ function filteredPokemon() {
   const rarityOrder = { Unique: 0, Rare: 1, Uncommon: 2, Common: 3, "": 4 };
   const search = f.search.toLowerCase();
   const result = data.dex.filter((pokemon) => {
-    const encounterLocations = locationsForPokemon(pokemon);
+    const encounterLocations = pokerexLocationsForPokemon(pokemon);
     const relatedNames = [...pokemon.evolvesFrom, ...pokemon.evolvesTo]
       .map((number) => pokemonByNumber.get(number)?.name || "")
       .join(" ");
@@ -1876,7 +1969,11 @@ function filteredPokemon() {
   result.sort((a, b) => {
     if (f.sort === "name") return a.name.localeCompare(b.name);
     if (f.sort === "location") {
-      return (locationsForPokemon(a)[0] || "zzz").localeCompare(locationsForPokemon(b)[0] || "zzz") || a.number - b.number;
+      return (
+        (pokerexLocationsForPokemon(a)[0] || "zzz").localeCompare(
+          pokerexLocationsForPokemon(b)[0] || "zzz",
+        ) || a.number - b.number
+      );
     }
     if (f.sort === "rarity") return rarityOrder[a.rarity] - rarityOrder[b.rarity] || a.number - b.number;
     return a.number - b.number;
@@ -1903,7 +2000,7 @@ function renderCollection() {
     if (state.collectionStatus === "caught" && !isCaught(entry)) return false;
     if (state.collectionStatus === "missing" && isCaught(entry)) return false;
     if (!search) return true;
-    return [entry.name, entry.region, locationsForPokemon(entry).join(" "), entry.types.join(" ")]
+    return [entry.name, entry.region, pokerexLocationsForPokemon(entry).join(" "), entry.types.join(" ")]
       .join(" ")
       .toLowerCase()
       .includes(search);
@@ -1927,7 +2024,7 @@ function renderCollection() {
       <span class="collection-card__copy">
         <small>${entry.number ? `No. ${String(entry.number).padStart(3, "0")}` : "Additional wild entry"}</small>
         <strong>${entry.name.replaceAll("_", " ")}</strong>
-        <span>${formatLocations(locationsForPokemon(entry), 1) || "Evolution"}</span>
+        <span>${formatLocations(pokerexLocationsForPokemon(entry), 1) || locationFallbackForPokemon(entry)}</span>
       </span>
     `;
     jump.addEventListener("click", () => openCollectionEntry(entry));

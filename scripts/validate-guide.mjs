@@ -95,6 +95,25 @@ check(
     rangerInstitute?.methods.some((method) => method.label === "Grass / cave · Night"),
   "Ranger Institute time-of-day encounter tables are missing",
 );
+const pokerexLocationNames = new Set(encounters.locations.map((location) => location.name));
+const pokerexLocationsByGuideNumber = new Map();
+for (const pokemon of encounters.encounterSpecies.filter((entry) => entry.guideNumber)) {
+  if (!pokerexLocationsByGuideNumber.has(pokemon.guideNumber)) {
+    pokerexLocationsByGuideNumber.set(pokemon.guideNumber, new Set());
+  }
+  pokemon.locations.forEach((location) => {
+    check(pokerexLocationNames.has(location), `${pokemon.name} references unknown Pokerex location ${location}`);
+    pokerexLocationsByGuideNumber.get(pokemon.guideNumber).add(location);
+  });
+}
+check(
+  data.dex.filter((pokemon) => pokerexLocationsByGuideNumber.has(pokemon.number)).length === 123,
+  "Expected 123 curated dex entries with Pokerex wild encounters",
+);
+check(
+  !pokerexLocationsByGuideNumber.has(data.dex.find((pokemon) => pokemon.name === "Charizard")?.number),
+  "Charizard unexpectedly has a Pokerex wild encounter location",
+);
 
 for (const location of encounters.locations) {
   check(Boolean(location.name), "Pokerex location has no name");
@@ -194,6 +213,7 @@ check(
 check(html.includes('data-view="team"'), "Team Builder tab is missing");
 check(html.includes('data-view="abilities"'), "Abilities tab is missing");
 check(html.includes('id="team-grid"'), "Team Builder grid is missing");
+check(html.includes('id="dashboard-team-names"'), "Journey overview team-name summary is missing");
 check(html.includes('class="team-matchups"'), "Dex team coverage field is missing");
 check(html.includes("https://pokemondb.net/type"), "Type-chart source link is missing");
 check(html.includes('class="hero__logo"'), "Dreamstone hero logo is missing");
@@ -207,6 +227,8 @@ check(
 check(html.includes('data-move-mode="tutors"'), "Move tutors sub-tab is missing");
 check((html.match(/data-clear-search=/g) || []).length === 5, "Expected five in-field search clear buttons");
 check((html.match(/class="jump-to-top"/g) || []).length === 11, "Expected one Jump to Top control per guide tab");
+check(html.includes('id="team-offensive-coverage"'), "Team Builder offensive coverage overview is missing");
+check(html.includes('id="planner-offensive-coverage"'), "Team Planner offensive coverage overview is missing");
 check(html.includes('id="export-save"'), "Save export control is missing");
 check(html.includes('id="sync-code"'), "Cloud sync UUID control is missing");
 
@@ -222,9 +244,11 @@ for (const reference of localReferences) {
   }
 }
 
-const locationCounts = data.dex
-  .filter((pokemon) => pokemon.availability === "Available")
-  .reduce((counts, pokemon) => counts.set(pokemon.location, (counts.get(pokemon.location) || 0) + 1), new Map());
+const locationCounts = new Map();
+for (const [guideNumber, locations] of pokerexLocationsByGuideNumber) {
+  if (!dexNumbers.has(guideNumber)) continue;
+  locations.forEach((location) => locationCounts.set(location, (locationCounts.get(location) || 0) + 1));
+}
 
 if (errors.length) {
   console.error(errors.join("\n"));
@@ -235,8 +259,11 @@ if (errors.length) {
       {
         status: "Guide validation passed",
         pokemon: data.dex.length,
-        directEncounters: data.dex.filter((pokemon) => pokemon.availability === "Available").length,
-        uniqueLocations: locationCounts.size,
+        pokerexLinkedDexEntries: data.dex.filter((pokemon) => pokerexLocationsByGuideNumber.has(pokemon.number)).length,
+        dexEntriesWithoutPokerexWildEncounter: data.dex.filter(
+          (pokemon) => !pokerexLocationsByGuideNumber.has(pokemon.number),
+        ).length,
+        pokerexLocationsWithCuratedDexEntries: locationCounts.size,
         pokerexEncounterMaps: encounters.locations.length,
         pokerexWildSpeciesForms: encounters.encounterSpecies.length,
         pokerexMoves: moves.moves.length,
