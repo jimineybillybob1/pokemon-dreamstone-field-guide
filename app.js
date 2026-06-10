@@ -1400,10 +1400,10 @@ function createTeamAbilitySelector(slotIndex, pokemonNumber, selectedAbilityId) 
   section.className = "team-card__ability";
   const label = document.createElement("label");
   const text = document.createElement("span");
-  text.textContent = "Ability";
+  text.textContent = "Preferred ability";
   const select = document.createElement("select");
-  select.setAttribute("aria-label", `Choose ability for team slot ${slotIndex + 1}`);
-  select.add(new Option("Choose an ability...", ""));
+  select.setAttribute("aria-label", `Choose preferred ability for team slot ${slotIndex + 1}`);
+  select.add(new Option("Choose preferred ability...", ""));
   const choices = abilitiesByPokemon.get(pokemonNumber) || [];
   choices.forEach(({ ability, hidden }) => {
     select.add(new Option(`${ability.name}${hidden ? " (Hidden Ability)" : ""}`, ability.id));
@@ -1433,6 +1433,21 @@ function createTeamAbilitySelector(slotIndex, pokemonNumber, selectedAbilityId) 
     section.append(details);
   }
   return section;
+}
+
+function createPokemonLocationsSection(pokemon, className = "team-card__locations") {
+  const locations = document.createElement("section");
+  locations.className = className;
+  const locationLabel = document.createElement("strong");
+  locationLabel.textContent = "Where to find";
+  const locationList = document.createElement("div");
+  renderLocationLinks(
+    locationList,
+    locationsForPokemon(pokemon),
+    pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolution",
+  );
+  locations.append(locationLabel, locationList);
+  return locations;
 }
 
 function renderTeamCard(slot, slotIndex) {
@@ -1483,7 +1498,7 @@ function renderTeamCard(slot, slotIndex) {
   `;
   identity.querySelector("h3").textContent = pokemon.name.replaceAll("_", " ");
   renderTypeBadges(identity.querySelector(".team-pokemon-types"), pokemon.types);
-  card.append(identity);
+  card.append(identity, createPokemonLocationsSection(pokemon));
 
   const stats = document.createElement("section");
   stats.className = "pokemon-stats team-card__stats";
@@ -1644,18 +1659,7 @@ function renderPlannerCard(slot, slotIndex) {
   renderTypeBadges(identity.querySelector(".team-pokemon-types"), pokemon.types);
   card.append(identity);
 
-  const locations = document.createElement("section");
-  locations.className = "planner-locations";
-  const locationLabel = document.createElement("strong");
-  locationLabel.textContent = "Where to find";
-  const locationList = document.createElement("div");
-  renderLocationLinks(
-    locationList,
-    locationsForPokemon(pokemon),
-    pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolution",
-  );
-  locations.append(locationLabel, locationList);
-  card.append(locations);
+  card.append(createPokemonLocationsSection(pokemon, "planner-locations"));
 
   const stats = document.createElement("section");
   stats.className = "pokemon-stats team-card__stats";

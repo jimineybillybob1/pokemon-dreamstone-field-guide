@@ -325,9 +325,30 @@ await check(
   "Team card is missing Gothita's type",
 );
 await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__locations").textContent()).includes("Starter"),
+  "Team card is missing Gothita's location",
+);
+await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__ability select option").count()) === 4,
   "Team card is missing Gothita's ability choices",
 );
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__ability label > span").textContent()) ===
+    "Preferred ability",
+  "Team card ability selector is not labelled as preferred",
+);
+await page.evaluate(() => setTeamPokemon(1, 17));
+await check(
+  (await page.locator(".team-card[data-slot='2'] .team-card__locations .pokemon-location-link").count()) > 0,
+  "Team card encounter locations are not clickable",
+);
+await page.locator(".team-card[data-slot='2'] .team-card__locations .pokemon-location-link").first().click();
+await check(
+  await page.locator("#view-locations").evaluate((element) => element.classList.contains("is-active")),
+  "Team card location link did not open the Locations tab",
+);
+await page.locator(".view-tab[data-view='team']").click();
+await page.locator(".team-card[data-slot='2'] .team-card__clear").click();
 await page.locator(".team-card[data-slot='1'] .team-card__ability select").selectOption("119");
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-ability-details").textContent()).includes("Checks a foe's item."),

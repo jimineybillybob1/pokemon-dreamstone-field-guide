@@ -2998,6 +2998,7 @@ body.notes-hidden .item-card__location {
   text-transform: uppercase;
 }
 
+.team-card__locations,
 .planner-locations {
   display: grid;
   gap: 7px;
@@ -3006,6 +3007,7 @@ body.notes-hidden .item-card__location {
   padding-top: 11px;
 }
 
+.team-card__locations > strong,
 .planner-locations > strong,
 .planner-move-methods > strong {
   color: var(--muted);
@@ -3015,6 +3017,7 @@ body.notes-hidden .item-card__location {
   text-transform: uppercase;
 }
 
+.team-card__locations > div,
 .planner-locations > div,
 .planner-move-methods > div {
   display: flex;
