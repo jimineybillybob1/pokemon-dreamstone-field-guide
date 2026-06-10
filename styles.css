@@ -236,7 +236,7 @@ main {
 
 .journey-dashboard {
   display: grid;
-  grid-template-columns: 0.9fr 1.45fr 1fr;
+  grid-template-columns: minmax(230px, 0.8fr) minmax(0, 1.8fr);
   gap: 1px;
   margin-top: -33px;
   overflow: hidden;
@@ -269,6 +269,13 @@ button.journey-card:hover {
   display: grid;
   gap: 7px;
   align-content: center;
+}
+
+.journey-card--team {
+  grid-column: 1 / -1;
+  grid-template-columns: 120px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
 }
 
 .journey-card--progress strong,
@@ -375,32 +382,32 @@ button.journey-card:hover {
 
 .dashboard-team {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 4px;
+  grid-template-columns: repeat(6, minmax(72px, 96px));
+  gap: 10px;
 }
 
 .dashboard-team-slot {
   display: grid;
-  grid-template-rows: 36px auto;
-  gap: 2px;
+  grid-template-rows: 48px auto;
+  gap: 4px;
   place-items: center;
   min-width: 0;
-  border: 1px dashed var(--line);
-  border-radius: 10px;
+  border: 0;
+  border-radius: 12px;
   color: var(--muted);
   background: var(--paper-deep);
-  padding: 3px 2px;
+  padding: 6px 4px 5px;
   font-size: 0.62rem;
   font-weight: 900;
 }
 
 .dashboard-team-slot.is-filled {
-  border-style: solid;
+  background: rgba(126, 98, 201, 0.08);
 }
 
 .dashboard-team-slot img {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   image-rendering: pixelated;
   object-fit: contain;
 }
@@ -408,18 +415,11 @@ button.journey-card:hover {
 .dashboard-team-slot small {
   width: 100%;
   overflow: hidden;
-  font-size: 0.45rem;
+  font-size: 0.52rem;
   line-height: 1.15;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.dashboard-team-names {
-  overflow-wrap: anywhere;
-  color: var(--muted);
-  font-size: 0.55rem;
-  line-height: 1.35;
 }
 
 .view-tabs {
@@ -3855,13 +3855,13 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .journey-card--badges {
-    grid-column: 1 / -1;
-    grid-row: 2;
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .journey-card--team {
     grid-column: 1 / -1;
-    grid-row: 3;
+    grid-row: auto;
   }
 
   .section-heading {
@@ -4018,6 +4018,8 @@ html[data-theme="dark"] .guide-tip strong {
   .journey-card--team {
     grid-column: auto;
     grid-row: auto;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .journey-card {
@@ -4027,6 +4029,10 @@ html[data-theme="dark"] .guide-tip strong {
   .dashboard-badges {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     row-gap: 9px;
+  }
+
+  .dashboard-team {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .gym-team {

@@ -110,7 +110,6 @@ const elements = {
   dashboardBadgeCount: document.querySelector("#dashboard-badge-count"),
   dashboardBadges: document.querySelector("#dashboard-badges"),
   dashboardTeam: document.querySelector("#dashboard-team"),
-  dashboardTeamNames: document.querySelector("#dashboard-team-names"),
   spoilerToggle: document.querySelector("#spoiler-toggle"),
   themeToggle: document.querySelector("#theme-toggle"),
   caughtTabCount: document.querySelector("#caught-tab-count"),
@@ -643,10 +642,6 @@ function renderJourneyOverview() {
     team.append(entry);
   });
   elements.dashboardTeam.replaceChildren(team);
-  const teamNames = state.team
-    .map((slot) => pokemonByNumber.get(slot.pokemonNumber)?.name.replaceAll("_", " "))
-    .filter(Boolean);
-  elements.dashboardTeamNames.textContent = teamNames.length ? teamNames.join(", ") : "No team selected";
 }
 
 function persistBadges() {

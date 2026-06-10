@@ -491,10 +491,6 @@ await check(
   (await page.locator(".dashboard-team-slot.is-filled small").textContent()) === "Gothorita",
   "Dashboard team overview is missing the PokÃ©mon name",
 );
-await check(
-  (await page.locator("#dashboard-team-names").textContent()) === "Gothorita",
-  "Dashboard team-name summary did not update",
-);
 await page.locator(".view-tab[data-view='gyms']").click();
 await check(
   (await page.locator(".gym-pokemon-card .team-matchup").count()) > 0,
