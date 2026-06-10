@@ -182,6 +182,21 @@ await check(
   )).startsWith("40.2"),
   "Gothita BST bar is not scaled against 720",
 );
+await page.locator("#sort").selectOption("bst-desc");
+await check(
+  await page.locator(".pokemon-bst").allTextContents().then((values) =>
+    values.map(Number).every((value, index, entries) => index === 0 || entries[index - 1] >= value),
+  ),
+  "Descending BST sort is incorrect",
+);
+await page.locator("#sort").selectOption("bst-asc");
+await check(
+  await page.locator(".pokemon-bst").allTextContents().then((values) =>
+    values.map(Number).every((value, index, entries) => index === 0 || entries[index - 1] <= value),
+  ),
+  "Ascending BST sort is incorrect",
+);
+await page.locator("#sort").selectOption("number");
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .team-matchups__empty").textContent()).includes(
     "Team Builder",
@@ -521,7 +536,7 @@ await check(
   "Dashboard team overview did not update",
 );
 await check(
-  (await page.locator(".dashboard-team-slot.is-filled img").evaluate((element) => element.getBoundingClientRect().width)) >= 64,
+  (await page.locator(".dashboard-team-slot.is-filled img").evaluate((element) => element.getBoundingClientRect().width)) >= 80,
   "Dashboard team sprite is too small",
 );
 await check(

@@ -1971,6 +1971,8 @@ function filteredPokemon() {
       );
     }
     if (f.sort === "rarity") return rarityOrder[a.rarity] - rarityOrder[b.rarity] || a.number - b.number;
+    if (f.sort === "bst-desc") return b.bst - a.bst || a.number - b.number;
+    if (f.sort === "bst-asc") return a.bst - b.bst || a.number - b.number;
     return a.number - b.number;
   });
   return result;

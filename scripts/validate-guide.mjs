@@ -212,6 +212,8 @@ check(
 );
 check(html.includes('data-view="team"'), "Team Builder tab is missing");
 check(html.includes('data-view="abilities"'), "Abilities tab is missing");
+check(html.includes('<option value="bst-desc">BST: highest first</option>'), "Descending BST sort option is missing");
+check(html.includes('<option value="bst-asc">BST: lowest first</option>'), "Ascending BST sort option is missing");
 check((html.match(/class="view-tab__icon"/g) || []).length === 11, "Expected one icon for every guide menu item");
 check((html.match(/<symbol id="nav-icon-/g) || []).length === 11, "Expected eleven relevant guide menu icon symbols");
 check(!html.includes('<img class="view-tab__icon"'), "Guide menu still uses raster sprite icons");
