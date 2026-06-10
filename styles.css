@@ -422,11 +422,19 @@ button.journey-card:hover {
   white-space: nowrap;
 }
 
+.view-menu-heading {
+  margin: 42px 0 12px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.45rem;
+  letter-spacing: -0.02em;
+}
+
 .view-tabs {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
-  margin: 42px 0 34px;
+  margin: 0 0 34px;
 }
 
 .nav-icon-library {
@@ -3859,7 +3867,11 @@ html[data-theme="dark"] .guide-tip strong {
   .view-tabs {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
-    margin: 28px 0;
+    margin: 0 0 28px;
+  }
+
+  .view-menu-heading {
+    margin-top: 28px;
   }
 
   .view-tab {
