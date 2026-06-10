@@ -36,13 +36,13 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260610-7" />
+    <link rel="stylesheet" href="styles.css?v=20260610-8" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
     <script src="data/pokerex-abilities.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260610-7" defer></script>
+    <script src="app.js?v=20260610-8" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -110,19 +110,50 @@
       </section>
 
       <nav class="view-tabs" aria-label="Guide views">
-        <button class="view-tab is-active" type="button" data-view="dex">Full Dex</button>
-        <button class="view-tab" type="button" data-view="locations">Locations</button>
-        <button class="view-tab" type="button" data-view="caught">
-          Caught <span class="tab-count" id="caught-tab-count">0</span>
+        <button class="view-tab is-active" type="button" data-view="dex" aria-current="page">
+          <img class="view-tab__icon" src="assets/sprites/rotom.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Full Dex</span>
         </button>
-        <button class="view-tab" type="button" data-view="gyms">Gym Leaders</button>
-        <button class="view-tab" type="button" data-view="team">Team Builder</button>
-        <button class="view-tab" type="button" data-view="planner">Team Planner</button>
-        <button class="view-tab" type="button" data-view="moves">Moves</button>
-        <button class="view-tab" type="button" data-view="abilities">Abilities</button>
-        <button class="view-tab" type="button" data-view="megas">Mega Choices</button>
-        <button class="view-tab" type="button" data-view="items">Important Items</button>
-        <button class="view-tab" type="button" data-view="save">Save &amp; Sync</button>
+        <button class="view-tab" type="button" data-view="locations">
+          <img class="view-tab__icon" src="assets/sprites/wingull.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Locations</span>
+        </button>
+        <button class="view-tab" type="button" data-view="caught">
+          <img class="view-tab__icon" src="assets/icons/app-icon-192.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Caught <span class="tab-count" id="caught-tab-count">0</span></span>
+        </button>
+        <button class="view-tab" type="button" data-view="gyms">
+          <img class="view-tab__icon" src="assets/trainers/raazi.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Gym Leaders</span>
+        </button>
+        <button class="view-tab" type="button" data-view="team">
+          <img class="view-tab__icon" src="assets/sprites/ralts.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Team Builder</span>
+        </button>
+        <button class="view-tab" type="button" data-view="planner">
+          <img class="view-tab__icon" src="assets/sprites/gothitelle.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Team Planner</span>
+        </button>
+        <button class="view-tab" type="button" data-view="moves">
+          <img class="view-tab__icon" src="assets/sprites/aegislash.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Moves</span>
+        </button>
+        <button class="view-tab" type="button" data-view="abilities">
+          <img class="view-tab__icon" src="assets/sprites/zoroark-hisui.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Abilities</span>
+        </button>
+        <button class="view-tab" type="button" data-view="megas">
+          <img class="view-tab__icon" src="assets/sprites/absol-mega.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Mega Choices</span>
+        </button>
+        <button class="view-tab" type="button" data-view="items">
+          <img class="view-tab__icon" src="assets/sprites/carbink.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Important Items</span>
+        </button>
+        <button class="view-tab" type="button" data-view="save">
+          <img class="view-tab__icon" src="assets/sprites/celebi.png" alt="" width="40" height="40" />
+          <span class="view-tab__label">Save &amp; Sync</span>
+        </button>
       </nav>
 
       <section class="guide-view is-active" id="view-dex">

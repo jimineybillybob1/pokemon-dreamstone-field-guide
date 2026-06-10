@@ -2283,7 +2283,10 @@ function updateSearchClearButtons() {
 
 function activateView(viewName) {
   document.querySelectorAll(".view-tab").forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.view === viewName);
+    const active = button.dataset.view === viewName;
+    button.classList.toggle("is-active", active);
+    if (active) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
   });
   document.querySelectorAll(".guide-view").forEach((view) => {
     view.classList.toggle("is-active", view.id === `view-${viewName}`);

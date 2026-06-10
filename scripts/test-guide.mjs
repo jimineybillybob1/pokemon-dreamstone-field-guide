@@ -81,6 +81,15 @@ await check(
     ]),
   "Primary tabs are not in the expected order",
 );
+await check((await page.locator(".view-tab__icon").count()) === 11, "Guide menu icons are incomplete");
+await check(
+  await page.locator(".view-tabs").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Desktop guide menu has horizontal overflow",
+);
+await check(
+  (await page.locator(".view-tab.is-active").getAttribute("aria-current")) === "page",
+  "Active guide menu item is missing aria-current",
+);
 await check((await page.locator("[data-clear-search]").count()) === 5, "Search clear buttons are missing");
 await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
 await check((await page.locator(".guide-tip").count()) === 3, "Expected three compact guide tips");
@@ -870,6 +879,10 @@ await page.locator("#collection-search").fill("");
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-collection.png"), fullPage: false });
 
 await page.setViewportSize({ width: 820, height: 1180 });
+await check(
+  await page.locator(".view-tabs").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Tablet guide menu has horizontal overflow",
+);
 await page.locator(".journey-dashboard").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-tablet-journey-dashboard.png"), fullPage: false });
 await page.locator(".view-tab[data-view='gyms']").click();
@@ -884,12 +897,18 @@ await page.screenshot({ path: path.join(outputDir, "guide-tablet-mega-tip.png"),
 
 await page.setViewportSize({ width: 390, height: 844 });
 await page.reload();
+await check(
+  await page.locator(".view-tabs").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile guide menu has horizontal overflow",
+);
 await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-masthead.png"), fullPage: false });
 await check((await page.locator(".pokemon-card").count()) === 315, "Mobile view did not render all cards");
 await check((await page.locator("#dashboard-badge-count").textContent()) === "1", "Badge progress did not persist after reload");
 await page.locator(".journey-dashboard").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-journey-dashboard.png"), fullPage: false });
+await page.locator(".view-tabs").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-menu.png"), fullPage: false });
 await page.locator(".view-tab[data-view='gyms']").click();
 await page.locator(".gym-leader-card").first().scrollIntoViewIfNeeded();
 await check(

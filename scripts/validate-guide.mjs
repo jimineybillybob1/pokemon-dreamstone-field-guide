@@ -212,6 +212,7 @@ check(
 );
 check(html.includes('data-view="team"'), "Team Builder tab is missing");
 check(html.includes('data-view="abilities"'), "Abilities tab is missing");
+check((html.match(/class="view-tab__icon"/g) || []).length === 11, "Expected one icon for every guide menu item");
 check(html.includes('id="team-grid"'), "Team Builder grid is missing");
 check(html.includes('class="team-matchups"'), "Dex team coverage field is missing");
 check(html.includes("https://pokemondb.net/type"), "Type-chart source link is missing");
