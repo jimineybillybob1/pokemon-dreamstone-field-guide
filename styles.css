@@ -860,15 +860,22 @@ button.journey-card:hover {
   letter-spacing: 0.08em;
 }
 
+.pokemon-name-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin: 5px 0 7px;
+}
+
 .pokemon-name {
   overflow-wrap: anywhere;
-  margin: 5px 0 7px;
+  margin: 0;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.42rem;
   letter-spacing: -0.035em;
 }
 
-.pokemon-tags,
 .pokemon-types {
   display: flex;
   flex-wrap: wrap;

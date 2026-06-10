@@ -126,6 +126,7 @@ const uniqueSorted = (values) =>
     a.localeCompare(b, undefined, { numeric: true }),
   );
 const uniqueInOrder = (values) => [...new Set(values.filter(Boolean))];
+const titleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
 const encounterLocationsByGuideNumber = new Map();
 encounters.encounterSpecies
   .filter((pokemon) => pokemon.guideNumber)
@@ -443,22 +444,23 @@ const abilitySearchTextById = new Map(
   ]),
 );
 
-function setSelectOptions(id, values) {
+function setSelectOptions(id, values, formatLabel = (value) => value) {
   const select = document.querySelector(id);
-  values.forEach((value) => select.add(new Option(value, value)));
+  values.forEach((value) => select.add(new Option(formatLabel(value), value)));
 }
 
 function initializeSummary() {
   setSelectOptions("#location-filter", locationFilterOptions);
   setSelectOptions("#rarity-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.rarity)));
   setSelectOptions("#region-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.region)));
-  setSelectOptions("#type-filter", uniqueSorted(data.dex.flatMap((pokemon) => pokemon.types)));
+  setSelectOptions("#type-filter", uniqueSorted(data.dex.flatMap((pokemon) => pokemon.types)), titleCase);
   setSelectOptions("#move-type-filter", uniqueSorted(moveData.moves.map((move) => move.type)));
   setSelectOptions("#move-category-filter", uniqueSorted(moveData.moves.map((move) => move.category)));
   document.querySelector("#tutor-count").textContent = tutorMoveIds.size;
   setSelectOptions(
     "#availability-filter",
     uniqueSorted(data.dex.map((pokemon) => pokemon.availability)),
+    (availability) => (availability === "Evolution / special" ? "Evolution" : availability),
   );
 }
 
@@ -1446,7 +1448,7 @@ function renderPokemonCard(pokemon) {
   renderLocationLinks(
     card.querySelector(".pokemon-location"),
     encounterLocations,
-    pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolve / special method",
+    pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolution",
   );
   const rarity = card.querySelector(".pokemon-rarity");
   rarity.textContent = pokemon.rarity || (pokemon.location ? "Not listed" : "N/A");
@@ -1559,7 +1561,7 @@ function renderCollection() {
       <span class="collection-card__copy">
         <small>${entry.number ? `No. ${String(entry.number).padStart(3, "0")}` : "Additional wild entry"}</small>
         <strong>${entry.name.replaceAll("_", " ")}</strong>
-        <span>${formatLocations(locationsForPokemon(entry), 1) || "Evolution / special"}</span>
+        <span>${formatLocations(locationsForPokemon(entry), 1) || "Evolution"}</span>
       </span>
     `;
     jump.addEventListener("click", () => openCollectionEntry(entry));

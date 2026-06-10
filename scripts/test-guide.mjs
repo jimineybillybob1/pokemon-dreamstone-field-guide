@@ -145,6 +145,26 @@ await check(
   "Empty regional badge is visible",
 );
 await check(
+  (await page.locator(".pokemon-name-row > .region-badge").count()) === 315,
+  "Regional badges are not positioned beside Pokémon names",
+);
+await check(
+  (await page.locator(".pokemon-types .region-badge").count()) === 0,
+  "Regional badges are still grouped with Pokémon types",
+);
+await check(
+  (await page.locator("#type-filter option[value='bug']").textContent()) === "Bug",
+  "Type filter labels are not capitalized",
+);
+await check(
+  (await page.locator("#availability-filter option[value='Evolution / special']").textContent()) === "Evolution",
+  "Evolution availability label was not simplified",
+);
+await check(
+  !(await page.locator("#view-dex").textContent()).includes("Evolve / special"),
+  "Legacy evolution availability wording is still visible in the Dex",
+);
+await check(
   (await page.locator(".pokemon-card[data-number='1'] .evolves-to .evolution-link").allTextContents()).some(
     (text) => text.includes("Gothorita"),
   ),
