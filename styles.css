@@ -273,9 +273,8 @@ button.journey-card:hover {
 
 .journey-card--team {
   grid-column: 1 / -1;
-  grid-template-columns: 120px minmax(0, 1fr);
-  align-items: center;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
 }
 
 .journey-card--progress strong,
@@ -382,8 +381,12 @@ button.journey-card:hover {
 
 .dashboard-team {
   display: grid;
-  grid-template-columns: repeat(6, minmax(72px, 96px));
-  gap: 10px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--line);
 }
 
 .dashboard-team-slot {
@@ -393,7 +396,7 @@ button.journey-card:hover {
   place-items: center;
   min-width: 0;
   border: 0;
-  border-radius: 12px;
+  border-radius: 0;
   color: var(--muted);
   background: var(--paper-deep);
   padding: 6px 4px 5px;
@@ -402,7 +405,7 @@ button.journey-card:hover {
 }
 
 .dashboard-team-slot.is-filled {
-  background: rgba(126, 98, 201, 0.08);
+  background: rgba(126, 98, 201, 0.12);
 }
 
 .dashboard-team-slot img {
@@ -4107,8 +4110,6 @@ html[data-theme="dark"] .guide-tip strong {
   .journey-card--team {
     grid-column: auto;
     grid-row: auto;
-    grid-template-columns: 1fr;
-    gap: 10px;
   }
 
   .journey-card {

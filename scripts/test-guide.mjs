@@ -50,6 +50,23 @@ const checkGlobalBackToTop = async (viewName) => {
   await page.waitForFunction(() => window.scrollY < 50, null, { timeout: 10000 });
 };
 
+const checkDashboardTeamFill = async (viewportName) => {
+  const metrics = await page.locator(".journey-card--team").evaluate((card) => {
+    const team = card.querySelector(".dashboard-team");
+    const cardStyle = getComputedStyle(card);
+    const cardRect = card.getBoundingClientRect();
+    const teamRect = team.getBoundingClientRect();
+    return {
+      leftGap: teamRect.left - cardRect.left - parseFloat(cardStyle.paddingLeft),
+      rightGap: cardRect.right - parseFloat(cardStyle.paddingRight) - teamRect.right,
+    };
+  });
+  await check(
+    Math.abs(metrics.leftGap) < 2 && Math.abs(metrics.rightGap) < 2,
+    `${viewportName} dashboard team does not fill the card content width`,
+  );
+};
+
 await page.goto(guideUrl);
 await page.evaluate(() => localStorage.clear());
 await page.reload();
@@ -96,6 +113,7 @@ await check(
   (await page.locator(".view-tab.is-active").getAttribute("aria-current")) === "page",
   "Active guide menu item is missing aria-current",
 );
+await checkDashboardTeamFill("Desktop");
 await check((await page.locator("[data-clear-search]").count()) === 5, "Search clear buttons are missing");
 await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
 await check((await page.locator(".guide-tip").count()) === 3, "Expected three compact guide tips");
@@ -885,6 +903,7 @@ await page.locator("#collection-search").fill("");
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-collection.png"), fullPage: false });
 
 await page.setViewportSize({ width: 820, height: 1180 });
+await checkDashboardTeamFill("Tablet");
 await check(
   await page.locator(".view-tabs").evaluate((element) => element.scrollWidth <= element.clientWidth),
   "Tablet guide menu has horizontal overflow",
@@ -903,6 +922,7 @@ await page.screenshot({ path: path.join(outputDir, "guide-tablet-mega-tip.png"),
 
 await page.setViewportSize({ width: 390, height: 844 });
 await page.reload();
+await checkDashboardTeamFill("Mobile");
 await check(
   await page.locator(".view-tabs").evaluate((element) => element.scrollWidth <= element.clientWidth),
   "Mobile guide menu has horizontal overflow",
