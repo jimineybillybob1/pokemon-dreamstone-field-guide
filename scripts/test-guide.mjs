@@ -49,6 +49,7 @@ await check(
       "Full Dex",
       "Locations",
       "Caught 0",
+      "Gym Leaders",
       "Team Builder",
       "Moves",
       "Abilities",
@@ -61,6 +62,21 @@ await check(
 await check((await page.locator("[data-clear-search]").count()) === 5, "Search clear buttons are missing");
 await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
 await check((await page.locator(".guide-tip").count()) === 3, "Expected three compact guide tips");
+await check((await page.locator(".stat-strip").count()) === 0, "Old guide-stat strip is still visible");
+await check((await page.locator(".journey-dashboard").count()) === 1, "Journey dashboard is missing");
+await check((await page.locator(".dashboard-badge").count()) === 8, "Dashboard badge tracker is incomplete");
+await check((await page.locator(".dashboard-team-slot").count()) === 6, "Dashboard team overview is incomplete");
+await check((await page.locator(".sticky-tab-search").count()) === 4, "Sticky tab searches are missing");
+await check(
+  await page.locator(".sticky-tab-search").evaluateAll((elements) =>
+    elements.every((element) => getComputedStyle(element).position === "sticky"),
+  ),
+  "A tab search bar is not sticky",
+);
+await check(
+  !(await page.locator("#view-dex").textContent()).includes("If nothing appears after"),
+  "Removed encounter-reporting note is still visible",
+);
 await check(
   !(await page.locator("main").textContent()).includes("Pokerex"),
   "Pokerex attribution is repeated inside a guide tab",
@@ -167,10 +183,46 @@ await check(
     const chips = [...document.querySelectorAll(".quick-location")]
       .slice(1)
       .map((element) => element.textContent);
-    const locationOrder = [...new Set(window.DREAMSTONE_ENCOUNTERS.locations.map((location) => location.name))];
+    const locationOrder = [
+      "Route 1",
+      "Route 2",
+      "Route 3",
+      "Route 3 Underpass",
+      "Route 3 Depths",
+      "Route 4",
+      "Route 5",
+      "Route 6",
+      "Route 7",
+      "Route 8",
+      "Fennilahl Tunnel",
+      "Galecrest City",
+      "Ivy Forest",
+      "Ivy River",
+      "Lily Grotto",
+      "Lily Pond",
+      "Map 1-9",
+      "Map 2-25",
+      "Map 2-26",
+      "Map 2-27",
+      "Mirroh Base Camp",
+      "Mirroh Exterior",
+      "Mt. Ceram",
+      "Mt. Ceram Interior",
+      "Mt. Mirroh",
+      "Mt. Mirroh B1f",
+      "Mt. Mirroh B2f",
+      "Mt. Mirroh Peak",
+      "Pelluca City",
+      "Ranger Institute",
+      "Rivetshore City",
+      "Silversun City",
+      "Static Cave",
+      "Victory Road",
+      "Vilethorn Woods",
+    ];
     return JSON.stringify(chips) === JSON.stringify(locationOrder);
   }),
-  "Quick locations do not match the Locations tab order",
+  "Quick locations do not match Pokerex's default order",
 );
 await check((await page.locator(".collection-card").count()) === 327, "Expected all 327 collection cards");
 await check((await page.locator("#total-count").textContent()) === "327", "Capture total did not include Pokerex wild entries");
@@ -179,6 +231,19 @@ await page.locator("#search").fill("Gothita");
 await check(!(await page.locator("[data-clear-search='#search']").isHidden()), "Dex search clear button did not appear");
 await page.locator("[data-clear-search='#search']").click();
 await check((await page.locator(".pokemon-card").count()) === 315, "Dex search clear button did not clear the search");
+
+await page.locator(".view-tab[data-view='gyms']").click();
+await check((await page.locator(".gym-leader-card").count()) === 8, "Gym Leaders tab did not render eight leaders");
+await check((await page.locator(".gym-pokemon-card").count()) === 32, "Gym Leaders tab has an unexpected team size");
+await check((await page.locator(".gym-leader-card__portrait img").count()) === 8, "Gym leader portraits are missing");
+await check((await page.locator(".gym-pokemon-card .team-matchups").count()) === 32, "Gym team weakness sections are missing");
+await page.locator(".gym-leader-card").first().locator(".gym-badge-toggle").click();
+await check((await page.locator("#gym-badge-count").textContent()) === "1", "Gym badge count did not update");
+await check((await page.locator("#dashboard-badge-count").textContent()) === "1", "Dashboard badge count did not update");
+await check(
+  JSON.parse(await page.evaluate(() => localStorage.getItem("dreamstone-field-guide-badges"))).includes("king"),
+  "Obtained badge was not persisted",
+);
 
 await page.locator(".view-tab[data-view='team']").click();
 await check(await page.locator("#view-team").evaluate((element) => element.classList.contains("is-active")), "Team Builder view did not open");
@@ -282,6 +347,17 @@ await check(
 );
 await page.locator(".pokemon-card[data-number='1'] .team-matchups").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-coverage.png"), fullPage: false });
+await check(
+  (await page.locator(".dashboard-team-slot.is-filled").count()) === 1,
+  "Dashboard team overview did not update",
+);
+await page.locator(".view-tab[data-view='gyms']").click();
+await check(
+  (await page.locator(".gym-pokemon-card .team-matchup").count()) > 0,
+  "Gym cards did not update with team weakness coverage",
+);
+await page.locator("#view-gyms").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-gyms.png"), fullPage: false });
 await page.locator(".view-tab[data-view='team']").click();
 await page.locator(".team-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-builder.png"), fullPage: false });
@@ -477,6 +553,23 @@ await check(
 await page.locator(".view-tab[data-view='locations']").click();
 await page.locator("#location-search").fill("");
 await check((await page.locator(".location-card").count()) === 38, "Expected 38 Pokerex encounter maps");
+await check(
+  JSON.stringify((await page.locator(".location-card").evaluateAll((cards) => cards.slice(0, 11).map((card) => card.dataset.location)))) ===
+    JSON.stringify([
+      "Route 1",
+      "Route 2",
+      "Route 3",
+      "Route 3 Underpass",
+      "Route 3 Depths",
+      "Route 4",
+      "Route 5",
+      "Route 6",
+      "Route 7",
+      "Route 8",
+      "Fennilahl Tunnel",
+    ]),
+  "Locations tab does not match Pokerex's default order",
+);
 await page.locator("#location-search").fill("Route 1");
 await check((await page.locator(".location-card").count()) === 1, "Location search did not isolate Route 1");
 await check((await page.locator(".location-map img").count()) === 1, "Route 1 map image is missing");
@@ -525,6 +618,11 @@ await page.locator("#collection-search").fill("");
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-collection.png"), fullPage: false });
 
 await page.setViewportSize({ width: 820, height: 1180 });
+await page.locator(".journey-dashboard").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-tablet-journey-dashboard.png"), fullPage: false });
+await page.locator(".view-tab[data-view='gyms']").click();
+await page.locator(".gym-leader-card").first().scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-tablet-gyms.png"), fullPage: false });
 await page.locator(".view-tab[data-view='moves']").click();
 await page.locator("#view-moves").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-tablet-moves-tip.png"), fullPage: false });
@@ -537,6 +635,16 @@ await page.reload();
 await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-masthead.png"), fullPage: false });
 await check((await page.locator(".pokemon-card").count()) === 315, "Mobile view did not render all cards");
+await check((await page.locator("#dashboard-badge-count").textContent()) === "1", "Badge progress did not persist after reload");
+await page.locator(".journey-dashboard").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-journey-dashboard.png"), fullPage: false });
+await page.locator(".view-tab[data-view='gyms']").click();
+await page.locator(".gym-leader-card").first().scrollIntoViewIfNeeded();
+await check(
+  await page.locator(".gym-leader-card").first().evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile gym leader card has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-gyms.png"), fullPage: false });
 await page.locator(".view-tab[data-view='team']").click();
 await check(
   (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothorita",
@@ -636,10 +744,15 @@ console.log(
         "tmp/guide-desktop-team-search.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-coverage.png",
+        "tmp/guide-desktop-gyms.png",
+        "tmp/guide-tablet-journey-dashboard.png",
+        "tmp/guide-tablet-gyms.png",
         "tmp/guide-tablet-moves-tip.png",
         "tmp/guide-tablet-mega-tip.png",
         "tmp/guide-mobile-dex-stats.png",
         "tmp/guide-mobile-masthead.png",
+        "tmp/guide-mobile-journey-dashboard.png",
+        "tmp/guide-mobile-gyms.png",
         "tmp/guide-mobile-moves-tip.png",
         "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-abilities.png",

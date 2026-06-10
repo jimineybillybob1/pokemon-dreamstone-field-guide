@@ -289,42 +289,168 @@ main {
   padding-bottom: 70px;
 }
 
-.stat-strip {
+.journey-dashboard {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 0.9fr 1.45fr 1fr;
+  gap: 1px;
   margin-top: -33px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--line);
   box-shadow: var(--shadow);
   backdrop-filter: blur(16px);
 }
 
-.stat-strip article {
+.journey-card {
+  min-width: 0;
+  border: 0;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 18px 20px;
+  text-align: left;
+}
+
+button.journey-card {
+  cursor: pointer;
+}
+
+button.journey-card:hover {
+  background: rgba(244, 240, 255, 0.96);
+}
+
+.journey-card--progress,
+.journey-card--team {
   display: grid;
-  gap: 4px;
-  padding: 24px 26px;
-  border-right: 1px solid var(--line);
+  gap: 7px;
+  align-content: center;
 }
 
-.stat-strip article:last-child {
-  border-right: 0;
-}
-
-.stat-strip__value {
+.journey-card--progress strong,
+.journey-card--badges header strong {
   color: var(--violet-dark);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 2rem;
+  font-size: 1.35rem;
+}
+
+.journey-card__label {
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.journey-card small {
+  color: var(--muted);
+  font-size: 0.62rem;
   font-weight: 700;
 }
 
-.stat-strip__label {
+.journey-progress {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--paper-deep);
+}
+
+.journey-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--teal), var(--violet));
+  transition: width 250ms ease;
+}
+
+.journey-card--badges {
+  display: grid;
+  gap: 10px;
+}
+
+.journey-card--badges header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-badges {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.dashboard-badge {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  min-width: 0;
+  border: 0;
   color: var(--muted);
-  font-size: 0.73rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  background: transparent;
+  padding: 0;
+}
+
+.dashboard-badge > span {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 50% 50% 46% 54%;
+  background: var(--paper-deep);
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
+.dashboard-badge small {
+  width: 100%;
+  overflow: hidden;
+  font-size: 0.48rem;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-badge.is-obtained {
+  color: #126b5e;
+}
+
+.dashboard-badge.is-obtained > span {
+  border-color: rgba(66, 182, 163, 0.55);
+  color: #fff;
+  background: linear-gradient(145deg, var(--teal), #246f76);
+  box-shadow: 0 0 12px rgba(66, 182, 163, 0.26);
+}
+
+.dashboard-team {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.dashboard-team-slot {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  aspect-ratio: 1;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  color: var(--muted);
+  background: var(--paper-deep);
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
+.dashboard-team-slot.is-filled {
+  border-style: solid;
+}
+
+.dashboard-team-slot img {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  object-fit: contain;
 }
 
 .view-tabs {
@@ -472,12 +598,27 @@ main {
   backdrop-filter: blur(18px);
 }
 
-.sticky-search .search-field {
+.sticky-tab-search {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  margin: 0 -10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(247, 244, 236, 0.9);
+  box-shadow: 0 10px 30px rgba(35, 29, 67, 0.09);
+  padding: 10px;
+  backdrop-filter: blur(18px);
+}
+
+.sticky-search .search-field,
+.sticky-tab-search label {
   display: grid;
   gap: 5px;
 }
 
-.sticky-search .search-field > span:first-child {
+.sticky-search .search-field > span:first-child,
+.sticky-tab-search label > span:first-child {
   color: var(--muted);
   font-size: 0.62rem;
   font-weight: 900;
@@ -485,7 +626,8 @@ main {
   text-transform: uppercase;
 }
 
-.sticky-search input {
+.sticky-search input,
+.sticky-tab-search input {
   width: 100%;
   min-height: 43px;
   border: 1px solid var(--line);
@@ -496,7 +638,8 @@ main {
   padding: 9px 11px;
 }
 
-.sticky-search input:focus {
+.sticky-search input:focus,
+.sticky-tab-search input:focus {
   border-color: var(--violet);
   box-shadow: 0 0 0 3px rgba(114, 87, 212, 0.12);
 }
@@ -1263,40 +1406,9 @@ body.notes-hidden .item-card__location {
 }
 
 .collection-controls {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) auto;
-  gap: 12px;
-  align-items: end;
+  display: flex;
+  justify-content: flex-end;
   margin-bottom: 12px;
-}
-
-.collection-controls label {
-  display: grid;
-  gap: 6px;
-}
-
-.collection-controls label > span:first-child {
-  color: var(--muted);
-  font-size: 0.67rem;
-  font-weight: 900;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.collection-controls input {
-  width: 100%;
-  min-height: 43px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  outline: none;
-  color: var(--ink);
-  background: #fff;
-  padding: 9px 11px;
-}
-
-.collection-controls input:focus {
-  border-color: var(--violet);
-  box-shadow: 0 0 0 3px rgba(114, 87, 212, 0.12);
 }
 
 .collection-status {
@@ -1434,8 +1546,7 @@ body.notes-hidden .item-card__location {
 }
 
 .location-search {
-  max-width: 460px;
-  margin-bottom: 22px;
+  width: 100%;
 }
 
 .location-list {
@@ -1662,6 +1773,238 @@ body.notes-hidden .item-card__location {
   font-size: 0.8rem;
 }
 
+.gym-leader-list {
+  display: grid;
+  gap: 20px;
+}
+
+.gym-leader-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 25px rgba(48, 38, 88, 0.055);
+}
+
+.gym-leader-card.is-obtained {
+  border-color: rgba(66, 182, 163, 0.55);
+}
+
+.gym-leader-card__header {
+  display: grid;
+  grid-template-columns: auto minmax(150px, 1fr) auto auto;
+  gap: 16px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, rgba(114, 87, 212, 0.1), rgba(66, 182, 163, 0.05));
+  padding: 14px 16px;
+}
+
+.gym-leader-card__portrait {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle, rgba(114, 87, 212, 0.15), transparent 64%),
+    var(--paper-deep);
+}
+
+.gym-leader-card__portrait img {
+  width: 82px;
+  height: 82px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.gym-leader-card__identity,
+.gym-leader-card__specialty {
+  display: grid;
+  gap: 3px;
+}
+
+.gym-leader-card__identity small,
+.gym-leader-card__specialty small {
+  color: var(--violet);
+  font-size: 0.59rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gym-leader-card__identity strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.7rem;
+}
+
+.gym-leader-card__identity span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.gym-leader-card__specialty {
+  min-width: 90px;
+  border-left: 1px solid var(--line);
+  padding-left: 16px;
+}
+
+.gym-leader-card__specialty strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+}
+
+.gym-badge-toggle {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  min-width: 140px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--muted);
+  background: var(--paper-deep);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.gym-badge-toggle__stone {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 50% 50% 46% 54%;
+  background: rgba(255, 255, 255, 0.55);
+  font-weight: 900;
+}
+
+.gym-badge-toggle > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+
+.gym-badge-toggle strong {
+  color: var(--ink);
+  font-size: 0.68rem;
+}
+
+.gym-badge-toggle small {
+  font-size: 0.55rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.gym-badge-toggle.is-obtained {
+  border-color: rgba(66, 182, 163, 0.55);
+  color: #126b5e;
+  background: rgba(66, 182, 163, 0.13);
+}
+
+.gym-badge-toggle.is-obtained .gym-badge-toggle__stone {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(145deg, var(--teal), #246f76);
+}
+
+.gym-team {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px;
+}
+
+.gym-pokemon-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.gym-pokemon-card__identity {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  color: var(--ink);
+  background: transparent;
+  padding: 10px;
+  text-align: left;
+}
+
+.gym-pokemon-card__identity:hover {
+  background: rgba(114, 87, 212, 0.06);
+}
+
+.gym-pokemon-card__sprite {
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper-deep);
+}
+
+.gym-pokemon-card__sprite img {
+  width: 74px;
+  height: 74px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.gym-pokemon-card__copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.gym-pokemon-card__copy > small {
+  color: var(--violet);
+  font-size: 0.58rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.gym-pokemon-card__copy > strong {
+  overflow: hidden;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gym-pokemon-card__types {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.gym-pokemon-card__bst {
+  color: var(--muted);
+  font-size: 0.59rem;
+  font-weight: 800;
+}
+
+.gym-pokemon-card .team-matchups {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+}
+
+.gym-pokemon-card .team-matchups header {
+  padding: 8px 10px 0;
+}
+
+.gym-pokemon-card .team-matchups__empty {
+  padding: 0 10px 10px;
+}
+
 .move-mode-tabs {
   display: flex;
   gap: 7px;
@@ -1691,7 +2034,7 @@ body.notes-hidden .item-card__location {
 
 .move-filter-panel {
   display: grid;
-  grid-template-columns: 2fr repeat(4, minmax(125px, 0.75fr)) auto;
+  grid-template-columns: repeat(4, minmax(125px, 1fr)) auto;
   gap: 10px;
   margin-bottom: 20px;
   border: 1px solid var(--line);
@@ -1985,7 +2328,7 @@ body.notes-hidden .item-card__location {
 
 .ability-filter-panel {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(160px, 0.7fr) auto;
+  grid-template-columns: minmax(160px, 1fr) auto;
   gap: 10px;
   margin-bottom: 20px;
   border: 1px solid var(--line);
@@ -2871,7 +3214,7 @@ html[data-theme="dark"] body {
     var(--paper);
 }
 
-html[data-theme="dark"] .stat-strip,
+html[data-theme="dark"] .journey-dashboard,
 html[data-theme="dark"] .filter-panel,
 html[data-theme="dark"] .move-filter-panel,
 html[data-theme="dark"] .move-mode-tabs button,
@@ -2880,6 +3223,8 @@ html[data-theme="dark"] .ability-filter-panel,
 html[data-theme="dark"] .ability-card,
 html[data-theme="dark"] .team-toolbar,
 html[data-theme="dark"] .team-card,
+html[data-theme="dark"] .gym-leader-card,
+html[data-theme="dark"] .gym-pokemon-card,
 html[data-theme="dark"] .save-summary article,
 html[data-theme="dark"] .save-panel,
 html[data-theme="dark"] .location-card,
@@ -2895,6 +3240,28 @@ html[data-theme="dark"] .sticky-search {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+html[data-theme="dark"] .sticky-tab-search {
+  background: rgba(20, 19, 32, 0.92);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .journey-card {
+  background: rgba(35, 32, 51, 0.96);
+}
+
+html[data-theme="dark"] button.journey-card:hover {
+  background: #302b45;
+}
+
+html[data-theme="dark"] .dashboard-team-slot,
+html[data-theme="dark"] .dashboard-badge > span,
+html[data-theme="dark"] .journey-progress,
+html[data-theme="dark"] .gym-leader-card__portrait,
+html[data-theme="dark"] .gym-pokemon-card__sprite,
+html[data-theme="dark"] .gym-badge-toggle {
+  background: #29263a;
+}
+
 html[data-theme="dark"] .filter-panel input,
 html[data-theme="dark"] .filter-panel select,
 html[data-theme="dark"] .move-filter-panel input,
@@ -2903,7 +3270,7 @@ html[data-theme="dark"] .ability-filter-panel input,
 html[data-theme="dark"] .ability-filter-panel select,
 html[data-theme="dark"] .location-search input,
 html[data-theme="dark"] .sticky-search input,
-html[data-theme="dark"] .collection-controls input {
+html[data-theme="dark"] .sticky-tab-search input {
   color: var(--ink);
   background: #211f31;
 }
@@ -3072,6 +3439,10 @@ html[data-theme="dark"] .guide-tip strong {
     grid-template-columns: 1fr;
   }
 
+  .gym-team {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .save-management-grid {
     grid-template-columns: 1fr;
   }
@@ -3158,16 +3529,13 @@ html[data-theme="dark"] .guide-tip strong {
     width: 100%;
   }
 
-  .stat-strip {
+  .journey-dashboard {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .stat-strip article:nth-child(2) {
-    border-right: 0;
-  }
-
-  .stat-strip article:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--line);
+  .journey-card--badges {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
   .section-heading {
@@ -3181,6 +3549,10 @@ html[data-theme="dark"] .guide-tip strong {
 
   .sticky-search {
     grid-template-columns: minmax(0, 1fr) auto;
+    margin-inline: -6px;
+  }
+
+  .sticky-tab-search {
     margin-inline: -6px;
   }
 
@@ -3210,10 +3582,6 @@ html[data-theme="dark"] .guide-tip strong {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .ability-filter-panel label:first-child {
-    grid-column: span 2;
-  }
-
   .move-search {
     grid-column: span 2;
   }
@@ -3241,6 +3609,15 @@ html[data-theme="dark"] .guide-tip strong {
 
   .pokemon-grid {
     grid-template-columns: 1fr;
+  }
+
+  .gym-leader-card__header {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .gym-leader-card__specialty {
+    border-left: 0;
+    padding-left: 0;
   }
 
   .location-card__pokemon {
@@ -3274,6 +3651,52 @@ html[data-theme="dark"] .guide-tip strong {
 }
 
 @media (max-width: 440px) {
+  .journey-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .journey-card--badges {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .journey-card {
+    padding: 14px;
+  }
+
+  .dashboard-badges {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: 9px;
+  }
+
+  .gym-team {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  .gym-leader-card__header {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .gym-leader-card__portrait {
+    width: 74px;
+    height: 74px;
+  }
+
+  .gym-leader-card__portrait img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .gym-badge-slot {
+    grid-column: 1 / -1;
+  }
+
+  .gym-badge-toggle {
+    width: 100%;
+  }
+
   .guide-tip {
     display: grid;
     gap: 7px;

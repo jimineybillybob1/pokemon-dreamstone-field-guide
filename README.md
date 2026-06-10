@@ -15,6 +15,8 @@ Open `index.html` in a browser. The guide includes:
 - A searchable 934-move catalogue with move details, learner compatibility, and all 19 move tutors
 - A searchable 310-ability catalogue with descriptions and linked Pokémon users
 - A persistent six-slot team builder with searchable Pokémon pickers, compatible moves, and retain-on-evolution movesets
+- A Gym Leaders guide with opponent teams, badge tracking, trainer portraits, and selected-team weakness coverage
+- A journey dashboard for capture progress, obtained badges, and the current team
 - Persistent Team Builder ability selection with ability descriptions
 - Live Dex-card coverage showing super-effective damage moves selected in the Team Builder
 - Pokémon types and clickable direct evolution links
@@ -116,6 +118,8 @@ Relevant Cloudflare documentation:
 ## Credits
 
 - Wild encounters, maps, Pokémon base stats, moves, abilities, learners, and tutor locations: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/abilities)
+- Gym rosters: [PokemonCoders](https://www.pokemoncoders.com/pokemon-dreamstone-mysteries-gym-leaders-guide/)
+- Gym leader trainer sprites: [Dreamstone Mysteries source](https://github.com/dsmyst/dreamstone-mysteries)
 - Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
 - Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)

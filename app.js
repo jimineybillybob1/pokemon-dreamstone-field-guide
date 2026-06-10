@@ -6,6 +6,7 @@ const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
 const teamStorageKey = "dreamstone-field-guide-team";
+const badgeStorageKey = "dreamstone-field-guide-badges";
 const syncCodeKey = "dreamstone-field-guide-sync-code";
 const saveFormat = "dreamstone-field-guide-save";
 const saveVersion = 1;
@@ -32,8 +33,17 @@ function loadTeam() {
   }
 }
 
+function loadBadges() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(badgeStorageKey) || "[]").map(String));
+  } catch {
+    return new Set();
+  }
+}
+
 const state = {
   caught: new Set(JSON.parse(localStorage.getItem(storageKey) || "[]")),
+  badges: loadBadges(),
   notesHidden: localStorage.getItem(notesKey) === "true",
   theme: document.documentElement.dataset.theme || "light",
   collectionStatus: "all",
@@ -74,6 +84,13 @@ const elements = {
   totalCount: document.querySelector("#total-count"),
   progressBar: document.querySelector("#progress-bar"),
   progressPercent: document.querySelector("#progress-percent"),
+  dashboardCaughtCount: document.querySelector("#dashboard-caught-count"),
+  dashboardTotalCount: document.querySelector("#dashboard-total-count"),
+  dashboardProgressBar: document.querySelector("#dashboard-progress-bar"),
+  dashboardProgressPercent: document.querySelector("#dashboard-progress-percent"),
+  dashboardBadgeCount: document.querySelector("#dashboard-badge-count"),
+  dashboardBadges: document.querySelector("#dashboard-badges"),
+  dashboardTeam: document.querySelector("#dashboard-team"),
   spoilerToggle: document.querySelector("#spoiler-toggle"),
   themeToggle: document.querySelector("#theme-toggle"),
   caughtTabCount: document.querySelector("#caught-tab-count"),
@@ -96,6 +113,8 @@ const elements = {
   abilityResultCount: document.querySelector("#ability-result-count"),
   abilityEmptyState: document.querySelector("#ability-empty-state"),
   teamGrid: document.querySelector("#team-grid"),
+  gymBadgeCount: document.querySelector("#gym-badge-count"),
+  gymLeaderList: document.querySelector("#gym-leader-list"),
   saveCaughtCount: document.querySelector("#save-caught-count"),
   saveTeamCount: document.querySelector("#save-team-count"),
   syncCode: document.querySelector("#sync-code"),
@@ -168,6 +187,141 @@ moveData.moves.forEach((move) => {
     });
 });
 const pokemonOptions = [...data.dex].sort((a, b) => a.number - b.number);
+const gymLeaders = [
+  {
+    id: "king",
+    order: 1,
+    name: "Inger",
+    type: "Rock",
+    location: "Gastree City",
+    badge: "King Badge",
+    sprite: "assets/trainers/inger.png",
+    team: [
+      { number: 17, level: 12 },
+      { number: 240, level: 12, displayName: "Alolan Geodude" },
+      { number: 162, level: 13 },
+    ],
+  },
+  {
+    id: "cinder",
+    order: 2,
+    name: "Ariana",
+    type: "Fire",
+    location: "Ceram Base Camp",
+    badge: "Cinder Badge",
+    sprite: "assets/trainers/ariana.png",
+    team: [
+      { number: 65, level: 16, displayName: "Hisuian Growlithe" },
+      { number: 67, level: 16 },
+      { number: 274, level: 17, displayName: "Paldean Tauros" },
+    ],
+  },
+  {
+    id: "stoic",
+    order: 3,
+    name: "Kohla",
+    type: "Mixed",
+    location: "Galacrest City",
+    badge: "Stoic Badge",
+    sprite: "assets/trainers/kohla.png",
+    team: [
+      { number: 238, level: 20 },
+      { number: 192, level: 21 },
+      { number: 225, level: 21 },
+      { number: 196, level: 23 },
+    ],
+  },
+  {
+    id: "drama",
+    order: 4,
+    name: "Gloria",
+    type: "Grass",
+    location: "Silversun City",
+    badge: "Drama Badge",
+    sprite: "assets/trainers/gloria.png",
+    team: [
+      { number: 55, level: 25 },
+      { number: 8, level: 26, displayName: "Galarian Linoone" },
+      { number: 53, level: 26, displayName: "Hisuian Lilligant" },
+      { number: 215, level: 26 },
+    ],
+  },
+  {
+    id: "ironfist",
+    order: 5,
+    name: "Carona",
+    type: "Fighting",
+    location: "Mirroh Base Camp",
+    badge: "Ironfist Badge",
+    sprite: "assets/trainers/carona.png",
+    team: [
+      { number: 114, level: 31 },
+      { number: 188, level: 32 },
+      { number: 61, level: 32 },
+      { number: 25, level: 34, displayName: "Mega Medicham", sprite: "assets/sprites/medicham-mega.png" },
+    ],
+  },
+  {
+    id: "charge",
+    order: 6,
+    name: "Viniel",
+    type: "Electric",
+    location: "Winterlilly Hollow",
+    badge: "Charge Badge",
+    sprite: "assets/trainers/viniel.png",
+    team: [
+      { number: 269, level: 41 },
+      { number: 107, level: 42 },
+      { number: 58, level: 42 },
+      { number: 237, level: 43, displayName: "Mega Manectric", sprite: "assets/sprites/manectric-mega.png" },
+    ],
+  },
+  {
+    id: "river",
+    order: 7,
+    name: "Jania",
+    type: "Water",
+    location: "Pelluca City",
+    badge: "River Badge",
+    sprite: "assets/trainers/jania.png",
+    team: [
+      { number: 250, level: 41 },
+      { number: 278, level: 43 },
+      { number: 121, level: 43 },
+      { number: 233, level: 42 },
+      {
+        number: 281,
+        level: 45,
+        displayName: "Mega Gyarados",
+        sprite: "assets/sprites/gyarados-mega.png",
+        types: ["water", "dark"],
+      },
+    ],
+  },
+  {
+    id: "granite",
+    order: 8,
+    name: "Raazi",
+    type: "Steel",
+    location: "Rivetshore City / S.S. Elegant",
+    badge: "Granite Badge",
+    sprite: "assets/trainers/raazi.png",
+    team: [
+      { number: 137, level: 48, displayName: "Alolan Dugtrio", types: ["ground", "steel"] },
+      { number: 205, level: 50 },
+      { number: 99, level: 51 },
+      { number: 71, level: 51 },
+      {
+        number: 33,
+        level: 52,
+        displayName: "Mega Aggron",
+        sprite: "assets/sprites/aggron-mega.png",
+        types: ["steel"],
+      },
+    ],
+  },
+];
+const validBadgeIds = new Set(gymLeaders.map((leader) => leader.id));
 const typeChart = {
   normal: { rock: 0.5, ghost: 0, steel: 0.5 },
   fire: {
@@ -238,7 +392,17 @@ const locationsForPokemon = (pokemon) => {
   ]);
   return pokerexLocations.length ? pokerexLocations : uniqueSorted([pokemon.location]);
 };
-const quickLocations = uniqueInOrder(encounters.locations.map((location) => location.name));
+const routeNumber = (name) => Number(/^Route\s+(\d+)/i.exec(name || "")?.[1]) || null;
+const pokerexLocationComparator = (a, b) => {
+  const aRoute = routeNumber(a.name);
+  const bRoute = routeNumber(b.name);
+  if (aRoute !== null && bRoute !== null) return aRoute - bRoute;
+  if (aRoute !== null) return -1;
+  if (bRoute !== null) return 1;
+  return a.name.localeCompare(b.name);
+};
+const pokerexOrderedLocations = [...encounters.locations].sort(pokerexLocationComparator);
+const quickLocations = uniqueInOrder(pokerexOrderedLocations.map((location) => location.name));
 const locationFilterOptions = uniqueSorted(quickLocations);
 const formatLocations = (locations, limit = 3) => {
   if (!locations.length) return "";
@@ -289,11 +453,6 @@ function setSelectOptions(id, values) {
 }
 
 function initializeSummary() {
-  document.querySelector("#available-count").textContent = encounters.encounterSpecies.length;
-  document.querySelector("#special-count").textContent = collectionDex.length;
-  document.querySelector("#unobtainable-count").textContent = data.dex.length;
-  document.querySelector("#location-count").textContent = encounters.locations.length;
-
   setSelectOptions("#location-filter", locationFilterOptions);
   setSelectOptions("#rarity-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.rarity)));
   setSelectOptions("#region-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.region)));
@@ -337,6 +496,55 @@ function setLocationFilter(location) {
   renderDex();
 }
 
+function createBadgeButton(leader, compact = false) {
+  const obtained = state.badges.has(leader.id);
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = compact ? "dashboard-badge" : "gym-badge-toggle";
+  button.classList.toggle("is-obtained", obtained);
+  button.setAttribute("aria-pressed", String(obtained));
+  button.setAttribute("aria-label", `${obtained ? "Remove" : "Mark obtained"}: ${leader.badge}`);
+  button.innerHTML = compact
+    ? `<span>${leader.order}</span><small>${leader.badge.replace(" Badge", "")}</small>`
+    : `<span class="gym-badge-toggle__stone">${leader.order}</span><span><strong>${leader.badge}</strong><small>${obtained ? "Obtained" : "Mark obtained"}</small></span>`;
+  button.addEventListener("click", () => toggleBadge(leader.id));
+  return button;
+}
+
+function renderJourneyOverview() {
+  if (!elements.dashboardBadges || !elements.dashboardTeam) return;
+  const badges = document.createDocumentFragment();
+  gymLeaders.forEach((leader) => badges.append(createBadgeButton(leader, true)));
+  elements.dashboardBadges.replaceChildren(badges);
+  elements.dashboardBadgeCount.textContent = state.badges.size;
+
+  const team = document.createDocumentFragment();
+  state.team.forEach((slot, index) => {
+    const pokemon = pokemonByNumber.get(slot.pokemonNumber);
+    const entry = document.createElement("span");
+    entry.className = "dashboard-team-slot";
+    entry.classList.toggle("is-filled", Boolean(pokemon));
+    entry.innerHTML = pokemon
+      ? `<img src="${pokemon.sprite}" alt="${pokemon.name.replaceAll("_", " ")}" width="42" height="42">`
+      : `<span>${index + 1}</span>`;
+    team.append(entry);
+  });
+  elements.dashboardTeam.replaceChildren(team);
+}
+
+function persistBadges() {
+  localStorage.setItem(badgeStorageKey, JSON.stringify([...state.badges]));
+  renderJourneyOverview();
+  renderGyms();
+}
+
+function toggleBadge(id) {
+  if (!validBadgeIds.has(id)) return;
+  if (state.badges.has(id)) state.badges.delete(id);
+  else state.badges.add(id);
+  persistBadges();
+}
+
 function updateProgress() {
   const caughtCount = collectionDex.filter(isCaught).length;
   const percent = Math.round((caughtCount / collectionDex.length) * 100);
@@ -344,6 +552,10 @@ function updateProgress() {
   elements.totalCount.textContent = collectionDex.length;
   elements.progressPercent.textContent = `${percent}%`;
   elements.progressBar.style.width = `${percent}%`;
+  elements.dashboardCaughtCount.textContent = caughtCount;
+  elements.dashboardTotalCount.textContent = collectionDex.length;
+  elements.dashboardProgressBar.style.width = `${percent}%`;
+  elements.dashboardProgressPercent.textContent = `${percent}% complete`;
   elements.caughtTabCount.textContent = caughtCount;
   elements.collectionCaughtCount.textContent = caughtCount;
   elements.collectionMissingCount.textContent = collectionDex.length - caughtCount;
@@ -354,6 +566,7 @@ function updateProgress() {
     "aria-label",
     `${caughtCount} of ${collectionDex.length} Pokémon caught`,
   );
+  renderJourneyOverview();
 }
 
 function persistCaught() {
@@ -464,6 +677,7 @@ function renderPokemonStats(card, pokemon) {
 function persistTeam() {
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
   updateSaveSummary();
+  renderJourneyOverview();
 }
 
 function updateSaveSummary() {
@@ -480,6 +694,7 @@ function createSaveDocument() {
     caught: [...state.caught].sort((a, b) =>
       String(a).localeCompare(String(b), undefined, { numeric: true }),
     ),
+    badges: [...state.badges],
     team: state.team.map((slot) => ({
       pokemonNumber: slot.pokemonNumber,
       moves: [...slot.moves],
@@ -500,6 +715,9 @@ function validateSaveDocument(input) {
     throw new Error("The save is missing caught progress or team data.");
   }
   const caught = [...new Set(input.caught.map(String).filter((id) => validCaughtIds.has(id)))];
+  const badges = [
+    ...new Set((Array.isArray(input.badges) ? input.badges : []).map(String).filter((id) => validBadgeIds.has(id))),
+  ];
   const team = Array.from({ length: 6 }, (_, slotIndex) => {
     const slot = input.team[slotIndex] || {};
     const pokemonNumber = pokemonByNumber.has(Number(slot.pokemonNumber))
@@ -519,6 +737,7 @@ function validateSaveDocument(input) {
     version: saveVersion,
     exportedAt: typeof input.exportedAt === "string" ? input.exportedAt : null,
     caught,
+    badges,
     team,
     preferences: {
       theme: input.preferences?.theme === "dark" ? "dark" : "light",
@@ -530,14 +749,18 @@ function validateSaveDocument(input) {
 function applySaveDocument(input) {
   const save = validateSaveDocument(input);
   state.caught = new Set(save.caught);
+  state.badges = new Set(save.badges);
   state.team = save.team;
   localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
+  localStorage.setItem(badgeStorageKey, JSON.stringify([...state.badges]));
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
   setNotesHidden(save.preferences.notesHidden);
   setTheme(save.preferences.theme);
   updateProgress();
   renderDex();
   renderTeam();
+  renderGyms();
+  renderJourneyOverview();
   renderCollection();
   renderLocations(elements.locationSearch.value);
   return save;
@@ -685,6 +908,8 @@ async function copySyncCode() {
 
 function refreshTeamAndDex() {
   renderTeam();
+  renderGyms();
+  renderJourneyOverview();
   elements.grid.querySelectorAll(".pokemon-card").forEach((card) => {
     const pokemon = pokemonByNumber.get(Number(card.dataset.number));
     const container = card.querySelector(".team-matchups");
@@ -789,6 +1014,73 @@ function renderTeamMatchups(container, targetPokemon) {
     list.append(entry);
   });
   container.append(heading, list);
+}
+
+function renderGymPokemonCard(member) {
+  const pokemon = pokemonByNumber.get(member.number);
+  if (!pokemon) return document.createElement("article");
+  const targetPokemon = {
+    ...pokemon,
+    name: member.displayName || pokemon.name,
+    sprite: member.sprite || pokemon.sprite,
+    types: member.types || pokemon.types,
+  };
+  const card = document.createElement("article");
+  card.className = "gym-pokemon-card";
+  card.dataset.number = pokemon.number;
+  card.innerHTML = `
+    <button class="gym-pokemon-card__identity" type="button">
+      <span class="gym-pokemon-card__sprite">
+        <img src="${targetPokemon.sprite}" alt="" width="78" height="78" loading="lazy">
+      </span>
+      <span class="gym-pokemon-card__copy">
+        <small>Lv. ${member.level}</small>
+        <strong></strong>
+        <span class="gym-pokemon-card__types"></span>
+        <span class="gym-pokemon-card__bst">BST ${pokemon.bst || "N/A"}</span>
+      </span>
+    </button>
+    <section class="team-matchups"></section>
+  `;
+  card.querySelector(".gym-pokemon-card__copy strong").textContent = targetPokemon.name.replaceAll("_", " ");
+  renderTypeBadges(card.querySelector(".gym-pokemon-card__types"), targetPokemon.types);
+  card.querySelector(".gym-pokemon-card__identity").addEventListener("click", () => focusPokemon(pokemon.number));
+  renderTeamMatchups(card.querySelector(".team-matchups"), targetPokemon);
+  return card;
+}
+
+function renderGyms() {
+  if (!elements.gymLeaderList) return;
+  elements.gymBadgeCount.textContent = state.badges.size;
+  const fragment = document.createDocumentFragment();
+  gymLeaders.forEach((leader) => {
+    const card = document.createElement("article");
+    card.className = "gym-leader-card";
+    card.classList.toggle("is-obtained", state.badges.has(leader.id));
+    card.innerHTML = `
+      <header class="gym-leader-card__header">
+        <span class="gym-leader-card__portrait">
+          <img src="${leader.sprite}" alt="${leader.name}" width="96" height="96" loading="lazy">
+        </span>
+        <span class="gym-leader-card__identity">
+          <small>Gym ${leader.order}</small>
+          <strong>${leader.name}</strong>
+          <span>${leader.location}</span>
+        </span>
+        <span class="gym-leader-card__specialty">
+          <small>Speciality</small>
+          <strong>${leader.type}</strong>
+        </span>
+        <span class="gym-badge-slot"></span>
+      </header>
+      <div class="gym-team"></div>
+    `;
+    card.querySelector(".gym-badge-slot").append(createBadgeButton(leader));
+    const team = card.querySelector(".gym-team");
+    leader.team.forEach((member) => team.append(renderGymPokemonCard(member)));
+    fragment.append(card);
+  });
+  elements.gymLeaderList.replaceChildren(fragment);
 }
 
 function createPokemonPicker(slotIndex, selectedNumber) {
@@ -1550,6 +1842,7 @@ function activateView(viewName) {
   if (viewName === "caught") renderCollection();
   if (viewName === "moves") renderMoves();
   if (viewName === "abilities") renderAbilities();
+  if (viewName === "gyms") renderGyms();
   if (viewName === "team") renderTeam();
   if (viewName === "save") {
     updateSaveSummary();
@@ -1614,7 +1907,7 @@ function openCollectionEntry(entry) {
 function renderLocations(search = "") {
   const normalizedSearch = search.trim().toLowerCase();
   const fragment = document.createDocumentFragment();
-  encounters.locations
+  pokerexOrderedLocations
     .filter((location) => {
       if (!normalizedSearch) return true;
       return (
@@ -1924,6 +2217,12 @@ function bindControls() {
   document.querySelectorAll(".view-tab").forEach((tab) => {
     tab.addEventListener("click", () => activateView(tab.dataset.view));
   });
+  document.querySelectorAll("[data-open-view]").forEach((button) => {
+    button.addEventListener("click", () => {
+      activateView(button.dataset.openView);
+      document.querySelector(".view-tabs").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
 }
 
 initializeSummary();
@@ -1934,6 +2233,8 @@ bindControls();
 updateProgress();
 renderQuickLocations();
 renderDex();
+renderJourneyOverview();
+renderGyms();
 renderTeam();
 renderMoves();
 renderAbilities();
