@@ -334,8 +334,8 @@ await check(
 );
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__ability label > span").textContent()) ===
-    "Preferred ability",
-  "Team card ability selector is not labelled as preferred",
+    "Ability",
+  "Team Builder ability selector has the wrong label",
 );
 await page.evaluate(() => setTeamPokemon(1, 17));
 await check(
@@ -447,6 +447,18 @@ await check(
     (await page.locator(".planner-card[data-slot='1'] .planner-locations").textContent()).includes("Starter"),
   "Planner card is missing Gothita's stats or location",
 );
+await check(
+  (await page.locator(".planner-card[data-slot='1'] .team-card__ability label > span").textContent()) ===
+    "Preferred ability",
+  "Team Planner preferred ability selector is missing",
+);
+await page.locator(".planner-card[data-slot='1'] .team-card__ability select").selectOption("119");
+await check(
+  (await page.locator(".planner-card[data-slot='1'] .team-ability-details").textContent()).includes(
+    "Checks a foe's item.",
+  ),
+  "Selected planner preferred ability details are missing",
+);
 const plannerMoveOptions = await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("option").allTextContents();
 await check(plannerMoveOptions.some((text) => text.includes("Pound — Lv. 1")), "Planner move choices are missing level-up methods");
 await check(plannerMoveOptions.some((text) => text.includes("Protect — Tutor: Vilethorn Woods")), "Planner move choices are missing tutor locations");
@@ -457,6 +469,39 @@ await check(
   (await page.locator(".planner-card[data-slot='1'] .planner-move-methods").textContent()).includes("Lv. 1"),
   "Selected planner move is missing its learn method",
 );
+await check(
+  await page.evaluate(() =>
+    [
+      "Mt Ceram",
+      "Mt Ceram Caves",
+      "Fennilahl Underpass",
+      "Mirroh Interior B1F",
+      "Mirroh Peak",
+      "Mt Mirroh",
+      "Mt Mirroh Interior B1F",
+      "Mt Mirroh Interior B2F",
+      "Mt Mirroh Peak",
+      "Route 3 Caverns",
+      "Route 3 Deeper",
+      "Route 4 (Trolling Rod)",
+      "Route 6 Ranger Institute",
+      "Rivetshore Ranger Institute",
+    ].every((location) => canonicalEncounterLocationName(location)),
+  ),
+  "A known encounter-map location alias is still unresolved",
+);
+await page.evaluate(() => setPlannerPokemon(1, 259));
+await check(
+  (await page.locator(".planner-card[data-slot='2'] .planner-locations .pokemon-location-link").textContent()) ===
+    "Mt. Ceram",
+  "Charizard's Mt. Ceram location is not selectable",
+);
+await page.locator(".planner-card[data-slot='2'] .planner-locations .pokemon-location-link").click();
+await check(
+  await page.locator("#view-locations").evaluate((element) => element.classList.contains("is-active")),
+  "Charizard's Mt. Ceram link did not open the Locations tab",
+);
+await page.locator(".view-tab[data-view='planner']").click();
 await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-planner.png"), fullPage: false });
 
@@ -480,6 +525,7 @@ await check(exportedSave.team[0].moves[1] === 247, "Exported save is missing Sha
 await check(exportedSave.team[0].abilityId === 119, "Exported save is missing Frisk");
 await check(exportedSave.planner[0].pokemonNumber === 1, "Exported save is missing the Team Planner shortlist");
 await check(exportedSave.planner[0].moves[0] === 1, "Exported save is missing the planned move");
+await check(exportedSave.planner[0].abilityId === 119, "Exported save is missing the preferred planner ability");
 await page.locator("#create-sync-code").click();
 await check(
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
@@ -525,7 +571,8 @@ await check(
 await page.locator(".view-tab[data-view='planner']").click();
 await check(
   (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothita" &&
-    (await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("select").inputValue()) === "1",
+    (await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("select").inputValue()) === "1" &&
+    (await page.locator(".planner-card[data-slot='1'] .team-card__ability select").inputValue()) === "119",
   "Imported save did not restore the Team Planner",
 );
 
@@ -799,7 +846,8 @@ await page.screenshot({ path: path.join(outputDir, "guide-mobile-team-builder.pn
 await page.locator(".view-tab[data-view='planner']").click();
 await check(
   (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothita" &&
-    (await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("select").inputValue()) === "1",
+    (await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("select").inputValue()) === "1" &&
+    (await page.locator(".planner-card[data-slot='1'] .team-card__ability select").inputValue()) === "119",
   "Saved Team Planner did not persist after reload",
 );
 await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();

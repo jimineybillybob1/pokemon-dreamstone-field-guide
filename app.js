@@ -44,11 +44,13 @@ function loadPlanner() {
       moves: Array.from({ length: 4 }, (__, moveIndex) =>
         Number.isFinite(saved[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
       ),
+      abilityId: Number.isFinite(saved[index]?.abilityId) ? saved[index].abilityId : null,
     }));
   } catch {
     return Array.from({ length: 6 }, () => ({
       pokemonNumber: null,
       moves: [null, null, null, null],
+      abilityId: null,
     }));
   }
 }
@@ -433,6 +435,36 @@ const locationsForPokemon = (pokemon) => {
   ]);
   return pokerexLocations.length ? pokerexLocations : uniqueSorted([pokemon.location]);
 };
+const normalizedLocationName = (name) =>
+  String(name || "")
+    .toLowerCase()
+    .replace(/\bmt\.?\s*/g, "mount ")
+    .replace(/\bcaves?\b/g, "interior")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+const encounterLocationByNormalizedName = new Map(
+  encounters.locations.map((location) => [normalizedLocationName(location.name), location.name]),
+);
+const encounterLocationAliases = new Map(
+  Object.entries({
+    "Fennilahl Underpass": "Fennilahl Tunnel",
+    "Mirroh Interior B1F": "Mt. Mirroh B1f",
+    "Mirroh Peak": "Mt. Mirroh Peak",
+    "Mt Mirroh Interior 1F": "Mt. Mirroh",
+    "Mt. Mirroh Interior 1F": "Mt. Mirroh",
+    "Mt Mirroh Interior B1F": "Mt. Mirroh B1f",
+    "Mt Mirroh Interior B2F": "Mt. Mirroh B2f",
+    "Route 3 Caverns": "Route 3 Underpass",
+    "Route 3 Deeper": "Route 3 Depths",
+    "Route 4 (Trolling Rod)": "Route 4",
+    "Route 6 Ranger Institute": "Ranger Institute",
+    "Rivetshore Ranger Institute": "Ranger Institute",
+  }).map(([alias, canonical]) => [normalizedLocationName(alias), canonical]),
+);
+const canonicalEncounterLocationName = (location) =>
+  encounterLocationByNormalizedName.get(normalizedLocationName(location)) ||
+  encounterLocationAliases.get(normalizedLocationName(location)) ||
+  null;
 const routeNumber = (name) => Number(/^Route\s+(\d+)/i.exec(name || "")?.[1]) || null;
 const pokerexLocationComparator = (a, b) => {
   const aRoute = routeNumber(a.name);
@@ -691,11 +723,13 @@ function renderLocationLinks(container, locations, fallback) {
     return;
   }
   const fragment = document.createDocumentFragment();
+  const seen = new Set();
   locations.forEach((location) => {
-    const hasEncounterMap = encounters.locations.some(
-      (encounterLocation) => encounterLocation.name === location,
-    );
-    if (!hasEncounterMap) {
+    const canonicalLocation = canonicalEncounterLocationName(location);
+    const key = canonicalLocation || location;
+    if (seen.has(key)) return;
+    seen.add(key);
+    if (!canonicalLocation) {
       const label = document.createElement("span");
       label.className = "pokemon-location-label";
       label.textContent = location;
@@ -705,9 +739,9 @@ function renderLocationLinks(container, locations, fallback) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "pokemon-location-link";
-    button.textContent = location;
-    button.setAttribute("aria-label", `Open encounters for ${location}`);
-    button.addEventListener("click", () => openLocation(location));
+    button.textContent = canonicalLocation;
+    button.setAttribute("aria-label", `Open encounters for ${canonicalLocation}`);
+    button.addEventListener("click", () => openLocation(canonicalLocation));
     fragment.append(button);
   });
   container.replaceChildren(fragment);
@@ -774,6 +808,7 @@ function createSaveDocument() {
     planner: state.planner.map((slot) => ({
       pokemonNumber: slot.pokemonNumber,
       moves: [...slot.moves],
+      abilityId: slot.abilityId,
     })),
     preferences: {
       theme: state.theme,
@@ -817,7 +852,10 @@ function validateSaveDocument(input) {
       const moveId = Number(slot.moves?.[moveIndex]);
       return compatibleIds.has(moveId) ? moveId : null;
     });
-    return { pokemonNumber, moves };
+    const abilityId = Number(slot.abilityId);
+    const compatibleAbilities = abilitiesByPokemon.get(pokemonNumber) || [];
+    const validAbility = compatibleAbilities.some((entry) => entry.ability.id === abilityId);
+    return { pokemonNumber, moves, abilityId: validAbility ? abilityId : null };
   });
   return {
     format: saveFormat,
@@ -1395,22 +1433,27 @@ function createTeamMoveSlot(slotIndex, moveIndex, pokemonNumber, selectedMoveId)
   return wrapper;
 }
 
-function createTeamAbilitySelector(slotIndex, pokemonNumber, selectedAbilityId) {
+function createAbilitySelector(
+  slotIndex,
+  pokemonNumber,
+  selectedAbilityId,
+  { scope = "team", labelText = "Ability", onChange = setTeamAbility } = {},
+) {
   const section = document.createElement("section");
   section.className = "team-card__ability";
   const label = document.createElement("label");
   const text = document.createElement("span");
-  text.textContent = "Preferred ability";
+  text.textContent = labelText;
   const select = document.createElement("select");
-  select.setAttribute("aria-label", `Choose preferred ability for team slot ${slotIndex + 1}`);
-  select.add(new Option("Choose preferred ability...", ""));
+  select.setAttribute("aria-label", `Choose ${labelText.toLowerCase()} for ${scope} slot ${slotIndex + 1}`);
+  select.add(new Option(`Choose ${labelText.toLowerCase()}...`, ""));
   const choices = abilitiesByPokemon.get(pokemonNumber) || [];
   choices.forEach(({ ability, hidden }) => {
     select.add(new Option(`${ability.name}${hidden ? " (Hidden Ability)" : ""}`, ability.id));
   });
   const selected = choices.find(({ ability }) => ability.id === selectedAbilityId);
   select.value = selected?.ability.id || "";
-  select.addEventListener("change", () => setTeamAbility(slotIndex, Number(select.value)));
+  select.addEventListener("change", () => onChange(slotIndex, Number(select.value)));
   label.append(text, select);
   section.append(label);
 
@@ -1505,7 +1548,7 @@ function renderTeamCard(slot, slotIndex) {
   stats.setAttribute("aria-label", `${pokemon.name} base stats`);
   card.append(stats);
   renderPokemonStats(card, pokemon);
-  card.append(createTeamAbilitySelector(slotIndex, pokemon.number, slot.abilityId));
+  card.append(createAbilitySelector(slotIndex, pokemon.number, slot.abilityId));
 
   if (pokemon.evolvesTo.length) {
     const evolution = document.createElement("div");
@@ -1546,6 +1589,7 @@ function setPlannerPokemon(slotIndex, pokemonNumber) {
   const slot = state.planner[slotIndex];
   slot.pokemonNumber = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
   slot.moves = [null, null, null, null];
+  slot.abilityId = null;
   persistPlanner();
   renderPlanner();
 }
@@ -1554,6 +1598,16 @@ function setPlannerMove(slotIndex, moveIndex, moveId) {
   const slot = state.planner[slotIndex];
   const compatible = compatibleMoveIdsByPokemon.get(slot.pokemonNumber) || new Set();
   slot.moves[moveIndex] = compatible.has(moveId) ? moveId : null;
+  persistPlanner();
+  renderPlanner();
+}
+
+function setPlannerAbility(slotIndex, abilityId) {
+  const slot = state.planner[slotIndex];
+  const valid = (abilitiesByPokemon.get(slot.pokemonNumber) || []).some(
+    (entry) => entry.ability.id === abilityId,
+  );
+  slot.abilityId = valid ? abilityId : null;
   persistPlanner();
   renderPlanner();
 }
@@ -1666,6 +1720,13 @@ function renderPlannerCard(slot, slotIndex) {
   stats.setAttribute("aria-label", `${pokemon.name} base stats`);
   card.append(stats);
   renderPokemonStats(card, pokemon);
+  card.append(
+    createAbilitySelector(slotIndex, pokemon.number, slot.abilityId, {
+      scope: "planner",
+      labelText: "Preferred ability",
+      onChange: setPlannerAbility,
+    }),
+  );
 
   const moves = document.createElement("div");
   moves.className = "team-card__moves planner-card__moves";
@@ -2484,6 +2545,7 @@ function bindControls() {
     state.planner = Array.from({ length: 6 }, () => ({
       pokemonNumber: null,
       moves: [null, null, null, null],
+      abilityId: null,
     }));
     persistPlanner();
     renderPlanner();

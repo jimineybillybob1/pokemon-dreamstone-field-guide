@@ -15,7 +15,7 @@ Open `index.html` in a browser. The guide includes:
 - A searchable 934-move catalogue with move details, learner compatibility, and all 19 move tutors
 - A searchable 310-ability catalogue with descriptions and linked Pokémon users
 - A persistent six-slot team builder with searchable Pokémon pickers, compatible moves, and retain-on-evolution movesets
-- A separate persistent six-slot Team Planner with locations, stats, and move acquisition methods
+- A separate persistent six-slot Team Planner with locations, stats, preferred abilities, and move acquisition methods
 - Level-up learnset dialogs available from every Full Dex card
 - A Gym Leaders guide with opponent teams, badge tracking, trainer portraits, and selected-team weakness coverage
 - A journey dashboard for capture progress, obtained badges, and the current team
