@@ -633,42 +633,37 @@ button.journey-card:hover {
 }
 
 .back-to-top {
-  position: fixed;
-  z-index: 1000;
-  right: max(18px, calc(env(safe-area-inset-right) + 10px));
-  bottom: max(22px, calc(env(safe-area-inset-bottom) + 18px));
-  display: flex;
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  right: 18px !important;
+  bottom: 22px !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   gap: 5px;
   align-items: center;
   justify-content: center;
   min-height: 43px;
-  border: 0;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
   color: #fff;
-  background: rgba(74, 54, 145, 0.92);
-  box-shadow: 0 12px 34px rgba(29, 21, 58, 0.28);
+  background: #5f45c5;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.18),
+    0 12px 34px rgba(29, 21, 58, 0.4);
   padding: 10px 15px;
   font-size: 0.72rem;
   font-weight: 900;
+  text-decoration: none;
   backdrop-filter: blur(14px);
   transition:
     opacity 160ms ease,
     transform 160ms ease;
 }
 
-.back-to-top.is-at-top {
-  opacity: 0.72;
-}
-
 .back-to-top:hover {
   background: var(--violet-dark);
   transform: translateY(-2px);
-  opacity: 1;
-}
-
-.back-to-top[hidden] {
-  display: none;
 }
 
 .quick-locations {
@@ -3750,8 +3745,8 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .back-to-top {
-    right: max(12px, calc(env(safe-area-inset-right) + 8px));
-    bottom: max(76px, calc(env(safe-area-inset-bottom) + 64px));
+    right: 12px !important;
+    bottom: 76px !important;
     min-height: 42px;
     padding: 9px 12px;
   }

@@ -2189,14 +2189,6 @@ function updateSearchClearButtons() {
   });
 }
 
-function updateBackToTopVisibility() {
-  const button = document.querySelector("#back-to-top");
-  const scrollingElement = document.scrollingElement || document.documentElement;
-  const pageScrolls = scrollingElement.scrollHeight > scrollingElement.clientHeight + 20;
-  button.hidden = !pageScrolls;
-  button.classList.toggle("is-at-top", scrollingElement.scrollTop < 80);
-}
-
 function activateView(viewName) {
   document.querySelectorAll(".view-tab").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.view === viewName);
@@ -2214,7 +2206,6 @@ function activateView(viewName) {
     updateSaveSummary();
     updateSyncControls();
   }
-  requestAnimationFrame(updateBackToTopVisibility);
 }
 
 function resetDexFilters() {
@@ -2583,17 +2574,6 @@ function bindControls() {
   });
   elements.spoilerToggle.addEventListener("click", () => setNotesHidden(!state.notesHidden));
   elements.themeToggle.addEventListener("click", () => setTheme(state.theme === "dark" ? "light" : "dark"));
-  document.querySelector("#back-to-top").addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-  window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
-  window.addEventListener("resize", updateBackToTopVisibility);
-  window.addEventListener("pageshow", updateBackToTopVisibility);
-  window.visualViewport?.addEventListener("resize", updateBackToTopVisibility);
-  if ("ResizeObserver" in window) {
-    new ResizeObserver(updateBackToTopVisibility).observe(document.body);
-  }
-
   document.querySelector("#reset-progress").addEventListener("click", () => {
     if (!state.caught.size || !window.confirm("Clear all caught Pokémon from this guide?")) return;
     state.caught.clear();
@@ -2632,7 +2612,5 @@ renderCollection();
 renderLocations();
 renderMegas();
 renderItems();
-updateBackToTopVisibility();
-
 const initialPokemonNumber = Number(location.hash.match(/^#pokemon-(\d+)$/)?.[1]);
 if (initialPokemonNumber) focusPokemon(initialPokemonNumber);
