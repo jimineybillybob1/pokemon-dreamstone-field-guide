@@ -29,6 +29,22 @@ const check = async (condition, message) => {
   if (!passed) throw new Error(message);
 };
 
+const checkGlobalBackToTop = async (viewName) => {
+  await page.locator(`.view-tab[data-view='${viewName}']`).click();
+  await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
+  const pageScrolls = await page.evaluate(
+    () => document.documentElement.scrollHeight > window.innerHeight + 100,
+  );
+  if (!pageScrolls) return;
+  await page.waitForFunction(() => !document.querySelector("#back-to-top").hidden);
+  await check(
+    (await page.locator("#back-to-top").getAttribute("aria-label")) === "Jump to top",
+    `Jump to Top control is missing from ${viewName}`,
+  );
+  await page.locator("#back-to-top").click();
+  await page.waitForFunction(() => window.scrollY < 50, null, { timeout: 10000 });
+};
+
 await page.goto(guideUrl);
 await page.evaluate(() => localStorage.clear());
 await page.reload();
@@ -768,11 +784,25 @@ await check(
 await page.locator("#view-dex").scrollIntoViewIfNeeded();
 await page.waitForTimeout(300);
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-controls.png"), fullPage: false });
-await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
-await page.waitForTimeout(300);
-await page.locator("#back-to-top").click();
-await page.waitForFunction(() => window.scrollY < 50, null, { timeout: 10000 });
-await check((await page.evaluate(() => window.scrollY)) < 50, "Back-to-top button did not return to page top");
+await check(
+  (await page.locator("#back-to-top").evaluate((element) => getComputedStyle(element).position)) === "fixed",
+  "Jump to Top control is not globally fixed",
+);
+for (const viewName of [
+  "dex",
+  "locations",
+  "caught",
+  "gyms",
+  "team",
+  "planner",
+  "moves",
+  "abilities",
+  "megas",
+  "items",
+  "save",
+]) {
+  await checkGlobalBackToTop(viewName);
+}
 await page.locator(".view-tab[data-view='caught']").click();
 await page.locator("[data-collection-status='all']").click();
 await page.locator("#collection-search").fill("");

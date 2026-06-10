@@ -2189,6 +2189,12 @@ function updateSearchClearButtons() {
   });
 }
 
+function updateBackToTopVisibility() {
+  const button = document.querySelector("#back-to-top");
+  const pageScrolls = document.documentElement.scrollHeight > window.innerHeight + 100;
+  button.hidden = !pageScrolls || window.scrollY < 420;
+}
+
 function activateView(viewName) {
   document.querySelectorAll(".view-tab").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.view === viewName);
@@ -2206,6 +2212,7 @@ function activateView(viewName) {
     updateSaveSummary();
     updateSyncControls();
   }
+  requestAnimationFrame(updateBackToTopVisibility);
 }
 
 function resetDexFilters() {
@@ -2575,8 +2582,10 @@ function bindControls() {
   elements.spoilerToggle.addEventListener("click", () => setNotesHidden(!state.notesHidden));
   elements.themeToggle.addEventListener("click", () => setTheme(state.theme === "dark" ? "light" : "dark"));
   document.querySelector("#back-to-top").addEventListener("click", () => {
-    document.querySelector("#top").scrollIntoView({ behavior: "smooth", block: "start" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
+  window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
+  window.addEventListener("resize", updateBackToTopVisibility);
 
   document.querySelector("#reset-progress").addEventListener("click", () => {
     if (!state.caught.size || !window.confirm("Clear all caught Pokémon from this guide?")) return;
@@ -2616,6 +2625,7 @@ renderCollection();
 renderLocations();
 renderMegas();
 renderItems();
+updateBackToTopVisibility();
 
 const initialPokemonNumber = Number(location.hash.match(/^#pokemon-(\d+)$/)?.[1]);
 if (initialPokemonNumber) focusPokemon(initialPokemonNumber);

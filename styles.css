@@ -535,10 +535,6 @@ button.journey-card:hover {
   position: sticky;
   z-index: 20;
   top: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: end;
   margin: 0 -10px 18px;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -637,18 +633,37 @@ button.journey-card:hover {
 }
 
 .back-to-top {
+  position: fixed;
+  z-index: 60;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
   display: flex;
   gap: 5px;
   align-items: center;
   justify-content: center;
   min-height: 43px;
   border: 0;
-  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
   color: #fff;
-  background: var(--violet-dark);
-  padding: 9px 14px;
+  background: rgba(74, 54, 145, 0.92);
+  box-shadow: 0 12px 34px rgba(29, 21, 58, 0.28);
+  padding: 10px 15px;
   font-size: 0.72rem;
   font-weight: 900;
+  backdrop-filter: blur(14px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.back-to-top:hover {
+  background: var(--violet-dark);
+  transform: translateY(-2px);
+}
+
+.back-to-top[hidden] {
+  display: none;
 }
 
 .quick-locations {
@@ -3722,7 +3737,6 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .sticky-search {
-    grid-template-columns: minmax(0, 1fr) auto;
     margin-inline: -6px;
   }
 
@@ -3731,12 +3745,10 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .back-to-top {
-    width: 44px;
-    padding-inline: 8px;
-  }
-
-  .back-to-top__label {
-    display: none;
+    right: max(10px, env(safe-area-inset-right));
+    bottom: max(10px, env(safe-area-inset-bottom));
+    min-height: 42px;
+    padding: 9px 12px;
   }
 
   .quick-locations {
