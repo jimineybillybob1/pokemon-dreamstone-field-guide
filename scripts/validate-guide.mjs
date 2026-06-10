@@ -206,6 +206,7 @@ check(
 );
 check(html.includes('data-move-mode="tutors"'), "Move tutors sub-tab is missing");
 check((html.match(/data-clear-search=/g) || []).length === 5, "Expected five in-field search clear buttons");
+check((html.match(/class="jump-to-top"/g) || []).length === 11, "Expected one Jump to Top control per guide tab");
 check(html.includes('id="export-save"'), "Save export control is missing");
 check(html.includes('id="sync-code"'), "Cloud sync UUID control is missing");
 

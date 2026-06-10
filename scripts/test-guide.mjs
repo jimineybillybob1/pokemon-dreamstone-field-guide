@@ -31,21 +31,22 @@ const check = async (condition, message) => {
 
 const checkGlobalBackToTop = async (viewName) => {
   await page.locator(`.view-tab[data-view='${viewName}']`).click();
+  const jumpToTop = page.locator(`#view-${viewName}.is-active .jump-to-top`);
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await check(
-    await page.locator("#back-to-top").isVisible(),
+    await jumpToTop.isVisible(),
     `Jump to Top control is not visible at the top of ${viewName}`,
   );
   await check(
-    (await page.locator("#back-to-top").getAttribute("href")) === "#page-top",
+    (await jumpToTop.getAttribute("href")) === "#page-top",
     `Jump to Top control is not linked to the page top in ${viewName}`,
   );
   await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
   await check(
-    (await page.locator("#back-to-top").getAttribute("aria-label")) === "Jump to top",
+    (await jumpToTop.getAttribute("aria-label")) === "Jump to top",
     `Jump to Top control is missing from ${viewName}`,
   );
-  await page.locator("#back-to-top").click();
+  await jumpToTop.click();
   await page.waitForFunction(() => window.scrollY < 50, null, { timeout: 10000 });
 };
 
@@ -789,8 +790,8 @@ await page.locator("#view-dex").scrollIntoViewIfNeeded();
 await page.waitForTimeout(300);
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-controls.png"), fullPage: false });
 await check(
-  (await page.locator("#back-to-top").evaluate((element) => getComputedStyle(element).position)) === "fixed",
-  "Jump to Top control is not globally fixed",
+  (await page.locator("#view-dex .sticky-search").evaluate((element) => getComputedStyle(element).position)) === "sticky",
+  "Dex search and Jump to Top toolbar is not sticky",
 );
 for (const viewName of [
   "dex",

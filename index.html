@@ -36,13 +36,13 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260610-3" />
+    <link rel="stylesheet" href="styles.css?v=20260610-4" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
     <script src="data/pokerex-abilities.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260610-3" defer></script>
+    <script src="app.js?v=20260610-4" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -143,6 +143,7 @@
               <button class="search-clear" type="button" data-clear-search="#search" aria-label="Clear Dex search" hidden>&times;</button>
             </span>
           </label>
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
 
         <form class="filter-panel" id="filters">
@@ -225,6 +226,9 @@
           </div>
           <p><span id="gym-badge-count">0</span> of 8 badges obtained</p>
         </div>
+        <div class="sticky-jump-toolbar">
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
+        </div>
         <div class="gym-leader-list" id="gym-leader-list"></div>
       </section>
 
@@ -235,6 +239,9 @@
             <h2>Team Builder</h2>
           </div>
           <p>Your six-slot team and selected moves are saved locally in this browser.</p>
+        </div>
+        <div class="sticky-jump-toolbar">
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
         <aside class="guide-tip">
           <span class="guide-tip__label">Team behavior</span>
@@ -257,6 +264,9 @@
             <h2>Team Planner</h2>
           </div>
           <p>Shortlist six Pokémon and plan how they will learn each selected move.</p>
+        </div>
+        <div class="sticky-jump-toolbar">
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
         <div class="team-toolbar">
           <p>This shortlist is saved separately from your current Team Builder party.</p>
@@ -291,6 +301,7 @@
               <button class="search-clear" type="button" data-clear-search="#move-search" aria-label="Clear move search" hidden>&times;</button>
             </span>
           </label>
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
         <form class="move-filter-panel" id="move-filters">
           <label>
@@ -351,6 +362,7 @@
               <button class="search-clear" type="button" data-clear-search="#ability-search" aria-label="Clear ability search" hidden>&times;</button>
             </span>
           </label>
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
         <form class="ability-filter-panel" id="ability-filters">
           <label>
@@ -378,6 +390,9 @@
             <h2>Save &amp; Sync</h2>
           </div>
           <p>Back up this device or securely move your guide progress to another one.</p>
+        </div>
+        <div class="sticky-jump-toolbar">
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
 
         <div class="save-summary" aria-label="Current save summary">
@@ -480,6 +495,7 @@
               <button class="search-clear" type="button" data-clear-search="#collection-search" aria-label="Clear collection search" hidden>&times;</button>
             </span>
           </label>
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
         <div class="collection-controls">
           <div class="collection-status" role="group" aria-label="Collection status filter">
@@ -513,6 +529,7 @@
               <button class="search-clear" type="button" data-clear-search="#location-search" aria-label="Clear location search" hidden>&times;</button>
             </span>
           </label>
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
         <div class="location-list" id="location-list"></div>
       </section>
@@ -523,6 +540,9 @@
             <p class="eyebrow">Choose carefully</p>
             <h2>Available Mega Evolutions</h2>
           </div>
+        </div>
+        <div class="sticky-jump-toolbar">
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
         <aside class="guide-tip guide-tip--mega" id="mega-note"></aside>
         <div class="mega-grid" id="mega-grid"></div>
@@ -536,14 +556,12 @@
           </div>
           <p>Locations obey the notes-hidden setting.</p>
         </div>
+        <div class="sticky-jump-toolbar">
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
+        </div>
         <div class="item-list" id="item-list"></div>
       </section>
     </main>
-
-    <a class="back-to-top" id="back-to-top" href="#page-top" aria-label="Jump to top">
-      <span aria-hidden="true">↑</span>
-      <span class="back-to-top__label">Jump to top</span>
-    </a>
 
     <footer>
       <p>
