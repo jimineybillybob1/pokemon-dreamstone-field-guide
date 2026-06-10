@@ -521,6 +521,10 @@ await check(
   "Dashboard team overview did not update",
 );
 await check(
+  (await page.locator(".dashboard-team-slot.is-filled img").evaluate((element) => element.getBoundingClientRect().width)) >= 64,
+  "Dashboard team sprite is too small",
+);
+await check(
   (await page.locator(".dashboard-team-slot.is-filled small").textContent()) === "Gothorita",
   "Dashboard team overview is missing the PokÃ©mon name",
 );

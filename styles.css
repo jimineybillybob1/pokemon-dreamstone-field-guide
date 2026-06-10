@@ -391,15 +391,15 @@ button.journey-card:hover {
 
 .dashboard-team-slot {
   display: grid;
-  grid-template-rows: 48px auto;
-  gap: 4px;
+  grid-template-rows: clamp(64px, 7vw, 92px) auto;
+  gap: 5px;
   place-items: center;
   min-width: 0;
   border: 0;
   border-radius: 0;
   color: var(--muted);
   background: var(--paper-deep);
-  padding: 6px 4px 5px;
+  padding: 8px 4px 7px;
   font-size: 0.62rem;
   font-weight: 900;
 }
@@ -409,8 +409,8 @@ button.journey-card:hover {
 }
 
 .dashboard-team-slot img {
-  width: 48px;
-  height: 48px;
+  width: clamp(64px, 7vw, 92px);
+  height: clamp(64px, 7vw, 92px);
   image-rendering: pixelated;
   object-fit: contain;
 }
@@ -418,7 +418,7 @@ button.journey-card:hover {
 .dashboard-team-slot small {
   width: 100%;
   overflow: hidden;
-  font-size: 0.52rem;
+  font-size: 0.56rem;
   line-height: 1.15;
   text-align: center;
   text-overflow: ellipsis;
