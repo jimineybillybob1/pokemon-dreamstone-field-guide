@@ -941,6 +941,28 @@ button.journey-card:hover {
   border-left: 1px solid var(--line);
 }
 
+.pokemon-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--line);
+  padding: 9px 12px;
+}
+
+.learnset-button {
+  border: 1px solid rgba(114, 87, 212, 0.26);
+  border-radius: 999px;
+  color: var(--violet-dark);
+  background: rgba(114, 87, 212, 0.08);
+  padding: 6px 10px;
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
+.learnset-button:hover {
+  border-color: var(--violet);
+  background: rgba(114, 87, 212, 0.15);
+}
+
 .pokemon-card dt {
   margin-bottom: 5px;
   color: var(--muted);
@@ -2523,7 +2545,8 @@ body.notes-hidden .item-card__location {
   gap: 16px;
 }
 
-.team-card {
+.team-card,
+.planner-card {
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -2686,7 +2709,8 @@ body.notes-hidden .item-card__location {
   text-align: center;
 }
 
-.team-card__empty {
+.team-card__empty,
+.planner-card__empty {
   display: grid;
   justify-items: center;
   min-height: 265px;
@@ -2695,17 +2719,20 @@ body.notes-hidden .item-card__location {
   text-align: center;
 }
 
-.team-card__empty .empty-state__stone {
+.team-card__empty .empty-state__stone,
+.planner-card__empty .empty-state__stone {
   margin-bottom: 20px;
 }
 
-.team-card__empty strong {
+.team-card__empty strong,
+.planner-card__empty strong {
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.15rem;
 }
 
-.team-card__empty p {
+.team-card__empty p,
+.planner-card__empty p {
   max-width: 300px;
   margin: 8px 0 0;
   font-size: 0.72rem;
@@ -2971,6 +2998,209 @@ body.notes-hidden .item-card__location {
   text-transform: uppercase;
 }
 
+.planner-locations {
+  display: grid;
+  gap: 7px;
+  margin: 0 13px 13px;
+  border-top: 1px solid var(--line);
+  padding-top: 11px;
+}
+
+.planner-locations > strong,
+.planner-move-methods > strong {
+  color: var(--muted);
+  font-size: 0.59rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.planner-locations > div,
+.planner-move-methods > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.planner-move-methods {
+  display: grid;
+  gap: 6px;
+  border-top: 1px solid var(--line);
+  background: rgba(66, 182, 163, 0.06);
+  padding: 8px 9px;
+}
+
+.planner-move-methods span {
+  border-radius: 999px;
+  color: #286d63;
+  background: rgba(66, 182, 163, 0.17);
+  padding: 3px 7px;
+  font-size: 0.56rem;
+  font-weight: 900;
+}
+
+.learnset-dialog {
+  width: min(760px, calc(100vw - 28px));
+  max-height: min(820px, calc(100dvh - 28px));
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  color: var(--ink);
+  background: var(--paper);
+  padding: 0;
+  box-shadow: 0 28px 80px rgba(23, 18, 43, 0.32);
+}
+
+.learnset-dialog::backdrop {
+  background: rgba(16, 13, 29, 0.72);
+  backdrop-filter: blur(5px);
+}
+
+.learnset-dialog__header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  background: rgba(114, 87, 212, 0.06);
+  padding: 13px 14px;
+}
+
+.learnset-dialog__identity {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  min-width: 0;
+}
+
+.learnset-dialog__identity img {
+  flex: 0 0 auto;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.learnset-dialog__identity > div {
+  min-width: 0;
+}
+
+.learnset-dialog__identity > div > span {
+  color: var(--violet);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.learnset-dialog__identity h2 {
+  overflow-wrap: anywhere;
+  margin: 2px 0 6px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+}
+
+#learnset-dialog-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.learnset-dialog__close {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--paper-deep);
+  padding: 7px 10px;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+
+.learnset-dialog__intro {
+  margin: 0;
+  color: var(--muted);
+  padding: 11px 14px 0;
+  font-size: 0.7rem;
+}
+
+.learnset-list {
+  display: grid;
+  gap: 8px;
+  max-height: calc(min(820px, 100dvh - 28px) - 126px);
+  overflow-y: auto;
+  padding: 12px 14px 14px;
+}
+
+.learnset-entry {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 112px;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 9px;
+}
+
+.learnset-entry__level {
+  color: var(--violet-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.82rem;
+}
+
+.learnset-entry__move {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.learnset-entry__move header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.learnset-entry__move header > strong {
+  flex: 1 0 100%;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.9rem;
+}
+
+.learnset-entry__move p,
+.learnset-list__empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.65rem;
+  line-height: 1.45;
+}
+
+.learnset-entry dl {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0;
+}
+
+.learnset-entry dl div {
+  border-left: 1px solid var(--line);
+  text-align: center;
+}
+
+.learnset-entry dt {
+  font-size: 0.48rem;
+}
+
+.learnset-entry dd {
+  margin: 2px 0 0;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+
+.learnset-list__empty {
+  border-radius: 10px;
+  background: var(--paper-deep);
+  padding: 18px;
+  text-align: center;
+}
+
 .save-summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -3173,6 +3403,7 @@ html[data-theme="dark"] .ability-filter-panel,
 html[data-theme="dark"] .ability-card,
 html[data-theme="dark"] .team-toolbar,
 html[data-theme="dark"] .team-card,
+html[data-theme="dark"] .planner-card,
 html[data-theme="dark"] .gym-leader-card,
 html[data-theme="dark"] .gym-pokemon-card,
 html[data-theme="dark"] .save-summary article,
@@ -3181,7 +3412,9 @@ html[data-theme="dark"] .location-card,
 html[data-theme="dark"] .mega-card,
 html[data-theme="dark"] .item-card,
 html[data-theme="dark"] .collection-summary article,
-html[data-theme="dark"] .collection-card {
+html[data-theme="dark"] .collection-card,
+html[data-theme="dark"] .learnset-dialog,
+html[data-theme="dark"] .learnset-entry {
   background: rgba(35, 32, 51, 0.86);
 }
 
@@ -3543,6 +3776,25 @@ html[data-theme="dark"] .guide-tip strong {
 
   .team-matchup dl {
     grid-column: 2 / -1;
+  }
+
+  .learnset-dialog {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+  }
+
+  .learnset-list {
+    max-height: calc(100dvh - 142px);
+    padding: 9px;
+  }
+
+  .learnset-entry {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .learnset-entry dl {
+    grid-column: 2;
+    max-width: 160px;
   }
 
   .pokemon-grid {

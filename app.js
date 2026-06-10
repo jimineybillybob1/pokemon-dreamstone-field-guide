@@ -6,6 +6,7 @@ const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
 const teamStorageKey = "dreamstone-field-guide-team";
+const plannerStorageKey = "dreamstone-field-guide-planner";
 const badgeStorageKey = "dreamstone-field-guide-badges";
 const syncCodeKey = "dreamstone-field-guide-sync-code";
 const saveFormat = "dreamstone-field-guide-save";
@@ -33,6 +34,25 @@ function loadTeam() {
   }
 }
 
+function loadPlanner() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(plannerStorageKey) || "[]");
+    return Array.from({ length: 6 }, (_, index) => ({
+      pokemonNumber: Number.isFinite(saved[index]?.pokemonNumber)
+        ? saved[index].pokemonNumber
+        : null,
+      moves: Array.from({ length: 4 }, (__, moveIndex) =>
+        Number.isFinite(saved[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
+      ),
+    }));
+  } catch {
+    return Array.from({ length: 6 }, () => ({
+      pokemonNumber: null,
+      moves: [null, null, null, null],
+    }));
+  }
+}
+
 function loadBadges() {
   try {
     return new Set(JSON.parse(localStorage.getItem(badgeStorageKey) || "[]").map(String));
@@ -55,6 +75,7 @@ const state = {
     sort: "id",
   },
   team: loadTeam(),
+  planner: loadPlanner(),
   syncCode: localStorage.getItem(syncCodeKey) || "",
   moveFilters: {
     search: "",
@@ -109,6 +130,7 @@ const elements = {
   abilityResultCount: document.querySelector("#ability-result-count"),
   abilityEmptyState: document.querySelector("#ability-empty-state"),
   teamGrid: document.querySelector("#team-grid"),
+  plannerGrid: document.querySelector("#planner-grid"),
   gymBadgeCount: document.querySelector("#gym-badge-count"),
   gymLeaderList: document.querySelector("#gym-leader-list"),
   saveCaughtCount: document.querySelector("#save-caught-count"),
@@ -119,6 +141,12 @@ const elements = {
   megaGrid: document.querySelector("#mega-grid"),
   megaNote: document.querySelector("#mega-note"),
   itemList: document.querySelector("#item-list"),
+  learnsetDialog: document.querySelector("#learnset-dialog"),
+  learnsetDialogSprite: document.querySelector("#learnset-dialog-sprite"),
+  learnsetDialogNumber: document.querySelector("#learnset-dialog-number"),
+  learnsetDialogTitle: document.querySelector("#learnset-dialog-title"),
+  learnsetDialogTypes: document.querySelector("#learnset-dialog-types"),
+  learnsetDialogList: document.querySelector("#learnset-dialog-list"),
 };
 
 const uniqueSorted = (values) =>
@@ -176,12 +204,28 @@ const tutorsByMoveId = new Map();
 });
 const tutorMoveIds = new Set(tutorsByMoveId.keys());
 const compatibleMoveIdsByPokemon = new Map(data.dex.map((pokemon) => [pokemon.number, new Set()]));
+const moveLearningByPokemon = new Map(data.dex.map((pokemon) => [pokemon.number, new Map()]));
 moveData.moves.forEach((move) => {
-  Object.values(move.learners)
-    .flat()
-    .forEach((learner) => {
-      if (learner.guideNumber) compatibleMoveIdsByPokemon.get(learner.guideNumber)?.add(move.id);
+  Object.entries(move.learners).forEach(([method, learners]) => {
+    learners.forEach((learner) => {
+      if (!learner.guideNumber) return;
+      compatibleMoveIdsByPokemon.get(learner.guideNumber)?.add(move.id);
+      const pokemonMoves = moveLearningByPokemon.get(learner.guideNumber);
+      if (!pokemonMoves) return;
+      if (!pokemonMoves.has(move.id)) {
+        pokemonMoves.set(move.id, {
+          move,
+          levelUp: new Set(),
+          evolution: false,
+          egg: false,
+          teachable: false,
+        });
+      }
+      const learning = pokemonMoves.get(move.id);
+      if (method === "levelUp" && Number.isFinite(learner.level)) learning.levelUp.add(learner.level);
+      else if (method in learning) learning[method] = true;
     });
+  });
 });
 const pokemonOptions = [...data.dex].sort((a, b) => a.number - b.number);
 const gymLeaders = [
@@ -421,6 +465,38 @@ const learnerMethodDefinitions = [
   { key: "egg", label: "Egg" },
   { key: "teachable", label: "Teachable" },
 ];
+const moveLearningForPokemon = (pokemonNumber, moveId) =>
+  moveLearningByPokemon.get(pokemonNumber)?.get(moveId);
+const moveLearningLabels = (pokemonNumber, moveId, concise = false) => {
+  const learning = moveLearningForPokemon(pokemonNumber, moveId);
+  if (!learning) return [];
+  const labels = [];
+  const levels = [...learning.levelUp].sort((a, b) => a - b);
+  if (levels.length) labels.push(`Lv. ${levels.join(" / ")}`);
+  if (learning.evolution) labels.push("Evolution");
+  if (learning.egg) labels.push("Egg");
+  if (learning.teachable) {
+    const tutorLocations = uniqueInOrder((tutorsByMoveId.get(moveId) || []).map((tutor) => tutor.location));
+    if (tutorLocations.length) {
+      labels.push(
+        concise && tutorLocations.length > 1
+          ? `Tutor: ${tutorLocations[0]} +${tutorLocations.length - 1}`
+          : `Tutor: ${tutorLocations.join(", ")}`,
+      );
+    } else {
+      labels.push("TM / teachable");
+    }
+  }
+  return labels;
+};
+const levelUpMovesForPokemon = (pokemonNumber) =>
+  [...(moveLearningByPokemon.get(pokemonNumber)?.values() || [])]
+    .filter((learning) => learning.levelUp.size)
+    .sort(
+      (a, b) =>
+        Math.min(...a.levelUp) - Math.min(...b.levelUp) ||
+        a.move.name.localeCompare(b.move.name),
+    );
 const moveSearchTextById = new Map(
   moveData.moves.map((move) => [
     move.id,
@@ -671,6 +747,10 @@ function persistTeam() {
   renderJourneyOverview();
 }
 
+function persistPlanner() {
+  localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
+}
+
 function updateSaveSummary() {
   if (!elements.saveCaughtCount || !elements.saveTeamCount) return;
   elements.saveCaughtCount.textContent = collectionDex.filter(isCaught).length;
@@ -690,6 +770,10 @@ function createSaveDocument() {
       pokemonNumber: slot.pokemonNumber,
       moves: [...slot.moves],
       abilityId: slot.abilityId,
+    })),
+    planner: state.planner.map((slot) => ({
+      pokemonNumber: slot.pokemonNumber,
+      moves: [...slot.moves],
     })),
     preferences: {
       theme: state.theme,
@@ -723,6 +807,18 @@ function validateSaveDocument(input) {
     const validAbility = compatibleAbilities.some((entry) => entry.ability.id === abilityId);
     return { pokemonNumber, moves, abilityId: validAbility ? abilityId : null };
   });
+  const planner = Array.from({ length: 6 }, (_, slotIndex) => {
+    const slot = Array.isArray(input.planner) ? input.planner[slotIndex] || {} : {};
+    const pokemonNumber = pokemonByNumber.has(Number(slot.pokemonNumber))
+      ? Number(slot.pokemonNumber)
+      : null;
+    const compatibleIds = compatibleMoveIdsByPokemon.get(pokemonNumber) || new Set();
+    const moves = Array.from({ length: 4 }, (__, moveIndex) => {
+      const moveId = Number(slot.moves?.[moveIndex]);
+      return compatibleIds.has(moveId) ? moveId : null;
+    });
+    return { pokemonNumber, moves };
+  });
   return {
     format: saveFormat,
     version: saveVersion,
@@ -730,6 +826,7 @@ function validateSaveDocument(input) {
     caught,
     badges,
     team,
+    planner,
     preferences: {
       theme: input.preferences?.theme === "dark" ? "dark" : "light",
       notesHidden: input.preferences?.notesHidden === true,
@@ -742,14 +839,17 @@ function applySaveDocument(input) {
   state.caught = new Set(save.caught);
   state.badges = new Set(save.badges);
   state.team = save.team;
+  state.planner = save.planner;
   localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
   localStorage.setItem(badgeStorageKey, JSON.stringify([...state.badges]));
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
+  localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
   setNotesHidden(save.preferences.notesHidden);
   setTheme(save.preferences.theme);
   updateProgress();
   renderDex();
   renderTeam();
+  renderPlanner();
   renderGyms();
   renderJourneyOverview();
   renderCollection();
@@ -1074,18 +1174,22 @@ function renderGyms() {
   elements.gymLeaderList.replaceChildren(fragment);
 }
 
-function createPokemonPicker(slotIndex, selectedNumber) {
+function createPokemonPicker(
+  slotIndex,
+  selectedNumber,
+  { scope = "team", onSelect = setTeamPokemon, labelText = "Pokemon" } = {},
+) {
   const picker = document.createElement("div");
   picker.className = "team-pokemon-picker";
   const label = document.createElement("label");
-  label.htmlFor = `team-pokemon-search-${slotIndex}`;
-  label.textContent = "Pokemon";
+  label.htmlFor = `${scope}-pokemon-search-${slotIndex}`;
+  label.textContent = labelText;
   const inputWrap = document.createElement("div");
   inputWrap.className = "team-pokemon-search";
   const input = document.createElement("input");
-  const resultId = `team-pokemon-results-${slotIndex}`;
+  const resultId = `${scope}-pokemon-results-${slotIndex}`;
   const selected = pokemonByNumber.get(selectedNumber);
-  input.id = `team-pokemon-search-${slotIndex}`;
+  input.id = `${scope}-pokemon-search-${slotIndex}`;
   input.type = "search";
   input.placeholder = "Search by name, number, form, or type...";
   input.autocomplete = "off";
@@ -1094,7 +1198,7 @@ function createPokemonPicker(slotIndex, selectedNumber) {
   input.setAttribute("aria-autocomplete", "list");
   input.setAttribute("aria-controls", resultId);
   input.setAttribute("aria-expanded", "false");
-  input.setAttribute("aria-label", `Search Pokemon for team slot ${slotIndex + 1}`);
+  input.setAttribute("aria-label", `Search Pokemon for ${scope} slot ${slotIndex + 1}`);
   input.value = selected
     ? `No. ${String(selected.number).padStart(3, "0")} - ${selected.name.replaceAll("_", " ")}`
     : "";
@@ -1145,7 +1249,7 @@ function createPokemonPicker(slotIndex, selectedNumber) {
     matches.forEach((pokemon) => {
       const option = document.createElement("button");
       option.type = "button";
-      option.id = `team-pokemon-option-${slotIndex}-${pokemon.number}`;
+      option.id = `${scope}-pokemon-option-${slotIndex}-${pokemon.number}`;
       option.className = "team-pokemon-result";
       option.setAttribute("role", "option");
       option.setAttribute("aria-selected", String(pokemon.number === selectedNumber));
@@ -1158,7 +1262,7 @@ function createPokemonPicker(slotIndex, selectedNumber) {
         </span>
       `;
       option.querySelector("strong").textContent = pokemon.name.replaceAll("_", " ");
-      option.addEventListener("click", () => setTeamPokemon(slotIndex, pokemon.number));
+      option.addEventListener("click", () => onSelect(slotIndex, pokemon.number));
       fragment.append(option);
     });
     if (!matches.length) {
@@ -1423,6 +1527,202 @@ function renderTeam() {
   elements.teamGrid.replaceChildren(fragment);
 }
 
+function setPlannerPokemon(slotIndex, pokemonNumber) {
+  const slot = state.planner[slotIndex];
+  slot.pokemonNumber = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
+  slot.moves = [null, null, null, null];
+  persistPlanner();
+  renderPlanner();
+}
+
+function setPlannerMove(slotIndex, moveIndex, moveId) {
+  const slot = state.planner[slotIndex];
+  const compatible = compatibleMoveIdsByPokemon.get(slot.pokemonNumber) || new Set();
+  slot.moves[moveIndex] = compatible.has(moveId) ? moveId : null;
+  persistPlanner();
+  renderPlanner();
+}
+
+function createMoveLearningSummary(pokemonNumber, moveId) {
+  const summary = document.createElement("div");
+  summary.className = "planner-move-methods";
+  const label = document.createElement("strong");
+  label.textContent = "How to learn";
+  const methods = document.createElement("div");
+  moveLearningLabels(pokemonNumber, moveId).forEach((method) => {
+    const chip = document.createElement("span");
+    chip.textContent = method;
+    methods.append(chip);
+  });
+  summary.append(label, methods);
+  return summary;
+}
+
+function createPlannerMoveSlot(slotIndex, moveIndex, pokemonNumber, selectedMoveId) {
+  const wrapper = document.createElement("section");
+  wrapper.className = "team-move-slot planner-move-slot";
+  const label = document.createElement("label");
+  label.textContent = `Planned move ${moveIndex + 1}`;
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", `Choose planned move ${moveIndex + 1} for shortlist slot ${slotIndex + 1}`);
+  select.add(new Option("Choose a move...", ""));
+  const compatibleMoves = [...(compatibleMoveIdsByPokemon.get(pokemonNumber) || [])]
+    .map((id) => moveById.get(id))
+    .filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name));
+  compatibleMoves.forEach((move) => {
+    const method = moveLearningLabels(pokemonNumber, move.id, true).join(" · ");
+    select.add(new Option(`${move.name}${method ? ` — ${method}` : ""}`, move.id));
+  });
+  select.value = selectedMoveId || "";
+  select.addEventListener("change", () => setPlannerMove(slotIndex, moveIndex, Number(select.value)));
+  label.append(select);
+  wrapper.append(label);
+
+  const selectedMove = moveById.get(selectedMoveId);
+  if (selectedMove) {
+    wrapper.append(createMoveLearningSummary(pokemonNumber, selectedMove.id));
+    wrapper.append(createTeamMoveDetails(selectedMove, false));
+  }
+  return wrapper;
+}
+
+function renderPlannerCard(slot, slotIndex) {
+  const card = document.createElement("article");
+  card.className = "planner-card";
+  card.dataset.slot = slotIndex + 1;
+
+  const top = document.createElement("header");
+  top.className = "team-card__top";
+  const slotLabel = document.createElement("strong");
+  slotLabel.textContent = `Shortlist slot ${slotIndex + 1}`;
+  top.append(slotLabel);
+  if (slot.pokemonNumber) {
+    const clear = document.createElement("button");
+    clear.type = "button";
+    clear.className = "team-card__clear";
+    clear.textContent = "Remove";
+    clear.addEventListener("click", () => setPlannerPokemon(slotIndex, null));
+    top.append(clear);
+  }
+  card.append(
+    top,
+    createPokemonPicker(slotIndex, slot.pokemonNumber, {
+      scope: "planner",
+      onSelect: setPlannerPokemon,
+      labelText: "Target Pokemon",
+    }),
+  );
+
+  const pokemon = pokemonByNumber.get(slot.pokemonNumber);
+  if (!pokemon) {
+    const empty = document.createElement("div");
+    empty.className = "planner-card__empty";
+    empty.innerHTML = `
+      <span class="empty-state__stone" aria-hidden="true"></span>
+      <strong>Choose a future team member</strong>
+      <p>Locations, base stats, and learn methods for planned moves will appear here.</p>
+    `;
+    card.append(empty);
+    return card;
+  }
+
+  const identity = document.createElement("div");
+  identity.className = "team-card__identity";
+  identity.innerHTML = `
+    <div class="team-sprite-well">
+      <img src="${pokemon.sprite}" alt="" width="96" height="96" loading="lazy">
+    </div>
+    <div>
+      <span>No. ${String(pokemon.number).padStart(3, "0")}</span>
+      <h3></h3>
+      <div class="team-pokemon-types"></div>
+      <strong class="team-card__bst">BST ${pokemon.bst}</strong>
+    </div>
+  `;
+  identity.querySelector("h3").textContent = pokemon.name.replaceAll("_", " ");
+  renderTypeBadges(identity.querySelector(".team-pokemon-types"), pokemon.types);
+  card.append(identity);
+
+  const locations = document.createElement("section");
+  locations.className = "planner-locations";
+  const locationLabel = document.createElement("strong");
+  locationLabel.textContent = "Where to find";
+  const locationList = document.createElement("div");
+  renderLocationLinks(
+    locationList,
+    locationsForPokemon(pokemon),
+    pokemon.availability === "Unobtainable" ? "Unobtainable" : "Evolution",
+  );
+  locations.append(locationLabel, locationList);
+  card.append(locations);
+
+  const stats = document.createElement("section");
+  stats.className = "pokemon-stats team-card__stats";
+  stats.setAttribute("aria-label", `${pokemon.name} base stats`);
+  card.append(stats);
+  renderPokemonStats(card, pokemon);
+
+  const moves = document.createElement("div");
+  moves.className = "team-card__moves planner-card__moves";
+  slot.moves.forEach((moveId, moveIndex) => {
+    moves.append(createPlannerMoveSlot(slotIndex, moveIndex, pokemon.number, moveId));
+  });
+  card.append(moves);
+  return card;
+}
+
+function renderPlanner() {
+  if (!elements.plannerGrid) return;
+  const fragment = document.createDocumentFragment();
+  state.planner.forEach((slot, index) => fragment.append(renderPlannerCard(slot, index)));
+  elements.plannerGrid.replaceChildren(fragment);
+}
+
+function openPokemonLearnset(pokemon) {
+  const moves = levelUpMovesForPokemon(pokemon.number);
+  elements.learnsetDialogSprite.src = pokemon.sprite;
+  elements.learnsetDialogSprite.alt = `${pokemon.name.replaceAll("_", " ")} sprite`;
+  elements.learnsetDialogNumber.textContent = `No. ${String(pokemon.number).padStart(3, "0")}`;
+  elements.learnsetDialogTitle.textContent = `${pokemon.name.replaceAll("_", " ")} learnset`;
+  renderTypeBadges(elements.learnsetDialogTypes, pokemon.types);
+
+  const fragment = document.createDocumentFragment();
+  moves.forEach((learning) => {
+    const row = document.createElement("article");
+    row.className = "learnset-entry";
+    const levels = [...learning.levelUp].sort((a, b) => a - b);
+    row.innerHTML = `
+      <strong class="learnset-entry__level">Lv. ${levels.join(" / ")}</strong>
+      <div class="learnset-entry__move">
+        <header>
+          <strong></strong>
+          <span class="type-badge" data-type="${learning.move.type.toLowerCase()}">${learning.move.type}</span>
+          <span class="move-category" data-category="${learning.move.category.toLowerCase()}">${learning.move.category}</span>
+        </header>
+        <p></p>
+      </div>
+      <dl>
+        <div><dt>Power</dt><dd>${learning.move.power || "—"}</dd></div>
+        <div><dt>Accuracy</dt><dd>${learning.move.accuracy ? `${learning.move.accuracy}%` : "—"}</dd></div>
+      </dl>
+    `;
+    row.querySelector(".learnset-entry__move header > strong").textContent = learning.move.name;
+    row.querySelector(".learnset-entry__move p").textContent =
+      learning.move.description || "No description extracted.";
+    fragment.append(row);
+  });
+  if (!moves.length) {
+    const empty = document.createElement("p");
+    empty.className = "learnset-list__empty";
+    empty.textContent = "No level-up moves are listed for this Pokémon.";
+    fragment.append(empty);
+  }
+  elements.learnsetDialogList.replaceChildren(fragment);
+  if (typeof elements.learnsetDialog.showModal === "function") elements.learnsetDialog.showModal();
+  else elements.learnsetDialog.setAttribute("open", "");
+}
+
 function renderPokemonCard(pokemon) {
   const card = elements.cardTemplate.content.firstElementChild.cloneNode(true);
   const caughtButton = card.querySelector(".caught-button");
@@ -1443,6 +1743,7 @@ function renderPokemonCard(pokemon) {
   sprite.alt = `${pokemon.name}${pokemon.region ? ` (${pokemon.region})` : ""} sprite`;
   card.querySelector(".pokemon-number").textContent = `No. ${String(pokemon.number).padStart(3, "0")}`;
   card.querySelector(".pokemon-name").textContent = pokemon.name.replaceAll("_", " ");
+  card.querySelector(".learnset-button").addEventListener("click", () => openPokemonLearnset(pokemon));
   renderTypeBadges(card.querySelector(".pokemon-types"), pokemon.types);
   const encounterLocations = locationsForPokemon(pokemon);
   renderLocationLinks(
@@ -1835,6 +2136,7 @@ function activateView(viewName) {
   if (viewName === "abilities") renderAbilities();
   if (viewName === "gyms") renderGyms();
   if (viewName === "team") renderTeam();
+  if (viewName === "planner") renderPlanner();
   if (viewName === "save") {
     updateSaveSummary();
     updateSyncControls();
@@ -2168,6 +2470,20 @@ function bindControls() {
     persistTeam();
     refreshTeamAndDex();
   });
+  document.querySelector("#clear-planner").addEventListener("click", () => {
+    if (
+      !state.planner.some((slot) => slot.pokemonNumber) ||
+      !window.confirm("Clear all Pokemon and planned moves from your shortlist?")
+    ) {
+      return;
+    }
+    state.planner = Array.from({ length: 6 }, () => ({
+      pokemonNumber: null,
+      moves: [null, null, null, null],
+    }));
+    persistPlanner();
+    renderPlanner();
+  });
   elements.collectionSearch.addEventListener("input", () => {
     state.collectionSearch = elements.collectionSearch.value;
     renderCollection();
@@ -2227,6 +2543,7 @@ renderDex();
 renderJourneyOverview();
 renderGyms();
 renderTeam();
+renderPlanner();
 renderMoves();
 renderAbilities();
 renderCollection();

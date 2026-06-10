@@ -51,6 +51,7 @@ await check(
       "Caught 0",
       "Gym Leaders",
       "Team Builder",
+      "Team Planner",
       "Moves",
       "Abilities",
       "Mega Choices",
@@ -164,6 +165,22 @@ await check(
   !(await page.locator("#view-dex").textContent()).includes("Evolve / special"),
   "Legacy evolution availability wording is still visible in the Dex",
 );
+await check((await page.locator(".learnset-button").count()) === 315, "Dex learnset buttons are missing");
+await page.locator(".pokemon-card[data-number='1'] .learnset-button").click();
+await check(await page.locator("#learnset-dialog").isVisible(), "Gothita learnset dialog did not open");
+await check(
+  (await page.locator("#learnset-dialog-title").textContent()) === "Gothita learnset",
+  "Learnset dialog has the wrong Pokémon",
+);
+await check((await page.locator(".learnset-entry").count()) > 10, "Gothita level-up learnset is incomplete");
+await check(
+  (await page.locator(".learnset-entry").first().textContent()).includes("Lv. 1") &&
+    (await page.locator("#learnset-dialog").textContent()).includes("Pound") &&
+    (await page.locator("#learnset-dialog").textContent()).includes("Psybeam"),
+  "Gothita level-up learnset is missing expected levels or moves",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-learnset.png"), fullPage: false });
+await page.locator(".learnset-dialog__close").click();
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .evolves-to .evolution-link").allTextContents()).some(
     (text) => text.includes("Gothorita"),
@@ -393,6 +410,35 @@ await page.locator(".view-tab[data-view='team']").click();
 await page.locator(".team-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-builder.png"), fullPage: false });
 
+await page.locator(".view-tab[data-view='planner']").click();
+await check(await page.locator("#view-planner").evaluate((element) => element.classList.contains("is-active")), "Team Planner view did not open");
+await check((await page.locator(".planner-card").count()) === 6, "Team Planner did not render six slots");
+const plannerPokemonSearch = page.locator(".planner-card[data-slot='1'] .team-pokemon-search input");
+await plannerPokemonSearch.fill("Gothita");
+await plannerPokemonSearch.press("ArrowDown");
+await plannerPokemonSearch.press("Enter");
+await check(
+  (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothita",
+  "Planner slot did not select Gothita",
+);
+await check(
+  (await page.locator(".planner-card[data-slot='1'] .pokemon-stat").count()) === 7 &&
+    (await page.locator(".planner-card[data-slot='1'] .planner-locations").textContent()).includes("Starter"),
+  "Planner card is missing Gothita's stats or location",
+);
+const plannerMoveOptions = await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("option").allTextContents();
+await check(plannerMoveOptions.some((text) => text.includes("Pound — Lv. 1")), "Planner move choices are missing level-up methods");
+await check(plannerMoveOptions.some((text) => text.includes("Protect — Tutor: Vilethorn Woods")), "Planner move choices are missing tutor locations");
+await check(plannerMoveOptions.some((text) => text.includes("Thunderbolt — TM / teachable")), "Planner move choices are missing TM / teachable methods");
+await check(plannerMoveOptions.some((text) => text.includes("Mean Look — Egg")), "Planner move choices are missing egg methods");
+await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("select").selectOption("1");
+await check(
+  (await page.locator(".planner-card[data-slot='1'] .planner-move-methods").textContent()).includes("Lv. 1"),
+  "Selected planner move is missing its learn method",
+);
+await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-planner.png"), fullPage: false });
+
 await page.locator(".view-tab[data-view='save']").click();
 await check(
   await page.locator("#view-save").evaluate((element) => element.classList.contains("is-active")),
@@ -411,6 +457,8 @@ await check(exportedSave.version === 1, "Exported save has an unexpected version
 await check(exportedSave.team[0].pokemonNumber === 2, "Exported save is missing Gothorita");
 await check(exportedSave.team[0].moves[1] === 247, "Exported save is missing Shadow Ball");
 await check(exportedSave.team[0].abilityId === 119, "Exported save is missing Frisk");
+await check(exportedSave.planner[0].pokemonNumber === 1, "Exported save is missing the Team Planner shortlist");
+await check(exportedSave.planner[0].moves[0] === 1, "Exported save is missing the planned move");
 await page.locator("#create-sync-code").click();
 await check(
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
@@ -428,6 +476,14 @@ await check(
   }),
   "Client-side save encryption round trip failed",
 );
+await check(
+  await page.evaluate(() => {
+    const legacySave = createSaveDocument();
+    delete legacySave.planner;
+    return validateSaveDocument(legacySave).planner.length === 6;
+  }),
+  "Older saves without a Team Planner are no longer compatible",
+);
 await page.locator(".view-tab[data-view='team']").click();
 await page.locator(".team-card[data-slot='1'] .team-card__clear").click();
 await check((await page.locator(".team-card__empty").count()) === 6, "Team did not clear before import test");
@@ -444,6 +500,12 @@ await check(
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__ability select").inputValue()) === "119",
   "Imported save did not restore the selected ability",
+);
+await page.locator(".view-tab[data-view='planner']").click();
+await check(
+  (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothita" &&
+    (await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("select").inputValue()) === "1",
+  "Imported save did not restore the Team Planner",
 );
 
 await page.locator(".view-tab[data-view='moves']").click();
@@ -713,6 +775,18 @@ await check(
   "Mobile team card has horizontal overflow",
 );
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-team-builder.png"), fullPage: false });
+await page.locator(".view-tab[data-view='planner']").click();
+await check(
+  (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothita" &&
+    (await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("select").inputValue()) === "1",
+  "Saved Team Planner did not persist after reload",
+);
+await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();
+await check(
+  await page.locator(".planner-card[data-slot='1']").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile planner card has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-team-planner.png"), fullPage: false });
 await page.locator(".view-tab[data-view='dex']").click();
 await page.locator(".pokemon-card[data-number='1']").scrollIntoViewIfNeeded();
 await check(
@@ -722,6 +796,13 @@ await check(
   "Mobile stat card has horizontal overflow",
 );
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-dex-stats.png"), fullPage: false });
+await page.locator(".pokemon-card[data-number='1'] .learnset-button").click();
+await check(
+  await page.locator("#learnset-dialog").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile learnset dialog has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-learnset.png"), fullPage: false });
+await page.locator(".learnset-dialog__close").click();
 await page.locator(".pokemon-card[data-number='1'] .team-matchups").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-team-coverage.png"), fullPage: false });
 await page.locator(".view-tab[data-view='moves']").click();
@@ -774,7 +855,9 @@ console.log(
         "tmp/guide-desktop-abilities.png",
         "tmp/guide-desktop-team-search.png",
         "tmp/guide-desktop-team-builder.png",
+        "tmp/guide-desktop-team-planner.png",
         "tmp/guide-desktop-team-coverage.png",
+        "tmp/guide-desktop-learnset.png",
         "tmp/guide-desktop-gyms.png",
         "tmp/guide-tablet-journey-dashboard.png",
         "tmp/guide-tablet-gyms.png",
@@ -788,7 +871,9 @@ console.log(
         "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-abilities.png",
         "tmp/guide-mobile-team-builder.png",
+        "tmp/guide-mobile-team-planner.png",
         "tmp/guide-mobile-team-coverage.png",
+        "tmp/guide-mobile-learnset.png",
         "tmp/guide-mobile-save-sync.png",
         "tmp/guide-mobile-collection.png",
         "tmp/guide-mobile-location-map.png",

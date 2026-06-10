@@ -118,6 +118,7 @@
         </button>
         <button class="view-tab" type="button" data-view="gyms">Gym Leaders</button>
         <button class="view-tab" type="button" data-view="team">Team Builder</button>
+        <button class="view-tab" type="button" data-view="planner">Team Planner</button>
         <button class="view-tab" type="button" data-view="moves">Moves</button>
         <button class="view-tab" type="button" data-view="abilities">Abilities</button>
         <button class="view-tab" type="button" data-view="megas">Mega Choices</button>
@@ -253,6 +254,21 @@
         <div class="team-grid" id="team-grid"></div>
       </section>
 
+      <section class="guide-view" id="view-planner">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Build toward your ideal party</p>
+            <h2>Team Planner</h2>
+          </div>
+          <p>Shortlist six Pokémon and plan how they will learn each selected move.</p>
+        </div>
+        <div class="team-toolbar">
+          <p>This shortlist is saved separately from your current Team Builder party.</p>
+          <button class="clear-button" id="clear-planner" type="button">Clear shortlist</button>
+        </div>
+        <div class="team-grid planner-grid" id="planner-grid"></div>
+      </section>
+
       <section class="guide-view" id="view-moves">
         <div class="section-heading">
           <div>
@@ -380,8 +396,8 @@
               <p class="eyebrow">Offline backup</p>
               <h3>Export or import a save file</h3>
               <p>
-                Exported JSON contains caught progress, badges, team members, selected abilities and
-                moves, theme, and notes visibility.
+                Exported JSON contains caught progress, badges, team members, the Team Planner,
+                selected abilities and moves, theme, and notes visibility.
               </p>
             </div>
             <div class="save-actions">
@@ -592,6 +608,9 @@
             <dd class="pokemon-bst"></dd>
           </div>
         </dl>
+        <div class="pokemon-card__actions">
+          <button class="learnset-button" type="button">View level-up learnset</button>
+        </div>
         <section class="pokemon-stats" aria-label="Base stats" hidden></section>
         <section class="team-matchups" aria-label="Super-effective moves from your team"></section>
         <div class="pokemon-evolutions" hidden>
@@ -610,5 +629,23 @@
         </div>
       </article>
     </template>
+
+    <dialog class="learnset-dialog" id="learnset-dialog">
+      <header class="learnset-dialog__header">
+        <div class="learnset-dialog__identity">
+          <img id="learnset-dialog-sprite" alt="" width="72" height="72" />
+          <div>
+            <span id="learnset-dialog-number"></span>
+            <h2 id="learnset-dialog-title">Level-up learnset</h2>
+            <div id="learnset-dialog-types"></div>
+          </div>
+        </div>
+        <form method="dialog">
+          <button class="learnset-dialog__close" type="submit" aria-label="Close learnset">Close</button>
+        </form>
+      </header>
+      <p class="learnset-dialog__intro">Moves learned naturally as this Pokémon levels up.</p>
+      <div class="learnset-list" id="learnset-dialog-list"></div>
+    </dialog>
   </body>
 </html>
