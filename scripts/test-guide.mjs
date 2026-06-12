@@ -630,8 +630,11 @@ await check(
   "Dashboard team overview did not update",
 );
 await check(
-  (await page.locator(".dashboard-team-slot.is-filled img").evaluate((element) => element.getBoundingClientRect().width)) >= 80,
-  "Dashboard team sprite is too small",
+  await page.locator(".dashboard-team-slot.is-filled img").evaluate((element) => {
+    const width = element.getBoundingClientRect().width;
+    return width >= 70 && width <= 115;
+  }),
+  "Dashboard team sprite is outside the intended compact size",
 );
 await check(
   (await page.locator(".dashboard-team-slot.is-filled small").textContent()) === "Gothorita",
