@@ -36,13 +36,14 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260610-13" />
+    <link rel="stylesheet" href="styles.css?v=20260612-1" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
     <script src="data/pokerex-abilities.js" defer></script>
+    <script src="data/pokerex-trainers.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260610-13" defer></script>
+    <script src="app.js?v=20260612-1" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -125,6 +126,10 @@
             <path d="M3 12h6M15 12h6" />
             <circle cx="12" cy="12" r="3" />
           </symbol>
+          <symbol id="nav-icon-trainers" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="3.5" />
+            <path d="M5.5 21v-2.5a6.5 6.5 0 0 1 13 0V21M8.8 5.7c1.8-2.4 5.8-2.4 7.1.4M15.9 6.1h3.4" />
+          </symbol>
           <symbol id="nav-icon-gyms" viewBox="0 0 24 24">
             <circle cx="12" cy="10" r="5" />
             <path d="m8.5 14-2 7 5.5-3 5.5 3-2-7M12 7.2l.9 1.8 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3.9-1.8Z" />
@@ -165,6 +170,10 @@
         <button class="view-tab" type="button" data-view="caught">
           <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-caught"></use></svg>
           <span class="view-tab__label">Caught <span class="tab-count" id="caught-tab-count">0</span></span>
+        </button>
+        <button class="view-tab" type="button" data-view="trainers">
+          <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-trainers"></use></svg>
+          <span class="view-tab__label">Trainers</span>
         </button>
         <button class="view-tab" type="button" data-view="gyms">
           <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-gyms"></use></svg>
@@ -291,6 +300,43 @@
           <span class="empty-state__stone" aria-hidden="true"></span>
           <h3>No Pokémon found</h3>
           <p>Try clearing a filter or searching another location.</p>
+        </div>
+      </section>
+
+      <section class="guide-view" id="view-trainers">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Battle preparation</p>
+            <h2>Dreamstone Trainers</h2>
+          </div>
+          <p id="trainer-result-count">Showing all trainers</p>
+        </div>
+        <div class="sticky-tab-search">
+          <label class="location-search">
+            <span>Search trainers or teams</span>
+            <span class="search-input-wrap">
+              <input id="trainer-search" type="search" placeholder="Trainer, class, location, Pokemon, move..." />
+              <button class="search-clear" type="button" data-clear-search="#trainer-search" aria-label="Clear trainer search" hidden>&times;</button>
+            </span>
+          </label>
+          <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
+        </div>
+        <aside class="quick-locations trainer-quick-locations" aria-label="Quick trainer location filters">
+          <span>Quick locations</span>
+          <div class="quick-location-list" id="trainer-quick-location-list"></div>
+        </aside>
+        <div class="trainer-group-toolbar">
+          <p>Open a location to inspect its trainers and teams.</p>
+          <span>
+            <button class="clear-button" id="expand-trainer-locations" type="button">Expand all</button>
+            <button class="clear-button" id="collapse-trainer-locations" type="button">Collapse all</button>
+          </span>
+        </div>
+        <div class="trainer-location-list" id="trainer-location-list"></div>
+        <div class="empty-state" id="trainer-empty-state" hidden>
+          <span class="empty-state__stone" aria-hidden="true"></span>
+          <h3>No trainers found</h3>
+          <p>Try another search or location.</p>
         </div>
       </section>
 
@@ -643,7 +689,7 @@
 
     <footer>
       <p>
-        Wild encounters, maps, Pokémon stats, moves, abilities, and learners come from the
+        Wild encounters, maps, Pokémon stats, moves, abilities, learners, and trainers come from the
         <a href="https://pokerex.io/dreamstone-mysteries/v1.0/moves">Pokerex ROM extraction</a>.
         Gift, special, Mega Evolution, and important-item notes come from the temporary Dreamstone
         Mysteries dex. Gym rosters are adapted from

@@ -8,16 +8,19 @@ const dataSource = await fs.readFile(path.join(rootDir, "data", "dreamstone-data
 const encounterSource = await fs.readFile(path.join(rootDir, "data", "pokerex-encounters.js"), "utf8");
 const moveSource = await fs.readFile(path.join(rootDir, "data", "pokerex-moves.js"), "utf8");
 const abilitySource = await fs.readFile(path.join(rootDir, "data", "pokerex-abilities.js"), "utf8");
+const trainerSource = await fs.readFile(path.join(rootDir, "data", "pokerex-trainers.js"), "utf8");
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(dataSource, context);
 vm.runInContext(encounterSource, context);
 vm.runInContext(moveSource, context);
 vm.runInContext(abilitySource, context);
+vm.runInContext(trainerSource, context);
 const data = context.window.DREAMSTONE_DATA;
 const encounters = context.window.DREAMSTONE_ENCOUNTERS;
 const moves = context.window.DREAMSTONE_MOVES;
 const abilities = context.window.DREAMSTONE_ABILITIES;
+const trainers = context.window.DREAMSTONE_TRAINERS;
 
 const errors = [];
 const check = (condition, message) => {
@@ -41,6 +44,24 @@ check(
 check(moves.moves.length === 934, `Expected 934 Pokerex moves, found ${moves.moves.length}`);
 check(moves.tutors.length === 19, `Expected 19 Pokerex move tutors, found ${moves.tutors.length}`);
 check(abilities.abilities.length === 310, `Expected 310 Pokerex abilities, found ${abilities.abilities.length}`);
+check(trainers.trainers.length === 127, `Expected 127 playable Pokerex trainers, found ${trainers.trainers.length}`);
+check(trainers.locations.length === 25, `Expected 25 trainer locations, found ${trainers.locations.length}`);
+check(
+  trainers.trainers.every(
+    (trainer) =>
+      trainer.name &&
+      trainer.location &&
+      trainer.sprite &&
+      Array.isArray(trainer.party) &&
+      trainer.party.length > 0 &&
+      trainer.trainerClass !== "None",
+  ),
+  "Pokerex trainer details are invalid or include the None class",
+);
+check(
+  trainers.trainers.every((trainer) => trainer.name !== trainer.name.toUpperCase()),
+  "A trainer name is still fully uppercase",
+);
 check(
   abilities.abilities.every(
     (ability) => ability.id && ability.name && ability.description && Array.isArray(ability.users),
@@ -144,6 +165,23 @@ for (const pokemon of encounters.encounterSpecies.filter((entry) => !entry.guide
   }
 }
 
+for (const trainer of trainers.trainers) {
+  try {
+    const stat = await fs.stat(path.join(rootDir, trainer.sprite));
+    check(stat.size > 0, `${trainer.name} trainer sprite is empty`);
+  } catch {
+    errors.push(`${trainer.name} trainer sprite does not exist: ${trainer.sprite}`);
+  }
+  for (const member of trainer.party) {
+    try {
+      const stat = await fs.stat(path.join(rootDir, member.sprite));
+      check(stat.size > 0, `${trainer.name}'s ${member.name} sprite is empty`);
+    } catch {
+      errors.push(`${trainer.name}'s ${member.name} sprite does not exist: ${member.sprite}`);
+    }
+  }
+}
+
 for (const pokemon of [...data.dex, ...data.megas]) {
   check(Boolean(pokemon.name), "Entry has no name");
   check(Boolean(pokemon.sprite), `${pokemon.name} has no sprite path`);
@@ -184,6 +222,7 @@ for (const file of [
   "data/pokerex-encounters.js",
   "data/pokerex-moves.js",
   "data/pokerex-abilities.js",
+  "data/pokerex-trainers.js",
   "sync-config.js",
   "sync-worker/src/index.js",
   "sync-worker/wrangler.toml",
@@ -212,10 +251,15 @@ check(
 );
 check(html.includes('data-view="team"'), "Team Builder tab is missing");
 check(html.includes('data-view="abilities"'), "Abilities tab is missing");
+check(html.includes('data-view="trainers"'), "Trainers tab is missing");
+check(
+  html.indexOf('data-view="trainers"') < html.indexOf('data-view="gyms"'),
+  "Trainers tab is not before Gym Leaders",
+);
 check(html.includes('<option value="bst-desc">BST: highest first</option>'), "Descending BST sort option is missing");
 check(html.includes('<option value="bst-asc">BST: lowest first</option>'), "Ascending BST sort option is missing");
-check((html.match(/class="view-tab__icon"/g) || []).length === 11, "Expected one icon for every guide menu item");
-check((html.match(/<symbol id="nav-icon-/g) || []).length === 11, "Expected eleven relevant guide menu icon symbols");
+check((html.match(/class="view-tab__icon"/g) || []).length === 12, "Expected one icon for every guide menu item");
+check((html.match(/<symbol id="nav-icon-/g) || []).length === 12, "Expected twelve relevant guide menu icon symbols");
 check(!html.includes('<img class="view-tab__icon"'), "Guide menu still uses raster sprite icons");
 check(html.includes('id="view-menu-heading">Menu</h2>'), "Guide menu heading is missing");
 check(html.includes('id="team-grid"'), "Team Builder grid is missing");
@@ -230,8 +274,8 @@ check(
   "Save & Sync is not the final primary tab",
 );
 check(html.includes('data-move-mode="tutors"'), "Move tutors sub-tab is missing");
-check((html.match(/data-clear-search=/g) || []).length === 5, "Expected five in-field search clear buttons");
-check((html.match(/class="jump-to-top"/g) || []).length === 11, "Expected one Jump to Top control per guide tab");
+check((html.match(/data-clear-search=/g) || []).length === 6, "Expected six in-field search clear buttons");
+check((html.match(/class="jump-to-top"/g) || []).length === 12, "Expected one Jump to Top control per guide tab");
 check(html.includes('id="team-offensive-coverage"'), "Team Builder offensive coverage overview is missing");
 check(html.includes('id="planner-offensive-coverage"'), "Team Planner offensive coverage overview is missing");
 check(html.includes('id="export-save"'), "Save export control is missing");

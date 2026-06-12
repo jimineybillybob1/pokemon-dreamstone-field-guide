@@ -87,6 +87,7 @@ await check(
       "Full Dex",
       "Locations",
       "Caught 0",
+      "Trainers",
       "Gym Leaders",
       "Team Builder",
       "Team Planner",
@@ -98,7 +99,7 @@ await check(
     ]),
   "Primary tabs are not in the expected order",
 );
-await check((await page.locator(".view-tab__icon").count()) === 11, "Guide menu icons are incomplete");
+await check((await page.locator(".view-tab__icon").count()) === 12, "Guide menu icons are incomplete");
 await check((await page.locator("#view-menu-heading").textContent()) === "Menu", "Guide menu heading is missing");
 await check((await page.locator(".view-tab img").count()) === 0, "Guide menu still uses raster sprite icons");
 await check(
@@ -114,7 +115,7 @@ await check(
   "Active guide menu item is missing aria-current",
 );
 await checkDashboardTeamFill("Desktop");
-await check((await page.locator("[data-clear-search]").count()) === 5, "Search clear buttons are missing");
+await check((await page.locator("[data-clear-search]").count()) === 6, "Search clear buttons are missing");
 await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
 await check((await page.locator(".guide-tip").count()) === 3, "Expected three compact guide tips");
 await check((await page.locator(".stat-strip").count()) === 0, "Old guide-stat strip is still visible");
@@ -129,7 +130,7 @@ await check(
   "Badge sprite sheet did not load",
 );
 await check((await page.locator(".dashboard-team-slot").count()) === 6, "Dashboard team overview is incomplete");
-await check((await page.locator(".sticky-tab-search").count()) === 4, "Sticky tab searches are missing");
+await check((await page.locator(".sticky-tab-search").count()) === 5, "Sticky tab searches are missing");
 await check(
   await page.locator(".sticky-tab-search").evaluateAll((elements) =>
     elements.every((element) => getComputedStyle(element).position === "sticky"),
@@ -310,10 +311,10 @@ await check(
 await check((await page.locator("#location-search").inputValue()) === "Route 1", "Location link did not select Route 1");
 await check((await page.locator(".location-card").count()) === 1, "Location link did not isolate its encounter map");
 await page.locator(".view-tab[data-view='dex']").click();
-await check((await page.locator(".quick-location").count()) === 36, "Unexpected quick-location count");
+await check((await page.locator("#quick-location-list .quick-location").count()) === 36, "Unexpected quick-location count");
 await check(
   await page.evaluate(() => {
-    const chips = [...document.querySelectorAll(".quick-location")]
+    const chips = [...document.querySelectorAll("#quick-location-list .quick-location")]
       .slice(1)
       .map((element) => element.textContent);
     const locationOrder = [
@@ -368,6 +369,52 @@ await check(!(await page.locator("[data-clear-search='#search']").isHidden()), "
 await page.locator("[data-clear-search='#search']").click();
 await check((await page.locator(".pokemon-card").count()) === 315, "Dex search clear button did not clear the search");
 
+await page.locator(".view-tab[data-view='trainers']").click();
+await check((await page.locator(".trainer-location-group").count()) === 25, "Trainer locations are incomplete");
+await check((await page.locator(".trainer-card").count()) === 127, "Playable trainer cards are incomplete");
+await check(
+  !(await page.locator("#view-trainers").textContent()).includes("None"),
+  "Unclassified trainers still display the None class",
+);
+await check(
+  (await page.locator(".trainer-location-group[open]").count()) === 1,
+  "Trainer locations should initially open only the first group",
+);
+await page.locator("#expand-trainer-locations").click();
+await check(
+  (await page.locator(".trainer-location-group[open]").count()) === 25,
+  "Expand all did not open every trainer location",
+);
+await page.locator("#collapse-trainer-locations").click();
+await check(
+  (await page.locator(".trainer-location-group[open]").count()) === 0,
+  "Collapse all did not close every trainer location",
+);
+await page.locator("#trainer-search").fill("Bronzor");
+await check(
+  (await page.locator(".trainer-card").count()) > 0 &&
+    (await page.locator(".trainer-location-group").count()) > 0 &&
+    (await page.locator(".trainer-location-group:not([open])").count()) === 0,
+  "Trainer party search did not find and auto-expand Bronzor matches",
+);
+await check(
+  !(await page.locator("[data-clear-search='#trainer-search']").isHidden()),
+  "Trainer search clear button did not appear",
+);
+await page.locator("[data-clear-search='#trainer-search']").click();
+await page.locator("#trainer-quick-location-list .quick-location", { hasText: "Route 1" }).click();
+await check(
+  (await page.locator(".trainer-location-group").count()) === 1 &&
+    (await page.locator(".trainer-location-group").first().getAttribute("data-location")) === "Route 1",
+  "Trainer quick-location filter did not isolate Route 1",
+);
+await page.locator("#trainer-quick-location-list .quick-location", { hasText: "All" }).click();
+await check(
+  await page.locator(".trainer-card__portrait img").first().evaluate((image) => image.complete && image.naturalWidth > 0),
+  "Trainer sprite did not load",
+);
+await page.locator("#view-trainers").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-trainers.png"), fullPage: false });
 await page.locator(".view-tab[data-view='gyms']").click();
 await check((await page.locator(".gym-leader-card").count()) === 8, "Gym Leaders tab did not render eight leaders");
 await check((await page.locator(".gym-pokemon-card").count()) === 32, "Gym Leaders tab has an unexpected team size");
@@ -833,7 +880,7 @@ await check(
 );
 await page.locator("#clear-filters").click();
 
-await page.locator(".quick-location", { hasText: /^Route 1$/ }).click();
+await page.locator("#quick-location-list .quick-location", { hasText: /^Route 1$/ }).click();
 await check((await page.locator("#location-filter").inputValue()) === "Route 1", "Quick location did not sync filter");
 await check(
   (await page.locator(".pokemon-card .pokemon-location").allTextContents()).every((text) => text.includes("Route 1")),
@@ -905,6 +952,7 @@ for (const viewName of [
   "dex",
   "locations",
   "caught",
+  "trainers",
   "gyms",
   "team",
   "planner",
@@ -954,6 +1002,13 @@ await page.locator(".journey-dashboard").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-journey-dashboard.png"), fullPage: false });
 await page.locator(".view-tabs").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-menu.png"), fullPage: false });
+await page.locator(".view-tab[data-view='trainers']").click();
+await page.locator(".trainer-location-group").first().scrollIntoViewIfNeeded();
+await check(
+  await page.locator(".trainer-location-group").first().evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile trainer location has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-trainers.png"), fullPage: false });
 await page.locator(".view-tab[data-view='gyms']").click();
 await page.locator(".gym-leader-card").first().scrollIntoViewIfNeeded();
 await check(

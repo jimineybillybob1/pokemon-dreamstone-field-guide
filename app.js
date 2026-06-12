@@ -2,6 +2,7 @@ const data = window.DREAMSTONE_DATA;
 const encounters = window.DREAMSTONE_ENCOUNTERS;
 const moveData = window.DREAMSTONE_MOVES;
 const abilityData = window.DREAMSTONE_ABILITIES;
+const trainerData = window.DREAMSTONE_TRAINERS;
 const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
@@ -76,6 +77,10 @@ const state = {
     search: "",
     sort: "id",
   },
+  trainerFilters: {
+    search: "",
+    location: "",
+  },
   team: loadTeam(),
   planner: loadPlanner(),
   syncCode: localStorage.getItem(syncCodeKey) || "",
@@ -131,6 +136,11 @@ const elements = {
   abilityList: document.querySelector("#ability-list"),
   abilityResultCount: document.querySelector("#ability-result-count"),
   abilityEmptyState: document.querySelector("#ability-empty-state"),
+  trainerSearch: document.querySelector("#trainer-search"),
+  trainerResultCount: document.querySelector("#trainer-result-count"),
+  trainerQuickLocationList: document.querySelector("#trainer-quick-location-list"),
+  trainerLocationList: document.querySelector("#trainer-location-list"),
+  trainerEmptyState: document.querySelector("#trainer-empty-state"),
   teamGrid: document.querySelector("#team-grid"),
   teamOffensiveCoverage: document.querySelector("#team-offensive-coverage"),
   plannerGrid: document.querySelector("#planner-grid"),
@@ -1148,6 +1158,158 @@ function renderTeamMatchups(container, targetPokemon) {
     list.append(entry);
   });
   container.append(heading, list);
+}
+
+function renderTrainerQuickLocations() {
+  const fragment = document.createDocumentFragment();
+  ["", ...trainerData.locations].forEach((location) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quick-location";
+    button.classList.toggle("is-active", state.trainerFilters.location === location);
+    button.textContent = location || "All";
+    button.addEventListener("click", () => {
+      state.trainerFilters.location = location;
+      renderTrainerQuickLocations();
+      renderTrainers();
+    });
+    fragment.append(button);
+  });
+  elements.trainerQuickLocationList.replaceChildren(fragment);
+  if (!state.trainerFilters.location) {
+    elements.trainerQuickLocationList.scrollLeft = 0;
+  } else {
+    elements.trainerQuickLocationList.querySelector(".is-active")?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }
+}
+
+function trainerSearchText(trainer) {
+  return [
+    trainer.name,
+    trainer.trainerClass,
+    trainer.location,
+    ...trainer.party.flatMap((member) => [member.name, member.heldItem, ...member.moves]),
+  ]
+    .join(" ")
+    .toLowerCase();
+}
+
+function filteredTrainers() {
+  const search = state.trainerFilters.search.trim().toLowerCase();
+  return trainerData.trainers.filter(
+    (trainer) =>
+      (!state.trainerFilters.location || trainer.location === state.trainerFilters.location) &&
+      (!search || trainerSearchText(trainer).includes(search)),
+  );
+}
+
+function renderTrainerPartyMember(member) {
+  const card = document.createElement("article");
+  card.className = "trainer-party-member";
+  const identity = document.createElement(member.guideNumber ? "button" : "div");
+  identity.className = "trainer-party-member__identity";
+  if (member.guideNumber) {
+    identity.type = "button";
+    identity.title = `Open ${member.name} in the Full Dex`;
+    identity.addEventListener("click", () => focusPokemon(member.guideNumber));
+  }
+  identity.innerHTML = `
+    <img src="${member.sprite}" alt="" width="64" height="64" loading="lazy">
+    <span>
+      <small>Lv. ${member.level}</small>
+      <strong></strong>
+    </span>
+  `;
+  identity.querySelector("strong").textContent = member.name;
+  card.append(identity);
+  if (member.heldItem) {
+    const heldItem = document.createElement("p");
+    heldItem.className = "trainer-party-member__item";
+    heldItem.innerHTML = "<span>Held item</span>";
+    heldItem.append(document.createTextNode(member.heldItem));
+    card.append(heldItem);
+  }
+  if (member.moves.length) {
+    const details = document.createElement("details");
+    details.className = "trainer-party-moves";
+    const summary = document.createElement("summary");
+    summary.textContent = `${member.moves.length} moves`;
+    const list = document.createElement("ul");
+    member.moves.forEach((move) => {
+      const item = document.createElement("li");
+      item.textContent = move;
+      list.append(item);
+    });
+    details.append(summary, list);
+    card.append(details);
+  }
+  return card;
+}
+
+function renderTrainerCard(trainer) {
+  const card = document.createElement("article");
+  card.className = "trainer-card";
+  card.innerHTML = `
+    <header class="trainer-card__header">
+      <span class="trainer-card__portrait">
+        <img src="${trainer.sprite}" alt="" width="88" height="88" loading="lazy">
+      </span>
+      <span class="trainer-card__identity">
+        <small></small>
+        <strong></strong>
+        <span></span>
+      </span>
+      <span class="trainer-card__party-size">${trainer.party.length} Pokémon</span>
+    </header>
+    <div class="trainer-party"></div>
+  `;
+  const classLabel = card.querySelector(".trainer-card__identity small");
+  classLabel.textContent = trainer.trainerClass;
+  classLabel.hidden = !trainer.trainerClass;
+  card.querySelector(".trainer-card__identity strong").textContent = trainer.name;
+  card.querySelector(".trainer-card__identity span").textContent =
+    trainer.variantCount > 1
+      ? `Battle variant ${trainer.variantIndex} of ${trainer.variantCount}`
+      : trainer.location;
+  const party = card.querySelector(".trainer-party");
+  trainer.party.forEach((member) => party.append(renderTrainerPartyMember(member)));
+  return card;
+}
+
+function renderTrainers() {
+  if (!elements.trainerLocationList) return;
+  const trainers = filteredTrainers();
+  const activeFilter = Boolean(state.trainerFilters.search.trim() || state.trainerFilters.location);
+  const fragment = document.createDocumentFragment();
+  trainerData.locations.forEach((location, locationIndex) => {
+    const locationTrainers = trainers.filter((trainer) => trainer.location === location);
+    if (!locationTrainers.length) return;
+    const group = document.createElement("details");
+    group.className = "trainer-location-group";
+    group.dataset.location = location;
+    group.open = activeFilter || locationIndex === 0;
+    const summary = document.createElement("summary");
+    summary.innerHTML = `<span><strong></strong><small></small></span><b>${locationTrainers.length} trainers</b>`;
+    summary.querySelector("strong").textContent = location;
+    summary.querySelector("small").textContent =
+      `${locationTrainers.reduce((total, trainer) => total + trainer.party.length, 0)} party Pokémon`;
+    const grid = document.createElement("div");
+    grid.className = "trainer-grid";
+    locationTrainers.forEach((trainer) => grid.append(renderTrainerCard(trainer)));
+    group.append(summary, grid);
+    fragment.append(group);
+  });
+  elements.trainerLocationList.replaceChildren(fragment);
+  elements.trainerEmptyState.hidden = trainers.length !== 0;
+  elements.trainerResultCount.textContent =
+    trainers.length === trainerData.trainers.length
+      ? `Showing all ${trainerData.trainers.length} trainers`
+      : `Showing ${trainers.length} matching trainers`;
+  updateSearchClearButtons();
 }
 
 function renderGymPokemonCard(member) {
@@ -2296,6 +2458,7 @@ function activateView(viewName) {
   if (viewName === "caught") renderCollection();
   if (viewName === "moves") renderMoves();
   if (viewName === "abilities") renderAbilities();
+  if (viewName === "trainers") renderTrainers();
   if (viewName === "gyms") renderGyms();
   if (viewName === "team") renderTeam();
   if (viewName === "planner") renderPlanner();
@@ -2521,6 +2684,20 @@ function bindControls() {
   });
 
   elements.locationSearch.addEventListener("input", () => renderLocations(elements.locationSearch.value));
+  elements.trainerSearch.addEventListener("input", () => {
+    state.trainerFilters.search = elements.trainerSearch.value;
+    renderTrainers();
+  });
+  document.querySelector("#expand-trainer-locations").addEventListener("click", () => {
+    elements.trainerLocationList
+      .querySelectorAll(".trainer-location-group")
+      .forEach((group) => (group.open = true));
+  });
+  document.querySelector("#collapse-trainer-locations").addEventListener("click", () => {
+    elements.trainerLocationList
+      .querySelectorAll(".trainer-location-group")
+      .forEach((group) => (group.open = false));
+  });
   const moveBindings = {
     "#move-search": "search",
     "#move-type-filter": "type",
@@ -2700,6 +2877,8 @@ updateProgress();
 renderQuickLocations();
 renderDex();
 renderJourneyOverview();
+renderTrainerQuickLocations();
+renderTrainers();
 renderGyms();
 renderTeam();
 renderPlanner();

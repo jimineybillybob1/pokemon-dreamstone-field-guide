@@ -1851,6 +1851,283 @@ body.notes-hidden .item-card__location {
   font-size: 0.8rem;
 }
 
+.trainer-group-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin: -8px 0 14px;
+}
+
+.trainer-group-toolbar p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.trainer-group-toolbar > span {
+  display: flex;
+  gap: 7px;
+}
+
+.trainer-group-toolbar .clear-button {
+  min-height: 36px;
+  padding: 7px 11px;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+
+.trainer-location-list {
+  display: grid;
+  gap: 14px;
+}
+
+.trainer-location-group {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: 0 7px 22px rgba(48, 38, 88, 0.045);
+}
+
+.trainer-location-group > summary {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+  background: linear-gradient(135deg, rgba(114, 87, 212, 0.09), rgba(66, 182, 163, 0.045));
+  padding: 13px 16px;
+}
+
+.trainer-location-group > summary::-webkit-details-marker {
+  display: none;
+}
+
+.trainer-location-group > summary::after {
+  content: "+";
+  order: 3;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--violet-dark);
+  background: var(--paper-deep);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.trainer-location-group[open] > summary::after {
+  content: "−";
+}
+
+.trainer-location-group > summary span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.trainer-location-group > summary strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trainer-location-group > summary small,
+.trainer-location-group > summary b {
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 900;
+}
+
+.trainer-location-group > summary b {
+  margin-left: auto;
+  text-transform: uppercase;
+}
+
+.trainer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding: 13px;
+}
+
+.trainer-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.trainer-card__header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  background: rgba(114, 87, 212, 0.045);
+  padding: 9px 11px;
+}
+
+.trainer-card__portrait {
+  display: grid;
+  place-items: center;
+  width: 74px;
+  height: 74px;
+  border-radius: 12px;
+  background: radial-gradient(circle, rgba(114, 87, 212, 0.14), transparent 68%);
+}
+
+.trainer-card__portrait img {
+  width: 72px;
+  height: 72px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.trainer-card__identity {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.trainer-card__identity small {
+  color: var(--violet);
+  font-size: 0.56rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.trainer-card__identity strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trainer-card__identity span,
+.trainer-card__party-size {
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 800;
+}
+
+.trainer-card__party-size {
+  align-self: start;
+  border-radius: 999px;
+  background: var(--paper-deep);
+  padding: 5px 7px;
+  white-space: nowrap;
+}
+
+.trainer-party {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+}
+
+.trainer-party-member {
+  min-width: 0;
+  background: #fff;
+}
+
+.trainer-party-member:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.trainer-party-member__identity {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 5px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  color: var(--ink);
+  background: transparent;
+  padding: 7px;
+  text-align: left;
+}
+
+button.trainer-party-member__identity:hover {
+  background: rgba(114, 87, 212, 0.08);
+}
+
+.trainer-party-member__identity img {
+  width: 58px;
+  height: 58px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.trainer-party-member__identity span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.trainer-party-member__identity small {
+  color: var(--violet);
+  font-size: 0.55rem;
+  font-weight: 900;
+}
+
+.trainer-party-member__identity strong {
+  overflow: hidden;
+  font-size: 0.69rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trainer-party-member__item {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  padding: 6px 8px;
+  color: var(--ink);
+  font-size: 0.59rem;
+  font-weight: 800;
+}
+
+.trainer-party-member__item span {
+  color: var(--muted);
+  font-size: 0.48rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.trainer-party-moves {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.57rem;
+}
+
+.trainer-party-moves summary {
+  cursor: pointer;
+  padding: 6px 8px;
+  font-weight: 900;
+}
+
+.trainer-party-moves ul {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0 8px 8px 20px;
+}
+
 .gym-leader-list {
   display: grid;
   gap: 20px;
@@ -3601,6 +3878,8 @@ html[data-theme="dark"] .team-toolbar,
 html[data-theme="dark"] .offensive-coverage,
 html[data-theme="dark"] .team-card,
 html[data-theme="dark"] .planner-card,
+html[data-theme="dark"] .trainer-location-group,
+html[data-theme="dark"] .trainer-card,
 html[data-theme="dark"] .gym-leader-card,
 html[data-theme="dark"] .gym-pokemon-card,
 html[data-theme="dark"] .save-summary article,
@@ -3662,6 +3941,14 @@ html[data-theme="dark"] .sticky-tab-search input {
 html[data-theme="dark"] .quick-location,
 html[data-theme="dark"] .pokemon-card {
   background: rgba(35, 32, 51, 0.88);
+}
+
+html[data-theme="dark"] .trainer-party-member {
+  background: #211f31;
+}
+
+html[data-theme="dark"] button.trainer-party-member__identity:hover {
+  background: rgba(155, 133, 237, 0.12);
 }
 
 html[data-theme="dark"] .pokemon-card.is-caught {
@@ -3841,6 +4128,10 @@ html[data-theme="dark"] .guide-tip strong {
 
   .gym-team {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trainer-grid {
+    grid-template-columns: 1fr;
   }
 
   .save-management-grid {
@@ -4052,6 +4343,10 @@ html[data-theme="dark"] .guide-tip strong {
     grid-template-columns: auto minmax(0, 1fr);
   }
 
+  .trainer-group-toolbar {
+    align-items: stretch;
+  }
+
   .gym-leader-card__specialty {
     border-left: 0;
     padding-left: 0;
@@ -4130,6 +4425,33 @@ html[data-theme="dark"] .guide-tip strong {
   .gym-team {
     grid-template-columns: 1fr;
     padding: 10px;
+  }
+
+  .trainer-group-toolbar {
+    display: grid;
+  }
+
+  .trainer-group-toolbar > span {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trainer-card__header {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .trainer-card__party-size {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .trainer-party-member__identity {
+    grid-template-columns: 50px minmax(0, 1fr);
+  }
+
+  .trainer-party-member__identity img {
+    width: 50px;
+    height: 50px;
   }
 
   .gym-leader-card__header {

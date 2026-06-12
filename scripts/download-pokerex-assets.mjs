@@ -8,6 +8,7 @@ const inputPath = path.resolve(process.argv[2] || path.join(rootDir, "tmp", "pok
 const pokerex = JSON.parse(await fs.readFile(inputPath, "utf8"));
 const source = pokerex.data;
 const activeLocations = source.locations.filter((location) => location.mapGroup <= 4);
+const activeTrainers = source.trainers.filter((trainer) => trainer.mapGroup <= 4);
 
 const context = { window: {} };
 vm.createContext(context);
@@ -44,6 +45,9 @@ for (const location of activeLocations) {
       for (const slot of group.slots || []) speciesIds.add(slot.speciesId);
     }
   }
+}
+for (const trainer of activeTrainers) {
+  for (const member of trainer.party || []) speciesIds.add(member.speciesId);
 }
 
 const downloads = [];
