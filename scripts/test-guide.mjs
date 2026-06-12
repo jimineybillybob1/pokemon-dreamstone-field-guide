@@ -364,6 +364,25 @@ await check(
   "Capture total did not include Pokerex wild entries",
 );
 await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");
+const dexSearchPerformance = await page.evaluate(() => {
+  const input = document.querySelector("#search");
+  const reference = document.querySelector(".pokemon-card[data-number='1']");
+  const timings = ["g", "go", "got", "goth", "gothi", "gothit", "gothita", ""].map((query) => {
+    input.value = query;
+    const start = performance.now();
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    return performance.now() - start;
+  });
+  return {
+    max: Math.max(...timings),
+    reused: document.querySelector(".pokemon-card[data-number='1']") === reference,
+  };
+});
+await check(dexSearchPerformance.reused, "Full Dex search rebuilt cards instead of reusing them");
+await check(
+  dexSearchPerformance.max < 250,
+  `Full Dex search update was too slow: ${dexSearchPerformance.max.toFixed(1)}ms`,
+);
 await page.locator("#search").fill("Gothita");
 await check(!(await page.locator("[data-clear-search='#search']").isHidden()), "Dex search clear button did not appear");
 await page.locator("[data-clear-search='#search']").click();
@@ -1145,6 +1164,7 @@ console.log(
       quickLocations: 36,
       encounterMaps: 38,
       collectionEntries: 327,
+      dexSearchMaxMs: Math.round(dexSearchPerformance.max * 10) / 10,
       screenshots: [
         "tmp/guide-desktop-controls.png",
         "tmp/guide-desktop-masthead.png",

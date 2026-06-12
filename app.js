@@ -197,6 +197,8 @@ const dexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
 const validCaughtIds = new Set(collectionDex.map(dexId));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
+const dexCardByNumber = new Map();
+let teamMatchupRevision = 0;
 const trainerPokemonBySpeciesId = new Map(
   trainerData.trainers.flatMap((trainer) =>
     trainer.party.map((member) => [member.speciesId, member]),
@@ -447,12 +449,36 @@ const typeChart = {
 };
 const battleTypes = Object.keys(typeChart);
 // Wild location UI is authoritative to Pokerex encounters; spreadsheet locations are legacy metadata only.
-const pokerexLocationsForPokemon = (pokemon) =>
-  uniqueSorted(
+const pokerexLocationCache = new Map();
+const pokerexLocationsForPokemon = (pokemon) => {
+  const cacheKey = pokemon.number ? `guide-${pokemon.number}` : pokemon.trackingId;
+  if (cacheKey && pokerexLocationCache.has(cacheKey)) return pokerexLocationCache.get(cacheKey);
+  const locations = uniqueSorted(
     pokemon.number
       ? [...(encounterLocationsByGuideNumber.get(pokemon.number) || [])]
       : [...(pokemon.locations || [])],
   );
+  if (cacheKey) pokerexLocationCache.set(cacheKey, locations);
+  return locations;
+};
+const pokemonSearchTextByNumber = new Map(
+  data.dex.map((pokemon) => [
+    pokemon.number,
+    [
+      pokemon.name,
+      pokemon.region,
+      pokerexLocationsForPokemon(pokemon).join(" "),
+      pokemon.rarity,
+      pokemon.notes,
+      pokemon.types.join(" "),
+      [...pokemon.evolvesFrom, ...pokemon.evolvesTo]
+        .map((number) => pokemonByNumber.get(number)?.name || "")
+        .join(" "),
+    ]
+      .join(" ")
+      .toLowerCase(),
+  ]),
+);
 const locationFallbackForPokemon = (pokemon) =>
   pokemon.availability === "Unobtainable" ? "Unobtainable" : "No wild encounter listed";
 const normalizedLocationName = (name) =>
@@ -905,6 +931,7 @@ function applySaveDocument(input) {
   setNotesHidden(save.preferences.notesHidden);
   setTheme(save.preferences.theme);
   updateProgress();
+  teamMatchupRevision += 1;
   renderDex();
   renderTeam();
   renderPlanner();
@@ -1057,16 +1084,14 @@ async function copySyncCode() {
 }
 
 function refreshTeamAndDex() {
+  teamMatchupRevision += 1;
   renderTeam();
   refreshTrainerMatchups();
   renderGyms();
   renderJourneyOverview();
   elements.grid.querySelectorAll(".pokemon-card").forEach((card) => {
     const pokemon = pokemonByNumber.get(Number(card.dataset.number));
-    const container = card.querySelector(".team-matchups");
-    if (!pokemon || !container) return;
-    container.replaceChildren();
-    renderTeamMatchups(container, pokemon);
+    if (pokemon) syncPokemonCardTeamMatchups(card, pokemon);
   });
 }
 
@@ -2062,21 +2087,34 @@ function openPokemonLearnset(pokemon) {
   else elements.learnsetDialog.setAttribute("open", "");
 }
 
+function syncPokemonCardCaughtState(card, pokemon) {
+  const caught = isCaught(pokemon);
+  const caughtButton = card.querySelector(".caught-button");
+  card.classList.toggle("is-caught", caught);
+  caughtButton.setAttribute("aria-pressed", String(caught));
+  caughtButton.setAttribute("aria-label", `${caught ? "Mark uncaught" : "Mark caught"}: ${pokemon.name}`);
+  caughtButton.querySelector(".caught-button__text").textContent = caught ? "Caught" : "Mark caught";
+}
+
+function syncPokemonCardTeamMatchups(card, pokemon) {
+  if (Number(card.dataset.teamMatchupRevision) === teamMatchupRevision) return;
+  const container = card.querySelector(".team-matchups");
+  container.replaceChildren();
+  renderTeamMatchups(container, pokemon);
+  card.dataset.teamMatchupRevision = String(teamMatchupRevision);
+}
+
 function renderPokemonCard(pokemon) {
   const card = elements.cardTemplate.content.firstElementChild.cloneNode(true);
   const caughtButton = card.querySelector(".caught-button");
   const sprite = card.querySelector(".pokemon-sprite");
   const region = card.querySelector(".region-badge");
   const note = card.querySelector(".pokemon-note");
-  const caught = isCaught(pokemon);
 
-  card.classList.toggle("is-caught", caught);
   card.dataset.number = pokemon.number;
   card.id = `pokemon-${pokemon.number}`;
-  caughtButton.setAttribute("aria-pressed", String(caught));
-  caughtButton.setAttribute("aria-label", `${caught ? "Mark uncaught" : "Mark caught"}: ${pokemon.name}`);
-  caughtButton.querySelector(".caught-button__text").textContent = caught ? "Caught" : "Mark caught";
   caughtButton.addEventListener("click", () => toggleCaught(pokemon));
+  syncPokemonCardCaughtState(card, pokemon);
 
   sprite.src = pokemon.sprite;
   sprite.alt = `${pokemon.name}${pokemon.region ? ` (${pokemon.region})` : ""} sprite`;
@@ -2095,7 +2133,7 @@ function renderPokemonCard(pokemon) {
   rarity.dataset.rarity = pokemon.rarity;
   card.querySelector(".pokemon-bst").textContent = pokemon.bst || "N/A";
   renderPokemonStats(card, pokemon);
-  renderTeamMatchups(card.querySelector(".team-matchups"), pokemon);
+  syncPokemonCardTeamMatchups(card, pokemon);
 
   if (pokemon.region) {
     region.hidden = false;
@@ -2122,21 +2160,7 @@ function filteredPokemon() {
   const search = f.search.toLowerCase();
   const result = data.dex.filter((pokemon) => {
     const encounterLocations = pokerexLocationsForPokemon(pokemon);
-    const relatedNames = [...pokemon.evolvesFrom, ...pokemon.evolvesTo]
-      .map((number) => pokemonByNumber.get(number)?.name || "")
-      .join(" ");
-    const haystack = [
-      pokemon.name,
-      pokemon.region,
-      encounterLocations.join(" "),
-      pokemon.rarity,
-      pokemon.notes,
-      pokemon.types.join(" "),
-      relatedNames,
-    ]
-      .join(" ")
-      .toLowerCase();
-    if (search && !haystack.includes(search)) return false;
+    if (search && !pokemonSearchTextByNumber.get(pokemon.number).includes(search)) return false;
     if (f.location && !encounterLocations.includes(f.location)) return false;
     if (f.rarity && pokemon.rarity !== f.rarity) return false;
     if (f.region && pokemon.region !== f.region) return false;
@@ -2167,7 +2191,17 @@ function filteredPokemon() {
 function renderDex() {
   const pokemon = filteredPokemon();
   const fragment = document.createDocumentFragment();
-  pokemon.forEach((entry) => fragment.append(renderPokemonCard(entry)));
+  pokemon.forEach((entry) => {
+    let card = dexCardByNumber.get(entry.number);
+    if (!card) {
+      card = renderPokemonCard(entry);
+      dexCardByNumber.set(entry.number, card);
+    } else {
+      syncPokemonCardCaughtState(card, entry);
+      syncPokemonCardTeamMatchups(card, entry);
+    }
+    fragment.append(card);
+  });
   elements.grid.replaceChildren(fragment);
   elements.emptyState.hidden = pokemon.length !== 0;
   elements.resultCount.textContent =
