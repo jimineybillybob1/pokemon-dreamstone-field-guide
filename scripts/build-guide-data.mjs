@@ -2,6 +2,11 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { FileBlob, SpreadsheetFile } from "@oai/artifact-tool";
+import {
+  copySprite,
+  findMegaPokemon,
+  speciesIdForGuideEntry,
+} from "./dreamstone-pokemon-sprites.mjs";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(scriptDir, "..");
@@ -11,8 +16,6 @@ if (!inputPath) {
   throw new Error("Usage: node scripts/build-guide-data.mjs <dex.xlsx>");
 }
 
-const spriteSourceDir = path.join(rootDir, "vendor", "pokesprite", "pokemon-gen8", "regular");
-const spriteOutputDir = path.join(rootDir, "assets", "sprites");
 const outputPath = path.join(rootDir, "data", "dreamstone-data.js");
 const metadataPath = path.join(rootDir, "data", "pokemon-metadata.json");
 const pokerexPath = path.join(rootDir, "tmp", "pokerex-dreamstone-data.json");
@@ -30,53 +33,6 @@ const normalizeName = (value) =>
     .replace(/[♂]/g, "m")
     .replace(/[^a-z0-9]/gi, "")
     .toLowerCase();
-
-const pokemonDb = JSON.parse(
-  await fs.readFile(path.join(rootDir, "vendor", "pokesprite", "data", "pokemon.json"), "utf8"),
-);
-const slugByName = new Map(
-  Object.values(pokemonDb).map((pokemon) => [normalizeName(pokemon.name.eng), pokemon.slug.eng]),
-);
-
-const pokeApiFallbackIds = new Map(
-  Object.entries({
-    tinkatink: 957,
-    tinkatuff: 958,
-    tinkaton: 959,
-    poltchageist: 1012,
-    sinistcha: 1013,
-    annihilape: 979,
-    nymble: 919,
-    lokix: 920,
-    clodsire: 980,
-    toedscool: 948,
-    toedscruel: 949,
-    dipplin: 1011,
-    hydrapple: 1019,
-    greavard: 971,
-    houndstone: 972,
-    glimmet: 969,
-    glimmora: 970,
-    cetoddle: 974,
-    cetitan: 975,
-    frigibax: 996,
-    arctibax: 997,
-    baxcalibur: 998,
-    charcadet: 935,
-    ceruledge: 937,
-    armarouge: 936,
-    varoom: 965,
-    revavroom: 966,
-    bombirdier: 962,
-    wattrel: 940,
-    kilowattrel: 941,
-    screamtail: 985,
-    fluttermane: 987,
-    greattusk: 984,
-    roaringmoon: 1005,
-    koraidon: 1007,
-  }),
-);
 
 const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(inputPath));
 const pokemonMetadata = JSON.parse(await fs.readFile(metadataPath, "utf8"));
@@ -127,48 +83,8 @@ const pokedexRows = sheetRows("Pokedex");
 const megaRows = sheetRows("Megas");
 const itemRows = sheetRows("Some Important Items");
 
-const resolveSprite = async (name, form = "") => {
-  const baseSlug = slugByName.get(normalizeName(name));
-  if (!baseSlug) {
-    const pokeApiId = pokeApiFallbackIds.get(normalizeName(name));
-    if (pokeApiId) {
-      return {
-        filename: `pokeapi-${pokeApiId}.png`,
-        source: "",
-        url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeApiId}.png`,
-        missing: "",
-      };
-    }
-    return { filename: "", source: "", url: "", missing: `No sprite slug for ${name}` };
-  }
-
-  const formSlug = clean(form).toLowerCase();
-  const candidates = [];
-  if (formSlug) candidates.push(`${baseSlug}-${formSlug}.png`);
-  candidates.push(`${baseSlug}.png`);
-
-  for (const filename of candidates) {
-    const source = path.join(spriteSourceDir, filename);
-    try {
-      await fs.access(source);
-      return { filename, source, url: "", missing: "" };
-    } catch {
-      // Try the default form when a regional or special form is unavailable.
-    }
-  }
-
-  return {
-    filename: "",
-    source: "",
-    url: "",
-    missing: `No sprite file for ${name}${formSlug ? ` (${formSlug})` : ""}`,
-  };
-};
-
 const dex = [];
 const missingSprites = [];
-const spritesToCopy = new Map();
-const spritesToDownload = new Map();
 
 for (const row of pokedexRows.slice(2)) {
   const number = Number(row[0]);
@@ -179,13 +95,12 @@ for (const row of pokedexRows.slice(2)) {
   const location = clean(row[3]);
   const rarity = clean(row[4]);
   const notes = clean(row[5]);
-  const sprite = await resolveSprite(name, region);
+  const speciesId = speciesIdForGuideEntry({ name, region });
+  const sprite = speciesId ? await copySprite(speciesId) : "";
   const metadata = pokemonMetadata[number] || {};
   const statMetadata = statsForPokemon(name, region);
 
-  if (sprite.missing) missingSprites.push(sprite.missing);
-  if (sprite.source) spritesToCopy.set(sprite.filename, sprite.source);
-  if (sprite.url) spritesToDownload.set(sprite.filename, sprite.url);
+  if (!sprite) missingSprites.push(`No Dreamstone source sprite for ${name}`);
 
   let availability = "Evolution / special";
   if (/unobtainable/i.test(location) || /unobtainable/i.test(notes)) availability = "Unobtainable";
@@ -199,7 +114,7 @@ for (const row of pokedexRows.slice(2)) {
     rarity,
     notes,
     availability,
-    sprite: sprite.filename ? `assets/sprites/${sprite.filename}` : "",
+    sprite,
     types: metadata.types || [],
     evolvesFrom: metadata.evolvesFrom || [],
     evolvesTo: metadata.evolvesTo || [],
@@ -215,14 +130,13 @@ for (const row of megaRows.slice(2)) {
   const name = clean(row[1]);
   if (!number || !name) continue;
 
-  const sprite = await resolveSprite(name, "mega");
-  if (sprite.missing) missingSprites.push(sprite.missing);
-  if (sprite.source) spritesToCopy.set(sprite.filename, sprite.source);
-  if (sprite.url) spritesToDownload.set(sprite.filename, sprite.url);
+  const speciesId = findMegaPokemon(name)?.id;
+  const sprite = speciesId ? await copySprite(speciesId) : "";
+  if (!sprite) missingSprites.push(`No Dreamstone source sprite for Mega ${name}`);
   megas.push({
     number,
     name,
-    sprite: sprite.filename ? `assets/sprites/${sprite.filename}` : "",
+    sprite,
   });
 }
 
@@ -242,23 +156,6 @@ const sourceNotes = {
 };
 
 await fs.mkdir(path.dirname(outputPath), { recursive: true });
-await fs.mkdir(spriteOutputDir, { recursive: true });
-
-for (const [filename, source] of spritesToCopy) {
-  await fs.copyFile(source, path.join(spriteOutputDir, filename));
-}
-
-for (const [filename, url] of spritesToDownload) {
-  try {
-    await fs.access(path.join(spriteOutputDir, filename));
-    continue;
-  } catch {
-    // Download the fallback only when it is not already cached locally.
-  }
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Failed to download ${url}: ${response.status}`);
-  await fs.writeFile(path.join(spriteOutputDir, filename), Buffer.from(await response.arrayBuffer()));
-}
 
 const data = {
   generatedAt: new Date().toISOString(),
@@ -285,8 +182,7 @@ console.log(
       unobtainable: dex.filter((pokemon) => pokemon.availability === "Unobtainable").length,
       megas: megas.length,
       importantItems: importantItems.length,
-      copiedSprites: spritesToCopy.size,
-      downloadedFallbackSprites: spritesToDownload.size,
+      copiedSprites: new Set([...dex, ...megas].map((pokemon) => pokemon.sprite)).size,
       missingSprites: [...new Set(missingSprites)],
       typedPokemon: dex.filter((pokemon) => pokemon.types.length).length,
       pokemonWithEvolutionLinks: dex.filter(
@@ -304,3 +200,5 @@ console.log(
     2,
   ),
 );
+
+await import("./unify-pokemon-sprites.mjs");

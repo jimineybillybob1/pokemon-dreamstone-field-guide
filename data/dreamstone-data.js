@@ -10,7 +10,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/gothita.png",
+      "sprite": "assets/pokemon/574.png",
       "types": [
         "psychic"
       ],
@@ -37,7 +37,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gothorita.png",
+      "sprite": "assets/pokemon/575.png",
       "types": [
         "psychic"
       ],
@@ -66,7 +66,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gothitelle.png",
+      "sprite": "assets/pokemon/576.png",
       "types": [
         "psychic"
       ],
@@ -93,7 +93,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/timburr.png",
+      "sprite": "assets/pokemon/532.png",
       "types": [
         "fighting"
       ],
@@ -120,7 +120,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gurdurr.png",
+      "sprite": "assets/pokemon/533.png",
       "types": [
         "fighting"
       ],
@@ -149,7 +149,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/conkeldurr.png",
+      "sprite": "assets/pokemon/534.png",
       "types": [
         "fighting"
       ],
@@ -176,7 +176,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/zigzagoon-galar.png",
+      "sprite": "assets/pokemon/987.png",
       "types": [
         "dark",
         "normal"
@@ -204,7 +204,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/linoone-galar.png",
+      "sprite": "assets/pokemon/988.png",
       "types": [
         "dark",
         "normal"
@@ -234,7 +234,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/obstagoon.png",
+      "sprite": "assets/pokemon/862.png",
       "types": [
         "dark",
         "normal"
@@ -262,7 +262,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/rattata-alola.png",
+      "sprite": "assets/pokemon/956.png",
       "types": [
         "dark",
         "normal"
@@ -290,7 +290,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/raticate-alola.png",
+      "sprite": "assets/pokemon/957.png",
       "types": [
         "dark",
         "normal"
@@ -318,7 +318,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pidove.png",
+      "sprite": "assets/pokemon/519.png",
       "types": [
         "normal",
         "flying"
@@ -346,7 +346,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tranquill.png",
+      "sprite": "assets/pokemon/520.png",
       "types": [
         "normal",
         "flying"
@@ -376,7 +376,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/unfezant.png",
+      "sprite": "assets/pokemon/521.png",
       "types": [
         "normal",
         "flying"
@@ -404,7 +404,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/cubone.png",
+      "sprite": "assets/pokemon/104.png",
       "types": [
         "ground"
       ],
@@ -431,7 +431,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/marowak-alola.png",
+      "sprite": "assets/pokemon/973.png",
       "types": [
         "fire",
         "ghost"
@@ -459,7 +459,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "Own Tempo Rockruff is in Route 2, which evolves into Dusk Form",
       "availability": "Available",
-      "sprite": "assets/sprites/rockruff.png",
+      "sprite": "assets/pokemon/744.png",
       "types": [
         "rock"
       ],
@@ -486,7 +486,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lycanroc.png",
+      "sprite": "assets/pokemon/745.png",
       "types": [
         "rock"
       ],
@@ -513,7 +513,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/clefairy.png",
+      "sprite": "assets/pokemon/35.png",
       "types": [
         "fairy"
       ],
@@ -540,7 +540,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/clefable.png",
+      "sprite": "assets/pokemon/36.png",
       "types": [
         "fairy"
       ],
@@ -567,7 +567,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/teddiursa.png",
+      "sprite": "assets/pokemon/216.png",
       "types": [
         "normal"
       ],
@@ -594,7 +594,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ursaring.png",
+      "sprite": "assets/pokemon/217.png",
       "types": [
         "normal"
       ],
@@ -623,7 +623,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Normal form; Bloodmoon isn't available",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ursaluna.png",
+      "sprite": "assets/pokemon/901.png",
       "types": [
         "ground",
         "normal"
@@ -651,7 +651,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/meditite.png",
+      "sprite": "assets/pokemon/307.png",
       "types": [
         "fighting",
         "psychic"
@@ -679,7 +679,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/medicham.png",
+      "sprite": "assets/pokemon/308.png",
       "types": [
         "fighting",
         "psychic"
@@ -707,7 +707,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-957.png",
+      "sprite": "assets/pokemon/1345.png",
       "types": [
         "fairy",
         "steel"
@@ -735,7 +735,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-958.png",
+      "sprite": "assets/pokemon/1346.png",
       "types": [
         "fairy",
         "steel"
@@ -765,7 +765,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-959.png",
+      "sprite": "assets/pokemon/1347.png",
       "types": [
         "fairy",
         "steel"
@@ -793,7 +793,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/noibat.png",
+      "sprite": "assets/pokemon/714.png",
       "types": [
         "flying",
         "dragon"
@@ -821,7 +821,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/noivern.png",
+      "sprite": "assets/pokemon/715.png",
       "types": [
         "flying",
         "dragon"
@@ -849,7 +849,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/aron.png",
+      "sprite": "assets/pokemon/304.png",
       "types": [
         "steel",
         "rock"
@@ -877,7 +877,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lairon.png",
+      "sprite": "assets/pokemon/305.png",
       "types": [
         "steel",
         "rock"
@@ -907,7 +907,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/aggron.png",
+      "sprite": "assets/pokemon/306.png",
       "types": [
         "steel",
         "rock"
@@ -935,7 +935,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/lillipup.png",
+      "sprite": "assets/pokemon/506.png",
       "types": [
         "normal"
       ],
@@ -962,7 +962,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/herdier.png",
+      "sprite": "assets/pokemon/507.png",
       "types": [
         "normal"
       ],
@@ -991,7 +991,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/stoutland.png",
+      "sprite": "assets/pokemon/508.png",
       "types": [
         "normal"
       ],
@@ -1018,7 +1018,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pineco.png",
+      "sprite": "assets/pokemon/204.png",
       "types": [
         "bug"
       ],
@@ -1045,7 +1045,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/forretress.png",
+      "sprite": "assets/pokemon/205.png",
       "types": [
         "bug",
         "steel"
@@ -1073,7 +1073,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/swablu.png",
+      "sprite": "assets/pokemon/333.png",
       "types": [
         "normal",
         "flying"
@@ -1101,7 +1101,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/altaria.png",
+      "sprite": "assets/pokemon/334.png",
       "types": [
         "dragon",
         "flying"
@@ -1129,7 +1129,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Complete the teahouse quest",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-1012.png",
+      "sprite": "assets/pokemon/1409.png",
       "types": [
         "grass",
         "ghost"
@@ -1157,7 +1157,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-1013.png",
+      "sprite": "assets/pokemon/1411.png",
       "types": [
         "grass",
         "ghost"
@@ -1185,7 +1185,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Complete the teahouse quest",
       "availability": "Available",
-      "sprite": "assets/sprites/sinistea.png",
+      "sprite": "assets/pokemon/854.png",
       "types": [
         "ghost"
       ],
@@ -1212,7 +1212,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/polteageist.png",
+      "sprite": "assets/pokemon/855.png",
       "types": [
         "ghost"
       ],
@@ -1239,7 +1239,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/buneary.png",
+      "sprite": "assets/pokemon/427.png",
       "types": [
         "normal"
       ],
@@ -1266,7 +1266,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lopunny.png",
+      "sprite": "assets/pokemon/428.png",
       "types": [
         "normal"
       ],
@@ -1293,7 +1293,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/blipbug.png",
+      "sprite": "assets/pokemon/824.png",
       "types": [
         "bug"
       ],
@@ -1320,7 +1320,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dottler.png",
+      "sprite": "assets/pokemon/825.png",
       "types": [
         "bug",
         "psychic"
@@ -1350,7 +1350,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/orbeetle.png",
+      "sprite": "assets/pokemon/826.png",
       "types": [
         "bug",
         "psychic"
@@ -1378,7 +1378,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Save the kids from the Dewpider attack",
       "availability": "Available",
-      "sprite": "assets/sprites/dewpider.png",
+      "sprite": "assets/pokemon/751.png",
       "types": [
         "water",
         "bug"
@@ -1406,7 +1406,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/araquanid.png",
+      "sprite": "assets/pokemon/752.png",
       "types": [
         "water",
         "bug"
@@ -1434,7 +1434,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/petilil.png",
+      "sprite": "assets/pokemon/548.png",
       "types": [
         "grass"
       ],
@@ -1461,7 +1461,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lilligant-hisui.png",
+      "sprite": "assets/pokemon/1001.png",
       "types": [
         "grass",
         "fighting"
@@ -1489,7 +1489,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/chikorita.png",
+      "sprite": "assets/pokemon/152.png",
       "types": [
         "grass"
       ],
@@ -1516,7 +1516,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/bayleef.png",
+      "sprite": "assets/pokemon/153.png",
       "types": [
         "grass"
       ],
@@ -1545,7 +1545,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/meganium.png",
+      "sprite": "assets/pokemon/154.png",
       "types": [
         "grass"
       ],
@@ -1572,7 +1572,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/chinchou.png",
+      "sprite": "assets/pokemon/170.png",
       "types": [
         "water",
         "electric"
@@ -1600,7 +1600,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lanturn.png",
+      "sprite": "assets/pokemon/171.png",
       "types": [
         "water",
         "electric"
@@ -1628,7 +1628,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/mankey.png",
+      "sprite": "assets/pokemon/56.png",
       "types": [
         "fighting"
       ],
@@ -1655,7 +1655,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/primeape.png",
+      "sprite": "assets/pokemon/57.png",
       "types": [
         "fighting"
       ],
@@ -1684,7 +1684,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-979.png",
+      "sprite": "assets/pokemon/1370.png",
       "types": [
         "fighting",
         "ghost"
@@ -1712,7 +1712,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/venipede.png",
+      "sprite": "assets/pokemon/543.png",
       "types": [
         "bug",
         "poison"
@@ -1740,7 +1740,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/whirlipede.png",
+      "sprite": "assets/pokemon/544.png",
       "types": [
         "bug",
         "poison"
@@ -1770,7 +1770,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/scolipede.png",
+      "sprite": "assets/pokemon/545.png",
       "types": [
         "bug",
         "poison"
@@ -1798,7 +1798,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/growlithe-hisui.png",
+      "sprite": "assets/pokemon/993.png",
       "types": [
         "fire",
         "rock"
@@ -1826,7 +1826,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/arcanine-hisui.png",
+      "sprite": "assets/pokemon/994.png",
       "types": [
         "fire",
         "rock"
@@ -1854,7 +1854,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/sizzlipede.png",
+      "sprite": "assets/pokemon/850.png",
       "types": [
         "fire",
         "bug"
@@ -1882,7 +1882,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/centiskorch.png",
+      "sprite": "assets/pokemon/851.png",
       "types": [
         "fire",
         "bug"
@@ -1910,7 +1910,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/rolycoly.png",
+      "sprite": "assets/pokemon/837.png",
       "types": [
         "rock"
       ],
@@ -1937,7 +1937,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/carkol.png",
+      "sprite": "assets/pokemon/838.png",
       "types": [
         "rock",
         "fire"
@@ -1967,7 +1967,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/coalossal.png",
+      "sprite": "assets/pokemon/839.png",
       "types": [
         "rock",
         "fire"
@@ -1995,7 +1995,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/cyndaquil.png",
+      "sprite": "assets/pokemon/155.png",
       "types": [
         "fire"
       ],
@@ -2022,7 +2022,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/quilava.png",
+      "sprite": "assets/pokemon/156.png",
       "types": [
         "fire"
       ],
@@ -2051,7 +2051,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/typhlosion-hisui.png",
+      "sprite": "assets/pokemon/997.png",
       "types": [
         "fire",
         "ghost"
@@ -2079,7 +2079,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/nickit.png",
+      "sprite": "assets/pokemon/827.png",
       "types": [
         "dark"
       ],
@@ -2106,7 +2106,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/thievul.png",
+      "sprite": "assets/pokemon/828.png",
       "types": [
         "dark"
       ],
@@ -2133,7 +2133,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/murkrow.png",
+      "sprite": "assets/pokemon/198.png",
       "types": [
         "dark",
         "flying"
@@ -2161,7 +2161,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/honchkrow.png",
+      "sprite": "assets/pokemon/430.png",
       "types": [
         "dark",
         "flying"
@@ -2189,7 +2189,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-919.png",
+      "sprite": "assets/pokemon/1303.png",
       "types": [
         "bug"
       ],
@@ -2216,7 +2216,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-920.png",
+      "sprite": "assets/pokemon/1304.png",
       "types": [
         "bug",
         "dark"
@@ -2244,7 +2244,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/drowzee.png",
+      "sprite": "assets/pokemon/96.png",
       "types": [
         "psychic"
       ],
@@ -2271,7 +2271,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/hypno.png",
+      "sprite": "assets/pokemon/97.png",
       "types": [
         "psychic"
       ],
@@ -2298,7 +2298,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/morelull.png",
+      "sprite": "assets/pokemon/755.png",
       "types": [
         "grass",
         "fairy"
@@ -2326,7 +2326,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/shiinotic.png",
+      "sprite": "assets/pokemon/756.png",
       "types": [
         "grass",
         "fairy"
@@ -2354,7 +2354,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/foongus.png",
+      "sprite": "assets/pokemon/590.png",
       "types": [
         "grass",
         "poison"
@@ -2382,7 +2382,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/amoonguss.png",
+      "sprite": "assets/pokemon/591.png",
       "types": [
         "grass",
         "poison"
@@ -2410,7 +2410,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/impidimp.png",
+      "sprite": "assets/pokemon/859.png",
       "types": [
         "dark",
         "fairy"
@@ -2438,7 +2438,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/morgrem.png",
+      "sprite": "assets/pokemon/860.png",
       "types": [
         "dark",
         "fairy"
@@ -2468,7 +2468,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/grimmsnarl.png",
+      "sprite": "assets/pokemon/861.png",
       "types": [
         "dark",
         "fairy"
@@ -2496,7 +2496,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/fennekin.png",
+      "sprite": "assets/pokemon/653.png",
       "types": [
         "fire"
       ],
@@ -2523,7 +2523,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/braixen.png",
+      "sprite": "assets/pokemon/654.png",
       "types": [
         "fire"
       ],
@@ -2552,7 +2552,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/delphox.png",
+      "sprite": "assets/pokemon/655.png",
       "types": [
         "fire",
         "psychic"
@@ -2580,7 +2580,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/zorua-hisui.png",
+      "sprite": "assets/pokemon/1002.png",
       "types": [
         "normal",
         "ghost"
@@ -2608,7 +2608,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/zoroark-hisui.png",
+      "sprite": "assets/pokemon/1003.png",
       "types": [
         "normal",
         "ghost"
@@ -2636,7 +2636,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Give the Budew 3 berries - Oran, Pecha, Rawst",
       "availability": "Available",
-      "sprite": "assets/sprites/budew.png",
+      "sprite": "assets/pokemon/406.png",
       "types": [
         "grass",
         "poison"
@@ -2664,7 +2664,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/roselia.png",
+      "sprite": "assets/pokemon/315.png",
       "types": [
         "grass",
         "poison"
@@ -2694,7 +2694,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/roserade.png",
+      "sprite": "assets/pokemon/407.png",
       "types": [
         "grass",
         "poison"
@@ -2722,7 +2722,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Click on the big drill near the Supply Depot",
       "availability": "Available",
-      "sprite": "assets/sprites/drilbur.png",
+      "sprite": "assets/pokemon/529.png",
       "types": [
         "ground"
       ],
@@ -2749,7 +2749,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/excadrill.png",
+      "sprite": "assets/pokemon/530.png",
       "types": [
         "ground",
         "steel"
@@ -2777,7 +2777,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/skrelp.png",
+      "sprite": "assets/pokemon/690.png",
       "types": [
         "poison",
         "water"
@@ -2805,7 +2805,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dragalge.png",
+      "sprite": "assets/pokemon/691.png",
       "types": [
         "poison",
         "dragon"
@@ -2833,7 +2833,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/grimer-alola.png",
+      "sprite": "assets/pokemon/970.png",
       "types": [
         "poison",
         "dark"
@@ -2861,7 +2861,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/muk-alola.png",
+      "sprite": "assets/pokemon/971.png",
       "types": [
         "poison",
         "dark"
@@ -2889,7 +2889,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "Also fishable at Pelluca City (Trolling Rod)",
       "availability": "Available",
-      "sprite": "assets/sprites/qwilfish-hisui.png",
+      "sprite": "assets/pokemon/998.png",
       "types": [
         "dark",
         "poison"
@@ -2917,7 +2917,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/overqwil.png",
+      "sprite": "assets/pokemon/904.png",
       "types": [
         "dark",
         "poison"
@@ -2945,7 +2945,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/toxel.png",
+      "sprite": "assets/pokemon/848.png",
       "types": [
         "electric",
         "poison"
@@ -2973,7 +2973,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/toxtricity.png",
+      "sprite": "assets/pokemon/849.png",
       "types": [
         "electric",
         "poison"
@@ -3001,7 +3001,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tympole.png",
+      "sprite": "assets/pokemon/535.png",
       "types": [
         "water"
       ],
@@ -3028,7 +3028,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/palpitoad.png",
+      "sprite": "assets/pokemon/536.png",
       "types": [
         "water",
         "ground"
@@ -3058,7 +3058,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/seismitoad.png",
+      "sprite": "assets/pokemon/537.png",
       "types": [
         "water",
         "ground"
@@ -3086,7 +3086,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/yanma.png",
+      "sprite": "assets/pokemon/193.png",
       "types": [
         "bug",
         "flying"
@@ -3114,7 +3114,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/yanmega.png",
+      "sprite": "assets/pokemon/469.png",
       "types": [
         "bug",
         "flying"
@@ -3142,7 +3142,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/croagunk.png",
+      "sprite": "assets/pokemon/453.png",
       "types": [
         "poison",
         "fighting"
@@ -3170,7 +3170,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/toxicroak.png",
+      "sprite": "assets/pokemon/454.png",
       "types": [
         "poison",
         "fighting"
@@ -3198,7 +3198,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/wooper.png",
+      "sprite": "assets/pokemon/1405.png",
       "types": [
         "poison",
         "ground"
@@ -3226,7 +3226,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-980.png",
+      "sprite": "assets/pokemon/1371.png",
       "types": [
         "poison",
         "ground"
@@ -3254,7 +3254,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/totodile.png",
+      "sprite": "assets/pokemon/158.png",
       "types": [
         "water"
       ],
@@ -3281,7 +3281,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/croconaw.png",
+      "sprite": "assets/pokemon/159.png",
       "types": [
         "water"
       ],
@@ -3310,7 +3310,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/feraligatr.png",
+      "sprite": "assets/pokemon/160.png",
       "types": [
         "water"
       ],
@@ -3337,7 +3337,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "Fishing - Trolling Rod",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-948.png",
+      "sprite": "assets/pokemon/1336.png",
       "types": [
         "ground",
         "grass"
@@ -3365,7 +3365,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-949.png",
+      "sprite": "assets/pokemon/1337.png",
       "types": [
         "ground",
         "grass"
@@ -3393,7 +3393,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Offered by Greta the traveling merchant (Ugly Fish)",
       "availability": "Available",
-      "sprite": "assets/sprites/feebas.png",
+      "sprite": "assets/pokemon/349.png",
       "types": [
         "water"
       ],
@@ -3420,7 +3420,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/milotic.png",
+      "sprite": "assets/pokemon/350.png",
       "types": [
         "water"
       ],
@@ -3447,7 +3447,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "Fishing - Casting Rod",
       "availability": "Available",
-      "sprite": "assets/sprites/basculin.png",
+      "sprite": "assets/pokemon/550.png",
       "types": [
         "water"
       ],
@@ -3474,7 +3474,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/basculegion.png",
+      "sprite": "assets/pokemon/902.png",
       "types": [
         "water",
         "ghost"
@@ -3502,7 +3502,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/fletchling.png",
+      "sprite": "assets/pokemon/661.png",
       "types": [
         "normal",
         "flying"
@@ -3530,7 +3530,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/fletchinder.png",
+      "sprite": "assets/pokemon/662.png",
       "types": [
         "fire",
         "flying"
@@ -3560,7 +3560,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/talonflame.png",
+      "sprite": "assets/pokemon/663.png",
       "types": [
         "fire",
         "flying"
@@ -3588,7 +3588,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Complete the chef's refrigerator quest",
       "availability": "Available",
-      "sprite": "assets/sprites/applin.png",
+      "sprite": "assets/pokemon/840.png",
       "types": [
         "grass",
         "dragon"
@@ -3618,7 +3618,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/flapple.png",
+      "sprite": "assets/pokemon/841.png",
       "types": [
         "grass",
         "dragon"
@@ -3646,7 +3646,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/appletun.png",
+      "sprite": "assets/pokemon/842.png",
       "types": [
         "grass",
         "dragon"
@@ -3674,7 +3674,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-1011.png",
+      "sprite": "assets/pokemon/1408.png",
       "types": [
         "grass",
         "dragon"
@@ -3704,7 +3704,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-1019.png",
+      "sprite": "assets/pokemon/1426.png",
       "types": [
         "grass",
         "dragon"
@@ -3732,7 +3732,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/shuppet.png",
+      "sprite": "assets/pokemon/353.png",
       "types": [
         "ghost"
       ],
@@ -3759,7 +3759,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/banette.png",
+      "sprite": "assets/pokemon/354.png",
       "types": [
         "ghost"
       ],
@@ -3786,7 +3786,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/diglett.png",
+      "sprite": "assets/pokemon/50.png",
       "types": [
         "ground"
       ],
@@ -3813,7 +3813,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dugtrio.png",
+      "sprite": "assets/pokemon/51.png",
       "types": [
         "ground"
       ],
@@ -3840,7 +3840,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-971.png",
+      "sprite": "assets/pokemon/1360.png",
       "types": [
         "ghost"
       ],
@@ -3867,7 +3867,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-972.png",
+      "sprite": "assets/pokemon/1361.png",
       "types": [
         "ghost"
       ],
@@ -3894,7 +3894,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/chingling.png",
+      "sprite": "assets/pokemon/433.png",
       "types": [
         "psychic"
       ],
@@ -3921,7 +3921,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/chimecho.png",
+      "sprite": "assets/pokemon/358.png",
       "types": [
         "psychic"
       ],
@@ -3948,7 +3948,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/stantler.png",
+      "sprite": "assets/pokemon/234.png",
       "types": [
         "normal"
       ],
@@ -3975,7 +3975,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/wyrdeer.png",
+      "sprite": "assets/pokemon/899.png",
       "types": [
         "normal",
         "psychic"
@@ -4003,7 +4003,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/vulpix-alola.png",
+      "sprite": "assets/pokemon/961.png",
       "types": [
         "ice"
       ],
@@ -4030,7 +4030,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ninetales-alola.png",
+      "sprite": "assets/pokemon/962.png",
       "types": [
         "ice",
         "fairy"
@@ -4058,7 +4058,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/rufflet.png",
+      "sprite": "assets/pokemon/627.png",
       "types": [
         "normal",
         "flying"
@@ -4086,7 +4086,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/braviary-hisui.png",
+      "sprite": "assets/pokemon/1004.png",
       "types": [
         "psychic",
         "flying"
@@ -4114,7 +4114,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/scatterbug.png",
+      "sprite": "assets/pokemon/664.png",
       "types": [
         "bug"
       ],
@@ -4141,7 +4141,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/spewpa.png",
+      "sprite": "assets/pokemon/665.png",
       "types": [
         "bug"
       ],
@@ -4170,7 +4170,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/vivillon.png",
+      "sprite": "assets/pokemon/666.png",
       "types": [
         "bug",
         "flying"
@@ -4198,7 +4198,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Click on the rocks - 3 of them are Bergmites",
       "availability": "Available",
-      "sprite": "assets/sprites/bergmite.png",
+      "sprite": "assets/pokemon/712.png",
       "types": [
         "ice"
       ],
@@ -4225,7 +4225,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/avalugg-hisui.png",
+      "sprite": "assets/pokemon/1007.png",
       "types": [
         "ice",
         "rock"
@@ -4253,7 +4253,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/sandshrew-alola.png",
+      "sprite": "assets/pokemon/959.png",
       "types": [
         "ice",
         "steel"
@@ -4281,7 +4281,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/sandslash-alola.png",
+      "sprite": "assets/pokemon/960.png",
       "types": [
         "ice",
         "steel"
@@ -4309,7 +4309,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/swinub.png",
+      "sprite": "assets/pokemon/220.png",
       "types": [
         "ice",
         "ground"
@@ -4337,7 +4337,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/piloswine.png",
+      "sprite": "assets/pokemon/221.png",
       "types": [
         "ice",
         "ground"
@@ -4367,7 +4367,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/mamoswine.png",
+      "sprite": "assets/pokemon/473.png",
       "types": [
         "ice",
         "ground"
@@ -4395,7 +4395,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-969.png",
+      "sprite": "assets/pokemon/1358.png",
       "types": [
         "rock",
         "poison"
@@ -4423,7 +4423,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-970.png",
+      "sprite": "assets/pokemon/1359.png",
       "types": [
         "rock",
         "poison"
@@ -4451,7 +4451,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-974.png",
+      "sprite": "assets/pokemon/1363.png",
       "types": [
         "ice"
       ],
@@ -4478,7 +4478,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-975.png",
+      "sprite": "assets/pokemon/1364.png",
       "types": [
         "ice"
       ],
@@ -4505,7 +4505,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/minior.png",
+      "sprite": "assets/pokemon/774.png",
       "types": [
         "rock",
         "flying"
@@ -4531,7 +4531,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-996.png",
+      "sprite": "assets/pokemon/1388.png",
       "types": [
         "dragon",
         "ice"
@@ -4559,7 +4559,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-997.png",
+      "sprite": "assets/pokemon/1389.png",
       "types": [
         "dragon",
         "ice"
@@ -4589,7 +4589,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-998.png",
+      "sprite": "assets/pokemon/1390.png",
       "types": [
         "dragon",
         "ice"
@@ -4617,7 +4617,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/meowth-galar.png",
+      "sprite": "assets/pokemon/974.png",
       "types": [
         "steel"
       ],
@@ -4644,7 +4644,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/perrserker.png",
+      "sprite": "assets/pokemon/863.png",
       "types": [
         "steel"
       ],
@@ -4671,7 +4671,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/sneasel-hisui.png",
+      "sprite": "assets/pokemon/999.png",
       "types": [
         "fighting",
         "poison"
@@ -4699,7 +4699,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/sneasler.png",
+      "sprite": "assets/pokemon/903.png",
       "types": [
         "fighting",
         "poison"
@@ -4727,7 +4727,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "A Team Somber grunt abandoned this poor guy",
       "availability": "Available",
-      "sprite": "assets/sprites/mime-jr.png",
+      "sprite": "assets/pokemon/439.png",
       "types": [
         "psychic",
         "fairy"
@@ -4755,7 +4755,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/mr-mime-galar.png",
+      "sprite": "assets/pokemon/981.png",
       "types": [
         "ice",
         "psychic"
@@ -4785,7 +4785,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/mr-rime.png",
+      "sprite": "assets/pokemon/866.png",
       "types": [
         "ice",
         "psychic"
@@ -4813,7 +4813,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/togepi.png",
+      "sprite": "assets/pokemon/175.png",
       "types": [
         "fairy"
       ],
@@ -4840,7 +4840,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/togetic.png",
+      "sprite": "assets/pokemon/176.png",
       "types": [
         "fairy",
         "flying"
@@ -4870,7 +4870,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/togekiss.png",
+      "sprite": "assets/pokemon/468.png",
       "types": [
         "fairy",
         "flying"
@@ -4898,7 +4898,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/mawile.png",
+      "sprite": "assets/pokemon/303.png",
       "types": [
         "steel",
         "fairy"
@@ -4924,7 +4924,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/carbink.png",
+      "sprite": "assets/pokemon/703.png",
       "types": [
         "rock",
         "fairy"
@@ -4950,7 +4950,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/dreepy.png",
+      "sprite": "assets/pokemon/885.png",
       "types": [
         "dragon",
         "ghost"
@@ -4978,7 +4978,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/drakloak.png",
+      "sprite": "assets/pokemon/886.png",
       "types": [
         "dragon",
         "ghost"
@@ -5008,7 +5008,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dragapult.png",
+      "sprite": "assets/pokemon/887.png",
       "types": [
         "dragon",
         "ghost"
@@ -5036,7 +5036,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/sableye.png",
+      "sprite": "assets/pokemon/302.png",
       "types": [
         "dark",
         "ghost"
@@ -5062,7 +5062,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Become a full ranger and then talk to the person in the daycare",
       "availability": "Available",
-      "sprite": "assets/sprites/ditto.png",
+      "sprite": "assets/pokemon/132.png",
       "types": [
         "normal"
       ],
@@ -5087,7 +5087,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "Walk around in the garden for a bit",
       "availability": "Available",
-      "sprite": "assets/sprites/rotom.png",
+      "sprite": "assets/pokemon/479.png",
       "types": [
         "electric",
         "ghost"
@@ -5113,7 +5113,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "In the basement of one of the rich houses",
       "availability": "Available",
-      "sprite": "assets/sprites/litwick.png",
+      "sprite": "assets/pokemon/607.png",
       "types": [
         "ghost",
         "fire"
@@ -5141,7 +5141,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lampent.png",
+      "sprite": "assets/pokemon/608.png",
       "types": [
         "ghost",
         "fire"
@@ -5171,7 +5171,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/chandelure.png",
+      "sprite": "assets/pokemon/609.png",
       "types": [
         "ghost",
         "fire"
@@ -5199,7 +5199,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pancham.png",
+      "sprite": "assets/pokemon/674.png",
       "types": [
         "fighting"
       ],
@@ -5226,7 +5226,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pangoro.png",
+      "sprite": "assets/pokemon/675.png",
       "types": [
         "fighting",
         "dark"
@@ -5254,7 +5254,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/oranguru.png",
+      "sprite": "assets/pokemon/765.png",
       "types": [
         "normal",
         "psychic"
@@ -5280,7 +5280,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/passimian.png",
+      "sprite": "assets/pokemon/766.png",
       "types": [
         "fighting"
       ],
@@ -5305,7 +5305,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/ralts.png",
+      "sprite": "assets/pokemon/280.png",
       "types": [
         "psychic",
         "fairy"
@@ -5333,7 +5333,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/kirlia.png",
+      "sprite": "assets/pokemon/281.png",
       "types": [
         "psychic",
         "fairy"
@@ -5364,7 +5364,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gardevoir.png",
+      "sprite": "assets/pokemon/282.png",
       "types": [
         "psychic",
         "fairy"
@@ -5392,7 +5392,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gallade.png",
+      "sprite": "assets/pokemon/475.png",
       "types": [
         "psychic",
         "fighting"
@@ -5420,7 +5420,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Get a fake ID made from the Somber HQ in Silversun",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-935.png",
+      "sprite": "assets/pokemon/1323.png",
       "types": [
         "fire"
       ],
@@ -5448,7 +5448,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-937.png",
+      "sprite": "assets/pokemon/1325.png",
       "types": [
         "fire",
         "ghost"
@@ -5476,7 +5476,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-936.png",
+      "sprite": "assets/pokemon/1324.png",
       "types": [
         "fire",
         "psychic"
@@ -5504,7 +5504,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/mareep.png",
+      "sprite": "assets/pokemon/179.png",
       "types": [
         "electric"
       ],
@@ -5531,7 +5531,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/flaaffy.png",
+      "sprite": "assets/pokemon/180.png",
       "types": [
         "electric"
       ],
@@ -5560,7 +5560,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ampharos.png",
+      "sprite": "assets/pokemon/181.png",
       "types": [
         "electric"
       ],
@@ -5587,7 +5587,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-965.png",
+      "sprite": "assets/pokemon/1354.png",
       "types": [
         "steel",
         "poison"
@@ -5615,7 +5615,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-966.png",
+      "sprite": "assets/pokemon/1355.png",
       "types": [
         "steel",
         "poison"
@@ -5643,7 +5643,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/finneon.png",
+      "sprite": "assets/pokemon/456.png",
       "types": [
         "water"
       ],
@@ -5670,7 +5670,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/lumineon.png",
+      "sprite": "assets/pokemon/457.png",
       "types": [
         "water"
       ],
@@ -5697,7 +5697,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/skarmory.png",
+      "sprite": "assets/pokemon/227.png",
       "types": [
         "steel",
         "flying"
@@ -5723,7 +5723,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Offered by Greta the traveling merchant (Mysterious Egg)",
       "availability": "Available",
-      "sprite": "assets/sprites/honedge.png",
+      "sprite": "assets/pokemon/679.png",
       "types": [
         "steel",
         "ghost"
@@ -5751,7 +5751,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/doublade.png",
+      "sprite": "assets/pokemon/680.png",
       "types": [
         "steel",
         "ghost"
@@ -5781,7 +5781,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/aegislash.png",
+      "sprite": "assets/pokemon/681.png",
       "types": [
         "steel",
         "ghost"
@@ -5809,7 +5809,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/scyther.png",
+      "sprite": "assets/pokemon/123.png",
       "types": [
         "bug",
         "flying"
@@ -5838,7 +5838,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/scizor.png",
+      "sprite": "assets/pokemon/212.png",
       "types": [
         "bug",
         "steel"
@@ -5866,7 +5866,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/kleavor.png",
+      "sprite": "assets/pokemon/900.png",
       "types": [
         "bug",
         "rock"
@@ -5894,7 +5894,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Get promoted to Associate Ranger first",
       "availability": "Available",
-      "sprite": "assets/sprites/kangaskhan.png",
+      "sprite": "assets/pokemon/115.png",
       "types": [
         "normal"
       ],
@@ -5919,7 +5919,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Trade",
       "availability": "Available",
-      "sprite": "assets/sprites/pinsir.png",
+      "sprite": "assets/pokemon/127.png",
       "types": [
         "bug"
       ],
@@ -5944,7 +5944,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/furfrou.png",
+      "sprite": "assets/pokemon/676.png",
       "types": [
         "normal"
       ],
@@ -5969,7 +5969,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-962.png",
+      "sprite": "assets/pokemon/1350.png",
       "types": [
         "flying",
         "dark"
@@ -5995,7 +5995,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/arrokuda.png",
+      "sprite": "assets/pokemon/846.png",
       "types": [
         "water"
       ],
@@ -6022,7 +6022,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/barraskewda.png",
+      "sprite": "assets/pokemon/847.png",
       "types": [
         "water"
       ],
@@ -6049,7 +6049,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/bruxish.png",
+      "sprite": "assets/pokemon/779.png",
       "types": [
         "water",
         "psychic"
@@ -6075,7 +6075,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/carvanha.png",
+      "sprite": "assets/pokemon/318.png",
       "types": [
         "water",
         "dark"
@@ -6103,7 +6103,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/sharpedo.png",
+      "sprite": "assets/pokemon/319.png",
       "types": [
         "water",
         "dark"
@@ -6131,7 +6131,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/slowpoke-galar.png",
+      "sprite": "assets/pokemon/977.png",
       "types": [
         "psychic"
       ],
@@ -6159,7 +6159,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/slowbro-galar.png",
+      "sprite": "assets/pokemon/978.png",
       "types": [
         "poison",
         "psychic"
@@ -6187,7 +6187,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/slowking-galar.png",
+      "sprite": "assets/pokemon/985.png",
       "types": [
         "poison",
         "psychic"
@@ -6215,7 +6215,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/oshawott.png",
+      "sprite": "assets/pokemon/501.png",
       "types": [
         "water"
       ],
@@ -6242,7 +6242,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "Trolling Rod",
       "availability": "Available",
-      "sprite": "assets/sprites/dewott.png",
+      "sprite": "assets/pokemon/502.png",
       "types": [
         "water"
       ],
@@ -6271,7 +6271,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/samurott.png",
+      "sprite": "assets/pokemon/503.png",
       "types": [
         "water"
       ],
@@ -6298,7 +6298,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tynamo.png",
+      "sprite": "assets/pokemon/602.png",
       "types": [
         "electric"
       ],
@@ -6325,7 +6325,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/eelektrik.png",
+      "sprite": "assets/pokemon/603.png",
       "types": [
         "electric"
       ],
@@ -6354,7 +6354,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/eelektross.png",
+      "sprite": "assets/pokemon/604.png",
       "types": [
         "electric"
       ],
@@ -6381,7 +6381,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/corsola.png",
+      "sprite": "assets/pokemon/222.png",
       "types": [
         "water",
         "rock"
@@ -6409,7 +6409,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/cursola.png",
+      "sprite": "assets/pokemon/864.png",
       "types": [
         "ghost"
       ],
@@ -6436,7 +6436,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/mareanie.png",
+      "sprite": "assets/pokemon/747.png",
       "types": [
         "poison",
         "water"
@@ -6464,7 +6464,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/toxapex.png",
+      "sprite": "assets/pokemon/748.png",
       "types": [
         "poison",
         "water"
@@ -6492,7 +6492,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/voltorb-hisui.png",
+      "sprite": "assets/pokemon/995.png",
       "types": [
         "electric",
         "grass"
@@ -6520,7 +6520,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/electrode-hisui.png",
+      "sprite": "assets/pokemon/996.png",
       "types": [
         "electric",
         "grass"
@@ -6548,7 +6548,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/electrike.png",
+      "sprite": "assets/pokemon/309.png",
       "types": [
         "electric"
       ],
@@ -6575,7 +6575,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Get promoted to Associate Ranger first",
       "availability": "Available",
-      "sprite": "assets/sprites/manectric.png",
+      "sprite": "assets/pokemon/310.png",
       "types": [
         "electric"
       ],
@@ -6602,7 +6602,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/yamper.png",
+      "sprite": "assets/pokemon/835.png",
       "types": [
         "electric"
       ],
@@ -6629,7 +6629,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/boltund.png",
+      "sprite": "assets/pokemon/836.png",
       "types": [
         "electric"
       ],
@@ -6656,7 +6656,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/geodude-alola.png",
+      "sprite": "assets/pokemon/967.png",
       "types": [
         "rock",
         "electric"
@@ -6684,7 +6684,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/graveler-alola.png",
+      "sprite": "assets/pokemon/968.png",
       "types": [
         "rock",
         "electric"
@@ -6714,7 +6714,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/golem-alola.png",
+      "sprite": "assets/pokemon/969.png",
       "types": [
         "rock",
         "electric"
@@ -6742,7 +6742,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Trade",
       "availability": "Available",
-      "sprite": "assets/sprites/houndour.png",
+      "sprite": "assets/pokemon/228.png",
       "types": [
         "dark",
         "fire"
@@ -6770,7 +6770,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/houndoom.png",
+      "sprite": "assets/pokemon/229.png",
       "types": [
         "dark",
         "fire"
@@ -6798,7 +6798,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/ponyta-galar.png",
+      "sprite": "assets/pokemon/975.png",
       "types": [
         "psychic"
       ],
@@ -6825,7 +6825,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/rapidash-galar.png",
+      "sprite": "assets/pokemon/976.png",
       "types": [
         "psychic",
         "fairy"
@@ -6853,7 +6853,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/wooloo.png",
+      "sprite": "assets/pokemon/831.png",
       "types": [
         "normal"
       ],
@@ -6880,7 +6880,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dubwool.png",
+      "sprite": "assets/pokemon/832.png",
       "types": [
         "normal"
       ],
@@ -6907,7 +6907,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "Talk to the girl throwing stones at the Wingulls",
       "availability": "Available",
-      "sprite": "assets/sprites/wingull.png",
+      "sprite": "assets/pokemon/278.png",
       "types": [
         "water",
         "flying"
@@ -6935,7 +6935,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pelipper.png",
+      "sprite": "assets/pokemon/279.png",
       "types": [
         "water",
         "flying"
@@ -6963,7 +6963,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/goomy.png",
+      "sprite": "assets/pokemon/704.png",
       "types": [
         "dragon"
       ],
@@ -6990,7 +6990,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/sliggoo-hisui.png",
+      "sprite": "assets/pokemon/1005.png",
       "types": [
         "steel",
         "dragon"
@@ -7020,7 +7020,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/goodra-hisui.png",
+      "sprite": "assets/pokemon/1006.png",
       "types": [
         "steel",
         "dragon"
@@ -7048,7 +7048,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/squirtle.png",
+      "sprite": "assets/pokemon/7.png",
       "types": [
         "water"
       ],
@@ -7075,7 +7075,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/wartortle.png",
+      "sprite": "assets/pokemon/8.png",
       "types": [
         "water"
       ],
@@ -7104,7 +7104,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Wake it up with a Pokeflute",
       "availability": "Available",
-      "sprite": "assets/sprites/blastoise.png",
+      "sprite": "assets/pokemon/9.png",
       "types": [
         "water"
       ],
@@ -7131,7 +7131,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/charmander.png",
+      "sprite": "assets/pokemon/4.png",
       "types": [
         "fire"
       ],
@@ -7158,7 +7158,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/charmeleon.png",
+      "sprite": "assets/pokemon/5.png",
       "types": [
         "fire"
       ],
@@ -7187,7 +7187,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Wake it up with a Pokeflute",
       "availability": "Available",
-      "sprite": "assets/sprites/charizard.png",
+      "sprite": "assets/pokemon/6.png",
       "types": [
         "fire",
         "flying"
@@ -7215,7 +7215,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/bulbasaur.png",
+      "sprite": "assets/pokemon/1.png",
       "types": [
         "grass",
         "poison"
@@ -7243,7 +7243,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/ivysaur.png",
+      "sprite": "assets/pokemon/2.png",
       "types": [
         "grass",
         "poison"
@@ -7273,7 +7273,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Wake it up with a Pokeflute",
       "availability": "Available",
-      "sprite": "assets/sprites/venusaur.png",
+      "sprite": "assets/pokemon/3.png",
       "types": [
         "grass",
         "poison"
@@ -7301,7 +7301,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/jangmo-o.png",
+      "sprite": "assets/pokemon/782.png",
       "types": [
         "dragon"
       ],
@@ -7328,7 +7328,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/hakamo-o.png",
+      "sprite": "assets/pokemon/783.png",
       "types": [
         "dragon",
         "fighting"
@@ -7358,7 +7358,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/kommo-o.png",
+      "sprite": "assets/pokemon/784.png",
       "types": [
         "dragon",
         "fighting"
@@ -7386,7 +7386,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/snom.png",
+      "sprite": "assets/pokemon/872.png",
       "types": [
         "ice",
         "bug"
@@ -7414,7 +7414,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/frosmoth.png",
+      "sprite": "assets/pokemon/873.png",
       "types": [
         "ice",
         "bug"
@@ -7442,7 +7442,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Uncommon",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-940.png",
+      "sprite": "assets/pokemon/1328.png",
       "types": [
         "electric",
         "flying"
@@ -7470,7 +7470,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/pokeapi-941.png",
+      "sprite": "assets/pokemon/1329.png",
       "types": [
         "electric",
         "flying"
@@ -7498,7 +7498,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/beldum.png",
+      "sprite": "assets/pokemon/374.png",
       "types": [
         "steel",
         "psychic"
@@ -7526,7 +7526,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/metang.png",
+      "sprite": "assets/pokemon/375.png",
       "types": [
         "steel",
         "psychic"
@@ -7556,7 +7556,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/metagross.png",
+      "sprite": "assets/pokemon/376.png",
       "types": [
         "steel",
         "psychic"
@@ -7584,7 +7584,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/absol.png",
+      "sprite": "assets/pokemon/359.png",
       "types": [
         "dark"
       ],
@@ -7609,7 +7609,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Paldea Blaze. Get promoted to Associate Ranger first",
       "availability": "Available",
-      "sprite": "assets/sprites/tauros.png",
+      "sprite": "assets/pokemon/1402.png",
       "types": [
         "fighting"
       ],
@@ -7634,7 +7634,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Breeding",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/surskit.png",
+      "sprite": "assets/pokemon/283.png",
       "types": [
         "bug",
         "water"
@@ -7662,7 +7662,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/masquerain.png",
+      "sprite": "assets/pokemon/284.png",
       "types": [
         "bug",
         "flying"
@@ -7690,7 +7690,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/clauncher.png",
+      "sprite": "assets/pokemon/692.png",
       "types": [
         "water"
       ],
@@ -7717,7 +7717,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/clawitzer.png",
+      "sprite": "assets/pokemon/693.png",
       "types": [
         "water"
       ],
@@ -7744,7 +7744,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/alomomola.png",
+      "sprite": "assets/pokemon/594.png",
       "types": [
         "water"
       ],
@@ -7769,7 +7769,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/magikarp.png",
+      "sprite": "assets/pokemon/129.png",
       "types": [
         "water"
       ],
@@ -7796,7 +7796,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/gyarados.png",
+      "sprite": "assets/pokemon/130.png",
       "types": [
         "water",
         "flying"
@@ -7824,7 +7824,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Greta sells a stone in Route 5. Place it on the empty patch.",
       "availability": "Available",
-      "sprite": "assets/sprites/spiritomb.png",
+      "sprite": "assets/pokemon/442.png",
       "types": [
         "ghost",
         "dark"
@@ -7850,7 +7850,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Rare",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/baltoy.png",
+      "sprite": "assets/pokemon/343.png",
       "types": [
         "ground",
         "psychic"
@@ -7878,7 +7878,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/claydol.png",
+      "sprite": "assets/pokemon/344.png",
       "types": [
         "ground",
         "psychic"
@@ -7906,7 +7906,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/dhelmise.png",
+      "sprite": "assets/pokemon/781.png",
       "types": [
         "ghost",
         "grass"
@@ -7932,7 +7932,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/mimikyu.png",
+      "sprite": "assets/pokemon/778.png",
       "types": [
         "ghost",
         "fairy"
@@ -7958,7 +7958,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/lileep.png",
+      "sprite": "assets/pokemon/345.png",
       "types": [
         "rock",
         "grass"
@@ -7986,7 +7986,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/cradily.png",
+      "sprite": "assets/pokemon/346.png",
       "types": [
         "rock",
         "grass"
@@ -8014,7 +8014,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/archen.png",
+      "sprite": "assets/pokemon/566.png",
       "types": [
         "rock",
         "flying"
@@ -8042,7 +8042,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/archeops.png",
+      "sprite": "assets/pokemon/567.png",
       "types": [
         "rock",
         "flying"
@@ -8070,7 +8070,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/amaura.png",
+      "sprite": "assets/pokemon/698.png",
       "types": [
         "rock",
         "ice"
@@ -8098,7 +8098,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/aurorus.png",
+      "sprite": "assets/pokemon/699.png",
       "types": [
         "rock",
         "ice"
@@ -8126,7 +8126,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Common",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/shieldon.png",
+      "sprite": "assets/pokemon/410.png",
       "types": [
         "rock",
         "steel"
@@ -8154,7 +8154,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/bastiodon.png",
+      "sprite": "assets/pokemon/411.png",
       "types": [
         "rock",
         "steel"
@@ -8182,7 +8182,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tyrunt.png",
+      "sprite": "assets/pokemon/696.png",
       "types": [
         "rock",
         "dragon"
@@ -8210,7 +8210,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/tyrantrum.png",
+      "sprite": "assets/pokemon/697.png",
       "types": [
         "rock",
         "dragon"
@@ -8238,7 +8238,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/omanyte.png",
+      "sprite": "assets/pokemon/138.png",
       "types": [
         "rock",
         "water"
@@ -8266,7 +8266,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/omastar.png",
+      "sprite": "assets/pokemon/139.png",
       "types": [
         "rock",
         "water"
@@ -8294,7 +8294,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/kabuto.png",
+      "sprite": "assets/pokemon/140.png",
       "types": [
         "rock",
         "water"
@@ -8322,7 +8322,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/kabutops.png",
+      "sprite": "assets/pokemon/141.png",
       "types": [
         "rock",
         "water"
@@ -8350,7 +8350,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/cranidos.png",
+      "sprite": "assets/pokemon/408.png",
       "types": [
         "rock"
       ],
@@ -8377,7 +8377,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/rampardos.png",
+      "sprite": "assets/pokemon/409.png",
       "types": [
         "rock"
       ],
@@ -8404,7 +8404,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/relicanth.png",
+      "sprite": "assets/pokemon/369.png",
       "types": [
         "water",
         "rock"
@@ -8430,7 +8430,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/tirtouga.png",
+      "sprite": "assets/pokemon/564.png",
       "types": [
         "water",
         "rock"
@@ -8458,7 +8458,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Evolution / special",
-      "sprite": "assets/sprites/carracosta.png",
+      "sprite": "assets/pokemon/565.png",
       "types": [
         "water",
         "rock"
@@ -8486,7 +8486,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/aerodactyl.png",
+      "sprite": "assets/pokemon/142.png",
       "types": [
         "rock",
         "flying"
@@ -8512,7 +8512,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-985.png",
+      "sprite": "assets/pokemon/1377.png",
       "types": [
         "fairy",
         "psychic"
@@ -8538,7 +8538,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Scan the ancient carving with the Archaeolens 2.0",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-987.png",
+      "sprite": "assets/pokemon/1379.png",
       "types": [
         "ghost",
         "fairy"
@@ -8564,7 +8564,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Scan the ancient carving with the Archaeolens 2.0",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-984.png",
+      "sprite": "assets/pokemon/1376.png",
       "types": [
         "ground",
         "fighting"
@@ -8590,7 +8590,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "",
       "notes": "Scan the ancient carving with the Archaeolens 2.0",
       "availability": "Available",
-      "sprite": "assets/sprites/pokeapi-1005.png",
+      "sprite": "assets/pokemon/1398.png",
       "types": [
         "dragon",
         "dark"
@@ -8616,7 +8616,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/zarude.png",
+      "sprite": "assets/pokemon/893.png",
       "types": [
         "dark",
         "grass"
@@ -8642,7 +8642,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/zeraora.png",
+      "sprite": "assets/pokemon/807.png",
       "types": [
         "electric"
       ],
@@ -8667,7 +8667,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/celebi.png",
+      "sprite": "assets/pokemon/251.png",
       "types": [
         "psychic",
         "grass"
@@ -8693,7 +8693,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "",
       "availability": "Available",
-      "sprite": "assets/sprites/diancie.png",
+      "sprite": "assets/pokemon/719.png",
       "types": [
         "rock",
         "fairy"
@@ -8719,7 +8719,7 @@ window.DREAMSTONE_DATA = {
       "rarity": "Unique",
       "notes": "Sorry! Prof Tenebris has it for research",
       "availability": "Unobtainable",
-      "sprite": "assets/sprites/pokeapi-1007.png",
+      "sprite": "assets/pokemon/1400.png",
       "types": [
         "fighting",
         "dragon"
@@ -8742,92 +8742,92 @@ window.DREAMSTONE_DATA = {
     {
       "number": 1,
       "name": "Medicham",
-      "sprite": "assets/sprites/medicham-mega.png"
+      "sprite": "assets/pokemon/308.png"
     },
     {
       "number": 2,
       "name": "Aggron",
-      "sprite": "assets/sprites/aggron-mega.png"
+      "sprite": "assets/pokemon/306.png"
     },
     {
       "number": 3,
       "name": "Altaria",
-      "sprite": "assets/sprites/altaria-mega.png"
+      "sprite": "assets/pokemon/334.png"
     },
     {
       "number": 4,
       "name": "Lopunny",
-      "sprite": "assets/sprites/lopunny-mega.png"
+      "sprite": "assets/pokemon/428.png"
     },
     {
       "number": 5,
       "name": "Banette",
-      "sprite": "assets/sprites/banette-mega.png"
+      "sprite": "assets/pokemon/354.png"
     },
     {
       "number": 6,
       "name": "Ampharos",
-      "sprite": "assets/sprites/ampharos-mega.png"
+      "sprite": "assets/pokemon/181.png"
     },
     {
       "number": 7,
       "name": "Gyarados",
-      "sprite": "assets/sprites/gyarados-mega.png"
+      "sprite": "assets/pokemon/130.png"
     },
     {
       "number": 8,
       "name": "Mawile",
-      "sprite": "assets/sprites/mawile-mega.png"
+      "sprite": "assets/pokemon/303.png"
     },
     {
       "number": 9,
       "name": "Gardevoir",
-      "sprite": "assets/sprites/gardevoir-mega.png"
+      "sprite": "assets/pokemon/282.png"
     },
     {
       "number": 10,
       "name": "Gallade",
-      "sprite": "assets/sprites/gallade-mega.png"
+      "sprite": "assets/pokemon/475.png"
     },
     {
       "number": 11,
       "name": "Houndoom",
-      "sprite": "assets/sprites/houndoom-mega.png"
+      "sprite": "assets/pokemon/229.png"
     },
     {
       "number": 12,
       "name": "Metagross",
-      "sprite": "assets/sprites/metagross-mega.png"
+      "sprite": "assets/pokemon/376.png"
     },
     {
       "number": 13,
       "name": "Scizor",
-      "sprite": "assets/sprites/scizor-mega.png"
+      "sprite": "assets/pokemon/212.png"
     },
     {
       "number": 14,
       "name": "Kangaskhan",
-      "sprite": "assets/sprites/kangaskhan-mega.png"
+      "sprite": "assets/pokemon/115.png"
     },
     {
       "number": 15,
       "name": "Pinsir",
-      "sprite": "assets/sprites/pinsir-mega.png"
+      "sprite": "assets/pokemon/127.png"
     },
     {
       "number": 16,
       "name": "Sharpedo",
-      "sprite": "assets/sprites/sharpedo-mega.png"
+      "sprite": "assets/pokemon/319.png"
     },
     {
       "number": 17,
       "name": "Manectric",
-      "sprite": "assets/sprites/manectric-mega.png"
+      "sprite": "assets/pokemon/310.png"
     },
     {
       "number": 18,
       "name": "Absol",
-      "sprite": "assets/sprites/absol-mega.png"
+      "sprite": "assets/pokemon/359.png"
     }
   ],
   "importantItems": [

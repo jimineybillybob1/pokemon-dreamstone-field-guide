@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
+import { PNG } from "pngjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataSource = await fs.readFile(path.join(rootDir, "data", "dreamstone-data.js"), "utf8");
@@ -10,6 +11,7 @@ const moveSource = await fs.readFile(path.join(rootDir, "data", "pokerex-moves.j
 const abilitySource = await fs.readFile(path.join(rootDir, "data", "pokerex-abilities.js"), "utf8");
 const trainerSource = await fs.readFile(path.join(rootDir, "data", "pokerex-trainers.js"), "utf8");
 const itemSource = await fs.readFile(path.join(rootDir, "data", "pokerex-items.js"), "utf8");
+const appSource = await fs.readFile(path.join(rootDir, "app.js"), "utf8");
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(dataSource, context);
@@ -29,6 +31,16 @@ const errors = [];
 const check = (condition, message) => {
   if (!condition) errors.push(message);
 };
+const pokemonSpriteReferences = [
+  ...data.dex.map((pokemon) => pokemon.sprite),
+  ...data.megas.map((pokemon) => pokemon.sprite),
+  ...encounters.encounterSpecies.map((pokemon) => pokemon.sprite),
+  ...encounters.locations.flatMap((location) =>
+    location.methods.flatMap((method) => method.species.map((pokemon) => pokemon.sprite)),
+  ),
+  ...trainers.trainers.flatMap((trainer) => trainer.party.map((member) => member.sprite)),
+  ...[...appSource.matchAll(/assets\/pokemon\/\d+\.png/g)].map((match) => match[0]),
+];
 
 check(Array.isArray(data.dex), "Dex data is missing");
 check(data.dex.length === 315, `Expected 315 Pokémon, found ${data.dex.length}`);
@@ -65,6 +77,11 @@ check(moves.tutors.length === 19, `Expected 19 Pokerex move tutors, found ${move
 check(abilities.abilities.length === 310, `Expected 310 Pokerex abilities, found ${abilities.abilities.length}`);
 check(trainers.trainers.length === 127, `Expected 127 playable Pokerex trainers, found ${trainers.trainers.length}`);
 check(trainers.locations.length === 25, `Expected 25 trainer locations, found ${trainers.locations.length}`);
+check(
+  pokemonSpriteReferences.every((sprite) => /^assets\/pokemon\/\d+\.png$/.test(sprite)),
+  "A runtime Pokémon sprite does not use the unified Dreamstone source asset set",
+);
+check(!appSource.includes("assets/sprites/"), "app.js still references a mixed-source Pokémon sprite");
 check(
   trainers.trainers.every(
     (trainer) =>
@@ -221,6 +238,16 @@ for (const pokemon of [...data.dex, ...data.megas]) {
     check(stat.size > 0, `${pokemon.name} sprite is empty`);
   } catch {
     errors.push(`${pokemon.name} sprite does not exist: ${pokemon.sprite}`);
+  }
+}
+
+for (const sprite of new Set(pokemonSpriteReferences)) {
+  try {
+    const bytes = await fs.readFile(path.join(rootDir, sprite));
+    check(bytes.readUInt32BE(16) === 64 && bytes.readUInt32BE(20) === 64, `${sprite} is not 64x64`);
+    check(PNG.sync.read(bytes).data[3] === 0, `${sprite} background is not transparent`);
+  } catch {
+    errors.push(`Unified Dreamstone sprite does not exist: ${sprite}`);
   }
 }
 

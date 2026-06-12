@@ -62,8 +62,7 @@ const guideEntryForPokemon = (pokemon) => {
 const guideNumberForPokemon = (pokemon) => guideEntryForPokemon(pokemon)?.number || null;
 
 const spriteForPokemon = (pokemon) => {
-  const guideEntry = guideEntryForPokemon(pokemon);
-  return guideEntry?.sprite || `assets/sprites/pokerex-${pokemon.id}.png`;
+  return `assets/pokemon/${pokemon.id}.png`;
 };
 
 const methodLabels = {
@@ -209,3 +208,5 @@ console.log(
     2,
   ),
 );
+
+await import("./unify-pokemon-sprites.mjs");

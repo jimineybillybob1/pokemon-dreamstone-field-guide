@@ -103,7 +103,7 @@ const trainers = activeTrainers.map((trainer) => ({
       speciesId: member.speciesId,
       name: sourcePokemon?.name || member.species,
       guideNumber: guideEntry?.number || null,
-      sprite: guideEntry?.sprite || `assets/sprites/pokerex-${member.speciesId}.png`,
+      sprite: `assets/pokemon/${member.speciesId}.png`,
       types: (sourcePokemon?.types || guideEntry?.types || []).map((type) => type.toLowerCase()),
       level: member.level,
       heldItem: member.heldItem || "",
@@ -143,3 +143,5 @@ console.log(
     2,
   ),
 );
+
+await import("./unify-pokemon-sprites.mjs");

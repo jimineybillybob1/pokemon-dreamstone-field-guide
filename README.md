@@ -38,7 +38,7 @@ Open `index.html` in a browser. The guide includes:
 
 ## Regenerate From The Workbook
 
-The generator requires the cloned `msikma/pokesprite` repository at `vendor/pokesprite` and the
+The generator requires the Dreamstone source repository at `tmp/dreamstone-source` and the
 workspace Node dependencies linked at `node_modules`.
 
 ```powershell
@@ -48,10 +48,13 @@ workspace Node dependencies linked at `node_modules`.
 & 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
   'scripts\build-guide-data.mjs' `
   'C:\path\to\Dreamstone Mysteries _ Dex (temporary).xlsx'
+
+& 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
+  'scripts\unify-pokemon-sprites.mjs'
 ```
 
-PokéSprite supplies the Gen 8-style box sprites. Species introduced after Gen 8 use local fallback
-sprites downloaded from `PokeAPI/sprites`. Place the public Pokerex Dreamstone export at
+All Pokémon sprites are copied from the Dreamstone source repository and normalized to a single
+64x64 front frame. Place the public Pokerex Dreamstone export at
 `tmp/pokerex-dreamstone-data.json` before rebuilding so each Dex entry receives its ROM-extracted
 base stats and BST. Koraidon is absent from the extraction and uses canonical stats.
 
@@ -122,11 +125,10 @@ Relevant Cloudflare documentation:
 - Wild encounters, maps, Pokémon base stats, moves, abilities, learners, and tutor locations: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/abilities)
 - Gym rosters: [PokemonCoders](https://www.pokemoncoders.com/pokemon-dreamstone-mysteries-gym-leaders-guide/)
 - Gym leader trainer sprites and badge artwork: [Dreamstone Mysteries source](https://github.com/dsmyst/dreamstone-mysteries)
+- Pokémon battle sprites: [Dreamstone Mysteries source](https://github.com/dsmyst/dreamstone-mysteries)
 - Gift, special, Mega Evolution, and item notes: the supplied Dreamstone Mysteries temporary dex
 - Type and direct evolution metadata: [PokéAPI](https://pokeapi.co/)
-- Box sprites: [msikma/pokesprite](https://github.com/msikma/pokesprite)
 - Team matchup type chart: [Pokemon Database](https://pokemondb.net/type)
 - Masthead, official logo, and social preview artwork: [SteamGridDB](https://www.steamgriddb.com/game/5494497), uploaded by sirensongss
-- Gen 9 fallback sprites: [PokeAPI/sprites](https://github.com/PokeAPI/sprites)
 
 Pokémon images are © Nintendo / Creatures Inc. / GAME FREAK Inc.
