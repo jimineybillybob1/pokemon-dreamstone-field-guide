@@ -27,12 +27,14 @@ function loadTeam() {
         Number.isFinite(saved[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
       ),
       abilityId: Number.isFinite(saved[index]?.abilityId) ? saved[index].abilityId : null,
+      nature: typeof saved[index]?.nature === "string" ? saved[index].nature : null,
     }));
   } catch {
     return Array.from({ length: 6 }, () => ({
       pokemonNumber: null,
       moves: [null, null, null, null],
       abilityId: null,
+      nature: null,
     }));
   }
 }
@@ -48,12 +50,14 @@ function loadPlanner() {
         Number.isFinite(saved[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
       ),
       abilityId: Number.isFinite(saved[index]?.abilityId) ? saved[index].abilityId : null,
+      nature: typeof saved[index]?.nature === "string" ? saved[index].nature : null,
     }));
   } catch {
     return Array.from({ length: 6 }, () => ({
       pokemonNumber: null,
       moves: [null, null, null, null],
       abilityId: null,
+      nature: null,
     }));
   }
 }
@@ -175,6 +179,36 @@ const uniqueSorted = (values) =>
   );
 const uniqueInOrder = (values) => [...new Set(values.filter(Boolean))];
 const titleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
+const natures = [
+  { id: "hardy", name: "Hardy" },
+  { id: "lonely", name: "Lonely", increased: "atk", decreased: "def" },
+  { id: "brave", name: "Brave", increased: "atk", decreased: "spd" },
+  { id: "adamant", name: "Adamant", increased: "atk", decreased: "spa" },
+  { id: "naughty", name: "Naughty", increased: "atk", decreased: "spdef" },
+  { id: "bold", name: "Bold", increased: "def", decreased: "atk" },
+  { id: "docile", name: "Docile" },
+  { id: "relaxed", name: "Relaxed", increased: "def", decreased: "spd" },
+  { id: "impish", name: "Impish", increased: "def", decreased: "spa" },
+  { id: "lax", name: "Lax", increased: "def", decreased: "spdef" },
+  { id: "timid", name: "Timid", increased: "spd", decreased: "atk" },
+  { id: "hasty", name: "Hasty", increased: "spd", decreased: "def" },
+  { id: "serious", name: "Serious" },
+  { id: "jolly", name: "Jolly", increased: "spd", decreased: "spa" },
+  { id: "naive", name: "Naive", increased: "spd", decreased: "spdef" },
+  { id: "modest", name: "Modest", increased: "spa", decreased: "atk" },
+  { id: "mild", name: "Mild", increased: "spa", decreased: "def" },
+  { id: "quiet", name: "Quiet", increased: "spa", decreased: "spd" },
+  { id: "bashful", name: "Bashful" },
+  { id: "rash", name: "Rash", increased: "spa", decreased: "spdef" },
+  { id: "calm", name: "Calm", increased: "spdef", decreased: "atk" },
+  { id: "gentle", name: "Gentle", increased: "spdef", decreased: "def" },
+  { id: "sassy", name: "Sassy", increased: "spdef", decreased: "spd" },
+  { id: "careful", name: "Careful", increased: "spdef", decreased: "spa" },
+  { id: "quirky", name: "Quirky" },
+];
+const natureById = new Map(natures.map((nature) => [nature.id, nature]));
+const natureStatLabels = { atk: "Atk", def: "Def", spa: "SpA", spdef: "SpD", spd: "Spe" };
+const validNature = (nature) => (natureById.has(nature) ? nature : null);
 const itemOpenCategories = new Set(["Poké Balls"]);
 const encounterLocationsByGuideNumber = new Map();
 encounters.encounterSpecies
@@ -823,15 +857,19 @@ function renderLocationLinks(container, locations, fallback) {
   container.replaceChildren(fragment);
 }
 
-function renderPokemonStats(card, pokemon) {
+function renderPokemonStats(card, pokemon, natureId = null) {
   const section = card.querySelector(".pokemon-stats");
   if (!pokemon.bst || !pokemon.stats) return;
+  const nature = natureById.get(natureId);
 
   section.hidden = false;
   const heading = document.createElement("header");
-  heading.innerHTML = `
-    <span>Base stats</span>
-  `;
+  heading.innerHTML = `<span>Base stats</span>`;
+  if (nature) {
+    const note = document.createElement("small");
+    note.textContent = nature.increased ? "Nature effects highlighted" : "Neutral nature";
+    heading.append(note);
+  }
   const rows = document.createElement("div");
   rows.className = "pokemon-stats__rows";
   statDefinitions.forEach(({ key, label, max }) => {
@@ -839,6 +877,9 @@ function renderPokemonStats(card, pokemon) {
     if (!Number.isFinite(value)) return;
     const row = document.createElement("div");
     row.className = `pokemon-stat pokemon-stat--${key}`;
+    const natureEffect =
+      nature?.increased === key ? "increased" : nature?.decreased === key ? "decreased" : "";
+    if (natureEffect) row.classList.add(`is-nature-${natureEffect}`);
     row.innerHTML = `
       <span>${label}</span>
       <div class="pokemon-stat__track" title="${label}: ${value}">
@@ -846,6 +887,16 @@ function renderPokemonStats(card, pokemon) {
       </div>
       <strong>${value}</strong>
     `;
+    if (natureEffect) {
+      const effect = document.createElement("em");
+      effect.className = "pokemon-stat__nature-effect";
+      effect.textContent = natureEffect === "increased" ? "+10%" : "-10%";
+      effect.setAttribute(
+        "aria-label",
+        `${nature.name} nature ${natureEffect === "increased" ? "increases" : "decreases"} ${label} by 10 percent`,
+      );
+      row.append(effect);
+    }
     rows.append(row);
   });
   section.append(heading, rows);
@@ -880,11 +931,13 @@ function createSaveDocument() {
       pokemonNumber: slot.pokemonNumber,
       moves: [...slot.moves],
       abilityId: slot.abilityId,
+      nature: slot.nature,
     })),
     planner: state.planner.map((slot) => ({
       pokemonNumber: slot.pokemonNumber,
       moves: [...slot.moves],
       abilityId: slot.abilityId,
+      nature: slot.nature,
     })),
     preferences: {
       theme: state.theme,
@@ -916,7 +969,12 @@ function validateSaveDocument(input) {
     const abilityId = Number(slot.abilityId);
     const compatibleAbilities = abilitiesByPokemon.get(pokemonNumber) || [];
     const validAbility = compatibleAbilities.some((entry) => entry.ability.id === abilityId);
-    return { pokemonNumber, moves, abilityId: validAbility ? abilityId : null };
+    return {
+      pokemonNumber,
+      moves,
+      abilityId: validAbility ? abilityId : null,
+      nature: validNature(slot.nature),
+    };
   });
   const planner = Array.from({ length: 6 }, (_, slotIndex) => {
     const slot = Array.isArray(input.planner) ? input.planner[slotIndex] || {} : {};
@@ -931,7 +989,12 @@ function validateSaveDocument(input) {
     const abilityId = Number(slot.abilityId);
     const compatibleAbilities = abilitiesByPokemon.get(pokemonNumber) || [];
     const validAbility = compatibleAbilities.some((entry) => entry.ability.id === abilityId);
-    return { pokemonNumber, moves, abilityId: validAbility ? abilityId : null };
+    return {
+      pokemonNumber,
+      moves,
+      abilityId: validAbility ? abilityId : null,
+      nature: validNature(slot.nature),
+    };
   });
   return {
     format: saveFormat,
@@ -1129,6 +1192,7 @@ function setTeamPokemon(slotIndex, pokemonNumber, retainMoves = false) {
   const slot = state.team[slotIndex];
   slot.pokemonNumber = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
   if (!retainMoves) slot.moves = [null, null, null, null];
+  if (!retainMoves) slot.nature = null;
   slot.abilityId = null;
   persistTeam();
   refreshTeamAndDex();
@@ -1146,6 +1210,12 @@ function setTeamAbility(slotIndex, abilityId) {
     (entry) => entry.ability.id === abilityId,
   );
   slot.abilityId = valid ? abilityId : null;
+  persistTeam();
+  renderTeam();
+}
+
+function setTeamNature(slotIndex, nature) {
+  state.team[slotIndex].nature = validNature(nature);
   persistTeam();
   renderTeam();
 }
@@ -1724,6 +1794,49 @@ function createAbilitySelector(
   return section;
 }
 
+function natureOptionLabel(nature) {
+  return nature.increased
+    ? `${nature.name} - ${natureStatLabels[nature.increased]} + / ${natureStatLabels[nature.decreased]} -`
+    : `${nature.name} - Neutral`;
+}
+
+function createNatureSelector(
+  slotIndex,
+  selectedNature,
+  { scope = "team", labelText = "Nature", onChange = setTeamNature } = {},
+) {
+  const section = document.createElement("section");
+  section.className = "team-card__nature";
+  const label = document.createElement("label");
+  const text = document.createElement("span");
+  text.textContent = labelText;
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", `Choose ${labelText.toLowerCase()} for ${scope} slot ${slotIndex + 1}`);
+  select.add(new Option(`Choose ${labelText.toLowerCase()}...`, ""));
+  natures.forEach((nature) => select.add(new Option(natureOptionLabel(nature), nature.id)));
+  const nature = natureById.get(selectedNature);
+  select.value = nature?.id || "";
+  select.addEventListener("change", () => onChange(slotIndex, select.value));
+  label.append(text, select);
+  section.append(label);
+
+  if (nature) {
+    const details = document.createElement("div");
+    details.className = "team-nature-details";
+    const name = document.createElement("strong");
+    name.textContent = nature.name;
+    const effect = document.createElement("span");
+    effect.textContent = nature.increased
+      ? `${natureStatLabels[nature.increased]} +10% · ${natureStatLabels[nature.decreased]} -10%`
+      : "No stat is increased or decreased";
+    const note = document.createElement("small");
+    note.textContent = "Nature affects calculated battle stats, not the base stats shown.";
+    details.append(name, effect, note);
+    section.append(details);
+  }
+  return section;
+}
+
 function createPokemonLocationsSection(pokemon, className = "team-card__locations") {
   const locations = document.createElement("section");
   locations.className = className;
@@ -1766,7 +1879,7 @@ function renderTeamCard(slot, slotIndex) {
     empty.innerHTML = `
       <span class="empty-state__stone" aria-hidden="true"></span>
       <strong>Choose your next team member</strong>
-      <p>Pokemon details, abilities, compatible moves, and evolution choices will appear here.</p>
+      <p>Pokemon details, nature, abilities, compatible moves, and evolution choices will appear here.</p>
     `;
     card.append(empty);
     return card;
@@ -1792,8 +1905,8 @@ function renderTeamCard(slot, slotIndex) {
   const stats = document.createElement("section");
   stats.className = "pokemon-stats team-card__stats";
   stats.setAttribute("aria-label", `${pokemon.name} base stats`);
-  card.append(stats);
-  renderPokemonStats(card, pokemon);
+  card.append(createNatureSelector(slotIndex, slot.nature), stats);
+  renderPokemonStats(card, pokemon, slot.nature);
   card.append(createAbilitySelector(slotIndex, pokemon.number, slot.abilityId));
 
   if (pokemon.evolvesTo.length) {
@@ -1913,11 +2026,12 @@ function renderTeam() {
   renderOffensiveCoverage(elements.teamOffensiveCoverage, state.team);
 }
 
-function setPlannerPokemon(slotIndex, pokemonNumber) {
+function setPlannerPokemon(slotIndex, pokemonNumber, retainPreferences = false) {
   const slot = state.planner[slotIndex];
   slot.pokemonNumber = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
   slot.moves = [null, null, null, null];
   slot.abilityId = null;
+  if (!retainPreferences) slot.nature = null;
   persistPlanner();
   renderPlanner();
 }
@@ -1936,6 +2050,12 @@ function setPlannerAbility(slotIndex, abilityId) {
     (entry) => entry.ability.id === abilityId,
   );
   slot.abilityId = valid ? abilityId : null;
+  persistPlanner();
+  renderPlanner();
+}
+
+function setPlannerNature(slotIndex, nature) {
+  state.planner[slotIndex].nature = validNature(nature);
   persistPlanner();
   renderPlanner();
 }
@@ -2080,7 +2200,7 @@ function createPlannerEvolutionPath(pokemon, slotIndex) {
         <span>${stagePokemon.name.replaceAll("_", " ")}</span>
       `;
       if (stage.number !== pokemon.number) {
-        button.addEventListener("click", () => setPlannerPokemon(slotIndex, stage.number));
+        button.addEventListener("click", () => setPlannerPokemon(slotIndex, stage.number, true));
       }
       routeRow.append(button);
     });
@@ -2124,7 +2244,7 @@ function renderPlannerCard(slot, slotIndex) {
     empty.innerHTML = `
       <span class="empty-state__stone" aria-hidden="true"></span>
       <strong>Choose a future team member</strong>
-      <p>Locations, base stats, and learn methods for planned moves will appear here.</p>
+      <p>Locations, preferred nature, base stats, and learn methods for planned moves will appear here.</p>
     `;
     card.append(empty);
     return card;
@@ -2154,8 +2274,15 @@ function renderPlannerCard(slot, slotIndex) {
   const stats = document.createElement("section");
   stats.className = "pokemon-stats team-card__stats";
   stats.setAttribute("aria-label", `${pokemon.name} base stats`);
-  card.append(stats);
-  renderPokemonStats(card, pokemon);
+  card.append(
+    createNatureSelector(slotIndex, slot.nature, {
+      scope: "planner",
+      labelText: "Preferred nature",
+      onChange: setPlannerNature,
+    }),
+    stats,
+  );
+  renderPokemonStats(card, pokemon, slot.nature);
   card.append(
     createAbilitySelector(slotIndex, pokemon.number, slot.abilityId, {
       scope: "planner",
@@ -3138,7 +3265,7 @@ function bindControls() {
   document.querySelector("#clear-team").addEventListener("click", () => {
     if (
       !state.team.some((slot) => slot.pokemonNumber) ||
-      !window.confirm("Clear all Pokemon, abilities, and moves from your team?")
+      !window.confirm("Clear all Pokemon, natures, abilities, and moves from your team?")
     ) {
       return;
     }
@@ -3146,6 +3273,7 @@ function bindControls() {
       pokemonNumber: null,
       moves: [null, null, null, null],
       abilityId: null,
+      nature: null,
     }));
     persistTeam();
     refreshTeamAndDex();
@@ -3153,7 +3281,7 @@ function bindControls() {
   document.querySelector("#clear-planner").addEventListener("click", () => {
     if (
       !state.planner.some((slot) => slot.pokemonNumber) ||
-      !window.confirm("Clear all Pokemon and planned moves from your shortlist?")
+      !window.confirm("Clear all Pokemon, preferred natures, abilities, and planned moves from your shortlist?")
     ) {
       return;
     }
@@ -3161,6 +3289,7 @@ function bindControls() {
       pokemonNumber: null,
       moves: [null, null, null, null],
       abilityId: null,
+      nature: null,
     }));
     persistPlanner();
     renderPlanner();

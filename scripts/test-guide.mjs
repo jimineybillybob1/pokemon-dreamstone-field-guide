@@ -527,6 +527,21 @@ await check(
     "Ability",
   "Team Builder ability selector has the wrong label",
 );
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__nature select option").count()) === 26,
+  "Team Builder nature selector is missing nature choices",
+);
+await page.locator(".team-card[data-slot='1'] .team-card__nature select").selectOption("adamant");
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-nature-details").textContent()).includes(
+    "Atk +10% · SpA -10%",
+  ) &&
+    (await page.locator(".team-card[data-slot='1'] .pokemon-stat--atk .pokemon-stat__nature-effect").textContent()) ===
+      "+10%" &&
+    (await page.locator(".team-card[data-slot='1'] .pokemon-stat--spa .pokemon-stat__nature-effect").textContent()) ===
+      "-10%",
+  "Adamant nature effects are not clearly shown on the Team Builder stats",
+);
 await page.evaluate(() => setTeamPokemon(1, 17));
 await check(
   (await page.locator(".team-card[data-slot='2'] .team-card__locations .pokemon-location-link").count()) > 0,
@@ -598,6 +613,10 @@ await check(
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__ability select").inputValue()) === "",
   "Evolution did not reset the selected ability",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__nature select").inputValue()) === "adamant",
+  "Evolution did not retain the selected nature",
 );
 await page.locator(".team-card[data-slot='1'] .team-card__ability select").selectOption("119");
 await page.locator(".view-tab[data-view='dex']").click();
@@ -687,6 +706,22 @@ await check(
   "Team Planner preferred ability selector is missing",
 );
 await check(
+  (await page.locator(".planner-card[data-slot='1'] .team-card__nature label > span").textContent()) ===
+    "Preferred nature",
+  "Team Planner preferred nature selector is missing",
+);
+await page.locator(".planner-card[data-slot='1'] .team-card__nature select").selectOption("timid");
+await check(
+  (await page.locator(".planner-card[data-slot='1'] .team-nature-details").textContent()).includes(
+    "Spe +10% · Atk -10%",
+  ) &&
+    (await page.locator(".planner-card[data-slot='1'] .pokemon-stat--spd .pokemon-stat__nature-effect").textContent()) ===
+      "+10%" &&
+    (await page.locator(".planner-card[data-slot='1'] .pokemon-stat--atk .pokemon-stat__nature-effect").textContent()) ===
+      "-10%",
+  "Timid nature effects are not clearly shown on the Team Planner stats",
+);
+await check(
   (await page.locator(".planner-card[data-slot='1'] .planner-evolution-path").textContent()).includes(
     "Gothita",
   ) &&
@@ -710,6 +745,10 @@ await page
 await check(
   (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothorita",
   "Clicking a Team Planner evolution stage did not update the planned Pokemon",
+);
+await check(
+  (await page.locator(".planner-card[data-slot='1'] .team-card__nature select").inputValue()) === "timid",
+  "Changing a planned evolution stage did not retain the preferred nature",
 );
 await page
   .locator(".planner-card[data-slot='1'] .planner-evolution-node", { hasText: "Gothita" })
@@ -789,9 +828,11 @@ await check(exportedSave.version === 1, "Exported save has an unexpected version
 await check(exportedSave.team[0].pokemonNumber === 2, "Exported save is missing Gothorita");
 await check(exportedSave.team[0].moves[1] === 247, "Exported save is missing Shadow Ball");
 await check(exportedSave.team[0].abilityId === 119, "Exported save is missing Frisk");
+await check(exportedSave.team[0].nature === "adamant", "Exported save is missing the selected team nature");
 await check(exportedSave.planner[0].pokemonNumber === 1, "Exported save is missing the Team Planner shortlist");
 await check(exportedSave.planner[0].moves[0] === 1, "Exported save is missing the planned move");
 await check(exportedSave.planner[0].abilityId === 119, "Exported save is missing the preferred planner ability");
+await check(exportedSave.planner[0].nature === "timid", "Exported save is missing the preferred planner nature");
 await page.locator("#create-sync-code").click();
 await check(
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
@@ -813,6 +854,7 @@ await check(
   await page.evaluate(() => {
     const legacySave = createSaveDocument();
     delete legacySave.planner;
+    legacySave.team.forEach((slot) => delete slot.nature);
     return validateSaveDocument(legacySave).planner.length === 6;
   }),
   "Older saves without a Team Planner are no longer compatible",
@@ -834,11 +876,16 @@ await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__ability select").inputValue()) === "119",
   "Imported save did not restore the selected ability",
 );
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__nature select").inputValue()) === "adamant",
+  "Imported save did not restore the selected team nature",
+);
 await page.locator(".view-tab[data-view='planner']").click();
 await check(
   (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothita" &&
     (await page.locator(".planner-card[data-slot='1'] .planner-move-slot").first().locator("select").inputValue()) === "1" &&
-    (await page.locator(".planner-card[data-slot='1'] .team-card__ability select").inputValue()) === "119",
+    (await page.locator(".planner-card[data-slot='1'] .team-card__ability select").inputValue()) === "119" &&
+    (await page.locator(".planner-card[data-slot='1'] .team-card__nature select").inputValue()) === "timid",
   "Imported save did not restore the Team Planner",
 );
 
