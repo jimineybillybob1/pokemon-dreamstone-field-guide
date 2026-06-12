@@ -197,6 +197,11 @@ const dexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
 const validCaughtIds = new Set(collectionDex.map(dexId));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
+const trainerPokemonBySpeciesId = new Map(
+  trainerData.trainers.flatMap((trainer) =>
+    trainer.party.map((member) => [member.speciesId, member]),
+  ),
+);
 const moveById = new Map(moveData.moves.map((move) => [move.id, move]));
 const abilityById = new Map(abilityData.abilities.map((ability) => [ability.id, ability]));
 const abilitiesByPokemon = new Map(data.dex.map((pokemon) => [pokemon.number, []]));
@@ -903,6 +908,7 @@ function applySaveDocument(input) {
   renderDex();
   renderTeam();
   renderPlanner();
+  renderTrainers();
   renderGyms();
   renderJourneyOverview();
   renderCollection();
@@ -1052,6 +1058,7 @@ async function copySyncCode() {
 
 function refreshTeamAndDex() {
   renderTeam();
+  refreshTrainerMatchups();
   renderGyms();
   renderJourneyOverview();
   elements.grid.querySelectorAll(".pokemon-card").forEach((card) => {
@@ -1210,6 +1217,7 @@ function filteredTrainers() {
 function renderTrainerPartyMember(member) {
   const card = document.createElement("article");
   card.className = "trainer-party-member";
+  card.dataset.speciesId = member.speciesId;
   const identity = document.createElement(member.guideNumber ? "button" : "div");
   identity.className = "trainer-party-member__identity";
   if (member.guideNumber) {
@@ -1222,9 +1230,11 @@ function renderTrainerPartyMember(member) {
     <span>
       <small>Lv. ${member.level}</small>
       <strong></strong>
+      <span class="trainer-party-member__types"></span>
     </span>
   `;
   identity.querySelector("strong").textContent = member.name;
+  renderTypeBadges(identity.querySelector(".trainer-party-member__types"), member.types);
   card.append(identity);
   if (member.heldItem) {
     const heldItem = document.createElement("p");
@@ -1247,7 +1257,21 @@ function renderTrainerPartyMember(member) {
     details.append(summary, list);
     card.append(details);
   }
+  const matchups = document.createElement("section");
+  matchups.className = "team-matchups trainer-party-matchups";
+  renderTeamMatchups(matchups, member);
+  card.append(matchups);
   return card;
+}
+
+function refreshTrainerMatchups() {
+  elements.trainerLocationList.querySelectorAll(".trainer-party-member").forEach((card) => {
+    const member = trainerPokemonBySpeciesId.get(Number(card.dataset.speciesId));
+    const container = card.querySelector(".trainer-party-matchups");
+    if (!member || !container) return;
+    container.replaceChildren();
+    renderTeamMatchups(container, member);
+  });
 }
 
 function renderTrainerCard(trainer) {

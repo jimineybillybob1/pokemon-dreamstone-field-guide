@@ -373,6 +373,15 @@ await page.locator(".view-tab[data-view='trainers']").click();
 await check((await page.locator(".trainer-location-group").count()) === 25, "Trainer locations are incomplete");
 await check((await page.locator(".trainer-card").count()) === 127, "Playable trainer cards are incomplete");
 await check(
+  (await page.locator(".trainer-party-member").count()) ===
+    (await page.locator(".trainer-party-matchups").count()),
+  "A trainer party Pokémon is missing its team weakness overview",
+);
+await check(
+  (await page.locator(".trainer-party-member__types .type-badge").count()) > 0,
+  "Trainer party Pokémon types are missing",
+);
+await check(
   !(await page.locator("#view-trainers").textContent()).includes("None"),
   "Unclassified trainers still display the None class",
 );
@@ -590,6 +599,18 @@ await check(
   (await page.locator(".dashboard-team-slot.is-filled small").textContent()) === "Gothorita",
   "Dashboard team overview is missing the PokÃ©mon name",
 );
+await page.locator(".view-tab[data-view='trainers']").click();
+await page.locator("#trainer-search").fill("Pidove");
+const pidoveTrainerCoverage = page.locator(".trainer-party-member", { hasText: "Pidove" }).first().locator(".team-matchup");
+await check(
+  (await pidoveTrainerCoverage.count()) > 0 &&
+    (await pidoveTrainerCoverage.textContent()).includes("Gothorita") &&
+    (await pidoveTrainerCoverage.textContent()).includes("Thunderbolt") &&
+    (await pidoveTrainerCoverage.textContent()).includes("2x"),
+  "Trainer party weakness overview did not update from Team Builder moves",
+);
+await page.locator(".trainer-party-member", { hasText: "Pidove" }).first().scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-trainer-coverage.png"), fullPage: false });
 await page.locator(".view-tab[data-view='gyms']").click();
 await check(
   (await page.locator(".gym-pokemon-card .team-matchup").count()) > 0,

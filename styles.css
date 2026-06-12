@@ -2091,6 +2091,17 @@ button.trainer-party-member__identity:hover {
   white-space: nowrap;
 }
 
+.trainer-party-member__types {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 3px !important;
+}
+
+.trainer-party-member__types .type-badge {
+  padding: 2px 5px;
+  font-size: 0.45rem;
+}
+
 .trainer-party-member__item {
   display: grid;
   gap: 1px;
@@ -2126,6 +2137,70 @@ button.trainer-party-member__identity:hover {
   gap: 3px;
   margin: 0;
   padding: 0 8px 8px 20px;
+}
+
+.trainer-party-matchups {
+  gap: 6px;
+  margin: 0;
+  padding: 7px 8px 8px;
+}
+
+.trainer-party-matchups header {
+  display: grid;
+  gap: 1px;
+}
+
+.trainer-party-matchups header small {
+  display: none;
+}
+
+.trainer-party-matchups .team-matchups__empty {
+  padding: 6px 7px;
+  font-size: 0.55rem;
+}
+
+.trainer-party-matchups .team-matchups__list {
+  gap: 4px;
+  max-height: 185px;
+}
+
+.trainer-party-matchups .team-matchup {
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 5px;
+  padding: 4px;
+}
+
+.trainer-party-matchups .team-matchup img {
+  width: 30px;
+  height: 30px;
+}
+
+.trainer-party-matchups .team-matchup__identity strong,
+.trainer-party-matchups .team-matchup__identity span {
+  font-size: 0.54rem;
+}
+
+.trainer-party-matchups .team-matchup > .type-badge {
+  padding: 2px 5px;
+  font-size: 0.45rem;
+}
+
+.trainer-party-matchups .team-matchup dl {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  padding-top: 4px;
+}
+
+.trainer-party-matchups .team-matchup dl div:first-child {
+  border-left: 0;
+}
+
+.trainer-party-matchups .team-matchup dt {
+  font-size: 0.42rem;
+}
+
+.trainer-party-matchups .team-matchup dd {
+  font-size: 0.56rem;
 }
 
 .gym-leader-list {

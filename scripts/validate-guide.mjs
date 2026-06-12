@@ -54,6 +54,7 @@ check(
       trainer.sprite &&
       Array.isArray(trainer.party) &&
       trainer.party.length > 0 &&
+      trainer.party.every((member) => Array.isArray(member.types) && member.types.length > 0) &&
       trainer.trainerClass !== "None",
   ),
   "Pokerex trainer details are invalid or include the None class",
