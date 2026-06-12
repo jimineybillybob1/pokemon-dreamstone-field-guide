@@ -74,11 +74,14 @@ Place the public Pokerex Dreamstone export at `tmp/pokerex-dreamstone-data.json`
 
 & 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
   'scripts\build-pokerex-abilities.mjs'
+
+& 'C:\Users\james\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' `
+  'scripts\build-pokerex-evolutions.mjs'
 ```
 
 Only Dreamstone's active custom map groups are imported into the encounter atlas. Inaccessible
 inherited Emerald encounter tables are intentionally excluded; the Moves tab mirrors Pokerex's full
-ROM move, learner, ability, and tutor-location extraction.
+ROM move, learner, ability, tutor-location, and evolution-method extraction.
 
 ## Regenerate App Icons
 
@@ -122,7 +125,7 @@ Relevant Cloudflare documentation:
 
 ## Credits
 
-- Wild encounters, maps, Pokémon base stats, moves, abilities, learners, and tutor locations: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/abilities)
+- Wild encounters, maps, Pokémon base stats, moves, abilities, learners, evolution methods, and tutor locations: [Pokerex](https://pokerex.io/dreamstone-mysteries/v1.0/abilities)
 - Gym rosters: [PokemonCoders](https://www.pokemoncoders.com/pokemon-dreamstone-mysteries-gym-leaders-guide/)
 - Gym leader trainer sprites and badge artwork: [Dreamstone Mysteries source](https://github.com/dsmyst/dreamstone-mysteries)
 - Pokémon battle sprites: [Dreamstone Mysteries source](https://github.com/dsmyst/dreamstone-mysteries)

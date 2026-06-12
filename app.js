@@ -4,6 +4,7 @@ const moveData = window.DREAMSTONE_MOVES;
 const abilityData = window.DREAMSTONE_ABILITIES;
 const trainerData = window.DREAMSTONE_TRAINERS;
 const itemData = window.DREAMSTONE_ITEMS;
+const evolutionData = window.DREAMSTONE_EVOLUTIONS;
 const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
@@ -203,6 +204,12 @@ const dexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
 const validCaughtIds = new Set(collectionDex.map(dexId));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
+const evolutionOutgoingByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, []]));
+const evolutionIncomingByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, []]));
+(evolutionData.edges || []).forEach((edge) => {
+  evolutionOutgoingByNumber.get(edge.fromGuideNumber)?.push(edge);
+  evolutionIncomingByNumber.get(edge.toGuideNumber)?.push(edge);
+});
 const dexCardByNumber = new Map();
 let teamMatchupRevision = 0;
 const trainerPokemonBySpeciesId = new Map(
@@ -747,13 +754,27 @@ function renderTypeBadges(container, types) {
   container.replaceChildren(fragment);
 }
 
-function renderEvolutionLinks(card, relationNumbers, selector) {
+function evolutionMethodLabel(method) {
+  return String(method || "Special").replace(/^Level (\d+)/, "Lv. $1");
+}
+
+function groupEvolutionEdges(edges, relationKey) {
+  const grouped = new Map();
+  edges.forEach((edge) => {
+    const number = edge[relationKey];
+    if (!grouped.has(number)) grouped.set(number, { number, methods: new Set() });
+    grouped.get(number).methods.add(evolutionMethodLabel(edge.method));
+  });
+  return [...grouped.values()];
+}
+
+function renderEvolutionLinks(card, edges, selector, relationKey) {
   const group = card.querySelector(selector);
-  if (!relationNumbers.length) return;
+  if (!edges.length) return;
 
   group.hidden = false;
   const links = group.querySelector(".evolution-links");
-  relationNumbers.forEach((number) => {
+  groupEvolutionEdges(edges, relationKey).forEach(({ number, methods }) => {
     const related = pokemonByNumber.get(number);
     if (!related) return;
     const button = document.createElement("button");
@@ -762,7 +783,10 @@ function renderEvolutionLinks(card, relationNumbers, selector) {
     button.setAttribute("aria-label", `Go to ${related.name}`);
     button.innerHTML = `
       <img src="${related.sprite}" alt="" width="38" height="38" loading="lazy">
-      <span>${related.name.replaceAll("_", " ")}</span>
+      <span class="evolution-link__details">
+        <strong>${related.name.replaceAll("_", " ")}</strong>
+        <small>${[...methods].join(" / ")}</small>
+      </span>
     `;
     button.addEventListener("click", () => focusPokemon(number));
     links.append(button);
@@ -1960,6 +1984,112 @@ function createPlannerMoveSlot(slotIndex, moveIndex, pokemonNumber, selectedMove
   return wrapper;
 }
 
+function evolutionRoutesForPokemon(pokemonNumber) {
+  const family = new Set([pokemonNumber]);
+  const queue = [pokemonNumber];
+  while (queue.length) {
+    const current = queue.shift();
+    const relatives = [
+      ...(evolutionIncomingByNumber.get(current) || []).map((edge) => edge.fromGuideNumber),
+      ...(evolutionOutgoingByNumber.get(current) || []).map((edge) => edge.toGuideNumber),
+    ];
+    relatives.forEach((relative) => {
+      if (family.has(relative)) return;
+      family.add(relative);
+      queue.push(relative);
+    });
+  }
+  if (family.size === 1) return [];
+
+  const roots = [...family].filter(
+    (number) =>
+      !(evolutionIncomingByNumber.get(number) || []).some((edge) =>
+        family.has(edge.fromGuideNumber),
+      ),
+  );
+  const routes = [];
+  const walk = (number, route, visited) => {
+    const outgoing = groupEvolutionEdges(
+      (evolutionOutgoingByNumber.get(number) || []).filter((edge) =>
+        family.has(edge.toGuideNumber),
+      ),
+      "toGuideNumber",
+    );
+    if (!outgoing.length) {
+      routes.push(route);
+      return;
+    }
+    outgoing.forEach(({ number: nextNumber, methods }) => {
+      if (visited.has(nextNumber)) {
+        routes.push(route);
+        return;
+      }
+      walk(
+        nextNumber,
+        [...route, { number: nextNumber, method: [...methods].join(" / ") }],
+        new Set([...visited, nextNumber]),
+      );
+    });
+  };
+  (roots.length ? roots : [pokemonNumber]).forEach((root) =>
+    walk(root, [{ number: root, method: "" }], new Set([root])),
+  );
+  return [
+    ...new Map(
+      routes
+        .filter((route) => route.some((stage) => stage.number === pokemonNumber))
+        .map((route) => [route.map((stage) => `${stage.number}:${stage.method}`).join(">"), route]),
+    ).values(),
+  ];
+}
+
+function createPlannerEvolutionPath(pokemon, slotIndex) {
+  const routes = evolutionRoutesForPokemon(pokemon.number);
+  if (!routes.length) return null;
+
+  const section = document.createElement("section");
+  section.className = "planner-evolution-path";
+  const heading = document.createElement("strong");
+  heading.textContent = "Evolution path";
+  const routeList = document.createElement("div");
+  routeList.className = "planner-evolution-routes";
+  routes.forEach((route) => {
+    const routeRow = document.createElement("div");
+    routeRow.className = "planner-evolution-route";
+    route.forEach((stage, index) => {
+      if (index > 0) {
+        const method = document.createElement("span");
+        method.className = "planner-evolution-method";
+        method.textContent = stage.method;
+        routeRow.append(method);
+      }
+      const stagePokemon = pokemonByNumber.get(stage.number);
+      if (!stagePokemon) return;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "planner-evolution-node";
+      button.classList.toggle("is-current", stage.number === pokemon.number);
+      button.setAttribute(
+        "aria-label",
+        stage.number === pokemon.number
+          ? `${stagePokemon.name}, current planned Pokemon`
+          : `Plan for ${stagePokemon.name}`,
+      );
+      button.innerHTML = `
+        <img src="${stagePokemon.sprite}" alt="" width="42" height="42" loading="lazy">
+        <span>${stagePokemon.name.replaceAll("_", " ")}</span>
+      `;
+      if (stage.number !== pokemon.number) {
+        button.addEventListener("click", () => setPlannerPokemon(slotIndex, stage.number));
+      }
+      routeRow.append(button);
+    });
+    routeList.append(routeRow);
+  });
+  section.append(heading, routeList);
+  return section;
+}
+
 function renderPlannerCard(slot, slotIndex) {
   const card = document.createElement("article");
   card.className = "planner-card";
@@ -2018,6 +2148,8 @@ function renderPlannerCard(slot, slotIndex) {
   card.append(identity);
 
   card.append(createPokemonLocationsSection(pokemon, "planner-locations"));
+  const evolutionPath = createPlannerEvolutionPath(pokemon, slotIndex);
+  if (evolutionPath) card.append(evolutionPath);
 
   const stats = document.createElement("section");
   stats.className = "pokemon-stats team-card__stats";
@@ -2151,10 +2283,12 @@ function renderPokemonCard(pokemon) {
     note.querySelector("p").textContent = pokemon.notes;
   }
 
-  if (pokemon.evolvesFrom.length || pokemon.evolvesTo.length) {
+  const evolvesFrom = evolutionIncomingByNumber.get(pokemon.number) || [];
+  const evolvesTo = evolutionOutgoingByNumber.get(pokemon.number) || [];
+  if (evolvesFrom.length || evolvesTo.length) {
     card.querySelector(".pokemon-evolutions").hidden = false;
-    renderEvolutionLinks(card, pokemon.evolvesFrom, ".evolves-from");
-    renderEvolutionLinks(card, pokemon.evolvesTo, ".evolves-to");
+    renderEvolutionLinks(card, evolvesFrom, ".evolves-from", "fromGuideNumber");
+    renderEvolutionLinks(card, evolvesTo, ".evolves-to", "toGuideNumber");
   }
 
   return card;

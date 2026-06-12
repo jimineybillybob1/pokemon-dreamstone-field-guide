@@ -1390,6 +1390,26 @@ button.journey-card:hover {
   object-fit: contain;
 }
 
+.evolution-link__details {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  text-align: left;
+}
+
+.evolution-link__details strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.evolution-link__details small {
+  color: var(--muted);
+  font-size: 0.53rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
 .pokemon-note {
   margin: 0 12px 12px;
   border-radius: 9px;
@@ -3771,6 +3791,90 @@ button.trainer-party-member__identity:hover {
   gap: 5px;
 }
 
+.planner-evolution-path {
+  display: grid;
+  gap: 8px;
+  margin: 0 13px 13px;
+  border-top: 1px solid var(--line);
+  padding-top: 11px;
+}
+
+.planner-evolution-path > strong {
+  color: var(--muted);
+  font-size: 0.59rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.planner-evolution-routes {
+  display: grid;
+  gap: 7px;
+}
+
+.planner-evolution-route {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow-x: auto;
+  border-radius: 10px;
+  background: rgba(155, 133, 237, 0.06);
+  padding: 5px;
+  scrollbar-width: thin;
+}
+
+.planner-evolution-node {
+  display: grid;
+  flex: 0 0 70px;
+  gap: 2px;
+  justify-items: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--ink);
+  background: transparent;
+  padding: 4px;
+  font-size: 0.57rem;
+  font-weight: 900;
+}
+
+.planner-evolution-node:not(.is-current):hover {
+  border-color: var(--violet);
+  color: var(--violet-dark);
+  background: var(--paper);
+}
+
+.planner-evolution-node.is-current {
+  border-color: var(--violet);
+  color: var(--violet-dark);
+  background: var(--paper);
+  cursor: default;
+}
+
+.planner-evolution-node img {
+  width: 42px;
+  height: 42px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.planner-evolution-method {
+  display: grid;
+  flex: 0 0 45px;
+  gap: 2px;
+  place-items: center;
+  color: var(--muted);
+  font-size: 0.49rem;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.planner-evolution-method::before {
+  content: "\2192";
+  color: var(--violet);
+  font-size: 0.8rem;
+}
+
 .planner-move-methods {
   display: grid;
   gap: 6px;
@@ -4313,6 +4417,16 @@ html[data-theme="dark"] .evolution-link {
 }
 
 html[data-theme="dark"] .evolution-link:hover {
+  color: #fff;
+  background: #393252;
+}
+
+html[data-theme="dark"] .planner-evolution-route {
+  background: rgba(155, 133, 237, 0.07);
+}
+
+html[data-theme="dark"] .planner-evolution-node.is-current,
+html[data-theme="dark"] .planner-evolution-node:not(.is-current):hover {
   color: #fff;
   background: #393252;
 }

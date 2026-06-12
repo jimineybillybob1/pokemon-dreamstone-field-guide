@@ -11,6 +11,7 @@ const moveSource = await fs.readFile(path.join(rootDir, "data", "pokerex-moves.j
 const abilitySource = await fs.readFile(path.join(rootDir, "data", "pokerex-abilities.js"), "utf8");
 const trainerSource = await fs.readFile(path.join(rootDir, "data", "pokerex-trainers.js"), "utf8");
 const itemSource = await fs.readFile(path.join(rootDir, "data", "pokerex-items.js"), "utf8");
+const evolutionSource = await fs.readFile(path.join(rootDir, "data", "pokerex-evolutions.js"), "utf8");
 const appSource = await fs.readFile(path.join(rootDir, "app.js"), "utf8");
 const context = { window: {} };
 vm.createContext(context);
@@ -20,12 +21,14 @@ vm.runInContext(moveSource, context);
 vm.runInContext(abilitySource, context);
 vm.runInContext(trainerSource, context);
 vm.runInContext(itemSource, context);
+vm.runInContext(evolutionSource, context);
 const data = context.window.DREAMSTONE_DATA;
 const encounters = context.window.DREAMSTONE_ENCOUNTERS;
 const moves = context.window.DREAMSTONE_MOVES;
 const abilities = context.window.DREAMSTONE_ABILITIES;
 const trainers = context.window.DREAMSTONE_TRAINERS;
 const items = context.window.DREAMSTONE_ITEMS;
+const evolutions = context.window.DREAMSTONE_EVOLUTIONS;
 
 const errors = [];
 const check = (condition, message) => {
@@ -77,6 +80,25 @@ check(moves.tutors.length === 19, `Expected 19 Pokerex move tutors, found ${move
 check(abilities.abilities.length === 310, `Expected 310 Pokerex abilities, found ${abilities.abilities.length}`);
 check(trainers.trainers.length === 127, `Expected 127 playable Pokerex trainers, found ${trainers.trainers.length}`);
 check(trainers.locations.length === 25, `Expected 25 trainer locations, found ${trainers.locations.length}`);
+check(evolutions.edges.length >= 165, `Expected at least 165 Dreamstone evolution methods, found ${evolutions.edges.length}`);
+check(
+  evolutions.edges.some(
+    (edge) => edge.fromGuideNumber === 1 && edge.toGuideNumber === 2 && edge.method === "Level 18",
+  ),
+  "Gothita is missing its Dreamstone Lv. 18 evolution",
+);
+check(
+  !evolutions.edges.some((edge) => /^Level [1-9]\d{2,}/.test(edge.method)),
+  "A custom evolution method was incorrectly presented as an impossible level",
+);
+check(
+  evolutions.edges.some(
+    (edge) =>
+      edge.methodId === 47 &&
+      edge.method === "Use Rage Fist 20 times, then level up",
+  ),
+  "Primeape's custom Dreamstone evolution method was not normalized",
+);
 check(
   pokemonSpriteReferences.every((sprite) => /^assets\/pokemon\/\d+\.png$/.test(sprite)),
   "A runtime Pokémon sprite does not use the unified Dreamstone source asset set",
@@ -252,6 +274,11 @@ for (const sprite of new Set(pokemonSpriteReferences)) {
 }
 
 const dexNumbers = new Set(data.dex.map((pokemon) => pokemon.number));
+for (const evolution of evolutions.edges) {
+  check(dexNumbers.has(evolution.fromGuideNumber), `Evolution links from missing guide number ${evolution.fromGuideNumber}`);
+  check(dexNumbers.has(evolution.toGuideNumber), `Evolution links to missing guide number ${evolution.toGuideNumber}`);
+  check(Boolean(evolution.method), `Evolution ${evolution.fromGuideNumber} to ${evolution.toGuideNumber} has no method`);
+}
 for (const pokemon of data.dex) {
   check(Array.isArray(pokemon.types) && pokemon.types.length > 0, `${pokemon.name} has no type metadata`);
   check(Array.isArray(pokemon.evolvesFrom), `${pokemon.name} has invalid evolvesFrom metadata`);
@@ -280,6 +307,7 @@ for (const file of [
   "data/pokerex-abilities.js",
   "data/pokerex-trainers.js",
   "data/pokerex-items.js",
+  "data/pokerex-evolutions.js",
   "sync-config.js",
   "sync-worker/src/index.js",
   "sync-worker/wrangler.toml",

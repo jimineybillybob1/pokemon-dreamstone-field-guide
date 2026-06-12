@@ -272,9 +272,9 @@ await page.screenshot({ path: path.join(outputDir, "guide-desktop-learnset.png")
 await page.locator(".learnset-dialog__close").click();
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .evolves-to .evolution-link").allTextContents()).some(
-    (text) => text.includes("Gothorita"),
+    (text) => text.includes("Gothorita") && text.includes("Lv. 18"),
   ),
-  "Gothita is missing its Gothorita evolution link",
+  "Gothita is missing its Dreamstone Lv. 18 Gothorita evolution link",
 );
 await check(
   (await page.locator(".sticky-search").evaluate((element) => getComputedStyle(element).position)) === "sticky",
@@ -683,6 +683,34 @@ await check(
     "Preferred ability",
   "Team Planner preferred ability selector is missing",
 );
+await check(
+  (await page.locator(".planner-card[data-slot='1'] .planner-evolution-path").textContent()).includes(
+    "Gothita",
+  ) &&
+    (await page.locator(".planner-card[data-slot='1'] .planner-evolution-path").textContent()).includes(
+      "Gothorita",
+    ) &&
+    (await page.locator(".planner-card[data-slot='1'] .planner-evolution-path").textContent()).includes(
+      "Gothitelle",
+    ) &&
+    (await page.locator(".planner-card[data-slot='1'] .planner-evolution-path").textContent()).includes(
+      "Lv. 18",
+    ) &&
+    (await page.locator(".planner-card[data-slot='1'] .planner-evolution-path").textContent()).includes(
+      "Lv. 36",
+  ),
+  "Team Planner is missing Gothita's Dreamstone evolution path",
+);
+await page
+  .locator(".planner-card[data-slot='1'] .planner-evolution-node", { hasText: "Gothorita" })
+  .click();
+await check(
+  (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothorita",
+  "Clicking a Team Planner evolution stage did not update the planned Pokemon",
+);
+await page
+  .locator(".planner-card[data-slot='1'] .planner-evolution-node", { hasText: "Gothita" })
+  .click();
 await page.locator(".planner-card[data-slot='1'] .team-card__ability select").selectOption("119");
 await check(
   (await page.locator(".planner-card[data-slot='1'] .team-ability-details").textContent()).includes(
