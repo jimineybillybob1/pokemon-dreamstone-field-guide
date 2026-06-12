@@ -159,6 +159,25 @@ await check(
   ),
   "Dreamstone masthead artwork is missing",
 );
+const desktopMastheadMetrics = await page.locator(".hero").evaluate((hero) => {
+  const metric = (selector) => {
+    const element = hero.querySelector(selector);
+    return element ? Math.round(element.getBoundingClientRect().height * 10) / 10 : 0;
+  };
+  return {
+    hero: metric(".hero__content") + metric(".topbar"),
+    rendered: Math.round(hero.getBoundingClientRect().height * 10) / 10,
+    topbar: metric(".topbar"),
+    content: metric(".hero__content"),
+    logo: metric(".hero__logo"),
+    heading: metric("h1"),
+    intro: metric(".hero__intro"),
+  };
+});
+await check(
+  desktopMastheadMetrics.rendered <= 450,
+  `Desktop masthead is too tall (${JSON.stringify(desktopMastheadMetrics)})`,
+);
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-masthead.png"), fullPage: false });
 await check((await page.locator(".pokemon-card").count()) === 315, "Expected all 315 Pokémon cards");
 await check(
@@ -1029,6 +1048,10 @@ await page.screenshot({ path: path.join(outputDir, "guide-tablet-mega-tip.png"),
 
 await page.setViewportSize({ width: 390, height: 844 });
 await page.reload();
+const mobileMastheadHeight = await page
+  .locator(".hero")
+  .evaluate((element) => element.getBoundingClientRect().height);
+await check(mobileMastheadHeight <= 410, `Mobile masthead is too tall (${mobileMastheadHeight}px)`);
 await checkDashboardTeamFill("Mobile");
 await check(
   await page.locator(".view-tabs").evaluate((element) => element.scrollWidth <= element.clientWidth),
