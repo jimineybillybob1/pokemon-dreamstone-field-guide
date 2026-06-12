@@ -3,6 +3,7 @@ const encounters = window.DREAMSTONE_ENCOUNTERS;
 const moveData = window.DREAMSTONE_MOVES;
 const abilityData = window.DREAMSTONE_ABILITIES;
 const trainerData = window.DREAMSTONE_TRAINERS;
+const itemData = window.DREAMSTONE_ITEMS;
 const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
@@ -81,6 +82,7 @@ const state = {
     search: "",
     location: "",
   },
+  itemSearch: "",
   team: loadTeam(),
   planner: loadPlanner(),
   syncCode: localStorage.getItem(syncCodeKey) || "",
@@ -155,6 +157,9 @@ const elements = {
   megaGrid: document.querySelector("#mega-grid"),
   megaNote: document.querySelector("#mega-note"),
   itemList: document.querySelector("#item-list"),
+  itemSearch: document.querySelector("#item-search"),
+  itemResultCount: document.querySelector("#item-result-count"),
+  itemEmptyState: document.querySelector("#item-empty-state"),
   learnsetDialog: document.querySelector("#learnset-dialog"),
   learnsetDialogSprite: document.querySelector("#learnset-dialog-sprite"),
   learnsetDialogNumber: document.querySelector("#learnset-dialog-number"),
@@ -169,6 +174,7 @@ const uniqueSorted = (values) =>
   );
 const uniqueInOrder = (values) => [...new Set(values.filter(Boolean))];
 const titleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
+const itemOpenCategories = new Set(["Poké Balls"]);
 const encounterLocationsByGuideNumber = new Map();
 encounters.encounterSpecies
   .filter((pokemon) => pokemon.guideNumber)
@@ -2684,19 +2690,146 @@ function renderMegas() {
   elements.megaGrid.replaceChildren(fragment);
 }
 
+const itemMoney = (value) => `₽${Number(value).toLocaleString("en-GB")}`;
+
+function createItemSourceGroup(label, entries) {
+  if (!entries.length) return null;
+  const section = document.createElement("section");
+  section.className = "item-source-group";
+  const heading = document.createElement("strong");
+  heading.textContent = label;
+  const list = document.createElement("div");
+  entries.forEach((entry) => {
+    const chip = document.createElement("span");
+    chip.textContent = entry;
+    list.append(chip);
+  });
+  section.append(heading, list);
+  return section;
+}
+
+function renderItemCard(item) {
+  const card = document.createElement("article");
+  card.className = "item-card";
+  card.dataset.itemId = item.id;
+
+  const identity = document.createElement("header");
+  identity.className = "item-card__identity";
+  identity.innerHTML = `
+    <span class="item-sprite-well"><img src="${item.icon}" alt="" width="56" height="56" loading="lazy"></span>
+    <span>
+      <small>No. ${String(item.id).padStart(3, "0")}</small>
+      <h3></h3>
+      <em>${item.category}</em>
+    </span>
+  `;
+  identity.querySelector("h3").textContent = item.name;
+
+  const copy = document.createElement("div");
+  copy.className = "item-card__copy";
+  const description = document.createElement("p");
+  description.textContent = item.description || "No item description was extracted.";
+  copy.append(description);
+  const prices = document.createElement("dl");
+  prices.className = "item-card__prices";
+  if (item.cost) {
+    const cost = document.createElement("div");
+    cost.innerHTML = `<dt>Shop cost</dt><dd>${itemMoney(item.cost)}</dd>`;
+    prices.append(cost);
+  }
+  if (item.sellValue) {
+    const sell = document.createElement("div");
+    sell.innerHTML = `<dt>Sell value</dt><dd>${itemMoney(item.sellValue)}</dd>`;
+    prices.append(sell);
+  }
+
+  const sources = document.createElement("div");
+  sources.className = "item-card__sources";
+  const shopSources = item.acquisition.shops.map((entry) => `Sold in ${entry.location}`);
+  if (item.acquisition.unmappedShop) shopSources.push("Sold in a shop");
+  const sourceGroups = [
+    createItemSourceGroup("Shop", uniqueInOrder(shopSources)),
+    createItemSourceGroup(
+      "NPC / field source",
+      uniqueInOrder([
+        ...item.acquisition.foundIn.map((entry) => entry.location),
+        ...item.acquisition.npcSources.map((entry) => entry.location),
+      ]),
+    ),
+    createItemSourceGroup(
+      "Held by wild Pokémon",
+      item.acquisition.heldByWild.map((entry) => `${entry.pokemon} · ${entry.chance}`),
+    ),
+    createItemSourceGroup(
+      "Carried by trainers",
+      item.acquisition.carriedBy.map(
+        (entry) => `${entry.trainer}${entry.location ? ` · ${entry.location}` : ""}`,
+      ),
+    ),
+  ].filter(Boolean);
+  if (sourceGroups.length) sources.append(...sourceGroups);
+  else {
+    const empty = document.createElement("p");
+    empty.className = "item-card__no-source";
+    empty.textContent = "No acquisition source is documented.";
+    sources.append(empty);
+  }
+
+  card.append(identity, copy);
+  if (prices.children.length) card.append(prices);
+  card.append(sources);
+  return card;
+}
+
+function itemMatchesSearch(item, search) {
+  if (!search) return true;
+  return [
+    item.name,
+    item.category,
+    item.description,
+    item.acquisition.soldInShop ? "sold shop" : "",
+    ...item.acquisition.shops.map((entry) => entry.location),
+    ...item.acquisition.npcSources.map((entry) => entry.location),
+    ...item.acquisition.foundIn.map((entry) => entry.location),
+    ...item.acquisition.heldByWild.flatMap((entry) => [entry.pokemon, entry.chance]),
+    ...item.acquisition.carriedBy.flatMap((entry) => [entry.trainer, entry.trainerClass, entry.location]),
+  ]
+    .join(" ")
+    .toLowerCase()
+    .includes(search);
+}
+
 function renderItems() {
+  const search = state.itemSearch.trim().toLowerCase();
+  const filtered = itemData.items.filter((item) => itemMatchesSearch(item, search));
   const fragment = document.createDocumentFragment();
-  data.importantItems.forEach((item) => {
-    const card = document.createElement("article");
-    card.className = "item-card";
-    card.innerHTML = `
-      <div><span>Item</span><h3>${item.name}</h3></div>
-      <div><span>Function</span><p>${item.function}</p></div>
-      <div><span>How to get it</span><p class="item-card__location">${item.location}</p></div>
-    `;
-    fragment.append(card);
+  itemData.categories.forEach((category, categoryIndex) => {
+    const items = filtered.filter((item) => item.category === category.name);
+    if (!items.length) return;
+    const group = document.createElement("details");
+    group.className = "item-category";
+    group.dataset.category = category.name;
+    group.open = Boolean(search) || itemOpenCategories.has(category.name) || categoryIndex === 0;
+    group.addEventListener("toggle", () => {
+      if (group.open) itemOpenCategories.add(category.name);
+      else itemOpenCategories.delete(category.name);
+    });
+    const summary = document.createElement("summary");
+    summary.innerHTML = `<span><strong></strong><small>${items.length} ${items.length === 1 ? "item" : "items"}</small></span><span aria-hidden="true">+</span>`;
+    summary.querySelector("strong").textContent = category.name;
+    const grid = document.createElement("div");
+    grid.className = "item-grid";
+    items.forEach((item) => grid.append(renderItemCard(item)));
+    group.append(summary, grid);
+    fragment.append(group);
   });
   elements.itemList.replaceChildren(fragment);
+  elements.itemEmptyState.hidden = filtered.length !== 0;
+  elements.itemResultCount.textContent =
+    filtered.length === itemData.items.length
+      ? `Showing all ${itemData.items.length} items`
+      : `Showing ${filtered.length} of ${itemData.items.length} items`;
+  updateSearchClearButtons();
 }
 
 function setNotesHidden(hidden) {
@@ -2742,6 +2875,22 @@ function bindControls() {
   });
 
   elements.locationSearch.addEventListener("input", () => renderLocations(elements.locationSearch.value));
+  elements.itemSearch.addEventListener("input", () => {
+    state.itemSearch = elements.itemSearch.value;
+    renderItems();
+  });
+  document.querySelector("#expand-item-categories").addEventListener("click", () => {
+    document.querySelectorAll(".item-category").forEach((category) => {
+      category.open = true;
+      itemOpenCategories.add(category.dataset.category);
+    });
+  });
+  document.querySelector("#collapse-item-categories").addEventListener("click", () => {
+    document.querySelectorAll(".item-category").forEach((category) => {
+      category.open = false;
+      itemOpenCategories.delete(category.dataset.category);
+    });
+  });
   elements.trainerSearch.addEventListener("input", () => {
     state.trainerFilters.search = elements.trainerSearch.value;
     renderTrainers();

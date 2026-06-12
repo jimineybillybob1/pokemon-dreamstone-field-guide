@@ -36,14 +36,15 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260612-4" />
+    <link rel="stylesheet" href="styles.css?v=20260612-5" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
     <script src="data/pokerex-abilities.js" defer></script>
     <script src="data/pokerex-trainers.js" defer></script>
+    <script src="data/pokerex-items.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260612-4" defer></script>
+    <script src="app.js?v=20260612-5" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -201,7 +202,7 @@
         </button>
         <button class="view-tab" type="button" data-view="items">
           <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-items"></use></svg>
-          <span class="view-tab__label">Important Items</span>
+          <span class="view-tab__label">Items</span>
         </button>
         <button class="view-tab" type="button" data-view="save">
           <svg class="view-tab__icon" aria-hidden="true"><use href="#nav-icon-save"></use></svg>
@@ -675,23 +676,42 @@
       <section class="guide-view" id="view-items">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Quest reference</p>
-            <h2>Important Items</h2>
+            <p class="eyebrow">Inventory reference</p>
+            <h2>Dreamstone Items</h2>
           </div>
-          <p>Locations obey the notes-hidden setting.</p>
+          <p id="item-result-count">Showing all items</p>
         </div>
-        <div class="sticky-jump-toolbar">
+        <div class="sticky-tab-search">
+          <label class="search-field">
+            <span>Search items or acquisition sources</span>
+            <span class="search-input-wrap">
+              <input id="item-search" type="search" placeholder="Item, description, location, Pokémon, trainer..." />
+              <button class="search-clear" type="button" data-clear-search="#item-search" aria-label="Clear item search" hidden>&times;</button>
+            </span>
+          </label>
           <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
         </div>
-        <div class="item-list" id="item-list"></div>
+        <div class="item-group-toolbar">
+          <p>Open a category to browse its items and acquisition details.</p>
+          <span>
+            <button class="clear-button" id="expand-item-categories" type="button">Expand all</button>
+            <button class="clear-button" id="collapse-item-categories" type="button">Collapse all</button>
+          </span>
+        </div>
+        <div class="item-category-list" id="item-list"></div>
+        <div class="empty-state" id="item-empty-state" hidden>
+          <span class="empty-state__stone" aria-hidden="true"></span>
+          <h3>No items found</h3>
+          <p>Try searching for another item, location, Pokémon, or trainer.</p>
+        </div>
       </section>
     </main>
 
     <footer>
       <p>
-        Wild encounters, maps, Pokémon stats, moves, abilities, learners, and trainers come from the
+        Wild encounters, maps, Pokémon stats, moves, abilities, learners, trainers, and items come from the
         <a href="https://pokerex.io/dreamstone-mysteries/v1.0/moves">Pokerex ROM extraction</a>.
-        Gift, special, Mega Evolution, and important-item notes come from the temporary Dreamstone
+        Gift, special, and Mega Evolution notes come from the temporary Dreamstone
         Mysteries dex. Gym rosters are adapted from
         <a href="https://www.pokemoncoders.com/pokemon-dreamstone-mysteries-gym-leaders-guide/"
           >PokemonCoders</a
@@ -699,9 +719,10 @@
         <a href="https://github.com/dsmyst/dreamstone-mysteries">Dreamstone Mysteries source</a>.
       </p>
       <p>
-        Sprites from
-        <a href="https://github.com/msikma/pokesprite">msikma/PokéSprite</a>; Gen 9 fallbacks from
-        <a href="https://github.com/PokeAPI/sprites">PokéAPI/sprites</a>. Types and direct evolution
+        Pokémon sprites from
+        <a href="https://github.com/msikma/pokesprite">msikma/PokéSprite</a>; Gen 9 fallbacks and
+        item sprites from <a href="https://github.com/PokeAPI/sprites">PokéAPI/sprites</a>, with
+        Dreamstone source artwork used for custom items. Types and direct evolution
         relationships use canonical <a href="https://pokeapi.co/">PokéAPI</a> data; evolution
         methods may differ in the ROM hack. Pokémon images are © Nintendo / Creatures Inc. / GAME
         FREAK Inc. Team coverage uses the current

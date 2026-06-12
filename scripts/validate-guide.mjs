@@ -9,6 +9,7 @@ const encounterSource = await fs.readFile(path.join(rootDir, "data", "pokerex-en
 const moveSource = await fs.readFile(path.join(rootDir, "data", "pokerex-moves.js"), "utf8");
 const abilitySource = await fs.readFile(path.join(rootDir, "data", "pokerex-abilities.js"), "utf8");
 const trainerSource = await fs.readFile(path.join(rootDir, "data", "pokerex-trainers.js"), "utf8");
+const itemSource = await fs.readFile(path.join(rootDir, "data", "pokerex-items.js"), "utf8");
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(dataSource, context);
@@ -16,11 +17,13 @@ vm.runInContext(encounterSource, context);
 vm.runInContext(moveSource, context);
 vm.runInContext(abilitySource, context);
 vm.runInContext(trainerSource, context);
+vm.runInContext(itemSource, context);
 const data = context.window.DREAMSTONE_DATA;
 const encounters = context.window.DREAMSTONE_ENCOUNTERS;
 const moves = context.window.DREAMSTONE_MOVES;
 const abilities = context.window.DREAMSTONE_ABILITIES;
 const trainers = context.window.DREAMSTONE_TRAINERS;
+const items = context.window.DREAMSTONE_ITEMS;
 
 const errors = [];
 const check = (condition, message) => {
@@ -31,7 +34,23 @@ check(Array.isArray(data.dex), "Dex data is missing");
 check(data.dex.length === 315, `Expected 315 Pokémon, found ${data.dex.length}`);
 check(new Set(data.dex.map((pokemon) => pokemon.number)).size === data.dex.length, "Duplicate dex numbers");
 check(data.megas.length === 18, `Expected 18 Mega choices, found ${data.megas.length}`);
-check(data.importantItems.length === 5, `Expected 5 important items, found ${data.importantItems.length}`);
+check(items.items.length === 854, `Expected 854 Pokerex items, found ${items.items.length}`);
+check(items.categories.length === 10, `Expected 10 item categories, found ${items.categories.length}`);
+check(items.items.every((item) => item.icon && item.category && item.description), "An item is missing its icon, category, or description");
+check(
+  items.items.find((item) => item.name === "Poké Ball")?.acquisition.unmappedShop === true,
+  "Poké Ball is missing its unmapped shop indicator",
+);
+check(
+  items.items.find((item) => item.name === "Potion")?.sellValue === 50,
+  "Potion does not use Dreamstone's Gen 9 quarter-price sell value",
+);
+check(
+  items.items.find((item) => item.name === "Dawn Stone")?.acquisition.npcSources.some(
+    (source) => source.location === "Route 6",
+  ),
+  "Dawn Stone is missing its playable Dreamstone NPC source",
+);
 check(encounters.locations.length === 38, `Expected 38 Pokerex encounter maps, found ${encounters.locations.length}`);
 check(
   encounters.encounterSpecies.length === 138,
@@ -183,6 +202,15 @@ for (const trainer of trainers.trainers) {
   }
 }
 
+for (const item of items.items) {
+  try {
+    const stat = await fs.stat(path.join(rootDir, item.icon));
+    check(stat.size > 0, `${item.name} item sprite is empty`);
+  } catch {
+    errors.push(`${item.name} item sprite does not exist: ${item.icon}`);
+  }
+}
+
 for (const pokemon of [...data.dex, ...data.megas]) {
   check(Boolean(pokemon.name), "Entry has no name");
   check(Boolean(pokemon.sprite), `${pokemon.name} has no sprite path`);
@@ -224,6 +252,7 @@ for (const file of [
   "data/pokerex-moves.js",
   "data/pokerex-abilities.js",
   "data/pokerex-trainers.js",
+  "data/pokerex-items.js",
   "sync-config.js",
   "sync-worker/src/index.js",
   "sync-worker/wrangler.toml",
@@ -275,7 +304,7 @@ check(
   "Save & Sync is not the final primary tab",
 );
 check(html.includes('data-move-mode="tutors"'), "Move tutors sub-tab is missing");
-check((html.match(/data-clear-search=/g) || []).length === 6, "Expected six in-field search clear buttons");
+check((html.match(/data-clear-search=/g) || []).length === 7, "Expected seven in-field search clear buttons");
 check((html.match(/class="jump-to-top"/g) || []).length === 12, "Expected one Jump to Top control per guide tab");
 check(html.includes('id="team-offensive-coverage"'), "Team Builder offensive coverage overview is missing");
 check(html.includes('id="planner-offensive-coverage"'), "Team Planner offensive coverage overview is missing");
@@ -318,6 +347,7 @@ if (errors.length) {
         pokerexWildSpeciesForms: encounters.encounterSpecies.length,
         pokerexMoves: moves.moves.length,
         pokerexAbilities: abilities.abilities.length,
+        pokerexItems: items.items.length,
         collectionEntries:
           data.dex.length + encounters.encounterSpecies.filter((pokemon) => !pokemon.guideNumber).length,
         spriteReferencesChecked: data.dex.length + data.megas.length,

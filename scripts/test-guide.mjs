@@ -94,7 +94,7 @@ await check(
       "Moves",
       "Abilities",
       "Mega Choices",
-      "Important Items",
+      "Items",
       "Save & Sync",
     ]),
   "Primary tabs are not in the expected order",
@@ -115,7 +115,7 @@ await check(
   "Active guide menu item is missing aria-current",
 );
 await checkDashboardTeamFill("Desktop");
-await check((await page.locator("[data-clear-search]").count()) === 6, "Search clear buttons are missing");
+await check((await page.locator("[data-clear-search]").count()) === 7, "Search clear buttons are missing");
 await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
 await check((await page.locator(".guide-tip").count()) === 3, "Expected three compact guide tips");
 await check((await page.locator(".stat-strip").count()) === 0, "Old guide-stat strip is still visible");
@@ -130,7 +130,7 @@ await check(
   "Badge sprite sheet did not load",
 );
 await check((await page.locator(".dashboard-team-slot").count()) === 6, "Dashboard team overview is incomplete");
-await check((await page.locator(".sticky-tab-search").count()) === 5, "Sticky tab searches are missing");
+await check((await page.locator(".sticky-tab-search").count()) === 6, "Sticky tab searches are missing");
 await check(
   await page.locator(".sticky-tab-search").evaluateAll((elements) =>
     elements.every((element) => getComputedStyle(element).position === "sticky"),
@@ -888,6 +888,44 @@ await check((await page.locator(".ability-card").count()) === 310, "Ability sear
 await page.locator("#view-abilities .section-heading").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-abilities.png"), fullPage: false });
 
+await page.locator(".view-tab[data-view='items']").click();
+await check(
+  await page.locator("#view-items").evaluate((element) => element.classList.contains("is-active")),
+  "Items view did not open",
+);
+await check((await page.locator(".item-category").count()) === 10, "Items view did not render all 10 categories");
+await check((await page.locator(".item-card").count()) === 854, "Items view did not render all 854 items");
+await check(
+  (await page.locator(".item-card[data-item-id='1']").textContent()).includes("Sold in a shop") &&
+    (await page.locator(".item-card[data-item-id='1']").textContent()).includes("₽200") &&
+    (await page.locator(".item-card[data-item-id='1']").textContent()).includes("₽50"),
+  "Poké Ball shop cost, sell value, or unmapped-shop indicator is missing",
+);
+await page.locator("#item-search").fill("Dawn Stone");
+await check((await page.locator(".item-card").count()) === 1, "Item search did not isolate Dawn Stone");
+await check(
+  (await page.locator(".item-card").textContent()).includes("Route 6"),
+  "Dawn Stone is missing its Route 6 acquisition source",
+);
+await check(
+  !(await page.locator("[data-clear-search='#item-search']").isHidden()),
+  "Item search clear button did not appear",
+);
+await page.locator("[data-clear-search='#item-search']").click();
+await check((await page.locator(".item-card").count()) === 854, "Item search clear button did not clear the search");
+await page.locator("#collapse-item-categories").click();
+await check(
+  await page.locator(".item-category").evaluateAll((categories) => categories.every((category) => !category.open)),
+  "Collapse all did not close item categories",
+);
+await page.locator("#expand-item-categories").click();
+await check(
+  await page.locator(".item-category").evaluateAll((categories) => categories.every((category) => category.open)),
+  "Expand all did not open item categories",
+);
+await page.locator("#view-items .section-heading").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-items.png"), fullPage: false });
+
 await page.locator(".view-tab[data-view='dex']").click();
 await page.locator(".pokemon-card[data-number='1'] .caught-button").click();
 await check((await page.locator("#caught-tab-count").textContent()) === "1", "Caught tab count did not update");
@@ -1166,6 +1204,14 @@ await check(
   "Mobile ability card has horizontal overflow",
 );
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-abilities.png"), fullPage: false });
+await page.locator(".view-tab[data-view='items']").click();
+await page.locator("#item-search").fill("Dawn Stone");
+await page.locator(".item-card").scrollIntoViewIfNeeded();
+await check(
+  await page.locator(".item-card").evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile item card has horizontal overflow",
+);
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-items.png"), fullPage: false });
 await page.locator(".view-tab[data-view='caught']").click();
 await check((await page.locator(".collection-card").count()) === 327, "Mobile collection did not render all cards");
 await page.locator("#view-caught").scrollIntoViewIfNeeded();
@@ -1196,6 +1242,7 @@ console.log(
         "tmp/guide-desktop-moves.png",
         "tmp/guide-desktop-move-tutors.png",
         "tmp/guide-desktop-abilities.png",
+        "tmp/guide-desktop-items.png",
         "tmp/guide-desktop-team-search.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-planner.png",
@@ -1213,6 +1260,7 @@ console.log(
         "tmp/guide-mobile-moves-tip.png",
         "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-abilities.png",
+        "tmp/guide-mobile-items.png",
         "tmp/guide-mobile-team-builder.png",
         "tmp/guide-mobile-team-planner.png",
         "tmp/guide-mobile-team-coverage.png",
