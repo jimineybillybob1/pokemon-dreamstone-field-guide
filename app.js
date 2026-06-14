@@ -1369,13 +1369,12 @@ function renderTrainerPartyMember(member) {
   identity.querySelector("strong").textContent = member.name;
   renderTypeBadges(identity.querySelector(".trainer-party-member__types"), member.types);
   card.append(identity);
-  if (member.heldItem) {
-    const heldItem = document.createElement("p");
-    heldItem.className = "trainer-party-member__item";
-    heldItem.innerHTML = "<span>Held item</span>";
-    heldItem.append(document.createTextNode(member.heldItem));
-    card.append(heldItem);
-  }
+  const heldItem = document.createElement("p");
+  heldItem.className = "trainer-party-member__item";
+  heldItem.classList.toggle("is-empty", !member.heldItem);
+  heldItem.innerHTML = "<span>Held item</span>";
+  heldItem.append(document.createTextNode(member.heldItem || "Not listed"));
+  card.append(heldItem);
   if (member.moves.length) {
     const details = document.createElement("details");
     details.className = "trainer-party-moves";
@@ -1389,6 +1388,11 @@ function renderTrainerPartyMember(member) {
     });
     details.append(summary, list);
     card.append(details);
+  } else {
+    const emptyMoves = document.createElement("p");
+    emptyMoves.className = "trainer-party-moves trainer-party-moves--empty";
+    emptyMoves.textContent = "No moves listed";
+    card.append(emptyMoves);
   }
   const matchups = document.createElement("section");
   matchups.className = "team-matchups trainer-party-matchups";
@@ -2427,17 +2431,19 @@ function renderPokemonCard(pokemon) {
     region.textContent = pokemon.region;
   }
 
-  if (pokemon.notes) {
-    note.hidden = false;
-    note.querySelector("p").textContent = pokemon.notes;
-  }
+  note.classList.toggle("is-empty", !pokemon.notes);
+  note.querySelector("p").textContent = pokemon.notes || "No field note documented.";
 
   const evolvesFrom = evolutionIncomingByNumber.get(pokemon.number) || [];
   const evolvesTo = evolutionOutgoingByNumber.get(pokemon.number) || [];
   if (evolvesFrom.length || evolvesTo.length) {
-    card.querySelector(".pokemon-evolutions").hidden = false;
     renderEvolutionLinks(card, evolvesFrom, ".evolves-from", "fromGuideNumber");
     renderEvolutionLinks(card, evolvesTo, ".evolves-to", "toGuideNumber");
+  } else {
+    const emptyEvolution = document.createElement("p");
+    emptyEvolution.className = "pokemon-evolutions__empty";
+    emptyEvolution.textContent = "No documented evolution path.";
+    card.querySelector(".pokemon-evolutions").append(emptyEvolution);
   }
 
   return card;
@@ -2626,14 +2632,13 @@ function renderMoveCard(move) {
   const description = document.createElement("p");
   description.textContent = move.description || "No description extracted.";
   copy.append(description);
-  if (move.effect) {
-    const effect = document.createElement("p");
-    effect.className = "move-card__effect";
-    const label = document.createElement("strong");
-    label.textContent = "Effect";
-    effect.append(label, document.createTextNode(move.effect));
-    copy.append(effect);
-  }
+  const effect = document.createElement("p");
+  effect.className = "move-card__effect";
+  effect.classList.toggle("is-empty", !move.effect);
+  const label = document.createElement("strong");
+  label.textContent = "Effect";
+  effect.append(label, document.createTextNode(move.effect || "No additional effect."));
+  copy.append(effect);
 
   const tutorLocations = tutorsByMoveId.get(move.id) || [];
   if (state.moveMode === "tutors" && tutorLocations.length) {
@@ -2674,6 +2679,11 @@ function renderMoveCard(move) {
     });
     details.append(summary, body);
     card.append(details);
+  } else {
+    const emptyLearners = document.createElement("p");
+    emptyLearners.className = "move-learners move-learners--empty";
+    emptyLearners.textContent = "No documented learners";
+    card.append(emptyLearners);
   }
   return card;
 }
@@ -2759,6 +2769,11 @@ function renderAbilityCard(ability) {
     });
     details.append(summary, users);
     card.append(details);
+  } else {
+    const emptyUsers = document.createElement("p");
+    emptyUsers.className = "ability-users ability-users--empty";
+    emptyUsers.textContent = "No documented Pokemon users";
+    card.append(emptyUsers);
   }
   return card;
 }
@@ -3063,16 +3078,13 @@ function renderItemCard(item) {
   copy.append(description);
   const prices = document.createElement("dl");
   prices.className = "item-card__prices";
-  if (item.cost) {
-    const cost = document.createElement("div");
-    cost.innerHTML = `<dt>Shop cost</dt><dd>${itemMoney(item.cost)}</dd>`;
-    prices.append(cost);
-  }
-  if (item.sellValue) {
-    const sell = document.createElement("div");
-    sell.innerHTML = `<dt>Sell value</dt><dd>${itemMoney(item.sellValue)}</dd>`;
-    prices.append(sell);
-  }
+  const cost = document.createElement("div");
+  cost.classList.toggle("is-empty", !item.cost);
+  cost.innerHTML = `<dt>Shop cost</dt><dd>${item.cost ? itemMoney(item.cost) : "Not sold"}</dd>`;
+  const sell = document.createElement("div");
+  sell.classList.toggle("is-empty", !item.sellValue);
+  sell.innerHTML = `<dt>Sell value</dt><dd>${item.sellValue ? itemMoney(item.sellValue) : "No value"}</dd>`;
+  prices.append(cost, sell);
 
   const sources = document.createElement("div");
   sources.className = "item-card__sources";
@@ -3107,8 +3119,7 @@ function renderItemCard(item) {
   }
 
   card.append(identity, copy);
-  if (prices.children.length) card.append(prices);
-  card.append(sources);
+  card.append(prices, sources);
   return card;
 }
 

@@ -67,6 +67,55 @@ const checkDashboardTeamFill = async (viewportName) => {
   );
 };
 
+const checkAlignedGridCards = async (gridSelector, cardSelector, sectionSelectors, label) => {
+  const grids = page.locator(gridSelector);
+  const gridCount = await grids.count();
+  for (let gridIndex = 0; gridIndex < gridCount; gridIndex += 1) {
+    const result = await grids.nth(gridIndex).evaluate(
+      (grid, { cardSelector, sectionSelectors }) => {
+        const cards = [...grid.querySelectorAll(cardSelector)].filter((card) => {
+          const rect = card.getBoundingClientRect();
+          return rect.width > 0 && rect.height > 0;
+        });
+        const rows = [];
+        cards.forEach((card) => {
+          const top = card.getBoundingClientRect().top;
+          const row = rows.find((candidate) => Math.abs(candidate.top - top) < 2);
+          if (row) row.cards.push(card);
+          else rows.push({ top, cards: [card] });
+        });
+        const comparableRows = rows.filter((row) => row.cards.length > 1).slice(0, 3);
+        if (!comparableRows.length) return { checked: false };
+        for (const row of comparableRows) {
+          const heights = row.cards.map((card) => card.getBoundingClientRect().height);
+          if (Math.max(...heights) - Math.min(...heights) >= 2) {
+            return { checked: true, issue: `card heights ${JSON.stringify(heights)}` };
+          }
+          for (const selector of sectionSelectors) {
+            const offsets = row.cards.map((card) => {
+              const section = card.querySelector(selector);
+              if (!section) return null;
+              return section.getBoundingClientRect().top - card.getBoundingClientRect().top;
+            });
+            if (offsets.some((offset) => offset === null)) {
+              return { checked: true, issue: `${selector} is missing from a card` };
+            }
+            if (Math.max(...offsets) - Math.min(...offsets) >= 2) {
+              return { checked: true, issue: `${selector} offsets ${JSON.stringify(offsets)}` };
+            }
+          }
+        }
+        return { checked: true, issue: "" };
+      },
+      { cardSelector, sectionSelectors },
+    );
+    if (!result.checked) continue;
+    await check(!result.issue, `${label} cards are not uniformly aligned: ${result.issue}`);
+    return;
+  }
+  throw new Error(`${label} alignment check could not find a multi-card row`);
+};
+
 await page.goto(guideUrl);
 await page.evaluate(() => localStorage.clear());
 await page.reload();
@@ -180,6 +229,20 @@ await check(
 );
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-masthead.png"), fullPage: false });
 await check((await page.locator(".pokemon-card").count()) === 50, "Dex did not render its first 50 Pokémon");
+await checkAlignedGridCards(
+  ".pokemon-grid",
+  ".pokemon-card",
+  [
+    ".pokemon-card__identity",
+    ".pokemon-card__facts",
+    ".pokemon-card__actions",
+    ".pokemon-stats",
+    ".team-matchups",
+    ".pokemon-evolutions",
+    ".pokemon-note",
+  ],
+  "Full Dex",
+);
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .type-badge").allTextContents()).includes("psychic"),
   "Gothita is missing its Psychic type badge",
@@ -443,6 +506,23 @@ await check(
   !(await page.locator("#view-trainers").textContent()).includes("None"),
   "Unclassified trainers still display the None class",
 );
+await checkAlignedGridCards(
+  ".trainer-grid",
+  ".trainer-card",
+  [".trainer-card__header", ".trainer-party"],
+  "Trainer",
+);
+await checkAlignedGridCards(
+  ".trainer-party",
+  ".trainer-party-member",
+  [
+    ".trainer-party-member__identity",
+    ".trainer-party-member__item",
+    ".trainer-party-moves",
+    ".trainer-party-matchups",
+  ],
+  "Trainer party Pokemon",
+);
 await page.locator("#collapse-trainer-locations").click();
 await check(
   (await page.locator(".trainer-location-group[open]").count()) === 0,
@@ -480,6 +560,12 @@ await check((await page.locator(".gym-leader-card").count()) === 8, "Gym Leaders
 await check((await page.locator(".gym-pokemon-card").count()) === 32, "Gym Leaders tab has an unexpected team size");
 await check((await page.locator(".gym-leader-card__portrait img").count()) === 8, "Gym leader portraits are missing");
 await check((await page.locator(".gym-pokemon-card .team-matchups").count()) === 32, "Gym team weakness sections are missing");
+await checkAlignedGridCards(
+  ".gym-team",
+  ".gym-pokemon-card",
+  [".gym-pokemon-card__identity", ".team-matchups"],
+  "Gym team",
+);
 await page.locator(".gym-leader-card").first().locator(".gym-badge-toggle").click();
 await check((await page.locator("#gym-badge-count").textContent()) === "1", "Gym badge count did not update");
 await check((await page.locator("#dashboard-badge-count").textContent()) === "1", "Dashboard badge count did not update");
@@ -856,6 +942,13 @@ await check(
 await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-planner.png"), fullPage: false });
 
+await page.locator(".view-tab[data-view='megas']").click();
+await check(
+  (await page.locator(".mega-card").count()) === (await page.evaluate(() => data.megas.length)),
+  "Mega Choices did not render every option",
+);
+await checkAlignedGridCards(".mega-grid", ".mega-card", ["img", "strong"], "Mega Choice");
+
 await page.locator(".view-tab[data-view='save']").click();
 await check(
   await page.locator("#view-save").evaluate((element) => element.classList.contains("is-active")),
@@ -864,6 +957,15 @@ await check(
 await check((await page.locator("#save-team-count").textContent()) === "1", "Save summary did not include the team");
 await check(await page.locator("#upload-cloud-save").isDisabled(), "Cloud upload was enabled without an endpoint");
 await check(await page.locator("#download-cloud-save").isDisabled(), "Cloud download was enabled without an endpoint");
+await check(
+  await page.locator(".save-management-grid").evaluate((grid) => {
+    const panels = [...grid.querySelectorAll(".save-panel")];
+    const heights = panels.map((panel) => panel.getBoundingClientRect().height);
+    const actionBottoms = panels.map((panel) => panel.querySelector(".save-actions").getBoundingClientRect().bottom);
+    return Math.max(...heights) - Math.min(...heights) < 2 && Math.max(...actionBottoms) - Math.min(...actionBottoms) < 2;
+  }),
+  "Save & Sync panels or their action rows are not aligned",
+);
 const downloadPromise = page.waitForEvent("download");
 await page.locator("#export-save").click();
 const saveDownload = await downloadPromise;
@@ -939,6 +1041,12 @@ await page.locator(".view-tab[data-view='moves']").click();
 await check(await page.locator("#view-moves").evaluate((element) => element.classList.contains("is-active")), "Moves view did not open");
 await check((await page.locator(".move-card").count()) === 50, "Moves view did not render its first 50 moves");
 await check((await page.locator(".move-card").first().locator("h3").textContent()) === "Pound", "First move is not Pound");
+await checkAlignedGridCards(
+  ".move-list",
+  ".move-card",
+  [".move-card__heading", ".move-card__metrics", ".move-card__copy", ".move-method-summary", ".move-learners"],
+  "Move",
+);
 await check(
   (await page.locator(".move-card").first().locator(".move-card__metrics").textContent()).includes("40"),
   "Pound power is missing",
@@ -995,6 +1103,12 @@ await check(
 );
 await check((await page.locator(".ability-card").count()) === 50, "Abilities view did not render its first 50 abilities");
 await check((await page.locator(".ability-card").first().locator("h3").textContent()) === "Stench", "First ability is not Stench");
+await checkAlignedGridCards(
+  ".ability-list",
+  ".ability-card",
+  ["header", ":scope > p", ".ability-users"],
+  "Ability",
+);
 await page.locator("#ability-search").fill("Frisk");
 await check((await page.locator(".ability-card").count()) === 1, "Ability search did not isolate Frisk");
 await check(
@@ -1068,6 +1182,12 @@ await check(
     )),
   "Expanded item categories did not render their first 50 items",
 );
+await checkAlignedGridCards(
+  ".item-grid",
+  ".item-card",
+  [".item-card__identity", ".item-card__copy", ".item-card__prices", ".item-card__sources"],
+  "Item",
+);
 await page.locator("#view-items .section-heading").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-items.png"), fullPage: false });
 
@@ -1078,6 +1198,13 @@ await check((await page.locator("#collection-caught-count").textContent()) === "
 
 await page.locator(".view-tab[data-view='caught']").click();
 await check(await page.locator("#view-caught").evaluate((element) => element.classList.contains("is-active")), "Caught view did not open");
+await page.locator("[data-collection-status='all']").click();
+await checkAlignedGridCards(
+  ".collection-grid",
+  ".collection-card",
+  [".collection-card__jump", ".collection-card__toggle"],
+  "Caught collection",
+);
 await page.locator("[data-collection-status='caught']").click();
 await check((await page.locator(".collection-card").count()) === 1, "Caught filter did not show one caught Pokémon");
 await check(

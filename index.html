@@ -36,7 +36,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260614-1" />
+    <link rel="stylesheet" href="styles.css?v=20260614-2" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
@@ -45,7 +45,7 @@
     <script src="data/pokerex-items.js" defer></script>
     <script src="data/pokerex-evolutions.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260614-1" defer></script>
+    <script src="app.js?v=20260614-2" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -569,6 +569,7 @@
                 placeholder="Create or enter a sync UUID"
               />
             </label>
+            <p class="sync-service-status" id="sync-service-status"></p>
             <div class="save-actions save-actions--cloud">
               <button class="save-primary-button" id="create-sync-code" type="button">
                 Create UUID
@@ -582,7 +583,6 @@
               </button>
               <button class="save-text-button" id="forget-sync-code" type="button">Forget UUID</button>
             </div>
-            <p class="sync-service-status" id="sync-service-status"></p>
           </section>
         </div>
         <p class="save-operation-status" id="save-operation-status" aria-live="polite"></p>
@@ -784,7 +784,7 @@
         </div>
         <section class="pokemon-stats" aria-label="Base stats" hidden></section>
         <section class="team-matchups" aria-label="Super-effective moves from your team"></section>
-        <div class="pokemon-evolutions" hidden>
+        <div class="pokemon-evolutions">
           <div class="evolution-group evolves-from" hidden>
             <span>Evolves from</span>
             <div class="evolution-links"></div>
@@ -794,7 +794,7 @@
             <div class="evolution-links"></div>
           </div>
         </div>
-        <div class="pokemon-note" hidden>
+        <div class="pokemon-note">
           <span>Field note</span>
           <p></p>
         </div>

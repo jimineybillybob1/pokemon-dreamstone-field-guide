@@ -833,6 +833,9 @@ button.journey-card:hover {
 
 .pokemon-card {
   position: relative;
+  display: grid;
+  grid-template-rows: 140px 130px auto auto 210px 110px minmax(82px, 1fr);
+  height: 100%;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -1033,6 +1036,7 @@ button.journey-card:hover {
 .pokemon-card__facts {
   display: grid;
   grid-template-columns: 1.3fr 0.62fr 0.45fr;
+  overflow: hidden;
   margin: 0;
   border-top: 1px solid var(--line);
 }
@@ -1112,6 +1116,9 @@ button.journey-card:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  align-content: start;
+  max-height: 82px;
+  overflow-y: auto;
 }
 
 .pokemon-location-link,
@@ -1268,6 +1275,16 @@ button.journey-card:hover {
   padding-top: 11px;
 }
 
+.pokemon-card > .team-matchups {
+  align-content: start;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pokemon-card > .team-matchups .team-matchups__list {
+  max-height: 145px;
+}
+
 .team-matchups header {
   display: flex;
   flex-wrap: wrap;
@@ -1376,9 +1393,19 @@ button.journey-card:hover {
 .pokemon-evolutions {
   display: grid;
   gap: 8px;
+  align-content: start;
+  overflow-y: auto;
   margin: 0 12px 12px;
   border-top: 1px solid var(--line);
   padding-top: 11px;
+}
+
+.pokemon-evolutions__empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-style: italic;
+  line-height: 1.4;
 }
 
 .evolution-group {
@@ -1471,6 +1498,11 @@ button.journey-card:hover {
   margin: 0;
   font-size: 0.72rem;
   line-height: 1.45;
+}
+
+.pokemon-note.is-empty {
+  color: var(--muted);
+  background: var(--paper-deep);
 }
 
 body.notes-hidden .pokemon-note p {
@@ -1594,6 +1626,7 @@ body.notes-hidden .pokemon-note p {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  height: 100%;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 13px;
@@ -2056,6 +2089,9 @@ body.notes-hidden .pokemon-note p {
 }
 
 .trainer-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -2071,6 +2107,7 @@ body.notes-hidden .pokemon-note p {
   border-bottom: 1px solid var(--line);
   background: rgba(114, 87, 212, 0.045);
   padding: 9px 11px;
+  min-height: 94px;
 }
 
 .trainer-card__portrait {
@@ -2135,6 +2172,9 @@ body.notes-hidden .pokemon-note p {
 }
 
 .trainer-party-member {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  height: 100%;
   min-width: 0;
   background: #fff;
 }
@@ -2209,6 +2249,13 @@ button.trainer-party-member__identity:hover {
   font-weight: 800;
 }
 
+.trainer-party-member__item.is-empty,
+.trainer-party-moves--empty {
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 700;
+}
+
 .trainer-party-member__item span {
   color: var(--muted);
   font-size: 0.48rem;
@@ -2217,9 +2264,15 @@ button.trainer-party-member__identity:hover {
 }
 
 .trainer-party-moves {
+  min-height: 29px;
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.57rem;
+}
+
+.trainer-party-moves--empty {
+  margin: 0;
+  padding: 7px 8px;
 }
 
 .trainer-party-moves summary {
@@ -2435,6 +2488,9 @@ button.trainer-party-member__identity:hover {
 }
 
 .gym-pokemon-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -2600,6 +2656,9 @@ button.trainer-party-member__identity:hover {
 }
 
 .move-card {
+  display: grid;
+  grid-template-rows: auto auto minmax(160px, 1fr) auto auto;
+  height: 100%;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -2614,6 +2673,7 @@ button.trainer-party-member__identity:hover {
   align-items: center;
   justify-content: space-between;
   padding: 15px 16px 12px;
+  min-height: 78px;
 }
 
 .move-card__heading > div:first-child {
@@ -2715,6 +2775,12 @@ button.trainer-party-member__identity:hover {
   padding: 7px 9px;
 }
 
+.move-card__effect.is-empty {
+  color: var(--muted);
+  border-left-color: var(--line);
+  background: var(--paper-deep);
+}
+
 .move-card__effect strong {
   display: block;
   margin-bottom: 2px;
@@ -2760,6 +2826,7 @@ button.trainer-party-member__identity:hover {
   flex-wrap: wrap;
   gap: 5px;
   padding: 0 15px 12px;
+  min-height: 39px;
 }
 
 .move-method-summary span {
@@ -2780,6 +2847,17 @@ button.trainer-party-member__identity:hover {
 
 .move-learners {
   border-top: 1px solid var(--line);
+}
+
+.move-learners--empty {
+  margin: 0;
+  color: var(--muted);
+  background: rgba(114, 87, 212, 0.035);
+  padding: 10px 15px;
+  font-size: 0.66rem;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .move-learners summary {
@@ -2898,6 +2976,9 @@ button.trainer-party-member__identity:hover {
 }
 
 .ability-card {
+  display: grid;
+  grid-template-rows: auto minmax(80px, 1fr) auto;
+  height: 100%;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -2913,6 +2994,7 @@ button.trainer-party-member__identity:hover {
   justify-content: space-between;
   border-bottom: 1px solid var(--line);
   padding: 15px 16px 12px;
+  min-height: 78px;
 }
 
 .ability-card > header span {
@@ -2948,6 +3030,17 @@ button.trainer-party-member__identity:hover {
 
 .ability-users {
   border-top: 1px solid var(--line);
+}
+
+.ability-users--empty {
+  margin: 0;
+  color: var(--muted);
+  background: rgba(114, 87, 212, 0.035);
+  padding: 10px 15px;
+  font-size: 0.66rem;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .ability-users summary {
@@ -2996,7 +3089,10 @@ button.trainer-party-member__identity:hover {
 
 .mega-card {
   display: grid;
+  grid-template-rows: 88px 1fr;
+  align-items: start;
   justify-items: center;
+  height: 100%;
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -3122,7 +3218,8 @@ button.trainer-party-member__identity:hover {
 
 .item-card {
   display: grid;
-  align-content: start;
+  grid-template-rows: auto 120px auto 1fr;
+  height: 100%;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -3136,6 +3233,7 @@ button.trainer-party-member__identity:hover {
   gap: 12px;
   align-items: center;
   padding: 13px;
+  min-height: 99px;
 }
 
 .item-sprite-well {
@@ -3185,6 +3283,8 @@ button.trainer-party-member__identity:hover {
 .item-card__copy {
   display: grid;
   gap: 8px;
+  align-content: start;
+  overflow-y: auto;
   border-top: 1px solid var(--line);
   padding: 11px 13px;
 }
@@ -3227,6 +3327,11 @@ button.trainer-party-member__identity:hover {
   color: var(--ink);
   font-size: 0.75rem;
   font-weight: 900;
+}
+
+.item-card__prices .is-empty dd {
+  color: var(--muted);
+  font-style: italic;
 }
 
 .item-card__sources {
@@ -4248,9 +4353,10 @@ button.trainer-party-member__identity:hover {
 }
 
 .save-panel {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 18px;
-  align-content: start;
+  height: 100%;
   border: 1px solid var(--line);
   border-radius: 17px;
   background: rgba(255, 255, 255, 0.72);
@@ -4275,6 +4381,7 @@ button.trainer-party-member__identity:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: auto;
 }
 
 .save-actions button {
@@ -4663,6 +4770,12 @@ html[data-theme="dark"] .guide-tip strong {
     grid-template-columns: 1fr;
   }
 
+  .move-card,
+  .ability-card,
+  .trainer-card {
+    grid-template-rows: none;
+  }
+
   .team-grid {
     grid-template-columns: 1fr;
   }
@@ -4730,6 +4843,36 @@ html[data-theme="dark"] .guide-tip strong {
 }
 
 @media (max-width: 700px) {
+  .pokemon-card,
+  .item-card {
+    grid-template-rows: none;
+  }
+
+  .pokemon-card__facts {
+    overflow: visible;
+  }
+
+  .pokemon-location {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .pokemon-card > .team-matchups {
+    overflow: visible;
+  }
+
+  .pokemon-card > .team-matchups .team-matchups__list {
+    max-height: 250px;
+  }
+
+  .pokemon-evolutions {
+    overflow-y: visible;
+  }
+
+  .item-card__identity {
+    min-height: 0;
+  }
+
   .team-card__profile,
   .team-card__preferences,
   .team-card__moves {
@@ -4975,6 +5118,10 @@ html[data-theme="dark"] .guide-tip strong {
 }
 
 @media (max-width: 440px) {
+  .gym-pokemon-card {
+    grid-template-rows: none;
+  }
+
   .brand {
     flex: 0 0 auto;
   }
