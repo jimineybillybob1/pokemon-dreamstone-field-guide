@@ -67,6 +67,37 @@ const checkDashboardTeamFill = async (viewportName) => {
   );
 };
 
+const checkTeamIdentityFit = async (cardSelector, label) => {
+  const metrics = await page.locator(cardSelector).evaluate((card) => {
+    const name = card.querySelector(".team-card__identity h3");
+    const well = card.querySelector(".team-sprite-well");
+    const sprite = well.querySelector("img");
+    const range = document.createRange();
+    range.selectNodeContents(name);
+    const wellRect = well.getBoundingClientRect();
+    const spriteRect = sprite.getBoundingClientRect();
+    return {
+      nameLines: range.getClientRects().length,
+      nameFits: name.scrollWidth <= name.clientWidth + 1,
+      nameSize: Number.parseFloat(getComputedStyle(name).fontSize),
+      spriteInsets: [
+        spriteRect.left - wellRect.left,
+        wellRect.right - spriteRect.right,
+        spriteRect.top - wellRect.top,
+        wellRect.bottom - spriteRect.bottom,
+      ],
+    };
+  });
+  await check(
+    metrics.nameLines === 1 && metrics.nameFits,
+    `${label} Pokemon name does not fit on one line: ${JSON.stringify(metrics)}`,
+  );
+  await check(
+    metrics.spriteInsets.every((inset) => inset >= 4),
+    `${label} sprite is too large for its background well: ${JSON.stringify(metrics.spriteInsets)}`,
+  );
+};
+
 const checkAlignedGridCards = async (gridSelector, cardSelector, sectionSelectors, label) => {
   const grids = page.locator(gridSelector);
   const gridCount = await grids.count();
@@ -615,6 +646,7 @@ await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__profile .pokemon-stat").count()) === 7,
   "Team card base stats are not positioned beside the Pokemon identity",
 );
+await checkTeamIdentityFit(".team-card[data-slot='1']", "Team Builder Gothita");
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__locations").count()) === 0,
   "Team Builder still displays a Where to find section",
@@ -643,6 +675,12 @@ await check(
       "-10%",
   "Adamant nature effects are not clearly shown on the Team Builder stats",
 );
+await page.evaluate(() => setTeamPokemon(1, 56));
+await page.waitForTimeout(50);
+await checkTeamIdentityFit(".team-card[data-slot='2']", "Team Builder Meganium");
+await page.locator(".team-card[data-slot='2'] .team-card__profile").screenshot({
+  path: path.join(outputDir, "guide-desktop-team-meganium-profile.png"),
+});
 await page.evaluate(() => setTeamPokemon(1, 17));
 await check(
   (await page.locator(".team-card[data-slot='2'] .team-card__locations").count()) === 0,
@@ -827,6 +865,13 @@ await check(
   (await page.locator(".planner-card[data-slot='1'] .team-card__profile .pokemon-stat").count()) === 7,
   "Planner card base stats are not positioned beside the Pokemon identity",
 );
+await checkTeamIdentityFit(".planner-card[data-slot='1']", "Team Planner Gothita");
+await page.evaluate(() => setPlannerPokemon(1, 56));
+await page.waitForTimeout(50);
+await checkTeamIdentityFit(".planner-card[data-slot='2']", "Team Planner Meganium");
+await page.locator(".planner-card[data-slot='2'] .team-card__profile").screenshot({
+  path: path.join(outputDir, "guide-desktop-planner-meganium-profile.png"),
+});
 await check(
   (await page.locator(".planner-card[data-slot='1'] .planner-locations").count()) === 0,
   "Team Planner still displays a Where to find section",
@@ -1534,6 +1579,8 @@ console.log(
         "tmp/guide-desktop-team-search.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-planner.png",
+        "tmp/guide-desktop-team-meganium-profile.png",
+        "tmp/guide-desktop-planner-meganium-profile.png",
         "tmp/guide-desktop-team-coverage.png",
         "tmp/guide-desktop-learnset.png",
         "tmp/guide-desktop-gyms.png",

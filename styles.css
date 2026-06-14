@@ -3714,7 +3714,14 @@ button.trainer-party-member__identity:hover {
 }
 
 .team-sprite-well img {
+  width: 82px;
+  height: 82px;
   image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.team-card__identity > div:last-child {
+  min-width: 0;
 }
 
 .team-card__identity > div:last-child > span {
@@ -3726,11 +3733,13 @@ button.trainer-party-member__identity:hover {
 }
 
 .team-card__identity h3 {
-  overflow-wrap: anywhere;
+  overflow: hidden;
   margin: 3px 0 8px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.35rem;
   letter-spacing: -0.035em;
+  line-height: 1.08;
+  white-space: nowrap;
 }
 
 .team-pokemon-types {
@@ -5335,8 +5344,8 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .team-sprite-well img {
-    width: 76px;
-    height: 76px;
+    width: 72px;
+    height: 72px;
   }
 
   .team-matchup {

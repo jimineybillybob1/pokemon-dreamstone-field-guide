@@ -2042,7 +2042,22 @@ function renderTeam() {
   const fragment = document.createDocumentFragment();
   state.team.forEach((slot, index) => fragment.append(renderTeamCard(slot, index)));
   elements.teamGrid.replaceChildren(fragment);
+  fitTeamPokemonNames(elements.teamGrid);
   renderOffensiveCoverage(elements.teamOffensiveCoverage, state.team);
+}
+
+function fitTeamPokemonNames(container) {
+  requestAnimationFrame(() => {
+    container.querySelectorAll(".team-card__identity h3").forEach((name) => {
+      name.style.fontSize = "";
+      if (!name.clientWidth) return;
+      let size = Number.parseFloat(getComputedStyle(name).fontSize);
+      while (name.scrollWidth > name.clientWidth + 1 && size > 12) {
+        size -= 0.5;
+        name.style.fontSize = `${size}px`;
+      }
+    });
+  });
 }
 
 function setPlannerPokemon(slotIndex, pokemonNumber, retainPreferences = false) {
@@ -2331,6 +2346,7 @@ function renderPlanner() {
   const fragment = document.createDocumentFragment();
   state.planner.forEach((slot, index) => fragment.append(renderPlannerCard(slot, index)));
   elements.plannerGrid.replaceChildren(fragment);
+  fitTeamPokemonNames(elements.plannerGrid);
   renderOffensiveCoverage(elements.plannerOffensiveCoverage, state.planner);
 }
 
@@ -3497,5 +3513,9 @@ renderCollection();
 renderLocations();
 renderMegas();
 renderItems();
+window.addEventListener("resize", () => {
+  fitTeamPokemonNames(elements.teamGrid);
+  fitTeamPokemonNames(elements.plannerGrid);
+});
 const initialPokemonNumber = Number(location.hash.match(/^#pokemon-(\d+)$/)?.[1]);
 if (initialPokemonNumber) focusPokemon(initialPokemonNumber);
