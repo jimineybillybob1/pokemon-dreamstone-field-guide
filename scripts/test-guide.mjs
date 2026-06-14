@@ -562,6 +562,28 @@ await check(
   (await page.locator(".team-card[data-slot='2'] .team-card__locations").count()) === 0,
   "A second Team Builder card still displays a Where to find section",
 );
+const teamAlignmentMetrics = await page.evaluate(() => {
+  const cards = [1, 2].map((slot) => document.querySelector(`.team-card[data-slot='${slot}']`));
+  const selectors = [
+    ".team-card__profile",
+    ".team-card__preferences",
+    ".team-card__moves",
+    ".team-card__evolutions",
+  ];
+  return Object.fromEntries(
+    selectors.map((selector) => [
+      selector,
+      cards.map((card) => {
+        const cardRect = card.getBoundingClientRect();
+        return card.querySelector(selector).getBoundingClientRect().top - cardRect.top;
+      }),
+    ]),
+  );
+});
+await check(
+  Object.values(teamAlignmentMetrics).every((offsets) => Math.abs(offsets[0] - offsets[1]) < 2),
+  `Filled Team Builder card sections are not uniformly aligned: ${JSON.stringify(teamAlignmentMetrics)}`,
+);
 await page.locator(".team-card[data-slot='2'] .team-card__clear").click();
 await page.locator(".team-card[data-slot='1'] .team-card__ability select").selectOption("119");
 await check(
@@ -826,6 +848,10 @@ await page.evaluate(() => setPlannerPokemon(1, 259));
 await check(
   (await page.locator(".planner-card[data-slot='2'] .planner-locations").count()) === 0,
   "A second Team Planner card still displays a Where to find section",
+);
+await check(
+  (await page.locator(".planner-card[data-slot='2'] .planner-evolution-path").count()) === 1,
+  "Team Planner cards do not reserve a consistent evolution area",
 );
 await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-planner.png"), fullPage: false });

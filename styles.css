@@ -3388,6 +3388,9 @@ button.trainer-party-member__identity:hover {
 
 .team-card,
 .planner-card {
+  display: grid;
+  grid-template-rows: auto auto auto auto minmax(min-content, 1fr) auto;
+  align-self: stretch;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -3643,6 +3646,7 @@ button.trainer-party-member__identity:hover {
   grid-template-columns: minmax(205px, 0.8fr) minmax(230px, 1.2fr);
   gap: 14px;
   align-items: center;
+  min-height: 166px;
   border-bottom: 1px solid var(--line);
   padding: 12px 13px;
 }
@@ -3657,6 +3661,8 @@ button.trainer-party-member__identity:hover {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+  align-items: start;
+  min-height: 151px;
   border-bottom: 1px solid var(--line);
   padding: 11px 13px;
 }
@@ -3767,6 +3773,14 @@ button.trainer-party-member__identity:hover {
   padding: 11px 13px 13px;
 }
 
+.team-evolution-none,
+.planner-evolution-none {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
 .team-card__evolutions > span {
   flex: 1 0 100%;
   color: var(--muted);
@@ -3801,12 +3815,16 @@ button.trainer-party-member__identity:hover {
 .team-card__moves {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 10px;
   background: rgba(114, 87, 212, 0.025);
   padding: 13px;
 }
 
 .team-move-slot {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: start;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -3823,6 +3841,7 @@ button.trainer-party-member__identity:hover {
 .team-move-details {
   display: grid;
   gap: 7px;
+  align-content: start;
   border-top: 1px solid var(--line);
   padding: 9px;
 }
@@ -3837,6 +3856,8 @@ button.trainer-party-member__identity:hover {
   flex-wrap: wrap;
   gap: 4px;
   align-items: center;
+  align-content: start;
+  min-height: 42px;
 }
 
 .team-move-name {
@@ -3890,7 +3911,12 @@ button.trainer-party-member__identity:hover {
   line-height: 1.45;
 }
 
+.team-move-details > p:not(.team-move-details__effect) {
+  min-height: 2.9em;
+}
+
 .team-move-details__effect {
+  min-height: 44px;
   border-left: 2px solid var(--gold);
   background: rgba(231, 181, 83, 0.08);
   padding: 6px 8px;
@@ -3922,6 +3948,7 @@ button.trainer-party-member__identity:hover {
 .planner-evolution-path {
   display: grid;
   gap: 8px;
+  align-content: start;
   margin: 0;
   border-top: 1px solid var(--line);
   background: rgba(66, 182, 163, 0.035);
@@ -4638,6 +4665,27 @@ html[data-theme="dark"] .guide-tip strong {
 
   .team-grid {
     grid-template-columns: 1fr;
+  }
+
+  .team-card,
+  .planner-card {
+    display: block;
+  }
+
+  .team-card__preferences {
+    min-height: 0;
+  }
+
+  .team-card__profile {
+    min-height: 0;
+  }
+
+  .team-card__moves {
+    grid-template-rows: none;
+  }
+
+  .team-move-slot {
+    display: block;
   }
 
   .offensive-coverage {

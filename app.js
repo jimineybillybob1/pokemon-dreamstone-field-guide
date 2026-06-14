@@ -1728,14 +1728,12 @@ function createTeamMoveDetails(move, retained) {
   const description = document.createElement("p");
   description.textContent = move.description || "No description extracted.";
   details.append(heading, metrics, description);
-  if (move.effect) {
-    const effect = document.createElement("p");
-    effect.className = "team-move-details__effect";
-    const label = document.createElement("strong");
-    label.textContent = "Effect";
-    effect.append(label, document.createTextNode(move.effect));
-    details.append(effect);
-  }
+  const effect = document.createElement("p");
+  effect.className = "team-move-details__effect";
+  const label = document.createElement("strong");
+  label.textContent = "Effect";
+  effect.append(label, document.createTextNode(move.effect || "No additional effect."));
+  details.append(effect);
   return details;
 }
 
@@ -1928,12 +1926,12 @@ function renderTeamCard(slot, slotIndex) {
   });
   card.append(moves);
 
+  const evolution = document.createElement("div");
+  evolution.className = "team-card__evolutions";
+  const label = document.createElement("span");
+  label.textContent = pokemon.evolvesTo.length ? "Evolve this team member" : "Evolution";
+  evolution.append(label);
   if (pokemon.evolvesTo.length) {
-    const evolution = document.createElement("div");
-    evolution.className = "team-card__evolutions";
-    const label = document.createElement("span");
-    label.textContent = "Evolve this team member";
-    evolution.append(label);
     pokemon.evolvesTo.forEach((number) => {
       const evolved = pokemonByNumber.get(number);
       if (!evolved) return;
@@ -1945,8 +1943,13 @@ function renderTeamCard(slot, slotIndex) {
       button.addEventListener("click", () => setTeamPokemon(slotIndex, number, true));
       evolution.append(button);
     });
-    card.append(evolution);
+  } else {
+    const none = document.createElement("p");
+    none.className = "team-evolution-none";
+    none.textContent = "No further evolution";
+    evolution.append(none);
   }
+  card.append(evolution);
   return card;
 }
 
@@ -2177,12 +2180,18 @@ function evolutionRoutesForPokemon(pokemonNumber) {
 
 function createPlannerEvolutionPath(pokemon, slotIndex) {
   const routes = evolutionRoutesForPokemon(pokemon.number);
-  if (!routes.length) return null;
-
   const section = document.createElement("section");
   section.className = "planner-evolution-path";
   const heading = document.createElement("strong");
   heading.textContent = "Evolution path";
+  section.append(heading);
+  if (!routes.length) {
+    const none = document.createElement("p");
+    none.className = "planner-evolution-none";
+    none.textContent = "No evolution path";
+    section.append(none);
+    return section;
+  }
   const routeList = document.createElement("div");
   routeList.className = "planner-evolution-routes";
   routes.forEach((route) => {
@@ -2218,7 +2227,7 @@ function createPlannerEvolutionPath(pokemon, slotIndex) {
     });
     routeList.append(routeRow);
   });
-  section.append(heading, routeList);
+  section.append(routeList);
   return section;
 }
 
@@ -2309,7 +2318,7 @@ function renderPlannerCard(slot, slotIndex) {
   });
   card.append(moves);
   const evolutionPath = createPlannerEvolutionPath(pokemon, slotIndex);
-  if (evolutionPath) card.append(evolutionPath);
+  card.append(evolutionPath);
   return card;
 }
 
