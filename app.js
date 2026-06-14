@@ -77,8 +77,10 @@ const state = {
   theme: document.documentElement.dataset.theme || "light",
   collectionStatus: "all",
   collectionSearch: "",
-  moveLimit: 100,
+  dexLimit: 50,
+  moveLimit: 50,
   moveMode: "all",
+  abilityLimit: 50,
   abilityFilters: {
     search: "",
     sort: "id",
@@ -112,6 +114,7 @@ const state = {
 
 const elements = {
   grid: document.querySelector("#pokemon-grid"),
+  dexLoadMore: document.querySelector("#dex-load-more"),
   cardTemplate: document.querySelector("#pokemon-card-template"),
   emptyState: document.querySelector("#empty-state"),
   resultCount: document.querySelector("#result-count"),
@@ -141,6 +144,7 @@ const elements = {
   moveEmptyState: document.querySelector("#move-empty-state"),
   showMoreMoves: document.querySelector("#show-more-moves"),
   abilityList: document.querySelector("#ability-list"),
+  abilityLoadMore: document.querySelector("#ability-load-more"),
   abilityResultCount: document.querySelector("#ability-result-count"),
   abilityEmptyState: document.querySelector("#ability-empty-state"),
   trainerSearch: document.querySelector("#trainer-search"),
@@ -209,7 +213,11 @@ const natures = [
 const natureById = new Map(natures.map((nature) => [nature.id, nature]));
 const natureStatLabels = { atk: "Atk", def: "Def", spa: "SpA", spdef: "SpD", spd: "Spe" };
 const validNature = (nature) => (natureById.has(nature) ? nature : null);
-const itemOpenCategories = new Set(["Poké Balls"]);
+const pageSize = 50;
+const itemOpenCategories = new Set();
+const itemCategoryLimits = new Map();
+const locationOpenGroups = new Set();
+let autoLoadObserver;
 const encounterLocationsByGuideNumber = new Map();
 encounters.encounterSpecies
   .filter((pokemon) => pokemon.guideNumber)
@@ -692,7 +700,7 @@ function setLocationFilter(location) {
   state.filters.location = location;
   document.querySelector("#location-filter").value = location;
   renderQuickLocations();
-  renderDex();
+  renderDex(true);
 }
 
 function createBadgeButton(leader, compact = false) {
@@ -1434,13 +1442,13 @@ function renderTrainers() {
   const trainers = filteredTrainers();
   const activeFilter = Boolean(state.trainerFilters.search.trim() || state.trainerFilters.location);
   const fragment = document.createDocumentFragment();
-  trainerData.locations.forEach((location, locationIndex) => {
+  trainerData.locations.forEach((location) => {
     const locationTrainers = trainers.filter((trainer) => trainer.location === location);
     if (!locationTrainers.length) return;
     const group = document.createElement("details");
     group.className = "trainer-location-group";
     group.dataset.location = location;
-    group.open = activeFilter || locationIndex === 0;
+    group.open = activeFilter;
     const summary = document.createElement("summary");
     summary.innerHTML = `<span><strong></strong><small></small></span><b>${locationTrainers.length} trainers</b>`;
     summary.querySelector("strong").textContent = location;
@@ -1448,7 +1456,19 @@ function renderTrainers() {
       `${locationTrainers.reduce((total, trainer) => total + trainer.party.length, 0)} party Pokémon`;
     const grid = document.createElement("div");
     grid.className = "trainer-grid";
-    locationTrainers.forEach((trainer) => grid.append(renderTrainerCard(trainer)));
+    const populate = () => {
+      if (grid.childElementCount) return;
+      const cards = document.createDocumentFragment();
+      locationTrainers.forEach((trainer) => cards.append(renderTrainerCard(trainer)));
+      grid.append(cards);
+    };
+    group._populate = populate;
+    group._clear = () => grid.replaceChildren();
+    group.addEventListener("toggle", () => {
+      if (group.open) populate();
+      else group._clear();
+    });
+    if (group.open) populate();
     group.append(summary, grid);
     fragment.append(group);
   });
@@ -1837,21 +1857,6 @@ function createNatureSelector(
   return section;
 }
 
-function createPokemonLocationsSection(pokemon, className = "team-card__locations") {
-  const locations = document.createElement("section");
-  locations.className = className;
-  const locationLabel = document.createElement("strong");
-  locationLabel.textContent = "Where to find";
-  const locationList = document.createElement("div");
-  renderLocationLinks(
-    locationList,
-    pokerexLocationsForPokemon(pokemon),
-    locationFallbackForPokemon(pokemon),
-  );
-  locations.append(locationLabel, locationList);
-  return locations;
-}
-
 function renderTeamCard(slot, slotIndex) {
   const card = document.createElement("article");
   card.className = "team-card";
@@ -1900,14 +1905,28 @@ function renderTeamCard(slot, slotIndex) {
   `;
   identity.querySelector("h3").textContent = pokemon.name.replaceAll("_", " ");
   renderTypeBadges(identity.querySelector(".team-pokemon-types"), pokemon.types);
-  card.append(identity, createPokemonLocationsSection(pokemon));
-
   const stats = document.createElement("section");
   stats.className = "pokemon-stats team-card__stats";
   stats.setAttribute("aria-label", `${pokemon.name} base stats`);
-  card.append(createNatureSelector(slotIndex, slot.nature), stats);
+  const profile = document.createElement("div");
+  profile.className = "team-card__profile";
+  profile.append(identity, stats);
+  card.append(profile);
   renderPokemonStats(card, pokemon, slot.nature);
-  card.append(createAbilitySelector(slotIndex, pokemon.number, slot.abilityId));
+  const preferences = document.createElement("div");
+  preferences.className = "team-card__preferences";
+  preferences.append(
+    createNatureSelector(slotIndex, slot.nature),
+    createAbilitySelector(slotIndex, pokemon.number, slot.abilityId),
+  );
+  card.append(preferences);
+
+  const moves = document.createElement("div");
+  moves.className = "team-card__moves";
+  slot.moves.forEach((moveId, moveIndex) => {
+    moves.append(createTeamMoveSlot(slotIndex, moveIndex, pokemon.number, moveId));
+  });
+  card.append(moves);
 
   if (pokemon.evolvesTo.length) {
     const evolution = document.createElement("div");
@@ -1928,13 +1947,6 @@ function renderTeamCard(slot, slotIndex) {
     });
     card.append(evolution);
   }
-
-  const moves = document.createElement("div");
-  moves.className = "team-card__moves";
-  slot.moves.forEach((moveId, moveIndex) => {
-    moves.append(createTeamMoveSlot(slotIndex, moveIndex, pokemon.number, moveId));
-  });
-  card.append(moves);
   return card;
 }
 
@@ -2244,7 +2256,7 @@ function renderPlannerCard(slot, slotIndex) {
     empty.innerHTML = `
       <span class="empty-state__stone" aria-hidden="true"></span>
       <strong>Choose a future team member</strong>
-      <p>Locations, preferred nature, base stats, and learn methods for planned moves will appear here.</p>
+      <p>Preferred nature, base stats, evolution path, and learn methods for planned moves will appear here.</p>
     `;
     card.append(empty);
     return card;
@@ -2265,31 +2277,30 @@ function renderPlannerCard(slot, slotIndex) {
   `;
   identity.querySelector("h3").textContent = pokemon.name.replaceAll("_", " ");
   renderTypeBadges(identity.querySelector(".team-pokemon-types"), pokemon.types);
-  card.append(identity);
-
-  card.append(createPokemonLocationsSection(pokemon, "planner-locations"));
-  const evolutionPath = createPlannerEvolutionPath(pokemon, slotIndex);
-  if (evolutionPath) card.append(evolutionPath);
-
   const stats = document.createElement("section");
   stats.className = "pokemon-stats team-card__stats";
   stats.setAttribute("aria-label", `${pokemon.name} base stats`);
-  card.append(
+  const profile = document.createElement("div");
+  profile.className = "team-card__profile";
+  profile.append(identity, stats);
+  card.append(profile);
+  renderPokemonStats(card, pokemon, slot.nature);
+
+  const preferences = document.createElement("div");
+  preferences.className = "team-card__preferences";
+  preferences.append(
     createNatureSelector(slotIndex, slot.nature, {
       scope: "planner",
       labelText: "Preferred nature",
       onChange: setPlannerNature,
     }),
-    stats,
-  );
-  renderPokemonStats(card, pokemon, slot.nature);
-  card.append(
     createAbilitySelector(slotIndex, pokemon.number, slot.abilityId, {
       scope: "planner",
       labelText: "Preferred ability",
       onChange: setPlannerAbility,
     }),
   );
+  card.append(preferences);
 
   const moves = document.createElement("div");
   moves.className = "team-card__moves planner-card__moves";
@@ -2297,6 +2308,8 @@ function renderPlannerCard(slot, slotIndex) {
     moves.append(createPlannerMoveSlot(slotIndex, moveIndex, pokemon.number, moveId));
   });
   card.append(moves);
+  const evolutionPath = createPlannerEvolutionPath(pokemon, slotIndex);
+  if (evolutionPath) card.append(evolutionPath);
   return card;
 }
 
@@ -2455,10 +2468,12 @@ function filteredPokemon() {
   return result;
 }
 
-function renderDex() {
+function renderDex(resetLimit = false) {
+  if (resetLimit) state.dexLimit = pageSize;
   const pokemon = filteredPokemon();
+  const visible = pokemon.slice(0, state.dexLimit);
   const fragment = document.createDocumentFragment();
-  pokemon.forEach((entry) => {
+  visible.forEach((entry) => {
     let card = dexCardByNumber.get(entry.number);
     if (!card) {
       card = renderPokemonCard(entry);
@@ -2471,10 +2486,12 @@ function renderDex() {
   });
   elements.grid.replaceChildren(fragment);
   elements.emptyState.hidden = pokemon.length !== 0;
+  elements.dexLoadMore.hidden = visible.length === pokemon.length;
+  elements.dexLoadMore.textContent = `Load next ${pageSize} Pokémon · ${pokemon.length - visible.length} remaining`;
   elements.resultCount.textContent =
     pokemon.length === data.dex.length
-      ? `Showing all ${data.dex.length} Pokémon`
-      : `Showing ${pokemon.length} of ${data.dex.length} Pokémon`;
+      ? `Showing ${visible.length} of all ${data.dex.length} Pokémon`
+      : `Showing ${visible.length} of ${pokemon.length} matching Pokémon`;
   updateSearchClearButtons();
 }
 
@@ -2674,7 +2691,7 @@ function filteredMoves() {
 }
 
 function renderMoves(resetLimit = false) {
-  if (resetLimit) state.moveLimit = 100;
+  if (resetLimit) state.moveLimit = pageSize;
   const moves = filteredMoves();
   const visible = moves.slice(0, state.moveLimit);
   const fragment = document.createDocumentFragment();
@@ -2682,7 +2699,7 @@ function renderMoves(resetLimit = false) {
   elements.moveList.replaceChildren(fragment);
   elements.moveEmptyState.hidden = moves.length !== 0;
   elements.showMoreMoves.hidden = visible.length === moves.length;
-  elements.showMoreMoves.textContent = `Show more moves · ${moves.length - visible.length} remaining`;
+  elements.showMoreMoves.textContent = `Load next ${pageSize} moves · ${moves.length - visible.length} remaining`;
   const total = state.moveMode === "tutors" ? tutorMoveIds.size : moveData.moves.length;
   const noun = state.moveMode === "tutors" ? "move tutors" : "moves";
   elements.moveResultCount.textContent =
@@ -2750,16 +2767,21 @@ function filteredAbilities() {
   return abilities;
 }
 
-function renderAbilities() {
+function renderAbilities(resetLimit = false) {
+  if (resetLimit) state.abilityLimit = pageSize;
   const abilities = filteredAbilities();
+  const visible = abilities.slice(0, state.abilityLimit);
   const fragment = document.createDocumentFragment();
-  abilities.forEach((ability) => fragment.append(renderAbilityCard(ability)));
+  visible.forEach((ability) => fragment.append(renderAbilityCard(ability)));
   elements.abilityList.replaceChildren(fragment);
   elements.abilityEmptyState.hidden = abilities.length !== 0;
+  elements.abilityLoadMore.hidden = visible.length === abilities.length;
+  elements.abilityLoadMore.textContent =
+    `Load next ${pageSize} abilities · ${abilities.length - visible.length} remaining`;
   elements.abilityResultCount.textContent =
     abilities.length === abilityData.abilities.length
-      ? `Showing all ${abilityData.abilities.length} abilities`
-      : `Showing ${abilities.length} matching abilities`;
+      ? `Showing ${visible.length} of all ${abilityData.abilities.length} abilities`
+      : `Showing ${visible.length} of ${abilities.length} matching abilities`;
   updateSearchClearButtons();
 }
 
@@ -2768,6 +2790,23 @@ function updateSearchClearButtons() {
     const input = document.querySelector(button.dataset.clearSearch);
     button.hidden = !input?.value;
   });
+}
+
+function observeAutoLoadTrigger(trigger) {
+  if (trigger && autoLoadObserver) autoLoadObserver.observe(trigger);
+}
+
+function initializeAutoLoading() {
+  if (!("IntersectionObserver" in window)) return;
+  autoLoadObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !entry.target.hidden) entry.target.click();
+      });
+    },
+    { rootMargin: "700px 0px" },
+  );
+  [elements.dexLoadMore, elements.showMoreMoves, elements.abilityLoadMore].forEach(observeAutoLoadTrigger);
 }
 
 function activateView(viewName) {
@@ -2813,6 +2852,7 @@ function focusPokemon(number) {
   if (!pokemonByNumber.has(number)) return;
   resetDexFilters();
   activateView("dex");
+  state.dexLimit = Math.max(pageSize, filteredPokemon().findIndex((pokemon) => pokemon.number === number) + 1);
   renderDex();
   history.replaceState(null, "", `#pokemon-${number}`);
   requestAnimationFrame(() => {
@@ -2866,61 +2906,82 @@ function renderLocations(search = "") {
         method.species.forEach((pokemon) => uniquePokemon.set(pokemon.trackingId, pokemon)),
       );
       const caughtCount = [...uniquePokemon.values()].filter(isCaught).length;
-      const card = document.createElement("article");
+      const card = document.createElement("details");
       card.className = "location-card";
       card.dataset.location = location.name;
-      card.innerHTML = `
-        <div class="location-card__heading">
+      card.open = Boolean(normalizedSearch) || locationOpenGroups.has(location.name);
+      const summary = document.createElement("summary");
+      summary.className = "location-card__heading";
+      summary.innerHTML = `
           <div>
             <span>${location.mapType || "wild area"}</span>
             <h3>${location.name}</h3>
           </div>
           <span>${caughtCount} / ${uniquePokemon.size} caught</span>
-        </div>
-        <div class="location-card__body">
-          <a class="location-map" href="${location.map.fullImage}" target="_blank" rel="noreferrer">
-            <img src="${location.map.thumbnail}" alt="${location.name} map" loading="lazy">
-            <span>Open full map · ${location.map.width} × ${location.map.height}px</span>
-          </a>
-          <div class="encounter-methods"></div>
-        </div>
-        <a class="map-reference-link" href="${location.map.pokerexUrl}" target="_blank" rel="noreferrer">
-          Open map reference
-        </a>
       `;
-      const methods = card.querySelector(".encounter-methods");
-      location.methods.forEach((method) => {
-        const section = document.createElement("section");
-        section.className = "encounter-method";
-        section.innerHTML = `
-          <header>
-            <h4>${method.label}</h4>
-            <span>Encounter rate ${method.encounterRate}</span>
-          </header>
-          <div class="location-card__pokemon"></div>
+      const content = document.createElement("div");
+      content.className = "location-card__content";
+      const populate = () => {
+        if (content.childElementCount) return;
+        content.innerHTML = `
+          <div class="location-card__body">
+            <a class="location-map" href="${location.map.fullImage}" target="_blank" rel="noreferrer">
+              <img src="${location.map.thumbnail}" alt="${location.name} map" loading="lazy">
+              <span>Open full map · ${location.map.width} × ${location.map.height}px</span>
+            </a>
+            <div class="encounter-methods"></div>
+          </div>
+          <a class="map-reference-link" href="${location.map.pokerexUrl}" target="_blank" rel="noreferrer">
+            Open map reference
+          </a>
         `;
-        const list = section.querySelector(".location-card__pokemon");
-        method.species.forEach((entry) => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "location-pokemon";
-          button.classList.toggle("is-caught", isCaught(entry));
-          button.setAttribute(
-            "aria-label",
-            `${isCaught(entry) ? "Mark uncaught" : "Mark caught"}: ${entry.name}`,
-          );
-          button.innerHTML = `
-            <img src="${entry.sprite}" alt="" width="52" height="52" loading="lazy">
-            <span>
-              <strong>${entry.name.replaceAll("_", " ")}</strong>
-              <span>Lv. ${entry.minLevel}${entry.maxLevel !== entry.minLevel ? `–${entry.maxLevel}` : ""} · ${entry.rate}%</span>
-            </span>
+        const methods = content.querySelector(".encounter-methods");
+        location.methods.forEach((method) => {
+          const section = document.createElement("section");
+          section.className = "encounter-method";
+          section.innerHTML = `
+            <header>
+              <h4>${method.label}</h4>
+              <span>Encounter rate ${method.encounterRate}</span>
+            </header>
+            <div class="location-card__pokemon"></div>
           `;
-          button.addEventListener("click", () => toggleCaught(entry));
-          list.append(button);
+          const list = section.querySelector(".location-card__pokemon");
+          method.species.forEach((entry) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "location-pokemon";
+            button.classList.toggle("is-caught", isCaught(entry));
+            button.setAttribute(
+              "aria-label",
+              `${isCaught(entry) ? "Mark uncaught" : "Mark caught"}: ${entry.name}`,
+            );
+            button.innerHTML = `
+              <img src="${entry.sprite}" alt="" width="52" height="52" loading="lazy">
+              <span>
+                <strong>${entry.name.replaceAll("_", " ")}</strong>
+                <span>Lv. ${entry.minLevel}${entry.maxLevel !== entry.minLevel ? `–${entry.maxLevel}` : ""} · ${entry.rate}%</span>
+              </span>
+            `;
+            button.addEventListener("click", () => toggleCaught(entry));
+            list.append(button);
+          });
+          methods.append(section);
         });
-        methods.append(section);
+      };
+      card._populate = populate;
+      card._clear = () => content.replaceChildren();
+      card.addEventListener("toggle", () => {
+        if (card.open) {
+          if (!normalizedSearch) locationOpenGroups.add(location.name);
+          populate();
+        } else {
+          locationOpenGroups.delete(location.name);
+          card._clear();
+        }
       });
+      if (card.open) populate();
+      card.append(summary, content);
       fragment.append(card);
     });
   elements.locationList.replaceChildren(fragment);
@@ -3064,23 +3125,49 @@ function renderItems() {
   const search = state.itemSearch.trim().toLowerCase();
   const filtered = itemData.items.filter((item) => itemMatchesSearch(item, search));
   const fragment = document.createDocumentFragment();
-  itemData.categories.forEach((category, categoryIndex) => {
+  itemData.categories.forEach((category) => {
     const items = filtered.filter((item) => item.category === category.name);
     if (!items.length) return;
     const group = document.createElement("details");
     group.className = "item-category";
     group.dataset.category = category.name;
-    group.open = Boolean(search) || itemOpenCategories.has(category.name) || categoryIndex === 0;
-    group.addEventListener("toggle", () => {
-      if (group.open) itemOpenCategories.add(category.name);
-      else itemOpenCategories.delete(category.name);
-    });
+    group.open = Boolean(search) || itemOpenCategories.has(category.name);
     const summary = document.createElement("summary");
     summary.innerHTML = `<span><strong></strong><small>${items.length} ${items.length === 1 ? "item" : "items"}</small></span><span aria-hidden="true">+</span>`;
     summary.querySelector("strong").textContent = category.name;
     const grid = document.createElement("div");
     grid.className = "item-grid";
-    items.forEach((item) => grid.append(renderItemCard(item)));
+    const populate = () => {
+      const limit = itemCategoryLimits.get(category.name) || pageSize;
+      const visible = items.slice(0, limit);
+      const cards = document.createDocumentFragment();
+      visible.forEach((item) => cards.append(renderItemCard(item)));
+      if (visible.length < items.length) {
+        const loadMore = document.createElement("button");
+        loadMore.type = "button";
+        loadMore.className = "auto-load-trigger item-load-more";
+        loadMore.textContent = `Load next ${pageSize} items · ${items.length - visible.length} remaining`;
+        loadMore.addEventListener("click", () => {
+          itemCategoryLimits.set(category.name, limit + pageSize);
+          populate();
+        });
+        cards.append(loadMore);
+        requestAnimationFrame(() => observeAutoLoadTrigger(loadMore));
+      }
+      grid.replaceChildren(cards);
+    };
+    group._populate = populate;
+    group._clear = () => grid.replaceChildren();
+    group.addEventListener("toggle", () => {
+      if (group.open) {
+        if (!search) itemOpenCategories.add(category.name);
+        populate();
+      } else {
+        itemOpenCategories.delete(category.name);
+        group._clear();
+      }
+    });
+    if (group.open) populate();
     group.append(summary, grid);
     fragment.append(group);
   });
@@ -3126,30 +3213,47 @@ function bindControls() {
     control.addEventListener("input", () => {
       state.filters[key] = control.value;
       if (key === "location") renderQuickLocations();
-      renderDex();
+      renderDex(true);
     });
   });
 
   document.querySelector("#clear-filters").addEventListener("click", () => {
     resetDexFilters();
-    renderDex();
+    renderDex(true);
   });
 
   elements.locationSearch.addEventListener("input", () => renderLocations(elements.locationSearch.value));
+  document.querySelector("#expand-locations").addEventListener("click", () => {
+    elements.locationList.querySelectorAll(".location-card").forEach((location) => {
+      locationOpenGroups.add(location.dataset.location);
+      location.open = true;
+      location._populate?.();
+    });
+  });
+  document.querySelector("#collapse-locations").addEventListener("click", () => {
+    locationOpenGroups.clear();
+    elements.locationList.querySelectorAll(".location-card").forEach((location) => {
+      location.open = false;
+      location._clear?.();
+    });
+  });
   elements.itemSearch.addEventListener("input", () => {
     state.itemSearch = elements.itemSearch.value;
+    itemCategoryLimits.clear();
     renderItems();
   });
   document.querySelector("#expand-item-categories").addEventListener("click", () => {
     document.querySelectorAll(".item-category").forEach((category) => {
       category.open = true;
       itemOpenCategories.add(category.dataset.category);
+      category._populate?.();
     });
   });
   document.querySelector("#collapse-item-categories").addEventListener("click", () => {
     document.querySelectorAll(".item-category").forEach((category) => {
       category.open = false;
       itemOpenCategories.delete(category.dataset.category);
+      category._clear?.();
     });
   });
   elements.trainerSearch.addEventListener("input", () => {
@@ -3159,12 +3263,18 @@ function bindControls() {
   document.querySelector("#expand-trainer-locations").addEventListener("click", () => {
     elements.trainerLocationList
       .querySelectorAll(".trainer-location-group")
-      .forEach((group) => (group.open = true));
+      .forEach((group) => {
+        group.open = true;
+        group._populate?.();
+      });
   });
   document.querySelector("#collapse-trainer-locations").addEventListener("click", () => {
     elements.trainerLocationList
       .querySelectorAll(".trainer-location-group")
-      .forEach((group) => (group.open = false));
+      .forEach((group) => {
+        group.open = false;
+        group._clear?.();
+      });
   });
   const moveBindings = {
     "#move-search": "search",
@@ -3195,8 +3305,12 @@ function bindControls() {
     });
   });
   elements.showMoreMoves.addEventListener("click", () => {
-    state.moveLimit += 100;
+    state.moveLimit += pageSize;
     renderMoves();
+  });
+  elements.dexLoadMore.addEventListener("click", () => {
+    state.dexLimit += pageSize;
+    renderDex();
   });
   const abilityBindings = {
     "#ability-search": "search",
@@ -3206,12 +3320,16 @@ function bindControls() {
     const control = document.querySelector(selector);
     control.addEventListener("input", () => {
       state.abilityFilters[key] = control.value;
-      renderAbilities();
+      renderAbilities(true);
     });
   });
   document.querySelector("#clear-ability-filters").addEventListener("click", () => {
     Object.assign(state.abilityFilters, { search: "", sort: "id" });
     document.querySelector("#ability-filters").reset();
+    renderAbilities(true);
+  });
+  elements.abilityLoadMore.addEventListener("click", () => {
+    state.abilityLimit += pageSize;
     renderAbilities();
   });
   document.querySelector("#export-save").addEventListener("click", exportSave);
@@ -3343,6 +3461,7 @@ setNotesHidden(state.notesHidden);
 setTheme(state.theme);
 updateSyncControls();
 bindControls();
+initializeAutoLoading();
 updateProgress();
 renderQuickLocations();
 renderDex();

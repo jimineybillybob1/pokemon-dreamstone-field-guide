@@ -36,7 +36,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260613-1" />
+    <link rel="stylesheet" href="styles.css?v=20260613-2" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
@@ -45,7 +45,7 @@
     <script src="data/pokerex-items.js" defer></script>
     <script src="data/pokerex-evolutions.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260613-1" defer></script>
+    <script src="app.js?v=20260613-2" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -298,6 +298,7 @@
         </aside>
 
         <div class="pokemon-grid" id="pokemon-grid"></div>
+        <button class="auto-load-trigger" id="dex-load-more" type="button" hidden>Load next 50 Pokémon</button>
         <div class="empty-state" id="empty-state" hidden>
           <span class="empty-state__stone" aria-hidden="true"></span>
           <h3>No Pokémon found</h3>
@@ -464,7 +465,7 @@
           <button class="clear-button" id="clear-move-filters" type="button">Clear filters</button>
         </form>
         <div class="move-list" id="move-list"></div>
-        <button class="show-more-moves" id="show-more-moves" type="button" hidden>Show more moves</button>
+        <button class="auto-load-trigger show-more-moves" id="show-more-moves" type="button" hidden>Load next 50 moves</button>
         <div class="empty-state" id="move-empty-state" hidden>
           <span class="empty-state__stone" aria-hidden="true"></span>
           <h3>No moves found</h3>
@@ -502,6 +503,7 @@
           <button class="clear-button" id="clear-ability-filters" type="button">Clear filters</button>
         </form>
         <div class="ability-list" id="ability-list"></div>
+        <button class="auto-load-trigger" id="ability-load-more" type="button" hidden>Load next 50 abilities</button>
         <div class="empty-state" id="ability-empty-state" hidden>
           <span class="empty-state__stone" aria-hidden="true"></span>
           <h3>No abilities found</h3>
@@ -656,6 +658,13 @@
             </span>
           </label>
           <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
+        </div>
+        <div class="location-group-toolbar">
+          <p>Open a location to inspect its map and wild encounters.</p>
+          <span>
+            <button class="clear-button" id="expand-locations" type="button">Expand all</button>
+            <button class="clear-button" id="collapse-locations" type="button">Collapse all</button>
+          </span>
         </div>
         <div class="location-list" id="location-list"></div>
       </section>

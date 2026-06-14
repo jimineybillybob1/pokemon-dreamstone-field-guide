@@ -1713,9 +1713,37 @@ body.notes-hidden .pokemon-note p {
   gap: 16px;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
   padding: 15px 18px;
-  border-bottom: 1px solid var(--line);
   background: rgba(114, 87, 212, 0.055);
+}
+
+.location-card__heading::-webkit-details-marker {
+  display: none;
+}
+
+.location-card__heading::after {
+  content: "+";
+  display: grid;
+  place-items: center;
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--violet-dark);
+  background: var(--paper-deep);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.location-card[open] > .location-card__heading {
+  border-bottom: 1px solid var(--line);
+}
+
+.location-card[open] > .location-card__heading::after {
+  content: "\2212";
 }
 
 .location-card__heading > div {
@@ -1915,7 +1943,8 @@ body.notes-hidden .pokemon-note p {
   font-size: 0.8rem;
 }
 
-.trainer-group-toolbar {
+.trainer-group-toolbar,
+.location-group-toolbar {
   display: flex;
   gap: 12px;
   align-items: center;
@@ -1923,18 +1952,21 @@ body.notes-hidden .pokemon-note p {
   margin: -8px 0 14px;
 }
 
-.trainer-group-toolbar p {
+.trainer-group-toolbar p,
+.location-group-toolbar p {
   margin: 0;
   color: var(--muted);
   font-size: 0.7rem;
 }
 
-.trainer-group-toolbar > span {
+.trainer-group-toolbar > span,
+.location-group-toolbar > span {
   display: flex;
   gap: 7px;
 }
 
-.trainer-group-toolbar .clear-button {
+.trainer-group-toolbar .clear-button,
+.location-group-toolbar .clear-button {
   min-height: 36px;
   padding: 7px 11px;
   font-size: 0.65rem;
@@ -2801,7 +2833,7 @@ button.trainer-party-member__identity:hover {
   background: rgba(114, 87, 212, 0.1);
 }
 
-.show-more-moves {
+.auto-load-trigger {
   display: block;
   min-width: min(100%, 300px);
   margin: 22px auto 0;
@@ -2811,6 +2843,10 @@ button.trainer-party-member__identity:hover {
   background: rgba(114, 87, 212, 0.08);
   padding: 11px 18px;
   font-weight: 900;
+}
+
+.item-load-more {
+  grid-column: 1 / -1;
 }
 
 .ability-filter-panel {
@@ -3549,17 +3585,17 @@ button.trainer-party-member__identity:hover {
 
 .team-card__identity {
   display: grid;
-  grid-template-columns: 108px minmax(0, 1fr);
-  gap: 15px;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 12px;
   align-items: center;
-  padding: 14px 13px 10px;
+  min-width: 0;
 }
 
 .team-sprite-well {
   display: grid;
   place-items: center;
-  width: 108px;
-  height: 108px;
+  width: 92px;
+  height: 92px;
   border: 1px solid var(--line);
   border-radius: 15px;
   background:
@@ -3585,7 +3621,7 @@ button.trainer-party-member__identity:hover {
   overflow-wrap: anywhere;
   margin: 3px 0 8px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.55rem;
+  font-size: 1.35rem;
   letter-spacing: -0.035em;
 }
 
@@ -3602,16 +3638,35 @@ button.trainer-party-member__identity:hover {
   font-size: 0.68rem;
 }
 
+.team-card__profile {
+  display: grid;
+  grid-template-columns: minmax(205px, 0.8fr) minmax(230px, 1.2fr);
+  gap: 14px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 13px;
+}
+
 .team-card__stats {
-  margin: 0 13px 13px;
+  margin: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+
+.team-card__preferences {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  border-bottom: 1px solid var(--line);
+  padding: 11px 13px;
 }
 
 .team-card__nature {
   display: grid;
   gap: 8px;
-  margin: 0 13px 13px;
-  border-top: 1px solid var(--line);
-  padding-top: 11px;
+  margin: 0;
+  border-top: 0;
+  padding-top: 0;
 }
 
 .team-card__nature label {
@@ -3652,9 +3707,9 @@ button.trainer-party-member__identity:hover {
 .team-card__ability {
   display: grid;
   gap: 8px;
-  margin: 0 13px 13px;
-  border-top: 1px solid var(--line);
-  padding-top: 11px;
+  margin: 0;
+  border-top: 0;
+  padding-top: 0;
 }
 
 .team-card__ability label {
@@ -3706,9 +3761,10 @@ button.trainer-party-member__identity:hover {
   flex-wrap: wrap;
   gap: 7px;
   align-items: center;
-  margin: 0 13px 13px;
+  margin: 0;
   border-top: 1px solid var(--line);
-  padding-top: 11px;
+  background: rgba(66, 182, 163, 0.035);
+  padding: 11px 13px 13px;
 }
 
 .team-card__evolutions > span {
@@ -3744,8 +3800,8 @@ button.trainer-party-member__identity:hover {
 
 .team-card__moves {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  border-top: 1px solid var(--line);
   background: rgba(114, 87, 212, 0.025);
   padding: 13px;
 }
@@ -3849,17 +3905,6 @@ button.trainer-party-member__identity:hover {
   text-transform: uppercase;
 }
 
-.team-card__locations,
-.planner-locations {
-  display: grid;
-  gap: 7px;
-  margin: 0 13px 13px;
-  border-top: 1px solid var(--line);
-  padding-top: 11px;
-}
-
-.team-card__locations > strong,
-.planner-locations > strong,
 .planner-move-methods > strong {
   color: var(--muted);
   font-size: 0.59rem;
@@ -3868,8 +3913,6 @@ button.trainer-party-member__identity:hover {
   text-transform: uppercase;
 }
 
-.team-card__locations > div,
-.planner-locations > div,
 .planner-move-methods > div {
   display: flex;
   flex-wrap: wrap;
@@ -3879,9 +3922,10 @@ button.trainer-party-member__identity:hover {
 .planner-evolution-path {
   display: grid;
   gap: 8px;
-  margin: 0 13px 13px;
+  margin: 0;
   border-top: 1px solid var(--line);
-  padding-top: 11px;
+  background: rgba(66, 182, 163, 0.035);
+  padding: 11px 13px 13px;
 }
 
 .planner-evolution-path > strong {
@@ -4638,6 +4682,12 @@ html[data-theme="dark"] .guide-tip strong {
 }
 
 @media (max-width: 700px) {
+  .team-card__profile,
+  .team-card__preferences,
+  .team-card__moves {
+    grid-template-columns: 1fr;
+  }
+
   .view-tabs {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
@@ -4930,11 +4980,13 @@ html[data-theme="dark"] .guide-tip strong {
     padding: 10px;
   }
 
-  .trainer-group-toolbar {
+  .trainer-group-toolbar,
+  .location-group-toolbar {
     display: grid;
   }
 
-  .trainer-group-toolbar > span {
+  .trainer-group-toolbar > span,
+  .location-group-toolbar > span {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -5079,17 +5131,17 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .team-card__identity {
-    grid-template-columns: 88px minmax(0, 1fr);
+    grid-template-columns: 82px minmax(0, 1fr);
   }
 
   .team-sprite-well {
-    width: 88px;
-    height: 88px;
+    width: 82px;
+    height: 82px;
   }
 
   .team-sprite-well img {
-    width: 82px;
-    height: 82px;
+    width: 76px;
+    height: 76px;
   }
 
   .team-matchup {

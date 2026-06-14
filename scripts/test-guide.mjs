@@ -179,7 +179,7 @@ await check(
   `Desktop masthead is too tall (${JSON.stringify(desktopMastheadMetrics)})`,
 );
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-masthead.png"), fullPage: false });
-await check((await page.locator(".pokemon-card").count()) === 315, "Expected all 315 Pokémon cards");
+await check((await page.locator(".pokemon-card").count()) === 50, "Dex did not render its first 50 Pokémon");
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .type-badge").allTextContents()).includes("psychic"),
   "Gothita is missing its Psychic type badge",
@@ -225,8 +225,13 @@ await check(
 );
 await check((await page.locator(".pokemon-stats header small").count()) === 0, "Stat-scale caption is still visible");
 await check(
-  (await page.locator(".region-badge:not([hidden])").count()) === 38,
-  "Unexpected visible regional badge count",
+  await page.evaluate(() =>
+    [...document.querySelectorAll(".pokemon-card")].every((card) => {
+      const pokemon = pokemonByNumber.get(Number(card.dataset.number));
+      return card.querySelector(".region-badge").hidden === !pokemon.region;
+    }),
+  ),
+  "A visible Dex card has the wrong regional badge state",
 );
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .region-badge").evaluate(
@@ -235,7 +240,7 @@ await check(
   "Empty regional badge is visible",
 );
 await check(
-  (await page.locator(".pokemon-name-row > .region-badge").count()) === 315,
+  (await page.locator(".pokemon-name-row > .region-badge").count()) === 50,
   "Regional badges are not positioned beside Pokémon names",
 );
 await check(
@@ -254,7 +259,7 @@ await check(
   !(await page.locator("#view-dex").textContent()).includes("Evolve / special"),
   "Legacy evolution availability wording is still visible in the Dex",
 );
-await check((await page.locator(".learnset-button").count()) === 315, "Dex learnset buttons are missing");
+await check((await page.locator(".learnset-button").count()) === 50, "Visible Dex learnset buttons are missing");
 await page.locator(".pokemon-card[data-number='1'] .learnset-button").click();
 await check(await page.locator("#learnset-dialog").isVisible(), "Gothita learnset dialog did not open");
 await check(
@@ -305,9 +310,9 @@ await check(
 );
 await check(
   await page.evaluate(() =>
-    data.dex.every((pokemon) => {
+    [...document.querySelectorAll(".pokemon-card")].every((card) => {
+      const pokemon = pokemonByNumber.get(Number(card.dataset.number));
       const expected = pokerexLocationsForPokemon(pokemon);
-      const card = document.querySelector(`.pokemon-card[data-number='${pokemon.number}']`);
       const links = [...card.querySelectorAll(".pokemon-location-link")].map((link) => link.textContent);
       if (expected.length) return JSON.stringify(links) === JSON.stringify(expected);
       return links.length === 0 && card.querySelector(".pokemon-location").textContent === locationFallbackForPokemon(pokemon);
@@ -405,10 +410,25 @@ await check(
 await page.locator("#search").fill("Gothita");
 await check(!(await page.locator("[data-clear-search='#search']").isHidden()), "Dex search clear button did not appear");
 await page.locator("[data-clear-search='#search']").click();
-await check((await page.locator(".pokemon-card").count()) === 315, "Dex search clear button did not clear the search");
+await check((await page.locator(".pokemon-card").count()) === 50, "Dex search clear button did not reset the first page");
+await page.locator("#dex-load-more").scrollIntoViewIfNeeded();
+await page.waitForFunction(() => document.querySelectorAll(".pokemon-card").length >= 100);
+await check((await page.locator(".pokemon-card").count()) === 100, "Dex did not auto-load the next 50 Pokémon");
+await page.locator("#search").fill("Gothita");
+await page.locator("[data-clear-search='#search']").click();
 
 await page.locator(".view-tab[data-view='trainers']").click();
 await check((await page.locator(".trainer-location-group").count()) === 25, "Trainer locations are incomplete");
+await check((await page.locator(".trainer-card").count()) === 0, "Collapsed trainer locations rendered hidden cards");
+await check(
+  (await page.locator(".trainer-location-group[open]").count()) === 0,
+  "Trainer locations should initially be collapsed",
+);
+await page.locator("#expand-trainer-locations").click();
+await check(
+  (await page.locator(".trainer-location-group[open]").count()) === 25,
+  "Expand all did not open every trainer location",
+);
 await check((await page.locator(".trainer-card").count()) === 127, "Playable trainer cards are incomplete");
 await check(
   (await page.locator(".trainer-party-member").count()) ===
@@ -423,20 +443,12 @@ await check(
   !(await page.locator("#view-trainers").textContent()).includes("None"),
   "Unclassified trainers still display the None class",
 );
-await check(
-  (await page.locator(".trainer-location-group[open]").count()) === 1,
-  "Trainer locations should initially open only the first group",
-);
-await page.locator("#expand-trainer-locations").click();
-await check(
-  (await page.locator(".trainer-location-group[open]").count()) === 25,
-  "Expand all did not open every trainer location",
-);
 await page.locator("#collapse-trainer-locations").click();
 await check(
   (await page.locator(".trainer-location-group[open]").count()) === 0,
   "Collapse all did not close every trainer location",
 );
+await check((await page.locator(".trainer-card").count()) === 0, "Collapsed trainer locations retained hidden cards");
 await page.locator("#trainer-search").fill("Bronzor");
 await check(
   (await page.locator(".trainer-card").count()) > 0 &&
@@ -456,6 +468,7 @@ await check(
   "Trainer quick-location filter did not isolate Route 1",
 );
 await page.locator("#trainer-quick-location-list .quick-location", { hasText: "All" }).click();
+await page.locator(".trainer-location-group").first().locator("summary").click();
 await check(
   await page.locator(".trainer-card__portrait img").first().evaluate((image) => image.complete && image.naturalWidth > 0),
   "Trainer sprite did not load",
@@ -513,10 +526,12 @@ await check(
   "Team card is missing Gothita's type",
 );
 await check(
-  (await page.locator(".team-card[data-slot='1'] .team-card__locations").textContent()).includes(
-    "No wild encounter listed",
-  ),
-  "Team card did not use the Pokerex-only location fallback",
+  (await page.locator(".team-card[data-slot='1'] .team-card__profile .pokemon-stat").count()) === 7,
+  "Team card base stats are not positioned beside the Pokemon identity",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__locations").count()) === 0,
+  "Team Builder still displays a Where to find section",
 );
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__ability select option").count()) === 4,
@@ -544,15 +559,9 @@ await check(
 );
 await page.evaluate(() => setTeamPokemon(1, 17));
 await check(
-  (await page.locator(".team-card[data-slot='2'] .team-card__locations .pokemon-location-link").count()) > 0,
-  "Team card encounter locations are not clickable",
+  (await page.locator(".team-card[data-slot='2'] .team-card__locations").count()) === 0,
+  "A second Team Builder card still displays a Where to find section",
 );
-await page.locator(".team-card[data-slot='2'] .team-card__locations .pokemon-location-link").first().click();
-await check(
-  await page.locator("#view-locations").evaluate((element) => element.classList.contains("is-active")),
-  "Team card location link did not open the Locations tab",
-);
-await page.locator(".view-tab[data-view='team']").click();
 await page.locator(".team-card[data-slot='2'] .team-card__clear").click();
 await page.locator(".team-card[data-slot='1'] .team-card__ability select").selectOption("119");
 await check(
@@ -611,6 +620,14 @@ await check(
   "Move retained after evolution was not labelled",
 );
 await check(
+  await page.locator(".team-card[data-slot='1']").evaluate((card) => {
+    const moves = card.querySelector(".team-card__moves");
+    const evolution = card.querySelector(".team-card__evolutions");
+    return Boolean(moves && evolution && moves.compareDocumentPosition(evolution) & Node.DOCUMENT_POSITION_FOLLOWING);
+  }),
+  "Team evolution action is not positioned at the bottom after moves",
+);
+await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__ability select").inputValue()) === "",
   "Evolution did not reset the selected ability",
 );
@@ -634,6 +651,10 @@ await check(
   !(await gothitaCoverage.textContent()).includes("Mean Look"),
   "Status move Mean Look was incorrectly included in Dex coverage",
 );
+await page.evaluate(() => {
+  state.dexLimit = 249;
+  renderDex();
+});
 await check(
   (await page.locator(".pokemon-card[data-number='249'] .team-matchup").textContent()).includes("4x"),
   "Dual-type 4x effectiveness is missing for Wingull",
@@ -644,6 +665,7 @@ await check(
 );
 await page.locator(".pokemon-card[data-number='1'] .team-matchups").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-coverage.png"), fullPage: false });
+await page.evaluate(() => renderDex(true));
 await check(
   (await page.locator(".dashboard-team-slot.is-filled").count()) === 1,
   "Dashboard team overview did not update",
@@ -694,11 +716,12 @@ await check(
   "Planner slot did not select Gothita",
 );
 await check(
-  (await page.locator(".planner-card[data-slot='1'] .pokemon-stat").count()) === 7 &&
-    (await page.locator(".planner-card[data-slot='1'] .planner-locations").textContent()).includes(
-      "No wild encounter listed",
-    ),
-  "Planner card is missing Gothita's stats or location",
+  (await page.locator(".planner-card[data-slot='1'] .team-card__profile .pokemon-stat").count()) === 7,
+  "Planner card base stats are not positioned beside the Pokemon identity",
+);
+await check(
+  (await page.locator(".planner-card[data-slot='1'] .planner-locations").count()) === 0,
+  "Team Planner still displays a Where to find section",
 );
 await check(
   (await page.locator(".planner-card[data-slot='1'] .team-card__ability label > span").textContent()) ===
@@ -801,11 +824,8 @@ await check(
 );
 await page.evaluate(() => setPlannerPokemon(1, 259));
 await check(
-  (await page.locator(".planner-card[data-slot='2'] .planner-locations .pokemon-location-link").count()) === 0 &&
-    (await page.locator(".planner-card[data-slot='2'] .planner-locations").textContent()).includes(
-      "No wild encounter listed",
-    ),
-  "Charizard still displays its non-Pokerex Mt. Ceram location",
+  (await page.locator(".planner-card[data-slot='2'] .planner-locations").count()) === 0,
+  "A second Team Planner card still displays a Where to find section",
 );
 await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-planner.png"), fullPage: false });
@@ -891,7 +911,7 @@ await check(
 
 await page.locator(".view-tab[data-view='moves']").click();
 await check(await page.locator("#view-moves").evaluate((element) => element.classList.contains("is-active")), "Moves view did not open");
-await check((await page.locator(".move-card").count()) === 100, "Moves view did not render its first 100 moves");
+await check((await page.locator(".move-card").count()) === 50, "Moves view did not render its first 50 moves");
 await check((await page.locator(".move-card").first().locator("h3").textContent()) === "Pound", "First move is not Pound");
 await check(
   (await page.locator(".move-card").first().locator(".move-card__metrics").textContent()).includes("40"),
@@ -916,7 +936,7 @@ await check(
 );
 await check(!(await page.locator("[data-clear-search='#move-search']").isHidden()), "Move search clear button did not appear");
 await page.locator("[data-clear-search='#move-search']").click();
-await check((await page.locator(".move-card").count()) === 100, "Move search clear button did not clear the search");
+await check((await page.locator(".move-card").count()) === 50, "Move search clear button did not reset the first page");
 await page.locator("#clear-move-filters").click();
 await page.locator("#move-type-filter").selectOption("Fire");
 await check(
@@ -924,8 +944,9 @@ await check(
   "Move type filter included a non-Fire move",
 );
 await page.locator("#clear-move-filters").click();
-await page.locator("#show-more-moves").click();
-await check((await page.locator(".move-card").count()) === 200, "Show more moves did not reveal the next page");
+await page.locator("#show-more-moves").scrollIntoViewIfNeeded();
+await page.waitForFunction(() => document.querySelectorAll(".move-card").length >= 100);
+await check((await page.locator(".move-card").count()) === 100, "Moves did not auto-load the next 50 entries");
 await page.locator("[data-move-mode='tutors']").click();
 await check((await page.locator(".move-card").count()) === 19, "Move tutors view did not render all 19 tutors");
 await check(
@@ -946,7 +967,7 @@ await check(
   await page.locator("#view-abilities").evaluate((element) => element.classList.contains("is-active")),
   "Abilities view did not open",
 );
-await check((await page.locator(".ability-card").count()) === 310, "Abilities view did not render all 310 abilities");
+await check((await page.locator(".ability-card").count()) === 50, "Abilities view did not render its first 50 abilities");
 await check((await page.locator(".ability-card").first().locator("h3").textContent()) === "Stench", "First ability is not Stench");
 await page.locator("#ability-search").fill("Frisk");
 await check((await page.locator(".ability-card").count()) === 1, "Ability search did not isolate Frisk");
@@ -962,7 +983,10 @@ await check(
 );
 await check(!(await page.locator("[data-clear-search='#ability-search']").isHidden()), "Ability search clear button did not appear");
 await page.locator("[data-clear-search='#ability-search']").click();
-await check((await page.locator(".ability-card").count()) === 310, "Ability search clear button did not clear the search");
+await check((await page.locator(".ability-card").count()) === 50, "Ability search clear button did not reset the first page");
+await page.locator("#ability-load-more").scrollIntoViewIfNeeded();
+await page.waitForFunction(() => document.querySelectorAll(".ability-card").length >= 100);
+await check((await page.locator(".ability-card").count()) === 100, "Abilities did not auto-load the next 50 entries");
 await page.locator("#view-abilities .section-heading").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-abilities.png"), fullPage: false });
 
@@ -972,13 +996,19 @@ await check(
   "Items view did not open",
 );
 await check((await page.locator(".item-category").count()) === 10, "Items view did not render all 10 categories");
-await check((await page.locator(".item-card").count()) === 854, "Items view did not render all 854 items");
+await check((await page.locator(".item-card").count()) === 0, "Collapsed item categories rendered hidden cards");
+await check(
+  await page.locator(".item-category").evaluateAll((categories) => categories.every((category) => !category.open)),
+  "Item categories should initially be collapsed",
+);
+await page.locator(".item-category", { hasText: "Poké Balls" }).locator("summary").click();
 await check(
   (await page.locator(".item-card[data-item-id='1']").textContent()).includes("Sold in a shop") &&
     (await page.locator(".item-card[data-item-id='1']").textContent()).includes("₽200") &&
     (await page.locator(".item-card[data-item-id='1']").textContent()).includes("₽50"),
   "Poké Ball shop cost, sell value, or unmapped-shop indicator is missing",
 );
+await page.locator(".item-category", { hasText: "Poké Balls" }).locator("summary").click();
 await page.locator("#item-search").fill("Dawn Stone");
 await check((await page.locator(".item-card").count()) === 1, "Item search did not isolate Dawn Stone");
 await check(
@@ -990,7 +1020,7 @@ await check(
   "Item search clear button did not appear",
 );
 await page.locator("[data-clear-search='#item-search']").click();
-await check((await page.locator(".item-card").count()) === 854, "Item search clear button did not clear the search");
+await check((await page.locator(".item-card").count()) === 0, "Item search clear button did not restore collapsed categories");
 await page.locator("#collapse-item-categories").click();
 await check(
   await page.locator(".item-category").evaluateAll((categories) => categories.every((category) => !category.open)),
@@ -1000,6 +1030,17 @@ await page.locator("#expand-item-categories").click();
 await check(
   await page.locator(".item-category").evaluateAll((categories) => categories.every((category) => category.open)),
   "Expand all did not open item categories",
+);
+await check(
+  (await page.locator(".item-card").count()) ===
+    (await page.evaluate(() =>
+      itemData.categories.reduce(
+        (total, category) =>
+          total + Math.min(50, itemData.items.filter((item) => item.category === category.name).length),
+        0,
+      ),
+    )),
+  "Expanded item categories did not render their first 50 items",
 );
 await page.locator("#view-items .section-heading").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-items.png"), fullPage: false });
@@ -1066,6 +1107,11 @@ await page.locator(".view-tab[data-view='locations']").click();
 await page.locator("#location-search").fill("");
 await check((await page.locator(".location-card").count()) === 38, "Expected 38 Pokerex encounter maps");
 await check(
+  (await page.locator(".location-card[open]").count()) === 0 &&
+    (await page.locator(".location-map").count()) === 0,
+  "Locations should initially be collapsed and lightweight",
+);
+await check(
   JSON.stringify((await page.locator(".location-card").evaluateAll((cards) => cards.slice(0, 11).map((card) => card.dataset.location)))) ===
     JSON.stringify([
       "Route 1",
@@ -1096,6 +1142,18 @@ await check(
 );
 await page.locator("[data-clear-search='#location-search']").click();
 await check((await page.locator(".location-card").count()) === 38, "Location search clear button did not clear the search");
+await page.locator("#expand-locations").click();
+await check(
+  (await page.locator(".location-card[open]").count()) === 38 &&
+    (await page.locator(".location-map").count()) === 38,
+  "Expand all did not open every location",
+);
+await page.locator("#collapse-locations").click();
+await check(
+  (await page.locator(".location-card[open]").count()) === 0 &&
+    (await page.locator(".location-map").count()) === 0,
+  "Collapse all did not remove hidden location details",
+);
 await page.locator("#location-search").fill("Route 1");
 await page.locator(".location-card").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-location-map.png"), fullPage: false });
@@ -1104,7 +1162,7 @@ await page.locator(".view-tab[data-view='dex']").click();
 await page.locator(".pokemon-card .evolution-link", { hasText: "Raticate" }).first().click();
 await page.waitForTimeout(500);
 await check(page.url().endsWith("#pokemon-11"), "Evolution link did not update the card URL");
-await check((await page.locator(".pokemon-card").count()) === 315, "Evolution link did not clear active filters");
+await check((await page.locator(".pokemon-card").count()) === 50, "Evolution link did not reset the first Dex page");
 await check(
   await page.locator(".pokemon-card[data-number='11']").evaluate((element) => element.classList.contains("is-highlighted")),
   "Evolution target was not highlighted",
@@ -1175,7 +1233,7 @@ await check(
 );
 await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-masthead.png"), fullPage: false });
-await check((await page.locator(".pokemon-card").count()) === 315, "Mobile view did not render all cards");
+await check((await page.locator(".pokemon-card").count()) === 50, "Mobile view did not render the first Dex page");
 await check((await page.locator("#dashboard-badge-count").textContent()) === "1", "Badge progress did not persist after reload");
 await page.locator(".journey-dashboard").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-journey-dashboard.png"), fullPage: false });
@@ -1306,8 +1364,7 @@ console.log(
   JSON.stringify(
     {
       status: "Browser guide test passed",
-      cards: 315,
-      regionalBadges: 38,
+      initialDexCards: 50,
       quickLocations: 36,
       encounterMaps: 38,
       collectionEntries: 327,
