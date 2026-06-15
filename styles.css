@@ -3485,6 +3485,218 @@ button.trainer-party-member__identity:hover {
   line-height: 1.45;
 }
 
+.planner-progress {
+  display: grid;
+  gap: 13px;
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: 0 8px 25px rgba(48, 38, 88, 0.045);
+  padding: 14px;
+}
+
+.planner-progress__header {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  justify-content: space-between;
+}
+
+.planner-progress__header div {
+  display: grid;
+  gap: 3px;
+}
+
+.planner-progress__header span {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.planner-progress__header strong {
+  color: var(--violet-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.planner-progress__header small,
+.planner-progress__empty {
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.planner-progress__empty {
+  margin: 0;
+  border-radius: 10px;
+  background: rgba(114, 87, 212, 0.055);
+  padding: 10px 12px;
+}
+
+.planner-progress__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.planner-progress-card {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 11px;
+}
+
+.planner-progress-card > header {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+}
+
+.planner-progress-card__sprite {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--paper-deep);
+}
+
+.planner-progress-card__sprite img {
+  width: 52px;
+  height: 52px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.planner-progress-card header span:last-child {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.planner-progress-card small {
+  color: var(--violet);
+  font-size: 0.56rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.planner-progress-card strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planner-progress-card em {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.61rem;
+  font-style: normal;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planner-progress-meter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.planner-progress-meter::before {
+  grid-column: 1;
+  grid-row: 1;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--paper-deep);
+  content: "";
+}
+
+.planner-progress-meter > span {
+  grid-column: 1;
+  grid-row: 1;
+  height: 7px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--teal), var(--violet));
+}
+
+.planner-progress-meter > strong {
+  color: var(--violet-dark);
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.planner-progress-card ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.planner-progress-task {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 7px;
+  align-items: baseline;
+  border-radius: 8px;
+  background: rgba(114, 87, 212, 0.055);
+  padding: 6px 8px;
+}
+
+.planner-progress-task span {
+  color: var(--muted);
+  font-size: 0.55rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.planner-progress-task strong {
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.64rem;
+  font-weight: 900;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.planner-progress-task.is-complete {
+  background: rgba(66, 182, 163, 0.12);
+}
+
+.planner-progress-task.is-complete strong {
+  color: #286d63;
+}
+
+.planner-progress-task.is-partial {
+  background: rgba(231, 181, 83, 0.13);
+}
+
+.planner-progress-task.is-partial strong {
+  color: #755514;
+}
+
+.planner-progress-task.is-blocked,
+.planner-progress-task.is-pending {
+  background: rgba(180, 95, 126, 0.08);
+}
+
 .team-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4529,6 +4741,8 @@ html[data-theme="dark"] .ability-filter-panel,
 html[data-theme="dark"] .ability-card,
 html[data-theme="dark"] .team-toolbar,
 html[data-theme="dark"] .offensive-coverage,
+html[data-theme="dark"] .planner-progress,
+html[data-theme="dark"] .planner-progress-card,
 html[data-theme="dark"] .team-card,
 html[data-theme="dark"] .planner-card,
 html[data-theme="dark"] .trainer-location-group,
@@ -4667,9 +4881,34 @@ html[data-theme="dark"] .coverage-type:not(.type-badge) {
 }
 
 html[data-theme="dark"] .team-sprite-well,
+html[data-theme="dark"] .planner-progress-card__sprite,
 html[data-theme="dark"] .team-evolve-button {
   color: var(--ink);
   background-color: #29263a;
+}
+
+html[data-theme="dark"] .planner-progress-meter::before {
+  background: #211f31;
+}
+
+html[data-theme="dark"] .planner-progress-task {
+  background: rgba(155, 133, 237, 0.07);
+}
+
+html[data-theme="dark"] .planner-progress-task.is-complete {
+  background: rgba(98, 208, 188, 0.12);
+}
+
+html[data-theme="dark"] .planner-progress-task.is-complete strong {
+  color: #9be6d7;
+}
+
+html[data-theme="dark"] .planner-progress-task.is-partial {
+  background: rgba(240, 200, 115, 0.12);
+}
+
+html[data-theme="dark"] .planner-progress-task.is-partial strong {
+  color: #f0c873;
 }
 
 html[data-theme="dark"] .team-card__moves {
@@ -4885,6 +5124,15 @@ html[data-theme="dark"] .guide-tip strong {
   .team-card__profile,
   .team-card__preferences,
   .team-card__moves {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-progress__header {
+    display: grid;
+    align-items: start;
+  }
+
+  .planner-progress__cards {
     grid-template-columns: 1fr;
   }
 

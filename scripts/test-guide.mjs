@@ -872,6 +872,40 @@ await checkTeamIdentityFit(".planner-card[data-slot='2']", "Team Planner Meganiu
 await page.locator(".planner-card[data-slot='2'] .team-card__profile").screenshot({
   path: path.join(outputDir, "guide-desktop-planner-meganium-profile.png"),
 });
+const meganiumProgressFixture = await page.evaluate(() => {
+  const ability = abilitiesByPokemon.get(56)[0].ability;
+  const move = [...compatibleMoveIdsByPokemon.get(56)]
+    .map((id) => moveById.get(id))
+    .find((candidate) => candidate && candidate.category !== "Status");
+  setTeamPokemon(1, 56);
+  setPlannerPokemon(1, 56);
+  setTeamAbility(1, ability.id);
+  setPlannerAbility(1, ability.id);
+  setTeamNature(1, "calm");
+  setPlannerNature(1, "calm");
+  setTeamMove(1, 0, move.id);
+  setPlannerMove(1, 0, move.id);
+  return { abilityName: ability.name, moveName: move.name };
+});
+let meganiumProgressText = await page.locator(".planner-progress-card", { hasText: "Meganium" }).textContent();
+await check(
+  meganiumProgressText.includes("100%") &&
+    meganiumProgressText.includes(meganiumProgressFixture.abilityName) &&
+    meganiumProgressText.includes(meganiumProgressFixture.moveName),
+  "Planner progress did not mark a fully matched Meganium plan as complete",
+);
+await page.evaluate(() => setTeamMove(1, 0, null));
+meganiumProgressText = await page.locator(".planner-progress-card", { hasText: "Meganium" }).textContent();
+await check(
+  !meganiumProgressText.includes("100%") &&
+    meganiumProgressText.includes(`Needs ${meganiumProgressFixture.moveName}`),
+  "Planner progress did not mark a missing planned move as pending",
+);
+await page.locator("#planner-progress").screenshot({ path: path.join(outputDir, "guide-desktop-planner-progress.png") });
+await page.evaluate(() => {
+  setTeamPokemon(1, null);
+  setPlannerPokemon(1, null);
+});
 await check(
   (await page.locator(".planner-card[data-slot='1'] .planner-locations").count()) === 0,
   "Team Planner still displays a Where to find section",
@@ -1581,6 +1615,7 @@ console.log(
         "tmp/guide-desktop-team-planner.png",
         "tmp/guide-desktop-team-meganium-profile.png",
         "tmp/guide-desktop-planner-meganium-profile.png",
+        "tmp/guide-desktop-planner-progress.png",
         "tmp/guide-desktop-team-coverage.png",
         "tmp/guide-desktop-learnset.png",
         "tmp/guide-desktop-gyms.png",

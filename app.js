@@ -156,6 +156,7 @@ const elements = {
   teamOffensiveCoverage: document.querySelector("#team-offensive-coverage"),
   plannerGrid: document.querySelector("#planner-grid"),
   plannerOffensiveCoverage: document.querySelector("#planner-offensive-coverage"),
+  plannerProgress: document.querySelector("#planner-progress"),
   gymBadgeCount: document.querySelector("#gym-badge-count"),
   gymLeaderList: document.querySelector("#gym-leader-list"),
   saveCaughtCount: document.querySelector("#save-caught-count"),
@@ -2038,12 +2039,212 @@ function renderOffensiveCoverage(container, slots) {
   container.replaceChildren(heading, selected, effective);
 }
 
+function evolutionFamilyNumbers(pokemonNumber) {
+  const family = new Set([pokemonNumber]);
+  const queue = [pokemonNumber];
+  while (queue.length) {
+    const current = queue.shift();
+    [
+      ...(evolutionIncomingByNumber.get(current) || []).map((edge) => edge.fromGuideNumber),
+      ...(evolutionOutgoingByNumber.get(current) || []).map((edge) => edge.toGuideNumber),
+    ].forEach((relative) => {
+      if (!family.has(relative)) {
+        family.add(relative);
+        queue.push(relative);
+      }
+    });
+  }
+  return family;
+}
+
+function canEvolveToward(currentNumber, targetNumber) {
+  if (currentNumber === targetNumber) return true;
+  const visited = new Set([currentNumber]);
+  const queue = [currentNumber];
+  while (queue.length) {
+    const current = queue.shift();
+    for (const edge of evolutionOutgoingByNumber.get(current) || []) {
+      if (edge.toGuideNumber === targetNumber) return true;
+      if (visited.has(edge.toGuideNumber)) continue;
+      visited.add(edge.toGuideNumber);
+      queue.push(edge.toGuideNumber);
+    }
+  }
+  return false;
+}
+
+function findPlannerTeamMatch(targetNumber, plannerIndex) {
+  const family = evolutionFamilyNumbers(targetNumber);
+  const teamEntries = state.team
+    .map((slot, index) => ({
+      slot,
+      index,
+      pokemon: pokemonByNumber.get(slot.pokemonNumber),
+    }))
+    .filter((entry) => entry.pokemon);
+
+  return (
+    teamEntries.find((entry) => entry.index === plannerIndex && entry.pokemon.number === targetNumber) ||
+    teamEntries.find((entry) => entry.pokemon.number === targetNumber) ||
+    teamEntries.find((entry) => entry.index === plannerIndex && family.has(entry.pokemon.number)) ||
+    teamEntries.find((entry) => family.has(entry.pokemon.number)) ||
+    null
+  );
+}
+
+function progressTask(label, value, status, score) {
+  return { label, value, status, score, max: 1 };
+}
+
+function createPlannerProgressTask(task) {
+  const item = document.createElement("li");
+  item.className = `planner-progress-task is-${task.status}`;
+  const label = document.createElement("span");
+  label.textContent = task.label;
+  const value = document.createElement("strong");
+  value.textContent = task.value;
+  item.append(label, value);
+  return item;
+}
+
+function plannerProgressForSlot(slot, plannerIndex) {
+  const target = pokemonByNumber.get(slot.pokemonNumber);
+  if (!target) return null;
+  const match = findPlannerTeamMatch(target.number, plannerIndex);
+  const tasks = [];
+
+  if (!match) {
+    tasks.push(progressTask("Pokemon", "Add this Pokemon or its evolution family to Team Builder", "pending", 0));
+  } else if (match.pokemon.number === target.number) {
+    tasks.push(progressTask("Pokemon", `${target.name.replaceAll("_", " ")} is on the current team`, "complete", 1));
+  } else {
+    const direction = canEvolveToward(match.pokemon.number, target.number)
+      ? `Evolve ${match.pokemon.name.replaceAll("_", " ")} toward ${target.name.replaceAll("_", " ")}`
+      : `${match.pokemon.name.replaceAll("_", " ")} is in the same evolution family`;
+    tasks.push(progressTask("Pokemon", direction, "partial", 0.5));
+  }
+
+  const plannedAbility = slot.abilityId ? abilityData.abilities.find((ability) => ability.id === slot.abilityId) : null;
+  if (plannedAbility) {
+    const complete = match?.slot.abilityId === slot.abilityId;
+    tasks.push(
+      progressTask(
+        "Ability",
+        complete ? plannedAbility.name : `Needs ${plannedAbility.name}`,
+        complete ? "complete" : match ? "pending" : "blocked",
+        complete ? 1 : 0,
+      ),
+    );
+  }
+
+  const plannedNature = natureById.get(slot.nature);
+  if (plannedNature) {
+    const complete = match?.slot.nature === plannedNature.id;
+    tasks.push(
+      progressTask(
+        "Nature",
+        complete ? plannedNature.name : `Needs ${plannedNature.name}`,
+        complete ? "complete" : match ? "pending" : "blocked",
+        complete ? 1 : 0,
+      ),
+    );
+  }
+
+  slot.moves.forEach((moveId, moveIndex) => {
+    const move = moveById.get(moveId);
+    if (!move) return;
+    const complete = Boolean(match?.slot.moves.includes(moveId));
+    tasks.push(
+      progressTask(
+        `Move ${moveIndex + 1}`,
+        complete ? move.name : `Needs ${move.name}`,
+        complete ? "complete" : match ? "pending" : "blocked",
+        complete ? 1 : 0,
+      ),
+    );
+  });
+
+  const max = tasks.reduce((total, task) => total + task.max, 0);
+  const score = tasks.reduce((total, task) => total + task.score, 0);
+  const percent = max ? Math.round((score / max) * 100) : 0;
+  return { target, match, tasks, percent, score, max, plannerIndex };
+}
+
+function renderPlannerProgress() {
+  if (!elements.plannerProgress) return;
+  const progress = state.planner
+    .map((slot, index) => plannerProgressForSlot(slot, index))
+    .filter(Boolean);
+
+  const heading = document.createElement("header");
+  heading.className = "planner-progress__header";
+  const title = document.createElement("div");
+  const label = document.createElement("span");
+  label.textContent = "Planner progress";
+  const score = document.createElement("strong");
+  const totalScore = progress.reduce((total, entry) => total + entry.score, 0);
+  const totalMax = progress.reduce((total, entry) => total + entry.max, 0);
+  const overall = totalMax ? Math.round((totalScore / totalMax) * 100) : 0;
+  score.textContent = `${overall}% ready`;
+  title.append(label, score);
+  const summary = document.createElement("small");
+  const completeCount = progress.filter((entry) => entry.percent === 100).length;
+  summary.textContent = progress.length
+    ? `${completeCount} of ${progress.length} planned targets fully matched`
+    : "Choose planner targets to start tracking progress";
+  heading.append(title, summary);
+
+  if (!progress.length) {
+    const empty = document.createElement("p");
+    empty.className = "planner-progress__empty";
+    empty.textContent = "Add Pokemon to the Team Planner to compare planned moves, abilities, nature, and evolution progress against your current Team Builder party.";
+    elements.plannerProgress.replaceChildren(heading, empty);
+    return;
+  }
+
+  const cards = document.createElement("div");
+  cards.className = "planner-progress__cards";
+  progress.forEach((entry) => {
+    const card = document.createElement("article");
+    card.className = "planner-progress-card";
+    card.dataset.progress = entry.percent;
+    const targetName = entry.target.name.replaceAll("_", " ");
+    const currentName = entry.match?.pokemon.name.replaceAll("_", " ") || "No team match";
+    card.innerHTML = `
+      <header>
+        <span class="planner-progress-card__sprite">
+          <img src="${entry.target.sprite}" alt="" width="52" height="52" loading="lazy">
+        </span>
+        <span>
+          <small>Planned slot ${entry.plannerIndex + 1}</small>
+          <strong></strong>
+          <em></em>
+        </span>
+      </header>
+      <div class="planner-progress-meter" aria-label="${targetName} progress">
+        <span style="width: ${entry.percent}%"></span>
+        <strong>${entry.percent}%</strong>
+      </div>
+      <ul></ul>
+    `;
+    card.querySelector("header strong").textContent = targetName;
+    card.querySelector("header em").textContent = entry.match
+      ? `Matched to team slot ${entry.match.index + 1}: ${currentName}`
+      : currentName;
+    const list = card.querySelector("ul");
+    entry.tasks.forEach((task) => list.append(createPlannerProgressTask(task)));
+    cards.append(card);
+  });
+  elements.plannerProgress.replaceChildren(heading, cards);
+}
+
 function renderTeam() {
   const fragment = document.createDocumentFragment();
   state.team.forEach((slot, index) => fragment.append(renderTeamCard(slot, index)));
   elements.teamGrid.replaceChildren(fragment);
   fitTeamPokemonNames(elements.teamGrid);
   renderOffensiveCoverage(elements.teamOffensiveCoverage, state.team);
+  renderPlannerProgress();
 }
 
 function fitTeamPokemonNames(container) {
@@ -2348,6 +2549,7 @@ function renderPlanner() {
   elements.plannerGrid.replaceChildren(fragment);
   fitTeamPokemonNames(elements.plannerGrid);
   renderOffensiveCoverage(elements.plannerOffensiveCoverage, state.planner);
+  renderPlannerProgress();
 }
 
 function openPokemonLearnset(pokemon) {
