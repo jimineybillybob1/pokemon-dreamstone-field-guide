@@ -775,6 +775,17 @@ function persistCaught() {
   updateProgress();
 }
 
+function markCaught(pokemon) {
+  const id = dexId(pokemon);
+  if (state.caught.has(id)) return false;
+  state.caught.add(id);
+  persistCaught();
+  renderDex();
+  renderLocations(elements.locationSearch.value);
+  renderCollection();
+  return true;
+}
+
 function toggleCaught(pokemon) {
   const id = dexId(pokemon);
   if (state.caught.has(id)) state.caught.delete(id);
@@ -1205,6 +1216,12 @@ function setTeamPokemon(slotIndex, pokemonNumber, retainMoves = false) {
   slot.abilityId = null;
   persistTeam();
   refreshTeamAndDex();
+}
+
+function evolveTeamPokemon(slotIndex, pokemonNumber) {
+  setTeamPokemon(slotIndex, pokemonNumber, true);
+  const pokemon = pokemonByNumber.get(pokemonNumber);
+  if (pokemon) markCaught(pokemon);
 }
 
 function setTeamMove(slotIndex, moveIndex, moveId) {
@@ -1945,7 +1962,7 @@ function renderTeamCard(slot, slotIndex) {
       button.className = "team-evolve-button";
       button.innerHTML = `<img src="${evolved.sprite}" alt="" width="44" height="44"><span></span>`;
       button.querySelector("span").textContent = `Evolve to ${evolved.name.replaceAll("_", " ")}`;
-      button.addEventListener("click", () => setTeamPokemon(slotIndex, number, true));
+      button.addEventListener("click", () => evolveTeamPokemon(slotIndex, number));
       evolution.append(button);
     });
   } else {

@@ -758,6 +758,11 @@ await check(
   "Team evolution button did not select Gothorita",
 );
 await check(
+  (await page.locator("#caught-tab-count").textContent()) === "1" &&
+    JSON.parse(await page.evaluate(() => localStorage.getItem("dreamstone-field-guide-caught"))).includes("2"),
+  "Team evolution did not mark the evolved Pokemon as caught",
+);
+await check(
   (await page.locator(".team-card[data-slot='1'] .team-move-slot").first().locator("select").inputValue()) === "212",
   "Team evolution did not retain the selected move",
 );
@@ -1272,8 +1277,8 @@ await page.screenshot({ path: path.join(outputDir, "guide-desktop-items.png"), f
 
 await page.locator(".view-tab[data-view='dex']").click();
 await page.locator(".pokemon-card[data-number='1'] .caught-button").click();
-await check((await page.locator("#caught-tab-count").textContent()) === "1", "Caught tab count did not update");
-await check((await page.locator("#collection-caught-count").textContent()) === "1", "Collection summary did not update");
+await check((await page.locator("#caught-tab-count").textContent()) === "2", "Caught tab count did not include the evolved team Pokemon");
+await check((await page.locator("#collection-caught-count").textContent()) === "2", "Collection summary did not include the evolved team Pokemon");
 
 await page.locator(".view-tab[data-view='caught']").click();
 await check(await page.locator("#view-caught").evaluate((element) => element.classList.contains("is-active")), "Caught view did not open");
@@ -1285,13 +1290,14 @@ await checkAlignedGridCards(
   "Caught collection",
 );
 await page.locator("[data-collection-status='caught']").click();
-await check((await page.locator(".collection-card").count()) === 1, "Caught filter did not show one caught Pokémon");
+await check((await page.locator(".collection-card").count()) === 2, "Caught filter did not show both caught Pokémon");
 await check(
-  (await page.locator(".collection-card__copy strong").textContent()) === "Gothita",
-  "Caught filter showed the wrong Pokémon",
+  (await page.locator(".collection-card__copy strong").allTextContents()).includes("Gothita") &&
+    (await page.locator(".collection-card__copy strong").allTextContents()).includes("Gothorita"),
+  "Caught filter did not include both manually caught and evolved Pokémon",
 );
 await page.locator("[data-collection-status='missing']").click();
-await check((await page.locator(".collection-card").count()) === 326, "Missing filter did not exclude caught Pokémon");
+await check((await page.locator(".collection-card").count()) === 325, "Missing filter did not exclude caught Pokémon");
 await page.locator("#collection-search").fill("Raticate");
 await check((await page.locator(".collection-card").count()) === 1, "Collection search did not find Raticate");
 await check(
@@ -1299,7 +1305,7 @@ await check(
   "Collection search clear button did not appear",
 );
 await page.locator("[data-clear-search='#collection-search']").click();
-await check((await page.locator(".collection-card").count()) === 326, "Collection search clear button did not clear the search");
+await check((await page.locator(".collection-card").count()) === 325, "Collection search clear button did not clear the search");
 await page.locator("#collection-search").fill("Raticate");
 await page.locator(".collection-card__jump").click();
 await page.waitForTimeout(500);
@@ -1310,7 +1316,7 @@ await page.locator("[data-collection-status='all']").click();
 await page.locator("#collection-search").fill("Smoliv");
 await check((await page.locator(".collection-card").count()) === 1, "Pokerex-only Smoliv entry is missing");
 await page.locator(".collection-card__toggle").click();
-await check((await page.locator("#caught-tab-count").textContent()) === "2", "Pokerex-only caught entry did not update progress");
+await check((await page.locator("#caught-tab-count").textContent()) === "3", "Pokerex-only caught entry did not update progress");
 await page.locator(".collection-card__jump").click();
 await page.waitForTimeout(500);
 await check(
