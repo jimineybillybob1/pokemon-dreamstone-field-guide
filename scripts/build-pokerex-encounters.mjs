@@ -94,6 +94,8 @@ const normalizeMethod = (methodId, encounter, timeOfDay = "") => {
       guideNumber: guideNumberForPokemon(pokemon),
       name: displayFormName(pokemon.name),
       types: pokemon.types.map((type) => type.toLowerCase()),
+      stats: pokemon.stats || {},
+      bst: Number.isFinite(pokemon.bst) ? pokemon.bst : null,
       sprite: spriteForPokemon(pokemon),
       rate: 0,
       minLevel: slot.minLevel,
@@ -170,6 +172,8 @@ const encounterSpecies = [...speciesLocations.entries()]
       baseName: form.name,
       region: form.region,
       types: pokemon.types.map((type) => type.toLowerCase()),
+      stats: pokemon.stats || {},
+      bst: Number.isFinite(pokemon.bst) ? pokemon.bst : null,
       sprite: spriteForPokemon(pokemon),
       locations: [...locationNames].sort((a, b) => a.localeCompare(b, undefined, { numeric: true })),
     };

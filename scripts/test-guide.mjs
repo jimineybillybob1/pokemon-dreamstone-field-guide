@@ -476,11 +476,34 @@ await check(
   }),
   "Quick locations do not match Pokerex's default order",
 );
-await check((await page.locator(".collection-card").count()) === 327, "Expected all 327 collection cards");
+await check((await page.locator(".collection-card").count()) === 324, "Expected all 324 species collection cards");
 await check(
-  (await page.locator("#dashboard-total-count").textContent()) === "327",
-  "Capture total did not include Pokerex wild entries",
+  (await page.locator("#dashboard-total-count").textContent()) === "324",
+  "Capture total did not condense regional forms by species",
 );
+await page.locator("#search").fill("Alolan Dugtrio");
+await check((await page.locator(".pokemon-card").count()) === 1, "Dugtrio forms did not condense to one Dex card");
+await check(
+  (await page.locator(".pokemon-card[data-number='137'] .pokemon-form-select option").count()) === 2,
+  "Dugtrio form selector did not include both forms",
+);
+await page.locator(".pokemon-card[data-number='137'] .pokemon-form-select").selectOption("species-id:964");
+await check(
+  (await page.locator(".pokemon-card[data-number='137'] .pokemon-types").textContent()).toLowerCase().includes("steel") &&
+    (await page.locator(".pokemon-card[data-number='137'] .pokemon-stat--def strong").textContent()) === "60",
+  "Alolan Dugtrio form did not update types and stats",
+);
+await page.locator(".pokemon-card[data-number='137'] .caught-button").click();
+await check((await page.locator("#caught-tab-count").textContent()) === "1", "Dugtrio form catch did not count once");
+await check(
+  await page.evaluate(() => {
+    const caught = JSON.parse(localStorage.getItem("dreamstone-field-guide-caught"));
+    return caught.includes("species:dugtrio") && !caught.includes("137") && !caught.includes("rex-964");
+  }),
+  "Dugtrio form catch did not migrate to a species-level caught id",
+);
+await page.locator(".pokemon-card[data-number='137'] .caught-button").click();
+await page.locator("[data-clear-search='#search']").click();
 await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");
 const dexSearchPerformance = await page.evaluate(() => {
   const input = document.querySelector("#search");
@@ -759,7 +782,7 @@ await check(
 );
 await check(
   (await page.locator("#caught-tab-count").textContent()) === "1" &&
-    JSON.parse(await page.evaluate(() => localStorage.getItem("dreamstone-field-guide-caught"))).includes("2"),
+    JSON.parse(await page.evaluate(() => localStorage.getItem("dreamstone-field-guide-caught"))).includes("species:gothorita"),
   "Team evolution did not mark the evolved Pokemon as caught",
 );
 await check(
@@ -1297,7 +1320,7 @@ await check(
   "Caught filter did not include both manually caught and evolved Pokémon",
 );
 await page.locator("[data-collection-status='missing']").click();
-await check((await page.locator(".collection-card").count()) === 325, "Missing filter did not exclude caught Pokémon");
+await check((await page.locator(".collection-card").count()) === 322, "Missing filter did not exclude caught Pokémon");
 await page.locator("#collection-search").fill("Raticate");
 await check((await page.locator(".collection-card").count()) === 1, "Collection search did not find Raticate");
 await check(
@@ -1305,7 +1328,7 @@ await check(
   "Collection search clear button did not appear",
 );
 await page.locator("[data-clear-search='#collection-search']").click();
-await check((await page.locator(".collection-card").count()) === 325, "Collection search clear button did not clear the search");
+await check((await page.locator(".collection-card").count()) === 322, "Collection search clear button did not clear the search");
 await page.locator("#collection-search").fill("Raticate");
 await page.locator(".collection-card__jump").click();
 await page.waitForTimeout(500);
@@ -1587,7 +1610,7 @@ await check(
 );
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-items.png"), fullPage: false });
 await page.locator(".view-tab[data-view='caught']").click();
-await check((await page.locator(".collection-card").count()) === 327, "Mobile collection did not render all cards");
+await check((await page.locator(".collection-card").count()) === 324, "Mobile collection did not render all cards");
 await page.locator("#view-caught").scrollIntoViewIfNeeded();
 await page.waitForTimeout(300);
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-collection.png"), fullPage: false });
@@ -1605,7 +1628,7 @@ console.log(
       initialDexCards: 50,
       quickLocations: 36,
       encounterMaps: 38,
-      collectionEntries: 327,
+      collectionEntries: 324,
       dexSearchMaxMs: Math.round(dexSearchPerformance.max * 10) / 10,
       screenshots: [
         "tmp/guide-desktop-controls.png",

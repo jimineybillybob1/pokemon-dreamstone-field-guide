@@ -1,5 +1,5 @@
 window.DREAMSTONE_ENCOUNTERS = {
-  "generatedAt": "2026-06-09T10:09:49.991Z",
+  "generatedAt": "2026-06-15T22:17:48.177Z",
   "source": {
     "name": "Pokerex ROM extraction",
     "url": "https://pokerex.io/dreamstone-mysteries/v1.0/locations",
@@ -37,6 +37,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dark",
                 "normal"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 56,
+                "def": 35,
+                "spd": 72,
+                "spa": 25,
+                "spdef": 35
+              },
+              "bst": 253,
               "sprite": "assets/pokemon/956.png",
               "rate": 40,
               "minLevel": 2,
@@ -51,6 +60,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "flying"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 55,
+                "def": 50,
+                "spd": 43,
+                "spa": 36,
+                "spdef": 30
+              },
+              "bst": 264,
               "sprite": "assets/pokemon/519.png",
               "rate": 30,
               "minLevel": 2,
@@ -64,6 +82,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ground"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 95,
+                "spd": 35,
+                "spa": 40,
+                "spdef": 50
+              },
+              "bst": 320,
               "sprite": "assets/pokemon/104.png",
               "rate": 28,
               "minLevel": 2,
@@ -77,6 +104,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "rock"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 65,
+                "def": 40,
+                "spd": 60,
+                "spa": 30,
+                "spdef": 40
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/744.png",
               "rate": 2,
               "minLevel": 3,
@@ -114,6 +150,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dark",
                 "normal"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 56,
+                "def": 35,
+                "spd": 72,
+                "spa": 25,
+                "spdef": 35
+              },
+              "bst": 253,
               "sprite": "assets/pokemon/956.png",
               "rate": 40,
               "minLevel": 3,
@@ -127,6 +172,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ground"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 95,
+                "spd": 35,
+                "spa": 40,
+                "spdef": 50
+              },
+              "bst": 320,
               "sprite": "assets/pokemon/104.png",
               "rate": 29,
               "minLevel": 3,
@@ -141,6 +195,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "flying"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 55,
+                "def": 50,
+                "spd": 43,
+                "spa": 36,
+                "spdef": 30
+              },
+              "bst": 264,
               "sprite": "assets/pokemon/519.png",
               "rate": 25,
               "minLevel": 3,
@@ -154,6 +217,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "rock"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 65,
+                "def": 40,
+                "spd": 60,
+                "spa": 30,
+                "spdef": 40
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/1172.png",
               "rate": 6,
               "minLevel": 3,
@@ -175,6 +247,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "flying"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 50,
+                "def": 100,
+                "spd": 65,
+                "spa": 95,
+                "spdef": 70
+              },
+              "bst": 440,
               "sprite": "assets/pokemon/279.png",
               "rate": 61,
               "minLevel": 48,
@@ -189,6 +270,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "flying"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 60,
+                "def": 62,
+                "spd": 80,
+                "spa": 100,
+                "spdef": 82
+              },
+              "bst": 454,
               "sprite": "assets/pokemon/284.png",
               "rate": 30,
               "minLevel": 48,
@@ -202,6 +292,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 61,
+                "atk": 123,
+                "def": 60,
+                "spd": 136,
+                "spa": 60,
+                "spdef": 50
+              },
+              "bst": 490,
               "sprite": "assets/pokemon/847.png",
               "rate": 9,
               "minLevel": 48,
@@ -222,6 +321,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 61,
+                "atk": 123,
+                "def": 60,
+                "spd": 136,
+                "spa": 60,
+                "spdef": 50
+              },
+              "bst": 490,
               "sprite": "assets/pokemon/847.png",
               "rate": 60,
               "minLevel": 36,
@@ -235,6 +343,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 92,
+                "def": 65,
+                "spd": 98,
+                "spa": 80,
+                "spdef": 55
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/1091.png",
               "rate": 20,
               "minLevel": 36,
@@ -248,6 +365,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 69,
+                "atk": 69,
+                "def": 76,
+                "spd": 91,
+                "spa": 69,
+                "spdef": 86
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/457.png",
               "rate": 20,
               "minLevel": 36,
@@ -268,6 +394,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "electric"
               ],
+              "stats": {
+                "hp": 35,
+                "atk": 55,
+                "def": 40,
+                "spd": 60,
+                "spa": 45,
+                "spdef": 40
+              },
+              "bst": 275,
               "sprite": "assets/pokemon/602.png",
               "rate": 60,
               "minLevel": 34,
@@ -281,6 +416,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "psychic"
               ],
+              "stats": {
+                "hp": 90,
+                "atk": 65,
+                "def": 65,
+                "spd": 15,
+                "spa": 40,
+                "spdef": 40
+              },
+              "bst": 315,
               "sprite": "assets/pokemon/977.png",
               "rate": 40,
               "minLevel": 34,
@@ -317,6 +461,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "normal"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 80,
+                "def": 50,
+                "spd": 40,
+                "spa": 50,
+                "spdef": 50
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/216.png",
               "rate": 39,
               "minLevel": 5,
@@ -331,6 +484,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fairy",
                 "steel"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 45,
+                "def": 45,
+                "spd": 58,
+                "spa": 35,
+                "spdef": 64
+              },
+              "bst": 297,
               "sprite": "assets/pokemon/1345.png",
               "rate": 30,
               "minLevel": 5,
@@ -345,6 +507,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fighting",
                 "psychic"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 40,
+                "def": 55,
+                "spd": 60,
+                "spa": 40,
+                "spdef": 55
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/307.png",
               "rate": 25,
               "minLevel": 5,
@@ -359,6 +530,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "flying",
                 "dragon"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 30,
+                "def": 35,
+                "spd": 55,
+                "spa": 45,
+                "spdef": 40
+              },
+              "bst": 245,
               "sprite": "assets/pokemon/714.png",
               "rate": 6,
               "minLevel": 5,
@@ -395,6 +575,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "normal"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 60,
+                "def": 45,
+                "spd": 55,
+                "spa": 25,
+                "spdef": 45
+              },
+              "bst": 275,
               "sprite": "assets/pokemon/506.png",
               "rate": 30,
               "minLevel": 4,
@@ -408,6 +597,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "electric"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 40,
+                "def": 40,
+                "spd": 35,
+                "spa": 65,
+                "spdef": 45
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/179.png",
               "rate": 30,
               "minLevel": 4,
@@ -421,6 +619,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "bug"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 65,
+                "def": 90,
+                "spd": 15,
+                "spa": 35,
+                "spdef": 35
+              },
+              "bst": 290,
               "sprite": "assets/pokemon/204.png",
               "rate": 30,
               "minLevel": 4,
@@ -435,6 +642,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "flying"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 40,
+                "def": 60,
+                "spd": 50,
+                "spa": 40,
+                "spdef": 75
+              },
+              "bst": 310,
               "sprite": "assets/pokemon/333.png",
               "rate": 10,
               "minLevel": 4,
@@ -471,6 +687,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "normal"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 80,
+                "def": 50,
+                "spd": 40,
+                "spa": 50,
+                "spdef": 50
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/216.png",
               "rate": 31,
               "minLevel": 4,
@@ -485,6 +710,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fighting",
                 "psychic"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 40,
+                "def": 55,
+                "spd": 60,
+                "spa": 40,
+                "spdef": 55
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/307.png",
               "rate": 30,
               "minLevel": 4,
@@ -499,6 +733,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fairy",
                 "steel"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 45,
+                "def": 45,
+                "spd": 58,
+                "spa": 35,
+                "spdef": 64
+              },
+              "bst": 297,
               "sprite": "assets/pokemon/1345.png",
               "rate": 30,
               "minLevel": 4,
@@ -513,6 +756,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "flying",
                 "dragon"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 30,
+                "def": 35,
+                "spd": 55,
+                "spa": 45,
+                "spdef": 40
+              },
+              "bst": 245,
               "sprite": "assets/pokemon/714.png",
               "rate": 9,
               "minLevel": 4,
@@ -549,6 +801,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "bug"
               ],
+              "stats": {
+                "hp": 25,
+                "atk": 20,
+                "def": 20,
+                "spd": 45,
+                "spa": 25,
+                "spdef": 45
+              },
+              "bst": 180,
               "sprite": "assets/pokemon/824.png",
               "rate": 30,
               "minLevel": 8,
@@ -562,6 +823,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "normal"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 66,
+                "def": 44,
+                "spd": 85,
+                "spa": 44,
+                "spdef": 56
+              },
+              "bst": 350,
               "sprite": "assets/pokemon/427.png",
               "rate": 30,
               "minLevel": 8,
@@ -575,6 +845,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "grass"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 35,
+                "def": 50,
+                "spd": 30,
+                "spa": 70,
+                "spdef": 50
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/548.png",
               "rate": 25,
               "minLevel": 8,
@@ -588,6 +867,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "bug"
               ],
+              "stats": {
+                "hp": 33,
+                "atk": 46,
+                "def": 40,
+                "spd": 45,
+                "spa": 21,
+                "spdef": 25
+              },
+              "bst": 210,
               "sprite": "assets/pokemon/1303.png",
               "rate": 13,
               "minLevel": 8,
@@ -601,6 +889,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "grass"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 49,
+                "def": 65,
+                "spd": 45,
+                "spa": 49,
+                "spdef": 65
+              },
+              "bst": 318,
               "sprite": "assets/pokemon/152.png",
               "rate": 2,
               "minLevel": 8,
@@ -621,6 +918,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 49,
+                "atk": 49,
+                "def": 56,
+                "spd": 66,
+                "spa": 49,
+                "spdef": 61
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/456.png",
               "rate": 60,
               "minLevel": 19,
@@ -634,6 +940,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 20,
+                "atk": 10,
+                "def": 55,
+                "spd": 80,
+                "spa": 15,
+                "spdef": 20
+              },
+              "bst": 200,
               "sprite": "assets/pokemon/129.png",
               "rate": 40,
               "minLevel": 19,
@@ -655,6 +970,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "electric"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 38,
+                "def": 38,
+                "spd": 67,
+                "spa": 56,
+                "spdef": 56
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/170.png",
               "rate": 80,
               "minLevel": 19,
@@ -668,6 +992,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 40,
+                "spd": 64,
+                "spa": 50,
+                "spdef": 40
+              },
+              "bst": 294,
               "sprite": "assets/pokemon/535.png",
               "rate": 20,
               "minLevel": 19,
@@ -705,6 +1038,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "grass"
               ],
+              "stats": {
+                "hp": 66,
+                "atk": 41,
+                "def": 77,
+                "spd": 23,
+                "spa": 61,
+                "spdef": 87
+              },
+              "bst": 355,
               "sprite": "assets/pokemon/345.png",
               "rate": 44,
               "minLevel": 15,
@@ -719,6 +1061,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "steel"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 42,
+                "def": 118,
+                "spd": 30,
+                "spa": 42,
+                "spdef": 88
+              },
+              "bst": 350,
               "sprite": "assets/pokemon/410.png",
               "rate": 41,
               "minLevel": 15,
@@ -733,6 +1084,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "dragon"
               ],
+              "stats": {
+                "hp": 58,
+                "atk": 89,
+                "def": 77,
+                "spd": 48,
+                "spa": 45,
+                "spdef": 45
+              },
+              "bst": 362,
               "sprite": "assets/pokemon/696.png",
               "rate": 15,
               "minLevel": 15,
@@ -769,6 +1129,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "fighting"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 80,
+                "def": 35,
+                "spd": 70,
+                "spa": 35,
+                "spdef": 45
+              },
+              "bst": 305,
               "sprite": "assets/pokemon/56.png",
               "rate": 31,
               "minLevel": 12,
@@ -783,6 +1152,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "poison"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 45,
+                "def": 59,
+                "spd": 57,
+                "spa": 30,
+                "spdef": 39
+              },
+              "bst": 260,
               "sprite": "assets/pokemon/543.png",
               "rate": 31,
               "minLevel": 12,
@@ -797,6 +1175,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fire",
                 "rock"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 75,
+                "def": 45,
+                "spd": 55,
+                "spa": 65,
+                "spdef": 50
+              },
+              "bst": 350,
               "sprite": "assets/pokemon/993.png",
               "rate": 25,
               "minLevel": 12,
@@ -811,6 +1198,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "flying"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 50,
+                "def": 43,
+                "spd": 62,
+                "spa": 40,
+                "spdef": 38
+              },
+              "bst": 278,
               "sprite": "assets/pokemon/661.png",
               "rate": 13,
               "minLevel": 12,
@@ -847,6 +1243,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "rock"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 40,
+                "def": 50,
+                "spd": 30,
+                "spa": 40,
+                "spdef": 50
+              },
+              "bst": 240,
               "sprite": "assets/pokemon/837.png",
               "rate": 40,
               "minLevel": 11,
@@ -861,6 +1266,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fire",
                 "bug"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 65,
+                "def": 45,
+                "spd": 45,
+                "spa": 50,
+                "spdef": 50
+              },
+              "bst": 305,
               "sprite": "assets/pokemon/850.png",
               "rate": 40,
               "minLevel": 11,
@@ -875,6 +1289,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ground",
                 "steel"
               ],
+              "stats": {
+                "hp": 10,
+                "atk": 55,
+                "def": 30,
+                "spd": 90,
+                "spa": 35,
+                "spdef": 45
+              },
+              "bst": 265,
               "sprite": "assets/pokemon/963.png",
               "rate": 12,
               "minLevel": 11,
@@ -888,6 +1311,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "fire"
               ],
+              "stats": {
+                "hp": 39,
+                "atk": 52,
+                "def": 43,
+                "spd": 65,
+                "spa": 60,
+                "spdef": 50
+              },
+              "bst": 309,
               "sprite": "assets/pokemon/155.png",
               "rate": 8,
               "minLevel": 11,
@@ -925,6 +1357,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "grass",
                 "poison"
               ],
+              "stats": {
+                "hp": 69,
+                "atk": 55,
+                "def": 45,
+                "spd": 15,
+                "spa": 55,
+                "spdef": 55
+              },
+              "bst": 294,
               "sprite": "assets/pokemon/590.png",
               "rate": 34,
               "minLevel": 16,
@@ -938,6 +1379,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "psychic"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 48,
+                "def": 45,
+                "spd": 42,
+                "spa": 43,
+                "spdef": 90
+              },
+              "bst": 328,
               "sprite": "assets/pokemon/96.png",
               "rate": 30,
               "minLevel": 16,
@@ -952,6 +1402,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "grass",
                 "fairy"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 35,
+                "def": 55,
+                "spd": 15,
+                "spa": 65,
+                "spdef": 75
+              },
+              "bst": 285,
               "sprite": "assets/pokemon/755.png",
               "rate": 19,
               "minLevel": 16,
@@ -966,6 +1425,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dark",
                 "fairy"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 45,
+                "def": 30,
+                "spd": 50,
+                "spa": 55,
+                "spdef": 40
+              },
+              "bst": 265,
               "sprite": "assets/pokemon/859.png",
               "rate": 15,
               "minLevel": 18,
@@ -979,6 +1447,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "fire"
               ],
+              "stats": {
+                "hp": 59,
+                "atk": 59,
+                "def": 58,
+                "spd": 73,
+                "spa": 90,
+                "spdef": 70
+              },
+              "bst": 409,
               "sprite": "assets/pokemon/654.png",
               "rate": 2,
               "minLevel": 18,
@@ -1000,6 +1477,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "psychic"
               ],
+              "stats": {
+                "hp": 68,
+                "atk": 105,
+                "def": 70,
+                "spd": 92,
+                "spa": 70,
+                "spdef": 70
+              },
+              "bst": 475,
               "sprite": "assets/pokemon/779.png",
               "rate": 60,
               "minLevel": 5,
@@ -1013,6 +1499,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 20,
+                "atk": 10,
+                "def": 55,
+                "spd": 80,
+                "spa": 15,
+                "spdef": 20
+              },
+              "bst": 200,
               "sprite": "assets/pokemon/129.png",
               "rate": 40,
               "minLevel": 5,
@@ -1033,6 +1528,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "psychic"
               ],
+              "stats": {
+                "hp": 90,
+                "atk": 65,
+                "def": 65,
+                "spd": 15,
+                "spa": 40,
+                "spdef": 40
+              },
+              "bst": 315,
               "sprite": "assets/pokemon/977.png",
               "rate": 60,
               "minLevel": 5,
@@ -1046,6 +1550,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 40,
+                "spd": 64,
+                "spa": 50,
+                "spdef": 40
+              },
+              "bst": 294,
               "sprite": "assets/pokemon/535.png",
               "rate": 40,
               "minLevel": 5,
@@ -1083,6 +1596,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dark",
                 "flying"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 85,
+                "def": 42,
+                "spd": 91,
+                "spa": 85,
+                "spdef": 42
+              },
+              "bst": 405,
               "sprite": "assets/pokemon/198.png",
               "rate": 30,
               "minLevel": 16,
@@ -1096,6 +1618,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "dark"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 28,
+                "def": 28,
+                "spd": 50,
+                "spa": 47,
+                "spdef": 52
+              },
+              "bst": 245,
               "sprite": "assets/pokemon/827.png",
               "rate": 30,
               "minLevel": 16,
@@ -1110,6 +1641,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "electric",
                 "flying"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 40,
+                "def": 35,
+                "spd": 70,
+                "spa": 55,
+                "spdef": 40
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/1328.png",
               "rate": 25,
               "minLevel": 16,
@@ -1124,6 +1664,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "flying"
               ],
+              "stats": {
+                "hp": 62,
+                "atk": 77,
+                "def": 62,
+                "spd": 65,
+                "spa": 50,
+                "spdef": 42
+              },
+              "bst": 358,
               "sprite": "assets/pokemon/520.png",
               "rate": 15,
               "minLevel": 16,
@@ -1161,6 +1710,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "grass",
                 "normal"
               ],
+              "stats": {
+                "hp": 41,
+                "atk": 35,
+                "def": 45,
+                "spd": 30,
+                "spa": 58,
+                "spdef": 51
+              },
+              "bst": 260,
               "sprite": "assets/pokemon/1313.png",
               "rate": 55,
               "minLevel": 17,
@@ -1174,6 +1732,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "grass"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 62,
+                "def": 40,
+                "spd": 50,
+                "spa": 62,
+                "spdef": 40
+              },
+              "bst": 304,
               "sprite": "assets/pokemon/1339.png",
               "rate": 45,
               "minLevel": 17,
@@ -1211,6 +1778,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dark",
                 "poison"
               ],
+              "stats": {
+                "hp": 65,
+                "atk": 95,
+                "def": 85,
+                "spd": 85,
+                "spa": 55,
+                "spdef": 55
+              },
+              "bst": 440,
               "sprite": "assets/pokemon/998.png",
               "rate": 44,
               "minLevel": 20,
@@ -1225,6 +1801,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "poison",
                 "dark"
               ],
+              "stats": {
+                "hp": 80,
+                "atk": 80,
+                "def": 50,
+                "spd": 25,
+                "spa": 40,
+                "spdef": 50
+              },
+              "bst": 325,
               "sprite": "assets/pokemon/970.png",
               "rate": 30,
               "minLevel": 20,
@@ -1239,6 +1824,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "poison",
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 60,
+                "def": 60,
+                "spd": 30,
+                "spa": 60,
+                "spdef": 60
+              },
+              "bst": 320,
               "sprite": "assets/pokemon/690.png",
               "rate": 20,
               "minLevel": 20,
@@ -1253,6 +1847,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "electric",
                 "poison"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 38,
+                "def": 35,
+                "spd": 40,
+                "spa": 54,
+                "spdef": 35
+              },
+              "bst": 242,
               "sprite": "assets/pokemon/848.png",
               "rate": 6,
               "minLevel": 20,
@@ -1290,6 +1893,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "flying"
               ],
+              "stats": {
+                "hp": 65,
+                "atk": 65,
+                "def": 45,
+                "spd": 95,
+                "spa": 75,
+                "spdef": 45
+              },
+              "bst": 390,
               "sprite": "assets/pokemon/193.png",
               "rate": 30,
               "minLevel": 24,
@@ -1304,6 +1916,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "poison",
                 "fighting"
               ],
+              "stats": {
+                "hp": 48,
+                "atk": 61,
+                "def": 40,
+                "spd": 50,
+                "spa": 61,
+                "spdef": 40
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/453.png",
               "rate": 20,
               "minLevel": 24,
@@ -1318,6 +1939,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "ground"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 65,
+                "def": 55,
+                "spd": 69,
+                "spa": 65,
+                "spdef": 55
+              },
+              "bst": 384,
               "sprite": "assets/pokemon/536.png",
               "rate": 20,
               "minLevel": 24,
@@ -1332,6 +1962,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "poison",
                 "ground"
               ],
+              "stats": {
+                "hp": 130,
+                "atk": 75,
+                "def": 60,
+                "spd": 20,
+                "spa": 45,
+                "spdef": 100
+              },
+              "bst": 430,
               "sprite": "assets/pokemon/1371.png",
               "rate": 15,
               "minLevel": 23,
@@ -1345,6 +1984,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 65,
+                "atk": 80,
+                "def": 80,
+                "spd": 58,
+                "spa": 59,
+                "spdef": 63
+              },
+              "bst": 405,
               "sprite": "assets/pokemon/159.png",
               "rate": 5,
               "minLevel": 24,
@@ -1358,6 +2006,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "dragon"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 50,
+                "def": 35,
+                "spd": 40,
+                "spa": 55,
+                "spdef": 75
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/704.png",
               "rate": 5,
               "minLevel": 24,
@@ -1371,6 +2028,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 40,
+                "spd": 64,
+                "spa": 50,
+                "spdef": 40
+              },
+              "bst": 294,
               "sprite": "assets/pokemon/535.png",
               "rate": 5,
               "minLevel": 23,
@@ -1391,6 +2057,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 41,
+                "atk": 63,
+                "def": 40,
+                "spd": 66,
+                "spa": 40,
+                "spdef": 30
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/846.png",
               "rate": 60,
               "minLevel": 22,
@@ -1404,6 +2079,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 92,
+                "def": 65,
+                "spd": 98,
+                "spa": 80,
+                "spdef": 55
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/1091.png",
               "rate": 40,
               "minLevel": 21,
@@ -1425,6 +2109,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ground",
                 "grass"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 40,
+                "def": 35,
+                "spd": 70,
+                "spa": 50,
+                "spdef": 100
+              },
+              "bst": 335,
               "sprite": "assets/pokemon/1336.png",
               "rate": 80,
               "minLevel": 21,
@@ -1439,6 +2132,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "poison",
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 53,
+                "def": 62,
+                "spd": 45,
+                "spa": 43,
+                "spdef": 52
+              },
+              "bst": 305,
               "sprite": "assets/pokemon/747.png",
               "rate": 20,
               "minLevel": 18,
@@ -1476,6 +2178,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ice",
                 "water"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 40,
+                "def": 50,
+                "spd": 25,
+                "spa": 55,
+                "spdef": 50
+              },
+              "bst": 290,
               "sprite": "assets/pokemon/363.png",
               "rate": 45,
               "minLevel": 5,
@@ -1489,6 +2200,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ice"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 50,
+                "spd": 50,
+                "spa": 50,
+                "spdef": 50
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/361.png",
               "rate": 40,
               "minLevel": 5,
@@ -1502,6 +2222,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ice"
               ],
+              "stats": {
+                "hp": 108,
+                "atk": 68,
+                "def": 45,
+                "spd": 43,
+                "spa": 30,
+                "spdef": 40
+              },
+              "bst": 334,
               "sprite": "assets/pokemon/1363.png",
               "rate": 15,
               "minLevel": 5,
@@ -1522,6 +2251,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ground"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 100,
+                "def": 70,
+                "spd": 45,
+                "spa": 45,
+                "spdef": 55
+              },
+              "bst": 385,
               "sprite": "assets/pokemon/749.png",
               "rate": 40,
               "minLevel": 5,
@@ -1536,6 +2274,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "electric"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 95,
+                "def": 115,
+                "spd": 35,
+                "spa": 45,
+                "spdef": 45
+              },
+              "bst": 390,
               "sprite": "assets/pokemon/968.png",
               "rate": 35,
               "minLevel": 5,
@@ -1549,6 +2296,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ground"
               ],
+              "stats": {
+                "hp": 52,
+                "atk": 57,
+                "def": 75,
+                "spd": 46,
+                "spa": 35,
+                "spdef": 50
+              },
+              "bst": 315,
               "sprite": "assets/pokemon/843.png",
               "rate": 25,
               "minLevel": 5,
@@ -1570,6 +2326,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ice",
                 "water"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 40,
+                "def": 50,
+                "spd": 25,
+                "spa": 55,
+                "spdef": 50
+              },
+              "bst": 290,
               "sprite": "assets/pokemon/363.png",
               "rate": 45,
               "minLevel": 5,
@@ -1583,6 +2348,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ice"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 50,
+                "spd": 50,
+                "spa": 50,
+                "spdef": 50
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/361.png",
               "rate": 40,
               "minLevel": 5,
@@ -1596,6 +2370,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ice"
               ],
+              "stats": {
+                "hp": 108,
+                "atk": 68,
+                "def": 45,
+                "spd": 43,
+                "spa": 30,
+                "spdef": 40
+              },
+              "bst": 334,
               "sprite": "assets/pokemon/1363.png",
               "rate": 15,
               "minLevel": 5,
@@ -1616,6 +2399,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 40,
+                "def": 70,
+                "spd": 60,
+                "spa": 70,
+                "spdef": 25
+              },
+              "bst": 295,
               "sprite": "assets/pokemon/116.png",
               "rate": 65,
               "minLevel": 5,
@@ -1629,6 +2421,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 65,
+                "def": 35,
+                "spd": 85,
+                "spa": 60,
+                "spdef": 30
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/418.png",
               "rate": 31,
               "minLevel": 5,
@@ -1642,6 +2443,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 75,
+                "def": 60,
+                "spd": 60,
+                "spa": 83,
+                "spdef": 60
+              },
+              "bst": 413,
               "sprite": "assets/pokemon/502.png",
               "rate": 4,
               "minLevel": 5,
@@ -1662,6 +2472,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 40,
+                "def": 70,
+                "spd": 60,
+                "spa": 70,
+                "spdef": 25
+              },
+              "bst": 295,
               "sprite": "assets/pokemon/116.png",
               "rate": 65,
               "minLevel": 5,
@@ -1675,6 +2494,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 65,
+                "def": 35,
+                "spd": 85,
+                "spa": 60,
+                "spdef": 30
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/418.png",
               "rate": 31,
               "minLevel": 5,
@@ -1688,6 +2516,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 75,
+                "def": 60,
+                "spd": 60,
+                "spa": 83,
+                "spdef": 60
+              },
+              "bst": 413,
               "sprite": "assets/pokemon/502.png",
               "rate": 4,
               "minLevel": 5,
@@ -1708,6 +2545,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 40,
+                "def": 70,
+                "spd": 60,
+                "spa": 70,
+                "spdef": 25
+              },
+              "bst": 295,
               "sprite": "assets/pokemon/116.png",
               "rate": 65,
               "minLevel": 5,
@@ -1721,6 +2567,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 65,
+                "def": 35,
+                "spd": 85,
+                "spa": 60,
+                "spdef": 30
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/418.png",
               "rate": 31,
               "minLevel": 5,
@@ -1734,6 +2589,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 75,
+                "def": 60,
+                "spd": 60,
+                "spa": 83,
+                "spdef": 60
+              },
+              "bst": 413,
               "sprite": "assets/pokemon/502.png",
               "rate": 4,
               "minLevel": 5,
@@ -1770,6 +2634,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ghost"
               ],
+              "stats": {
+                "hp": 44,
+                "atk": 75,
+                "def": 35,
+                "spd": 45,
+                "spa": 63,
+                "spdef": 33
+              },
+              "bst": 295,
               "sprite": "assets/pokemon/353.png",
               "rate": 36,
               "minLevel": 26,
@@ -1783,6 +2656,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "psychic"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 30,
+                "def": 50,
+                "spd": 45,
+                "spa": 65,
+                "spdef": 50
+              },
+              "bst": 285,
               "sprite": "assets/pokemon/433.png",
               "rate": 35,
               "minLevel": 26,
@@ -1796,6 +2678,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ghost"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 61,
+                "def": 60,
+                "spd": 34,
+                "spa": 30,
+                "spdef": 55
+              },
+              "bst": 290,
               "sprite": "assets/pokemon/1360.png",
               "rate": 29,
               "minLevel": 26,
@@ -1833,6 +2724,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "flying"
               ],
+              "stats": {
+                "hp": 80,
+                "atk": 52,
+                "def": 50,
+                "spd": 89,
+                "spa": 90,
+                "spdef": 50
+              },
+              "bst": 411,
               "sprite": "assets/pokemon/666.png",
               "rate": 31,
               "minLevel": 26,
@@ -1847,6 +2747,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "flying"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 83,
+                "def": 50,
+                "spd": 60,
+                "spa": 37,
+                "spdef": 50
+              },
+              "bst": 350,
               "sprite": "assets/pokemon/627.png",
               "rate": 30,
               "minLevel": 26,
@@ -1860,6 +2769,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "normal"
               ],
+              "stats": {
+                "hp": 73,
+                "atk": 95,
+                "def": 62,
+                "spd": 85,
+                "spa": 85,
+                "spdef": 65
+              },
+              "bst": 465,
               "sprite": "assets/pokemon/234.png",
               "rate": 25,
               "minLevel": 26,
@@ -1873,6 +2791,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ice"
               ],
+              "stats": {
+                "hp": 38,
+                "atk": 41,
+                "def": 40,
+                "spd": 65,
+                "spa": 50,
+                "spdef": 65
+              },
+              "bst": 299,
               "sprite": "assets/pokemon/961.png",
               "rate": 14,
               "minLevel": 26,
@@ -1893,6 +2820,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 92,
+                "def": 65,
+                "spd": 98,
+                "spa": 80,
+                "spdef": 55
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/1091.png",
               "rate": 60,
               "minLevel": 26,
@@ -1906,6 +2842,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 41,
+                "atk": 63,
+                "def": 40,
+                "spd": 66,
+                "spa": 40,
+                "spdef": 30
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/846.png",
               "rate": 40,
               "minLevel": 26,
@@ -1926,6 +2871,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 75,
+                "def": 60,
+                "spd": 60,
+                "spa": 83,
+                "spdef": 60
+              },
+              "bst": 413,
               "sprite": "assets/pokemon/502.png",
               "rate": 60,
               "minLevel": 26,
@@ -1939,6 +2893,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 165,
+                "atk": 75,
+                "def": 80,
+                "spd": 65,
+                "spa": 40,
+                "spdef": 45
+              },
+              "bst": 470,
               "sprite": "assets/pokemon/594.png",
               "rate": 40,
               "minLevel": 26,
@@ -1976,6 +2939,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "flying",
                 "dark"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 103,
+                "def": 85,
+                "spd": 82,
+                "spa": 60,
+                "spdef": 85
+              },
+              "bst": 485,
               "sprite": "assets/pokemon/1350.png",
               "rate": 34,
               "minLevel": 34,
@@ -1989,6 +2961,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "fighting"
               ],
+              "stats": {
+                "hp": 67,
+                "atk": 82,
+                "def": 62,
+                "spd": 43,
+                "spa": 46,
+                "spdef": 48
+              },
+              "bst": 348,
               "sprite": "assets/pokemon/674.png",
               "rate": 30,
               "minLevel": 34,
@@ -2002,6 +2983,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "dark"
               ],
+              "stats": {
+                "hp": 65,
+                "atk": 130,
+                "def": 60,
+                "spd": 75,
+                "spa": 75,
+                "spdef": 60
+              },
+              "bst": 465,
               "sprite": "assets/pokemon/359.png",
               "rate": 20,
               "minLevel": 34,
@@ -2016,6 +3006,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "flying"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 110,
+                "def": 80,
+                "spd": 105,
+                "spa": 55,
+                "spdef": 80
+              },
+              "bst": 500,
               "sprite": "assets/pokemon/123.png",
               "rate": 16,
               "minLevel": 34,
@@ -2037,6 +3036,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "flying"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 60,
+                "def": 62,
+                "spd": 80,
+                "spa": 100,
+                "spdef": 82
+              },
+              "bst": 454,
               "sprite": "assets/pokemon/284.png",
               "rate": 65,
               "minLevel": 32,
@@ -2050,6 +3058,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 53,
+                "def": 62,
+                "spd": 44,
+                "spa": 58,
+                "spdef": 63
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/692.png",
               "rate": 30,
               "minLevel": 32,
@@ -2063,6 +3080,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "psychic"
               ],
+              "stats": {
+                "hp": 90,
+                "atk": 65,
+                "def": 65,
+                "spd": 15,
+                "spa": 40,
+                "spdef": 40
+              },
+              "bst": 315,
               "sprite": "assets/pokemon/977.png",
               "rate": 5,
               "minLevel": 32,
@@ -2083,6 +3109,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 49,
+                "atk": 49,
+                "def": 56,
+                "spd": 66,
+                "spa": 49,
+                "spdef": 61
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/456.png",
               "rate": 60,
               "minLevel": 30,
@@ -2097,6 +3132,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "dark"
               ],
+              "stats": {
+                "hp": 45,
+                "atk": 90,
+                "def": 20,
+                "spd": 65,
+                "spa": 65,
+                "spdef": 20
+              },
+              "bst": 305,
               "sprite": "assets/pokemon/318.png",
               "rate": 40,
               "minLevel": 30,
@@ -2117,6 +3161,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "electric"
               ],
+              "stats": {
+                "hp": 35,
+                "atk": 55,
+                "def": 40,
+                "spd": 60,
+                "spa": 45,
+                "spdef": 40
+              },
+              "bst": 275,
               "sprite": "assets/pokemon/602.png",
               "rate": 60,
               "minLevel": 30,
@@ -2131,6 +3184,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "poison",
                 "ground"
               ],
+              "stats": {
+                "hp": 130,
+                "atk": 75,
+                "def": 60,
+                "spd": 20,
+                "spa": 45,
+                "spdef": 100
+              },
+              "bst": 430,
               "sprite": "assets/pokemon/1371.png",
               "rate": 40,
               "minLevel": 30,
@@ -2168,6 +3230,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "poison"
               ],
+              "stats": {
+                "hp": 48,
+                "atk": 35,
+                "def": 42,
+                "spd": 60,
+                "spa": 105,
+                "spdef": 60
+              },
+              "bst": 350,
               "sprite": "assets/pokemon/1358.png",
               "rate": 35,
               "minLevel": 26,
@@ -2182,6 +3253,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ice",
                 "steel"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 75,
+                "def": 90,
+                "spd": 40,
+                "spa": 10,
+                "spdef": 35
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/959.png",
               "rate": 34,
               "minLevel": 26,
@@ -2196,6 +3276,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ice",
                 "ground"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 40,
+                "spd": 50,
+                "spa": 30,
+                "spdef": 30
+              },
+              "bst": 250,
               "sprite": "assets/pokemon/220.png",
               "rate": 25,
               "minLevel": 26,
@@ -2210,6 +3299,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ground",
                 "psychic"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 40,
+                "def": 55,
+                "spd": 55,
+                "spa": 40,
+                "spdef": 70
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/343.png",
               "rate": 6,
               "minLevel": 26,
@@ -2246,6 +3344,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ice"
               ],
+              "stats": {
+                "hp": 108,
+                "atk": 68,
+                "def": 45,
+                "spd": 43,
+                "spa": 30,
+                "spdef": 40
+              },
+              "bst": 334,
               "sprite": "assets/pokemon/1363.png",
               "rate": 35,
               "minLevel": 27,
@@ -2260,6 +3367,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ice",
                 "ground"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 40,
+                "spd": 50,
+                "spa": 30,
+                "spdef": 30
+              },
+              "bst": 250,
               "sprite": "assets/pokemon/220.png",
               "rate": 30,
               "minLevel": 27,
@@ -2274,6 +3390,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "flying"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 60,
+                "def": 100,
+                "spd": 60,
+                "spa": 60,
+                "spdef": 100
+              },
+              "bst": 440,
               "sprite": "assets/pokemon/774.png",
               "rate": 29,
               "minLevel": 27,
@@ -2288,6 +3413,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "steel",
                 "psychic"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 55,
+                "def": 80,
+                "spd": 30,
+                "spa": 35,
+                "spdef": 60
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/374.png",
               "rate": 6,
               "minLevel": 27,
@@ -2324,6 +3458,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "steel"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 110,
+                "def": 100,
+                "spd": 50,
+                "spa": 50,
+                "spdef": 60
+              },
+              "bst": 440,
               "sprite": "assets/pokemon/863.png",
               "rate": 40,
               "minLevel": 34,
@@ -2338,6 +3481,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fighting",
                 "poison"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 95,
+                "def": 55,
+                "spd": 115,
+                "spa": 35,
+                "spdef": 75
+              },
+              "bst": 430,
               "sprite": "assets/pokemon/999.png",
               "rate": 38,
               "minLevel": 34,
@@ -2352,6 +3504,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ice",
                 "bug"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 25,
+                "def": 35,
+                "spd": 20,
+                "spa": 45,
+                "spdef": 30
+              },
+              "bst": 185,
               "sprite": "assets/pokemon/872.png",
               "rate": 22,
               "minLevel": 34,
@@ -2389,6 +3550,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "grass",
                 "ice"
               ],
+              "stats": {
+                "hp": 90,
+                "atk": 92,
+                "def": 75,
+                "spd": 60,
+                "spa": 92,
+                "spdef": 85
+              },
+              "bst": 494,
               "sprite": "assets/pokemon/460.png",
               "rate": 100,
               "minLevel": 5,
@@ -2426,6 +3596,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "electric",
                 "grass"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 65,
+                "def": 107,
+                "spd": 86,
+                "spa": 105,
+                "spdef": 107
+              },
+              "bst": 520,
               "sprite": "assets/pokemon/1068.png",
               "rate": 100,
               "minLevel": 16,
@@ -2463,6 +3642,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "flying"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 112,
+                "def": 45,
+                "spd": 70,
+                "spa": 74,
+                "spdef": 45
+              },
+              "bst": 401,
               "sprite": "assets/pokemon/566.png",
               "rate": 39,
               "minLevel": 28,
@@ -2477,6 +3665,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "ice"
               ],
+              "stats": {
+                "hp": 77,
+                "atk": 59,
+                "def": 50,
+                "spd": 46,
+                "spa": 67,
+                "spdef": 63
+              },
+              "bst": 362,
               "sprite": "assets/pokemon/698.png",
               "rate": 36,
               "minLevel": 28,
@@ -2490,6 +3687,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "rock"
               ],
+              "stats": {
+                "hp": 67,
+                "atk": 125,
+                "def": 40,
+                "spd": 58,
+                "spa": 30,
+                "spdef": 30
+              },
+              "bst": 350,
               "sprite": "assets/pokemon/408.png",
               "rate": 25,
               "minLevel": 28,
@@ -2527,6 +3733,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "water"
               ],
+              "stats": {
+                "hp": 35,
+                "atk": 40,
+                "def": 100,
+                "spd": 35,
+                "spa": 90,
+                "spdef": 55
+              },
+              "bst": 355,
               "sprite": "assets/pokemon/138.png",
               "rate": 50,
               "minLevel": 28,
@@ -2541,6 +3756,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "ice"
               ],
+              "stats": {
+                "hp": 77,
+                "atk": 59,
+                "def": 50,
+                "spd": 46,
+                "spa": 67,
+                "spdef": 63
+              },
+              "bst": 362,
               "sprite": "assets/pokemon/698.png",
               "rate": 40,
               "minLevel": 28,
@@ -2555,6 +3779,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fairy",
                 "psychic"
               ],
+              "stats": {
+                "hp": 115,
+                "atk": 65,
+                "def": 99,
+                "spd": 111,
+                "spa": 65,
+                "spdef": 115
+              },
+              "bst": 570,
               "sprite": "assets/pokemon/1377.png",
               "rate": 10,
               "minLevel": 28,
@@ -2576,6 +3809,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "rock"
               ],
+              "stats": {
+                "hp": 100,
+                "atk": 90,
+                "def": 130,
+                "spd": 55,
+                "spa": 45,
+                "spdef": 65
+              },
+              "bst": 485,
               "sprite": "assets/pokemon/369.png",
               "rate": 100,
               "minLevel": 30,
@@ -2597,6 +3839,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "rock"
               ],
+              "stats": {
+                "hp": 54,
+                "atk": 78,
+                "def": 103,
+                "spd": 22,
+                "spa": 53,
+                "spdef": 45
+              },
+              "bst": 355,
               "sprite": "assets/pokemon/564.png",
               "rate": 60,
               "minLevel": 30,
@@ -2611,6 +3862,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "water"
               ],
+              "stats": {
+                "hp": 35,
+                "atk": 40,
+                "def": 100,
+                "spd": 35,
+                "spa": 90,
+                "spdef": 55
+              },
+              "bst": 355,
               "sprite": "assets/pokemon/138.png",
               "rate": 40,
               "minLevel": 30,
@@ -2648,6 +3908,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "water"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 80,
+                "def": 90,
+                "spd": 55,
+                "spa": 55,
+                "spdef": 45
+              },
+              "bst": 355,
               "sprite": "assets/pokemon/140.png",
               "rate": 50,
               "minLevel": 28,
@@ -2662,6 +3931,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "ice"
               ],
+              "stats": {
+                "hp": 77,
+                "atk": 59,
+                "def": 50,
+                "spd": 46,
+                "spa": 67,
+                "spdef": 63
+              },
+              "bst": 362,
               "sprite": "assets/pokemon/698.png",
               "rate": 40,
               "minLevel": 28,
@@ -2676,6 +3954,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fairy",
                 "psychic"
               ],
+              "stats": {
+                "hp": 115,
+                "atk": 65,
+                "def": 99,
+                "spd": 111,
+                "spa": 65,
+                "spdef": 115
+              },
+              "bst": 570,
               "sprite": "assets/pokemon/1377.png",
               "rate": 10,
               "minLevel": 28,
@@ -2697,6 +3984,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "rock"
               ],
+              "stats": {
+                "hp": 100,
+                "atk": 90,
+                "def": 130,
+                "spd": 55,
+                "spa": 45,
+                "spdef": 65
+              },
+              "bst": 485,
               "sprite": "assets/pokemon/369.png",
               "rate": 100,
               "minLevel": 30,
@@ -2718,6 +4014,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "rock"
               ],
+              "stats": {
+                "hp": 54,
+                "atk": 78,
+                "def": 103,
+                "spd": 22,
+                "spa": 53,
+                "spdef": 45
+              },
+              "bst": 355,
               "sprite": "assets/pokemon/564.png",
               "rate": 60,
               "minLevel": 30,
@@ -2732,6 +4037,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "water"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 80,
+                "def": 90,
+                "spd": 55,
+                "spa": 55,
+                "spdef": 45
+              },
+              "bst": 355,
               "sprite": "assets/pokemon/140.png",
               "rate": 40,
               "minLevel": 30,
@@ -2768,6 +4082,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "fighting"
               ],
+              "stats": {
+                "hp": 100,
+                "atk": 120,
+                "def": 90,
+                "spd": 80,
+                "spa": 40,
+                "spdef": 60
+              },
+              "bst": 490,
               "sprite": "assets/pokemon/766.png",
               "rate": 40,
               "minLevel": 32,
@@ -2782,6 +4105,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "ghost"
               ],
+              "stats": {
+                "hp": 35,
+                "atk": 60,
+                "def": 40,
+                "spd": 70,
+                "spa": 85,
+                "spdef": 40
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/1002.png",
               "rate": 20,
               "minLevel": 29,
@@ -2796,6 +4128,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "psychic"
               ],
+              "stats": {
+                "hp": 90,
+                "atk": 60,
+                "def": 80,
+                "spd": 60,
+                "spa": 90,
+                "spdef": 110
+              },
+              "bst": 490,
               "sprite": "assets/pokemon/765.png",
               "rate": 20,
               "minLevel": 32,
@@ -2809,6 +4150,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "dark"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 58,
+                "def": 58,
+                "spd": 90,
+                "spa": 87,
+                "spdef": 92
+              },
+              "bst": 455,
               "sprite": "assets/pokemon/828.png",
               "rate": 20,
               "minLevel": 29,
@@ -2846,6 +4196,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "poison"
               ],
+              "stats": {
+                "hp": 48,
+                "atk": 35,
+                "def": 42,
+                "spd": 60,
+                "spa": 105,
+                "spdef": 60
+              },
+              "bst": 350,
               "sprite": "assets/pokemon/1358.png",
               "rate": 30,
               "minLevel": 35,
@@ -2860,6 +4219,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fighting",
                 "psychic"
               ],
+              "stats": {
+                "hp": 30,
+                "atk": 40,
+                "def": 55,
+                "spd": 60,
+                "spa": 40,
+                "spdef": 55
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/307.png",
               "rate": 30,
               "minLevel": 35,
@@ -2874,6 +4242,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dark",
                 "ghost"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 75,
+                "def": 75,
+                "spd": 50,
+                "spa": 65,
+                "spdef": 65
+              },
+              "bst": 380,
               "sprite": "assets/pokemon/302.png",
               "rate": 30,
               "minLevel": 35,
@@ -2888,6 +4265,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dragon",
                 "ghost"
               ],
+              "stats": {
+                "hp": 28,
+                "atk": 60,
+                "def": 30,
+                "spd": 82,
+                "spa": 40,
+                "spdef": 30
+              },
+              "bst": 270,
               "sprite": "assets/pokemon/885.png",
               "rate": 10,
               "minLevel": 35,
@@ -2925,6 +4311,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "flying"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 60,
+                "def": 62,
+                "spd": 80,
+                "spa": 100,
+                "spdef": 82
+              },
+              "bst": 454,
               "sprite": "assets/pokemon/284.png",
               "rate": 60,
               "minLevel": 29,
@@ -2938,6 +4333,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 49,
+                "atk": 49,
+                "def": 56,
+                "spd": 66,
+                "spa": 49,
+                "spdef": 61
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/456.png",
               "rate": 31,
               "minLevel": 28,
@@ -2951,6 +4355,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "psychic"
               ],
+              "stats": {
+                "hp": 90,
+                "atk": 65,
+                "def": 65,
+                "spd": 15,
+                "spa": 40,
+                "spdef": 40
+              },
+              "bst": 315,
               "sprite": "assets/pokemon/977.png",
               "rate": 5,
               "minLevel": 29,
@@ -2964,6 +4377,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 69,
+                "atk": 69,
+                "def": 76,
+                "spd": 91,
+                "spa": 69,
+                "spdef": 86
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/457.png",
               "rate": 4,
               "minLevel": 31,
@@ -2984,6 +4406,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 92,
+                "def": 65,
+                "spd": 98,
+                "spa": 80,
+                "spdef": 55
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/1091.png",
               "rate": 60,
               "minLevel": 5,
@@ -2997,6 +4428,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 49,
+                "atk": 49,
+                "def": 56,
+                "spd": 66,
+                "spa": 49,
+                "spdef": 61
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/456.png",
               "rate": 40,
               "minLevel": 5,
@@ -3017,6 +4457,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 165,
+                "atk": 75,
+                "def": 80,
+                "spd": 65,
+                "spa": 40,
+                "spdef": 45
+              },
+              "bst": 470,
               "sprite": "assets/pokemon/594.png",
               "rate": 60,
               "minLevel": 5,
@@ -3030,6 +4479,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 40,
+                "spd": 64,
+                "spa": 50,
+                "spdef": 40
+              },
+              "bst": 294,
               "sprite": "assets/pokemon/535.png",
               "rate": 40,
               "minLevel": 5,
@@ -3067,6 +4525,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "steel",
                 "rock"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 70,
+                "def": 100,
+                "spd": 30,
+                "spa": 40,
+                "spdef": 40
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/304.png",
               "rate": 30,
               "minLevel": 17,
@@ -3081,6 +4548,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "fairy"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 150,
+                "spd": 50,
+                "spa": 50,
+                "spdef": 150
+              },
+              "bst": 500,
               "sprite": "assets/pokemon/703.png",
               "rate": 30,
               "minLevel": 17,
@@ -3095,6 +4571,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "steel",
                 "fairy"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 85,
+                "def": 85,
+                "spd": 50,
+                "spa": 55,
+                "spdef": 55
+              },
+              "bst": 380,
               "sprite": "assets/pokemon/303.png",
               "rate": 30,
               "minLevel": 17,
@@ -3108,6 +4593,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "fairy"
               ],
+              "stats": {
+                "hp": 35,
+                "atk": 20,
+                "def": 65,
+                "spd": 20,
+                "spa": 40,
+                "spdef": 65
+              },
+              "bst": 245,
               "sprite": "assets/pokemon/175.png",
               "rate": 10,
               "minLevel": 17,
@@ -3129,6 +4623,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "psychic"
               ],
+              "stats": {
+                "hp": 68,
+                "atk": 105,
+                "def": 70,
+                "spd": 92,
+                "spa": 70,
+                "spdef": 70
+              },
+              "bst": 475,
               "sprite": "assets/pokemon/779.png",
               "rate": 60,
               "minLevel": 15,
@@ -3142,6 +4645,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 20,
+                "atk": 10,
+                "def": 55,
+                "spd": 80,
+                "spa": 15,
+                "spdef": 20
+              },
+              "bst": 200,
               "sprite": "assets/pokemon/129.png",
               "rate": 40,
               "minLevel": 15,
@@ -3162,6 +4674,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 165,
+                "atk": 75,
+                "def": 80,
+                "spd": 65,
+                "spa": 40,
+                "spdef": 45
+              },
+              "bst": 470,
               "sprite": "assets/pokemon/594.png",
               "rate": 80,
               "minLevel": 18,
@@ -3175,6 +4696,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 75,
+                "def": 60,
+                "spd": 60,
+                "spa": 83,
+                "spdef": 60
+              },
+              "bst": 413,
               "sprite": "assets/pokemon/502.png",
               "rate": 20,
               "minLevel": 18,
@@ -3211,6 +4741,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ice"
               ],
+              "stats": {
+                "hp": 108,
+                "atk": 68,
+                "def": 45,
+                "spd": 43,
+                "spa": 30,
+                "spdef": 40
+              },
+              "bst": 334,
               "sprite": "assets/pokemon/1363.png",
               "rate": 40,
               "minLevel": 33,
@@ -3225,6 +4764,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ice",
                 "steel"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 75,
+                "def": 90,
+                "spd": 40,
+                "spa": 10,
+                "spdef": 35
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/959.png",
               "rate": 30,
               "minLevel": 33,
@@ -3239,6 +4787,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dragon",
                 "ice"
               ],
+              "stats": {
+                "hp": 65,
+                "atk": 75,
+                "def": 45,
+                "spd": 55,
+                "spa": 35,
+                "spdef": 45
+              },
+              "bst": 320,
               "sprite": "assets/pokemon/1388.png",
               "rate": 15,
               "minLevel": 33,
@@ -3253,6 +4810,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ice",
                 "ground"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 40,
+                "spd": 50,
+                "spa": 30,
+                "spdef": 30
+              },
+              "bst": 250,
               "sprite": "assets/pokemon/220.png",
               "rate": 15,
               "minLevel": 33,
@@ -3289,6 +4855,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 41,
+                "atk": 63,
+                "def": 40,
+                "spd": 66,
+                "spa": 40,
+                "spdef": 30
+              },
+              "bst": 280,
               "sprite": "assets/pokemon/846.png",
               "rate": 60,
               "minLevel": 25,
@@ -3302,6 +4877,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 20,
+                "atk": 10,
+                "def": 55,
+                "spd": 80,
+                "spa": 15,
+                "spdef": 20
+              },
+              "bst": 200,
               "sprite": "assets/pokemon/129.png",
               "rate": 40,
               "minLevel": 25,
@@ -3323,6 +4907,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dark",
                 "poison"
               ],
+              "stats": {
+                "hp": 65,
+                "atk": 95,
+                "def": 85,
+                "spd": 85,
+                "spa": 55,
+                "spdef": 55
+              },
+              "bst": 440,
               "sprite": "assets/pokemon/998.png",
               "rate": 80,
               "minLevel": 25,
@@ -3336,6 +4929,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 53,
+                "def": 62,
+                "spd": 44,
+                "spa": 58,
+                "spdef": 63
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/692.png",
               "rate": 20,
               "minLevel": 25,
@@ -3372,6 +4974,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 71,
+                "atk": 73,
+                "def": 88,
+                "spd": 59,
+                "spa": 120,
+                "spdef": 89
+              },
+              "bst": 500,
               "sprite": "assets/pokemon/693.png",
               "rate": 60,
               "minLevel": 35,
@@ -3386,6 +4997,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ghost",
                 "grass"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 131,
+                "def": 100,
+                "spd": 40,
+                "spa": 86,
+                "spdef": 90
+              },
+              "bst": 517,
               "sprite": "assets/pokemon/781.png",
               "rate": 30,
               "minLevel": 35,
@@ -3399,6 +5019,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 69,
+                "atk": 69,
+                "def": 76,
+                "spd": 91,
+                "spa": 69,
+                "spdef": 86
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/457.png",
               "rate": 5,
               "minLevel": 35,
@@ -3413,6 +5042,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ground",
                 "grass"
               ],
+              "stats": {
+                "hp": 80,
+                "atk": 70,
+                "def": 65,
+                "spd": 100,
+                "spa": 80,
+                "spdef": 120
+              },
+              "bst": 515,
               "sprite": "assets/pokemon/1337.png",
               "rate": 5,
               "minLevel": 35,
@@ -3433,6 +5071,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 61,
+                "atk": 123,
+                "def": 60,
+                "spd": 136,
+                "spa": 60,
+                "spdef": 50
+              },
+              "bst": 490,
               "sprite": "assets/pokemon/847.png",
               "rate": 60,
               "minLevel": 33,
@@ -3446,6 +5093,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 20,
+                "atk": 10,
+                "def": 55,
+                "spd": 80,
+                "spa": 15,
+                "spdef": 20
+              },
+              "bst": 200,
               "sprite": "assets/pokemon/129.png",
               "rate": 40,
               "minLevel": 33,
@@ -3467,6 +5123,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "water",
                 "electric"
               ],
+              "stats": {
+                "hp": 125,
+                "atk": 58,
+                "def": 58,
+                "spd": 67,
+                "spa": 76,
+                "spdef": 76
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/171.png",
               "rate": 60,
               "minLevel": 33,
@@ -3481,6 +5146,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ghost",
                 "grass"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 131,
+                "def": 100,
+                "spd": 40,
+                "spa": 86,
+                "spdef": 90
+              },
+              "bst": 517,
               "sprite": "assets/pokemon/781.png",
               "rate": 40,
               "minLevel": 33,
@@ -3517,6 +5191,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "rock"
               ],
+              "stats": {
+                "hp": 85,
+                "atk": 115,
+                "def": 75,
+                "spd": 82,
+                "spa": 55,
+                "spdef": 75
+              },
+              "bst": 487,
               "sprite": "assets/pokemon/1173.png",
               "rate": 24,
               "minLevel": 50,
@@ -3531,6 +5214,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fire",
                 "ghost"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 80,
+                "def": 110,
+                "spd": 45,
+                "spa": 50,
+                "spdef": 80
+              },
+              "bst": 425,
               "sprite": "assets/pokemon/973.png",
               "rate": 20,
               "minLevel": 50,
@@ -3545,6 +5237,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "dark",
                 "normal"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 71,
+                "def": 70,
+                "spd": 77,
+                "spa": 40,
+                "spdef": 80
+              },
+              "bst": 413,
               "sprite": "assets/pokemon/957.png",
               "rate": 20,
               "minLevel": 50,
@@ -3558,6 +5259,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "fairy"
               ],
+              "stats": {
+                "hp": 95,
+                "atk": 70,
+                "def": 73,
+                "spd": 60,
+                "spa": 95,
+                "spdef": 90
+              },
+              "bst": 483,
               "sprite": "assets/pokemon/36.png",
               "rate": 15,
               "minLevel": 50,
@@ -3572,6 +5282,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "normal",
                 "flying"
               ],
+              "stats": {
+                "hp": 80,
+                "atk": 115,
+                "def": 80,
+                "spd": 93,
+                "spa": 65,
+                "spdef": 55
+              },
+              "bst": 488,
               "sprite": "assets/pokemon/521.png",
               "rate": 10,
               "minLevel": 50,
@@ -3586,6 +5305,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "steel"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 90,
+                "def": 140,
+                "spd": 40,
+                "spa": 60,
+                "spdef": 60
+              },
+              "bst": 465,
               "sprite": "assets/pokemon/205.png",
               "rate": 9,
               "minLevel": 50,
@@ -3599,6 +5327,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "rock"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 117,
+                "def": 65,
+                "spd": 110,
+                "spa": 55,
+                "spdef": 65
+              },
+              "bst": 487,
               "sprite": "assets/pokemon/1174.png",
               "rate": 1,
               "minLevel": 50,
@@ -3612,6 +5349,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "rock"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 115,
+                "def": 65,
+                "spd": 112,
+                "spa": 55,
+                "spdef": 65
+              },
+              "bst": 487,
               "sprite": "assets/pokemon/745.png",
               "rate": 1,
               "minLevel": 50,
@@ -3648,6 +5394,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "normal"
               ],
+              "stats": {
+                "hp": 75,
+                "atk": 80,
+                "def": 60,
+                "spd": 102,
+                "spa": 65,
+                "spdef": 90
+              },
+              "bst": 472,
               "sprite": "assets/pokemon/676.png",
               "rate": 35,
               "minLevel": 27,
@@ -3661,6 +5416,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "electric"
               ],
+              "stats": {
+                "hp": 69,
+                "atk": 90,
+                "def": 60,
+                "spd": 121,
+                "spa": 90,
+                "spdef": 60
+              },
+              "bst": 490,
               "sprite": "assets/pokemon/836.png",
               "rate": 34,
               "minLevel": 27,
@@ -3674,6 +5438,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "normal"
               ],
+              "stats": {
+                "hp": 42,
+                "atk": 40,
+                "def": 55,
+                "spd": 48,
+                "spa": 40,
+                "spdef": 45
+              },
+              "bst": 270,
               "sprite": "assets/pokemon/831.png",
               "rate": 31,
               "minLevel": 27,
@@ -3710,6 +5483,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 69,
+                "atk": 69,
+                "def": 76,
+                "spd": 91,
+                "spa": 69,
+                "spdef": 86
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/457.png",
               "rate": 60,
               "minLevel": 39,
@@ -3723,6 +5505,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 61,
+                "atk": 123,
+                "def": 60,
+                "spd": 136,
+                "spa": 60,
+                "spdef": 50
+              },
+              "bst": 490,
               "sprite": "assets/pokemon/847.png",
               "rate": 40,
               "minLevel": 39,
@@ -3743,6 +5534,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "ghost"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 55,
+                "def": 100,
+                "spd": 30,
+                "spa": 65,
+                "spdef": 100
+              },
+              "bst": 410,
               "sprite": "assets/pokemon/986.png",
               "rate": 60,
               "minLevel": 38,
@@ -3757,6 +5557,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "poison",
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 63,
+                "def": 152,
+                "spd": 35,
+                "spa": 53,
+                "spdef": 142
+              },
+              "bst": 495,
               "sprite": "assets/pokemon/748.png",
               "rate": 40,
               "minLevel": 39,
@@ -3794,6 +5603,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "electric",
                 "grass"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 30,
+                "def": 50,
+                "spd": 100,
+                "spa": 55,
+                "spdef": 55
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/995.png",
               "rate": 50,
               "minLevel": 33,
@@ -3808,6 +5626,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "electric"
               ],
+              "stats": {
+                "hp": 40,
+                "atk": 80,
+                "def": 100,
+                "spd": 20,
+                "spa": 30,
+                "spdef": 30
+              },
+              "bst": 300,
               "sprite": "assets/pokemon/967.png",
               "rate": 20,
               "minLevel": 33,
@@ -3822,6 +5649,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "rock",
                 "electric"
               ],
+              "stats": {
+                "hp": 55,
+                "atk": 95,
+                "def": 115,
+                "spd": 35,
+                "spa": 45,
+                "spdef": 45
+              },
+              "bst": 390,
               "sprite": "assets/pokemon/968.png",
               "rate": 20,
               "minLevel": 37,
@@ -3836,6 +5672,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "fire",
                 "ghost"
               ],
+              "stats": {
+                "hp": 60,
+                "atk": 80,
+                "def": 110,
+                "spd": 45,
+                "spa": 50,
+                "spdef": 80
+              },
+              "bst": 425,
               "sprite": "assets/pokemon/973.png",
               "rate": 8,
               "minLevel": 34,
@@ -3850,6 +5695,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "ground",
                 "steel"
               ],
+              "stats": {
+                "hp": 35,
+                "atk": 100,
+                "def": 60,
+                "spd": 110,
+                "spa": 50,
+                "spdef": 70
+              },
+              "bst": 425,
               "sprite": "assets/pokemon/964.png",
               "rate": 2,
               "minLevel": 34,
@@ -3887,6 +5741,15 @@ window.DREAMSTONE_ENCOUNTERS = {
                 "bug",
                 "flying"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 60,
+                "def": 62,
+                "spd": 80,
+                "spa": 100,
+                "spdef": 82
+              },
+              "bst": 454,
               "sprite": "assets/pokemon/284.png",
               "rate": 60,
               "minLevel": 5,
@@ -3900,6 +5763,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 49,
+                "atk": 49,
+                "def": 56,
+                "spd": 66,
+                "spa": 49,
+                "spdef": 61
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/456.png",
               "rate": 31,
               "minLevel": 5,
@@ -3913,6 +5785,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "psychic"
               ],
+              "stats": {
+                "hp": 90,
+                "atk": 65,
+                "def": 65,
+                "spd": 15,
+                "spa": 40,
+                "spdef": 40
+              },
+              "bst": 315,
               "sprite": "assets/pokemon/977.png",
               "rate": 5,
               "minLevel": 5,
@@ -3926,6 +5807,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 69,
+                "atk": 69,
+                "def": 76,
+                "spd": 91,
+                "spa": 69,
+                "spdef": 86
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/457.png",
               "rate": 4,
               "minLevel": 5,
@@ -3946,6 +5836,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 70,
+                "atk": 92,
+                "def": 65,
+                "spd": 98,
+                "spa": 80,
+                "spdef": 55
+              },
+              "bst": 460,
               "sprite": "assets/pokemon/1091.png",
               "rate": 60,
               "minLevel": 5,
@@ -3959,6 +5858,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 49,
+                "atk": 49,
+                "def": 56,
+                "spd": 66,
+                "spa": 49,
+                "spdef": 61
+              },
+              "bst": 330,
               "sprite": "assets/pokemon/456.png",
               "rate": 40,
               "minLevel": 5,
@@ -3979,6 +5887,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 165,
+                "atk": 75,
+                "def": 80,
+                "spd": 65,
+                "spa": 40,
+                "spdef": 45
+              },
+              "bst": 470,
               "sprite": "assets/pokemon/594.png",
               "rate": 60,
               "minLevel": 5,
@@ -3992,6 +5909,15 @@ window.DREAMSTONE_ENCOUNTERS = {
               "types": [
                 "water"
               ],
+              "stats": {
+                "hp": 50,
+                "atk": 50,
+                "def": 40,
+                "spd": 64,
+                "spa": 50,
+                "spdef": 40
+              },
+              "bst": 294,
               "sprite": "assets/pokemon/535.png",
               "rate": 40,
               "minLevel": 5,
@@ -4014,6 +5940,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "grass",
         "ice"
       ],
+      "stats": {
+        "hp": 90,
+        "atk": 92,
+        "def": 75,
+        "spd": 60,
+        "spa": 92,
+        "spdef": 85
+      },
+      "bst": 494,
       "sprite": "assets/pokemon/460.png",
       "locations": [
         "Silversun City"
@@ -4029,6 +5964,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "dark"
       ],
+      "stats": {
+        "hp": 65,
+        "atk": 130,
+        "def": 60,
+        "spd": 75,
+        "spa": 75,
+        "spdef": 60
+      },
+      "bst": 465,
       "sprite": "assets/pokemon/359.png",
       "locations": [
         "Ivy River"
@@ -4045,6 +5989,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ground",
         "steel"
       ],
+      "stats": {
+        "hp": 10,
+        "atk": 55,
+        "def": 30,
+        "spd": 90,
+        "spa": 35,
+        "spdef": 45
+      },
+      "bst": 265,
       "sprite": "assets/pokemon/963.png",
       "locations": [
         "Mt. Ceram Interior"
@@ -4061,6 +6014,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ground",
         "steel"
       ],
+      "stats": {
+        "hp": 35,
+        "atk": 100,
+        "def": 60,
+        "spd": 110,
+        "spa": 50,
+        "spdef": 70
+      },
+      "bst": 425,
       "sprite": "assets/pokemon/964.png",
       "locations": [
         "Static Cave"
@@ -4077,6 +6039,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "electric"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 80,
+        "def": 100,
+        "spd": 20,
+        "spa": 30,
+        "spdef": 30
+      },
+      "bst": 300,
       "sprite": "assets/pokemon/967.png",
       "locations": [
         "Static Cave"
@@ -4093,6 +6064,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "electric"
       ],
+      "stats": {
+        "hp": 55,
+        "atk": 95,
+        "def": 115,
+        "spd": 35,
+        "spa": 45,
+        "spdef": 45
+      },
+      "bst": 390,
       "sprite": "assets/pokemon/968.png",
       "locations": [
         "Ranger Institute",
@@ -4110,6 +6090,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "poison",
         "dark"
       ],
+      "stats": {
+        "hp": 80,
+        "atk": 80,
+        "def": 50,
+        "spd": 25,
+        "spa": 40,
+        "spdef": 50
+      },
+      "bst": 325,
       "sprite": "assets/pokemon/970.png",
       "locations": [
         "Silversun City"
@@ -4126,6 +6115,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "fire",
         "ghost"
       ],
+      "stats": {
+        "hp": 60,
+        "atk": 80,
+        "def": 110,
+        "spd": 45,
+        "spa": 50,
+        "spdef": 80
+      },
+      "bst": 425,
       "sprite": "assets/pokemon/973.png",
       "locations": [
         "Static Cave",
@@ -4143,6 +6141,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "dark",
         "normal"
       ],
+      "stats": {
+        "hp": 75,
+        "atk": 71,
+        "def": 70,
+        "spd": 77,
+        "spa": 40,
+        "spdef": 80
+      },
+      "bst": 413,
       "sprite": "assets/pokemon/957.png",
       "locations": [
         "Victory Road"
@@ -4159,6 +6166,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "dark",
         "normal"
       ],
+      "stats": {
+        "hp": 30,
+        "atk": 56,
+        "def": 35,
+        "spd": 72,
+        "spa": 25,
+        "spdef": 35
+      },
+      "bst": 253,
       "sprite": "assets/pokemon/956.png",
       "locations": [
         "Route 1",
@@ -4176,6 +6192,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ice",
         "steel"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 75,
+        "def": 90,
+        "spd": 40,
+        "spa": 10,
+        "spdef": 35
+      },
+      "bst": 300,
       "sprite": "assets/pokemon/959.png",
       "locations": [
         "Mt. Mirroh",
@@ -4192,6 +6217,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ice"
       ],
+      "stats": {
+        "hp": 38,
+        "atk": 41,
+        "def": 40,
+        "spd": 65,
+        "spa": 50,
+        "spdef": 65
+      },
+      "bst": 299,
       "sprite": "assets/pokemon/961.png",
       "locations": [
         "Mirroh Exterior"
@@ -4207,6 +6241,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 165,
+        "atk": 75,
+        "def": 80,
+        "spd": 65,
+        "spa": 40,
+        "spdef": 45
+      },
+      "bst": 470,
       "sprite": "assets/pokemon/594.png",
       "locations": [
         "Lily Pond",
@@ -4225,6 +6268,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "ice"
       ],
+      "stats": {
+        "hp": 77,
+        "atk": 59,
+        "def": 50,
+        "spd": 46,
+        "spa": 67,
+        "spdef": 63
+      },
+      "bst": 362,
       "sprite": "assets/pokemon/698.png",
       "locations": [
         "Map 2-25",
@@ -4243,6 +6295,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "flying"
       ],
+      "stats": {
+        "hp": 55,
+        "atk": 112,
+        "def": 45,
+        "spd": 70,
+        "spa": 74,
+        "spdef": 45
+      },
+      "bst": 401,
       "sprite": "assets/pokemon/566.png",
       "locations": [
         "Map 2-25"
@@ -4259,6 +6320,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "steel",
         "rock"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 70,
+        "def": 100,
+        "spd": 30,
+        "spa": 40,
+        "spdef": 40
+      },
+      "bst": 330,
       "sprite": "assets/pokemon/304.png",
       "locations": [
         "Route 3 Depths"
@@ -4274,6 +6344,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 41,
+        "atk": 63,
+        "def": 40,
+        "spd": 66,
+        "spa": 40,
+        "spdef": 30
+      },
+      "bst": 280,
       "sprite": "assets/pokemon/846.png",
       "locations": [
         "Mirroh Exterior",
@@ -4292,6 +6371,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ground",
         "psychic"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 40,
+        "def": 55,
+        "spd": 55,
+        "spa": 40,
+        "spdef": 70
+      },
+      "bst": 300,
       "sprite": "assets/pokemon/343.png",
       "locations": [
         "Mt. Mirroh"
@@ -4307,6 +6395,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 61,
+        "atk": 123,
+        "def": 60,
+        "spd": 136,
+        "spa": 60,
+        "spdef": 50
+      },
+      "bst": 490,
       "sprite": "assets/pokemon/847.png",
       "locations": [
         "Rivetshore City",
@@ -4324,6 +6421,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 92,
+        "def": 65,
+        "spd": 98,
+        "spa": 80,
+        "spdef": 55
+      },
+      "bst": 460,
       "sprite": "assets/pokemon/1091.png",
       "locations": [
         "Lily Pond",
@@ -4343,6 +6449,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "steel",
         "psychic"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 55,
+        "def": 80,
+        "spd": 30,
+        "spa": 35,
+        "spdef": 60
+      },
+      "bst": 300,
       "sprite": "assets/pokemon/374.png",
       "locations": [
         "Mt. Mirroh B1f"
@@ -4358,6 +6473,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "bug"
       ],
+      "stats": {
+        "hp": 25,
+        "atk": 20,
+        "def": 20,
+        "spd": 45,
+        "spa": 25,
+        "spdef": 45
+      },
+      "bst": 180,
       "sprite": "assets/pokemon/824.png",
       "locations": [
         "Route 4"
@@ -4373,6 +6497,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "electric"
       ],
+      "stats": {
+        "hp": 69,
+        "atk": 90,
+        "def": 60,
+        "spd": 121,
+        "spa": 90,
+        "spdef": 60
+      },
+      "bst": 490,
       "sprite": "assets/pokemon/836.png",
       "locations": [
         "Route 7"
@@ -4389,6 +6522,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "flying",
         "dark"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 103,
+        "def": 85,
+        "spd": 82,
+        "spa": 60,
+        "spdef": 85
+      },
+      "bst": 485,
       "sprite": "assets/pokemon/1350.png",
       "locations": [
         "Ivy River"
@@ -4404,6 +6546,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "fire"
       ],
+      "stats": {
+        "hp": 59,
+        "atk": 59,
+        "def": 58,
+        "spd": 73,
+        "spa": 90,
+        "spdef": 70
+      },
+      "bst": 409,
       "sprite": "assets/pokemon/654.png",
       "locations": [
         "Vilethorn Woods"
@@ -4420,6 +6571,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "water",
         "psychic"
       ],
+      "stats": {
+        "hp": 68,
+        "atk": 105,
+        "def": 70,
+        "spd": 92,
+        "spa": 70,
+        "spdef": 70
+      },
+      "bst": 475,
       "sprite": "assets/pokemon/779.png",
       "locations": [
         "Route 3 Depths",
@@ -4436,6 +6596,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 55,
+        "atk": 65,
+        "def": 35,
+        "spd": 85,
+        "spa": 60,
+        "spdef": 30
+      },
+      "bst": 330,
       "sprite": "assets/pokemon/418.png",
       "locations": [
         "Ranger Institute"
@@ -4451,6 +6620,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "normal"
       ],
+      "stats": {
+        "hp": 55,
+        "atk": 66,
+        "def": 44,
+        "spd": 85,
+        "spa": 44,
+        "spdef": 56
+      },
+      "bst": 350,
       "sprite": "assets/pokemon/427.png",
       "locations": [
         "Route 4"
@@ -4466,6 +6644,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "grass"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 62,
+        "def": 40,
+        "spd": 50,
+        "spa": 62,
+        "spdef": 40
+      },
+      "bst": 304,
       "sprite": "assets/pokemon/1339.png",
       "locations": [
         "Vilethorn Woods"
@@ -4482,6 +6669,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "fairy"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 150,
+        "spd": 50,
+        "spa": 50,
+        "spdef": 150
+      },
+      "bst": 500,
       "sprite": "assets/pokemon/703.png",
       "locations": [
         "Route 3 Depths"
@@ -4498,6 +6694,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "water",
         "dark"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 90,
+        "def": 20,
+        "spd": 65,
+        "spa": 65,
+        "spdef": 20
+      },
+      "bst": 305,
       "sprite": "assets/pokemon/318.png",
       "locations": [
         "Ivy River"
@@ -4513,6 +6718,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ice"
       ],
+      "stats": {
+        "hp": 108,
+        "atk": 68,
+        "def": 45,
+        "spd": 43,
+        "spa": 30,
+        "spdef": 40
+      },
+      "bst": 334,
       "sprite": "assets/pokemon/1363.png",
       "locations": [
         "Mt. Mirroh B1f",
@@ -4530,6 +6744,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "grass"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 49,
+        "def": 65,
+        "spd": 45,
+        "spa": 49,
+        "spdef": 65
+      },
+      "bst": 318,
       "sprite": "assets/pokemon/152.png",
       "locations": [
         "Route 4"
@@ -4546,6 +6769,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "water",
         "electric"
       ],
+      "stats": {
+        "hp": 75,
+        "atk": 38,
+        "def": 38,
+        "spd": 67,
+        "spa": 56,
+        "spdef": 56
+      },
+      "bst": 330,
       "sprite": "assets/pokemon/170.png",
       "locations": [
         "Route 4"
@@ -4561,6 +6793,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "psychic"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 30,
+        "def": 50,
+        "spd": 45,
+        "spa": 65,
+        "spdef": 50
+      },
+      "bst": 285,
       "sprite": "assets/pokemon/433.png",
       "locations": [
         "Mirroh Base Camp"
@@ -4576,6 +6817,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 53,
+        "def": 62,
+        "spd": 44,
+        "spa": 58,
+        "spdef": 63
+      },
+      "bst": 330,
       "sprite": "assets/pokemon/692.png",
       "locations": [
         "Ivy River",
@@ -4592,6 +6842,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 71,
+        "atk": 73,
+        "def": 88,
+        "spd": 59,
+        "spa": 120,
+        "spdef": 89
+      },
+      "bst": 500,
       "sprite": "assets/pokemon/693.png",
       "locations": [
         "Route 8"
@@ -4607,6 +6866,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "fairy"
       ],
+      "stats": {
+        "hp": 95,
+        "atk": 70,
+        "def": 73,
+        "spd": 60,
+        "spa": 95,
+        "spdef": 90
+      },
+      "bst": 483,
       "sprite": "assets/pokemon/36.png",
       "locations": [
         "Victory Road"
@@ -4623,6 +6891,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "poison",
         "ground"
       ],
+      "stats": {
+        "hp": 130,
+        "atk": 75,
+        "def": 60,
+        "spd": 20,
+        "spa": 45,
+        "spdef": 100
+      },
+      "bst": 430,
       "sprite": "assets/pokemon/1371.png",
       "locations": [
         "Ivy River",
@@ -4639,6 +6916,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "rock"
       ],
+      "stats": {
+        "hp": 67,
+        "atk": 125,
+        "def": 40,
+        "spd": 58,
+        "spa": 30,
+        "spdef": 30
+      },
+      "bst": 350,
       "sprite": "assets/pokemon/408.png",
       "locations": [
         "Map 2-25"
@@ -4655,6 +6941,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "poison",
         "fighting"
       ],
+      "stats": {
+        "hp": 48,
+        "atk": 61,
+        "def": 40,
+        "spd": 50,
+        "spa": 61,
+        "spdef": 40
+      },
+      "bst": 300,
       "sprite": "assets/pokemon/453.png",
       "locations": [
         "Route 6"
@@ -4670,6 +6965,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 65,
+        "atk": 80,
+        "def": 80,
+        "spd": 58,
+        "spa": 59,
+        "spdef": 63
+      },
+      "bst": 405,
       "sprite": "assets/pokemon/159.png",
       "locations": [
         "Route 6"
@@ -4685,6 +6989,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ground"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 95,
+        "spd": 35,
+        "spa": 40,
+        "spdef": 50
+      },
+      "bst": 320,
       "sprite": "assets/pokemon/104.png",
       "locations": [
         "Route 1",
@@ -4701,6 +7014,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "fire"
       ],
+      "stats": {
+        "hp": 39,
+        "atk": 52,
+        "def": 43,
+        "spd": 65,
+        "spa": 60,
+        "spdef": 50
+      },
+      "bst": 309,
       "sprite": "assets/pokemon/155.png",
       "locations": [
         "Mt. Ceram Interior"
@@ -4716,6 +7038,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 75,
+        "atk": 75,
+        "def": 60,
+        "spd": 60,
+        "spa": 83,
+        "spdef": 60
+      },
+      "bst": 413,
       "sprite": "assets/pokemon/502.png",
       "locations": [
         "Mirroh Exterior",
@@ -4734,6 +7065,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ghost",
         "grass"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 131,
+        "def": 100,
+        "spd": 40,
+        "spa": 86,
+        "spdef": 90
+      },
+      "bst": 517,
       "sprite": "assets/pokemon/781.png",
       "locations": [
         "Route 8"
@@ -4750,6 +7090,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "dragon",
         "ghost"
       ],
+      "stats": {
+        "hp": 28,
+        "atk": 60,
+        "def": 30,
+        "spd": 82,
+        "spa": 40,
+        "spdef": 30
+      },
+      "bst": 270,
       "sprite": "assets/pokemon/885.png",
       "locations": [
         "Lily Grotto"
@@ -4765,6 +7114,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "psychic"
       ],
+      "stats": {
+        "hp": 60,
+        "atk": 48,
+        "def": 45,
+        "spd": 42,
+        "spa": 43,
+        "spdef": 90
+      },
+      "bst": 328,
       "sprite": "assets/pokemon/96.png",
       "locations": [
         "Vilethorn Woods"
@@ -4780,6 +7138,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 49,
+        "atk": 49,
+        "def": 56,
+        "spd": 66,
+        "spa": 49,
+        "spdef": 61
+      },
+      "bst": 330,
       "sprite": "assets/pokemon/456.png",
       "locations": [
         "Ivy River",
@@ -4798,6 +7165,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "normal",
         "flying"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 50,
+        "def": 43,
+        "spd": 62,
+        "spa": 40,
+        "spdef": 38
+      },
+      "bst": 278,
       "sprite": "assets/pokemon/661.png",
       "locations": [
         "Mt. Ceram"
@@ -4814,6 +7190,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "grass",
         "poison"
       ],
+      "stats": {
+        "hp": 69,
+        "atk": 55,
+        "def": 45,
+        "spd": 15,
+        "spa": 55,
+        "spdef": 55
+      },
+      "bst": 294,
       "sprite": "assets/pokemon/590.png",
       "locations": [
         "Vilethorn Woods"
@@ -4830,6 +7215,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "bug",
         "steel"
       ],
+      "stats": {
+        "hp": 75,
+        "atk": 90,
+        "def": 140,
+        "spd": 40,
+        "spa": 60,
+        "spdef": 60
+      },
+      "bst": 465,
       "sprite": "assets/pokemon/205.png",
       "locations": [
         "Victory Road"
@@ -4846,6 +7240,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "dragon",
         "ice"
       ],
+      "stats": {
+        "hp": 65,
+        "atk": 75,
+        "def": 45,
+        "spd": 55,
+        "spa": 35,
+        "spdef": 45
+      },
+      "bst": 320,
       "sprite": "assets/pokemon/1388.png",
       "locations": [
         "Mt. Mirroh B2f"
@@ -4861,6 +7264,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "normal"
       ],
+      "stats": {
+        "hp": 75,
+        "atk": 80,
+        "def": 60,
+        "spd": 102,
+        "spa": 65,
+        "spdef": 90
+      },
+      "bst": 472,
       "sprite": "assets/pokemon/676.png",
       "locations": [
         "Route 7"
@@ -4876,6 +7288,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ghost"
       ],
+      "stats": {
+        "hp": 60,
+        "atk": 55,
+        "def": 100,
+        "spd": 30,
+        "spa": 65,
+        "spdef": 100
+      },
+      "bst": 410,
       "sprite": "assets/pokemon/986.png",
       "locations": [
         "Rivetshore City"
@@ -4891,6 +7312,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "psychic"
       ],
+      "stats": {
+        "hp": 90,
+        "atk": 65,
+        "def": 65,
+        "spd": 15,
+        "spa": 40,
+        "spdef": 40
+      },
+      "bst": 315,
       "sprite": "assets/pokemon/977.png",
       "locations": [
         "Ivy River",
@@ -4910,6 +7340,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "poison"
       ],
+      "stats": {
+        "hp": 48,
+        "atk": 35,
+        "def": 42,
+        "spd": 60,
+        "spa": 105,
+        "spdef": 60
+      },
+      "bst": 350,
       "sprite": "assets/pokemon/1358.png",
       "locations": [
         "Lily Grotto",
@@ -4926,6 +7365,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "dragon"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 50,
+        "def": 35,
+        "spd": 40,
+        "spa": 55,
+        "spdef": 75
+      },
+      "bst": 300,
       "sprite": "assets/pokemon/704.png",
       "locations": [
         "Route 6"
@@ -4941,6 +7389,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ghost"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 61,
+        "def": 60,
+        "spd": 34,
+        "spa": 30,
+        "spdef": 55
+      },
+      "bst": 290,
       "sprite": "assets/pokemon/1360.png",
       "locations": [
         "Mirroh Base Camp"
@@ -4957,6 +7414,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "fire",
         "rock"
       ],
+      "stats": {
+        "hp": 60,
+        "atk": 75,
+        "def": 45,
+        "spd": 55,
+        "spa": 65,
+        "spdef": 50
+      },
+      "bst": 350,
       "sprite": "assets/pokemon/993.png",
       "locations": [
         "Mt. Ceram"
@@ -4973,6 +7439,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "dark",
         "poison"
       ],
+      "stats": {
+        "hp": 65,
+        "atk": 95,
+        "def": 85,
+        "spd": 85,
+        "spa": 55,
+        "spdef": 55
+      },
+      "bst": 440,
       "sprite": "assets/pokemon/998.png",
       "locations": [
         "Pelluca City",
@@ -4990,6 +7465,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "fighting",
         "poison"
       ],
+      "stats": {
+        "hp": 55,
+        "atk": 95,
+        "def": 55,
+        "spd": 115,
+        "spa": 35,
+        "spdef": 75
+      },
+      "bst": 430,
       "sprite": "assets/pokemon/999.png",
       "locations": [
         "Mt. Mirroh Peak"
@@ -5006,6 +7490,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "electric",
         "grass"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 30,
+        "def": 50,
+        "spd": 100,
+        "spa": 55,
+        "spdef": 55
+      },
+      "bst": 330,
       "sprite": "assets/pokemon/995.png",
       "locations": [
         "Static Cave"
@@ -5022,6 +7515,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "normal",
         "ghost"
       ],
+      "stats": {
+        "hp": 35,
+        "atk": 60,
+        "def": 40,
+        "spd": 70,
+        "spa": 85,
+        "spdef": 40
+      },
+      "bst": 330,
       "sprite": "assets/pokemon/1002.png",
       "locations": [
         "Ivy Forest"
@@ -5037,6 +7539,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 30,
+        "atk": 40,
+        "def": 70,
+        "spd": 60,
+        "spa": 70,
+        "spdef": 25
+      },
+      "bst": 295,
       "sprite": "assets/pokemon/116.png",
       "locations": [
         "Ranger Institute"
@@ -5053,6 +7564,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "dark",
         "fairy"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 45,
+        "def": 30,
+        "spd": 50,
+        "spa": 55,
+        "spdef": 40
+      },
+      "bst": 265,
       "sprite": "assets/pokemon/859.png",
       "locations": [
         "Vilethorn Woods"
@@ -5069,6 +7589,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "water"
       ],
+      "stats": {
+        "hp": 30,
+        "atk": 80,
+        "def": 90,
+        "spd": 55,
+        "spa": 55,
+        "spdef": 45
+      },
+      "bst": 355,
       "sprite": "assets/pokemon/140.png",
       "locations": [
         "Map 2-27"
@@ -5085,6 +7614,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "water",
         "electric"
       ],
+      "stats": {
+        "hp": 125,
+        "atk": 58,
+        "def": 58,
+        "spd": 67,
+        "spa": 76,
+        "spdef": 76
+      },
+      "bst": 460,
       "sprite": "assets/pokemon/171.png",
       "locations": [
         "Route 8"
@@ -5101,6 +7639,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "grass"
       ],
+      "stats": {
+        "hp": 66,
+        "atk": 41,
+        "def": 77,
+        "spd": 23,
+        "spa": 61,
+        "spdef": 87
+      },
+      "bst": 355,
       "sprite": "assets/pokemon/345.png",
       "locations": [
         "Map 1-9"
@@ -5116,6 +7663,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "normal"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 60,
+        "def": 45,
+        "spd": 55,
+        "spa": 25,
+        "spdef": 45
+      },
+      "bst": 275,
       "sprite": "assets/pokemon/506.png",
       "locations": [
         "Route 3"
@@ -5131,6 +7687,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 69,
+        "atk": 69,
+        "def": 76,
+        "spd": 91,
+        "spa": 69,
+        "spdef": 86
+      },
+      "bst": 460,
       "sprite": "assets/pokemon/457.png",
       "locations": [
         "Lily Pond",
@@ -5149,6 +7714,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "rock"
       ],
+      "stats": {
+        "hp": 75,
+        "atk": 117,
+        "def": 65,
+        "spd": 110,
+        "spa": 55,
+        "spdef": 65
+      },
+      "bst": 487,
       "sprite": "assets/pokemon/1174.png",
       "locations": [
         "Victory Road"
@@ -5164,6 +7738,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "rock"
       ],
+      "stats": {
+        "hp": 75,
+        "atk": 115,
+        "def": 65,
+        "spd": 112,
+        "spa": 55,
+        "spdef": 65
+      },
+      "bst": 487,
       "sprite": "assets/pokemon/745.png",
       "locations": [
         "Victory Road"
@@ -5179,6 +7762,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "rock"
       ],
+      "stats": {
+        "hp": 85,
+        "atk": 115,
+        "def": 75,
+        "spd": 82,
+        "spa": 55,
+        "spdef": 75
+      },
+      "bst": 487,
       "sprite": "assets/pokemon/1173.png",
       "locations": [
         "Victory Road"
@@ -5194,6 +7786,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 20,
+        "atk": 10,
+        "def": 55,
+        "spd": 80,
+        "spa": 15,
+        "spdef": 20
+      },
+      "bst": 200,
       "sprite": "assets/pokemon/129.png",
       "locations": [
         "Pelluca City",
@@ -5213,6 +7814,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "fighting"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 80,
+        "def": 35,
+        "spd": 70,
+        "spa": 35,
+        "spdef": 45
+      },
+      "bst": 305,
       "sprite": "assets/pokemon/56.png",
       "locations": [
         "Mt. Ceram"
@@ -5229,6 +7839,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "poison",
         "water"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 53,
+        "def": 62,
+        "spd": 45,
+        "spa": 43,
+        "spdef": 52
+      },
+      "bst": 305,
       "sprite": "assets/pokemon/747.png",
       "locations": [
         "Route 6"
@@ -5244,6 +7863,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "electric"
       ],
+      "stats": {
+        "hp": 55,
+        "atk": 40,
+        "def": 40,
+        "spd": 35,
+        "spa": 65,
+        "spdef": 45
+      },
+      "bst": 280,
       "sprite": "assets/pokemon/179.png",
       "locations": [
         "Route 3"
@@ -5260,6 +7888,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "bug",
         "flying"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 60,
+        "def": 62,
+        "spd": 80,
+        "spa": 100,
+        "spdef": 82
+      },
+      "bst": 454,
       "sprite": "assets/pokemon/284.png",
       "locations": [
         "Ivy River",
@@ -5278,6 +7915,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "steel",
         "fairy"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 85,
+        "def": 85,
+        "spd": 50,
+        "spa": 55,
+        "spdef": 55
+      },
+      "bst": 380,
       "sprite": "assets/pokemon/303.png",
       "locations": [
         "Route 3 Depths"
@@ -5294,6 +7940,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "fighting",
         "psychic"
       ],
+      "stats": {
+        "hp": 30,
+        "atk": 40,
+        "def": 55,
+        "spd": 60,
+        "spa": 40,
+        "spdef": 55
+      },
+      "bst": 280,
       "sprite": "assets/pokemon/307.png",
       "locations": [
         "Fennilahl Tunnel",
@@ -5312,6 +7967,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "flying"
       ],
+      "stats": {
+        "hp": 60,
+        "atk": 60,
+        "def": 100,
+        "spd": 60,
+        "spa": 60,
+        "spdef": 100
+      },
+      "bst": 440,
       "sprite": "assets/pokemon/774.png",
       "locations": [
         "Mt. Mirroh B1f"
@@ -5328,6 +7992,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "grass",
         "fairy"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 35,
+        "def": 55,
+        "spd": 15,
+        "spa": 65,
+        "spdef": 75
+      },
+      "bst": 285,
       "sprite": "assets/pokemon/755.png",
       "locations": [
         "Vilethorn Woods"
@@ -5343,6 +8016,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ground"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 100,
+        "def": 70,
+        "spd": 45,
+        "spa": 45,
+        "spdef": 55
+      },
+      "bst": 385,
       "sprite": "assets/pokemon/749.png",
       "locations": [
         "Ranger Institute"
@@ -5359,6 +8041,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "dark",
         "flying"
       ],
+      "stats": {
+        "hp": 60,
+        "atk": 85,
+        "def": 42,
+        "spd": 91,
+        "spa": 85,
+        "spdef": 42
+      },
+      "bst": 405,
       "sprite": "assets/pokemon/198.png",
       "locations": [
         "Route 5"
@@ -5374,6 +8065,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "dark"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 28,
+        "def": 28,
+        "spd": 50,
+        "spa": 47,
+        "spdef": 52
+      },
+      "bst": 245,
       "sprite": "assets/pokemon/827.png",
       "locations": [
         "Route 5"
@@ -5390,6 +8090,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "flying",
         "dragon"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 30,
+        "def": 35,
+        "spd": 55,
+        "spa": 45,
+        "spdef": 40
+      },
+      "bst": 245,
       "sprite": "assets/pokemon/714.png",
       "locations": [
         "Fennilahl Tunnel",
@@ -5406,6 +8115,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "bug"
       ],
+      "stats": {
+        "hp": 33,
+        "atk": 46,
+        "def": 40,
+        "spd": 45,
+        "spa": 21,
+        "spdef": 25
+      },
+      "bst": 210,
       "sprite": "assets/pokemon/1303.png",
       "locations": [
         "Route 4"
@@ -5422,6 +8140,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "water"
       ],
+      "stats": {
+        "hp": 35,
+        "atk": 40,
+        "def": 100,
+        "spd": 35,
+        "spa": 90,
+        "spdef": 55
+      },
+      "bst": 355,
       "sprite": "assets/pokemon/138.png",
       "locations": [
         "Map 2-26"
@@ -5438,6 +8165,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "normal",
         "psychic"
       ],
+      "stats": {
+        "hp": 90,
+        "atk": 60,
+        "def": 80,
+        "spd": 60,
+        "spa": 90,
+        "spdef": 110
+      },
+      "bst": 490,
       "sprite": "assets/pokemon/765.png",
       "locations": [
         "Ivy Forest"
@@ -5454,6 +8190,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "water",
         "ground"
       ],
+      "stats": {
+        "hp": 75,
+        "atk": 65,
+        "def": 55,
+        "spd": 69,
+        "spa": 65,
+        "spdef": 55
+      },
+      "bst": 384,
       "sprite": "assets/pokemon/536.png",
       "locations": [
         "Route 6"
@@ -5469,6 +8214,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "fighting"
       ],
+      "stats": {
+        "hp": 67,
+        "atk": 82,
+        "def": 62,
+        "spd": 43,
+        "spa": 46,
+        "spdef": 48
+      },
+      "bst": 348,
       "sprite": "assets/pokemon/674.png",
       "locations": [
         "Ivy River"
@@ -5484,6 +8238,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "fighting"
       ],
+      "stats": {
+        "hp": 100,
+        "atk": 120,
+        "def": 90,
+        "spd": 80,
+        "spa": 40,
+        "spdef": 60
+      },
+      "bst": 490,
       "sprite": "assets/pokemon/766.png",
       "locations": [
         "Ivy Forest"
@@ -5500,6 +8263,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "water",
         "flying"
       ],
+      "stats": {
+        "hp": 60,
+        "atk": 50,
+        "def": 100,
+        "spd": 65,
+        "spa": 95,
+        "spdef": 70
+      },
+      "bst": 440,
       "sprite": "assets/pokemon/279.png",
       "locations": [
         "Route 2"
@@ -5515,6 +8287,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "steel"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 110,
+        "def": 100,
+        "spd": 50,
+        "spa": 50,
+        "spdef": 60
+      },
+      "bst": 440,
       "sprite": "assets/pokemon/863.png",
       "locations": [
         "Mt. Mirroh Peak"
@@ -5530,6 +8311,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "grass"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 35,
+        "def": 50,
+        "spd": 30,
+        "spa": 70,
+        "spdef": 50
+      },
+      "bst": 280,
       "sprite": "assets/pokemon/548.png",
       "locations": [
         "Route 4"
@@ -5546,6 +8336,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "normal",
         "flying"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 55,
+        "def": 50,
+        "spd": 43,
+        "spa": 36,
+        "spdef": 30
+      },
+      "bst": 264,
       "sprite": "assets/pokemon/519.png",
       "locations": [
         "Route 1",
@@ -5562,6 +8361,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "bug"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 65,
+        "def": 90,
+        "spd": 15,
+        "spa": 35,
+        "spdef": 35
+      },
+      "bst": 290,
       "sprite": "assets/pokemon/204.png",
       "locations": [
         "Route 3"
@@ -5578,6 +8386,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "water",
         "rock"
       ],
+      "stats": {
+        "hp": 100,
+        "atk": 90,
+        "def": 130,
+        "spd": 55,
+        "spa": 45,
+        "spdef": 65
+      },
+      "bst": 485,
       "sprite": "assets/pokemon/369.png",
       "locations": [
         "Map 2-26",
@@ -5594,6 +8411,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "rock"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 65,
+        "def": 40,
+        "spd": 60,
+        "spa": 30,
+        "spdef": 40
+      },
+      "bst": 280,
       "sprite": "assets/pokemon/744.png",
       "locations": [
         "Route 1"
@@ -5609,6 +8435,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "rock"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 65,
+        "def": 40,
+        "spd": 60,
+        "spa": 30,
+        "spdef": 40
+      },
+      "bst": 280,
       "sprite": "assets/pokemon/1172.png",
       "locations": [
         "Route 2"
@@ -5624,6 +8459,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "rock"
       ],
+      "stats": {
+        "hp": 30,
+        "atk": 40,
+        "def": 50,
+        "spd": 30,
+        "spa": 40,
+        "spdef": 50
+      },
+      "bst": 240,
       "sprite": "assets/pokemon/837.png",
       "locations": [
         "Mt. Ceram Interior"
@@ -5640,6 +8484,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "electric",
         "grass"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 65,
+        "def": 107,
+        "spd": 86,
+        "spa": 105,
+        "spdef": 107
+      },
+      "bst": 520,
       "sprite": "assets/pokemon/1068.png",
       "locations": [
         "Galecrest City"
@@ -5656,6 +8509,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "normal",
         "flying"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 83,
+        "def": 50,
+        "spd": 60,
+        "spa": 37,
+        "spdef": 50
+      },
+      "bst": 350,
       "sprite": "assets/pokemon/627.png",
       "locations": [
         "Mirroh Exterior"
@@ -5672,6 +8534,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "dark",
         "ghost"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 75,
+        "def": 75,
+        "spd": 50,
+        "spa": 65,
+        "spdef": 65
+      },
+      "bst": 380,
       "sprite": "assets/pokemon/302.png",
       "locations": [
         "Lily Grotto"
@@ -5688,6 +8559,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "fairy",
         "psychic"
       ],
+      "stats": {
+        "hp": 115,
+        "atk": 65,
+        "def": 99,
+        "spd": 111,
+        "spa": 65,
+        "spdef": 115
+      },
+      "bst": 570,
       "sprite": "assets/pokemon/1377.png",
       "locations": [
         "Map 2-26",
@@ -5705,6 +8585,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "bug",
         "flying"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 110,
+        "def": 80,
+        "spd": 105,
+        "spa": 55,
+        "spdef": 80
+      },
+      "bst": 500,
       "sprite": "assets/pokemon/123.png",
       "locations": [
         "Ivy River"
@@ -5721,6 +8610,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "steel"
       ],
+      "stats": {
+        "hp": 30,
+        "atk": 42,
+        "def": 118,
+        "spd": 30,
+        "spa": 42,
+        "spdef": 88
+      },
+      "bst": 350,
       "sprite": "assets/pokemon/410.png",
       "locations": [
         "Map 1-9"
@@ -5736,6 +8634,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ghost"
       ],
+      "stats": {
+        "hp": 44,
+        "atk": 75,
+        "def": 35,
+        "spd": 45,
+        "spa": 63,
+        "spdef": 33
+      },
+      "bst": 295,
       "sprite": "assets/pokemon/353.png",
       "locations": [
         "Mirroh Base Camp"
@@ -5751,6 +8658,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ground"
       ],
+      "stats": {
+        "hp": 52,
+        "atk": 57,
+        "def": 75,
+        "spd": 46,
+        "spa": 35,
+        "spdef": 50
+      },
+      "bst": 315,
       "sprite": "assets/pokemon/843.png",
       "locations": [
         "Ranger Institute"
@@ -5767,6 +8683,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "fire",
         "bug"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 65,
+        "def": 45,
+        "spd": 45,
+        "spa": 50,
+        "spdef": 50
+      },
+      "bst": 305,
       "sprite": "assets/pokemon/850.png",
       "locations": [
         "Mt. Ceram Interior"
@@ -5783,6 +8708,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "poison",
         "water"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 60,
+        "def": 60,
+        "spd": 30,
+        "spa": 60,
+        "spdef": 60
+      },
+      "bst": 320,
       "sprite": "assets/pokemon/690.png",
       "locations": [
         "Silversun City"
@@ -5799,6 +8733,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "grass",
         "normal"
       ],
+      "stats": {
+        "hp": 41,
+        "atk": 35,
+        "def": 45,
+        "spd": 30,
+        "spa": 58,
+        "spdef": 51
+      },
+      "bst": 260,
       "sprite": "assets/pokemon/1313.png",
       "locations": [
         "Vilethorn Woods"
@@ -5815,6 +8758,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ice",
         "bug"
       ],
+      "stats": {
+        "hp": 30,
+        "atk": 25,
+        "def": 35,
+        "spd": 20,
+        "spa": 45,
+        "spdef": 30
+      },
+      "bst": 185,
       "sprite": "assets/pokemon/872.png",
       "locations": [
         "Mt. Mirroh Peak"
@@ -5830,6 +8782,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "ice"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 50,
+        "spd": 50,
+        "spa": 50,
+        "spdef": 50
+      },
+      "bst": 300,
       "sprite": "assets/pokemon/361.png",
       "locations": [
         "Ranger Institute"
@@ -5846,6 +8807,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ice",
         "water"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 40,
+        "def": 50,
+        "spd": 25,
+        "spa": 55,
+        "spdef": 50
+      },
+      "bst": 290,
       "sprite": "assets/pokemon/363.png",
       "locations": [
         "Ranger Institute"
@@ -5861,6 +8831,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "normal"
       ],
+      "stats": {
+        "hp": 73,
+        "atk": 95,
+        "def": 62,
+        "spd": 85,
+        "spa": 85,
+        "spdef": 65
+      },
+      "bst": 465,
       "sprite": "assets/pokemon/234.png",
       "locations": [
         "Mirroh Exterior"
@@ -5877,6 +8856,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "normal",
         "flying"
       ],
+      "stats": {
+        "hp": 45,
+        "atk": 40,
+        "def": 60,
+        "spd": 50,
+        "spa": 40,
+        "spdef": 75
+      },
+      "bst": 310,
       "sprite": "assets/pokemon/333.png",
       "locations": [
         "Route 3"
@@ -5893,6 +8881,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ice",
         "ground"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 40,
+        "spd": 50,
+        "spa": 30,
+        "spdef": 30
+      },
+      "bst": 250,
       "sprite": "assets/pokemon/220.png",
       "locations": [
         "Mt. Mirroh",
@@ -5910,6 +8907,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "normal"
       ],
+      "stats": {
+        "hp": 60,
+        "atk": 80,
+        "def": 50,
+        "spd": 40,
+        "spa": 50,
+        "spdef": 50
+      },
+      "bst": 330,
       "sprite": "assets/pokemon/216.png",
       "locations": [
         "Fennilahl Tunnel",
@@ -5926,6 +8932,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "dark"
       ],
+      "stats": {
+        "hp": 70,
+        "atk": 58,
+        "def": 58,
+        "spd": 90,
+        "spa": 87,
+        "spdef": 92
+      },
+      "bst": 455,
       "sprite": "assets/pokemon/828.png",
       "locations": [
         "Ivy Forest"
@@ -5942,6 +8957,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "fairy",
         "steel"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 45,
+        "def": 45,
+        "spd": 58,
+        "spa": 35,
+        "spdef": 64
+      },
+      "bst": 297,
       "sprite": "assets/pokemon/1345.png",
       "locations": [
         "Fennilahl Tunnel",
@@ -5959,6 +8983,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "water",
         "rock"
       ],
+      "stats": {
+        "hp": 54,
+        "atk": 78,
+        "def": 103,
+        "spd": 22,
+        "spa": 53,
+        "spdef": 45
+      },
+      "bst": 355,
       "sprite": "assets/pokemon/564.png",
       "locations": [
         "Map 2-26",
@@ -5976,6 +9009,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ground",
         "grass"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 40,
+        "def": 35,
+        "spd": 70,
+        "spa": 50,
+        "spdef": 100
+      },
+      "bst": 335,
       "sprite": "assets/pokemon/1336.png",
       "locations": [
         "Route 6"
@@ -5992,6 +9034,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "ground",
         "grass"
       ],
+      "stats": {
+        "hp": 80,
+        "atk": 70,
+        "def": 65,
+        "spd": 100,
+        "spa": 80,
+        "spdef": 120
+      },
+      "bst": 515,
       "sprite": "assets/pokemon/1337.png",
       "locations": [
         "Route 8"
@@ -6007,6 +9058,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "fairy"
       ],
+      "stats": {
+        "hp": 35,
+        "atk": 20,
+        "def": 65,
+        "spd": 20,
+        "spa": 40,
+        "spdef": 65
+      },
+      "bst": 245,
       "sprite": "assets/pokemon/175.png",
       "locations": [
         "Route 3 Depths"
@@ -6023,6 +9083,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "poison",
         "water"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 63,
+        "def": 152,
+        "spd": 35,
+        "spa": 53,
+        "spdef": 142
+      },
+      "bst": 495,
       "sprite": "assets/pokemon/748.png",
       "locations": [
         "Rivetshore City"
@@ -6039,6 +9108,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "electric",
         "poison"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 38,
+        "def": 35,
+        "spd": 40,
+        "spa": 54,
+        "spdef": 35
+      },
+      "bst": 242,
       "sprite": "assets/pokemon/848.png",
       "locations": [
         "Silversun City"
@@ -6055,6 +9133,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "normal",
         "flying"
       ],
+      "stats": {
+        "hp": 62,
+        "atk": 77,
+        "def": 62,
+        "spd": 65,
+        "spa": 50,
+        "spdef": 42
+      },
+      "bst": 358,
       "sprite": "assets/pokemon/520.png",
       "locations": [
         "Route 5"
@@ -6070,6 +9157,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "water"
       ],
+      "stats": {
+        "hp": 50,
+        "atk": 50,
+        "def": 40,
+        "spd": 64,
+        "spa": 50,
+        "spdef": 40
+      },
+      "bst": 294,
       "sprite": "assets/pokemon/535.png",
       "locations": [
         "Lily Pond",
@@ -6088,6 +9184,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "electric"
       ],
+      "stats": {
+        "hp": 35,
+        "atk": 55,
+        "def": 40,
+        "spd": 60,
+        "spa": 45,
+        "spdef": 40
+      },
+      "bst": 275,
       "sprite": "assets/pokemon/602.png",
       "locations": [
         "Ivy River",
@@ -6105,6 +9210,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "rock",
         "dragon"
       ],
+      "stats": {
+        "hp": 58,
+        "atk": 89,
+        "def": 77,
+        "spd": 48,
+        "spa": 45,
+        "spdef": 45
+      },
+      "bst": 362,
       "sprite": "assets/pokemon/696.png",
       "locations": [
         "Map 1-9"
@@ -6121,6 +9235,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "normal",
         "flying"
       ],
+      "stats": {
+        "hp": 80,
+        "atk": 115,
+        "def": 80,
+        "spd": 93,
+        "spa": 65,
+        "spdef": 55
+      },
+      "bst": 488,
       "sprite": "assets/pokemon/521.png",
       "locations": [
         "Victory Road"
@@ -6137,6 +9260,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "bug",
         "poison"
       ],
+      "stats": {
+        "hp": 30,
+        "atk": 45,
+        "def": 59,
+        "spd": 57,
+        "spa": 30,
+        "spdef": 39
+      },
+      "bst": 260,
       "sprite": "assets/pokemon/543.png",
       "locations": [
         "Mt. Ceram"
@@ -6153,6 +9285,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "bug",
         "flying"
       ],
+      "stats": {
+        "hp": 80,
+        "atk": 52,
+        "def": 50,
+        "spd": 89,
+        "spa": 90,
+        "spdef": 50
+      },
+      "bst": 411,
       "sprite": "assets/pokemon/666.png",
       "locations": [
         "Mirroh Exterior"
@@ -6169,6 +9310,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "electric",
         "flying"
       ],
+      "stats": {
+        "hp": 40,
+        "atk": 40,
+        "def": 35,
+        "spd": 70,
+        "spa": 55,
+        "spdef": 40
+      },
+      "bst": 280,
       "sprite": "assets/pokemon/1328.png",
       "locations": [
         "Route 5"
@@ -6184,6 +9334,15 @@ window.DREAMSTONE_ENCOUNTERS = {
       "types": [
         "normal"
       ],
+      "stats": {
+        "hp": 42,
+        "atk": 40,
+        "def": 55,
+        "spd": 48,
+        "spa": 40,
+        "spdef": 45
+      },
+      "bst": 270,
       "sprite": "assets/pokemon/831.png",
       "locations": [
         "Route 7"
@@ -6200,6 +9359,15 @@ window.DREAMSTONE_ENCOUNTERS = {
         "bug",
         "flying"
       ],
+      "stats": {
+        "hp": 65,
+        "atk": 65,
+        "def": 45,
+        "spd": 95,
+        "spa": 75,
+        "spdef": 45
+      },
+      "bst": 390,
       "sprite": "assets/pokemon/193.png",
       "locations": [
         "Route 6"

@@ -991,6 +991,37 @@ button.journey-card:hover {
   align-items: center;
 }
 
+.pokemon-form-field {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.pokemon-form-field[hidden] {
+  display: none;
+}
+
+.pokemon-form-field span {
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pokemon-form-select {
+  min-width: 0;
+  width: 100%;
+  border: 1px solid rgba(114, 87, 212, 0.24);
+  border-radius: 9px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.62);
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
 .region-badge {
   display: inline-flex;
   border: 1px solid rgba(114, 87, 212, 0.2);

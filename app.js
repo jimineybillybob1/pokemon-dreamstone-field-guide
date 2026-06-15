@@ -243,8 +243,137 @@ const syntheticCollectionEntries = encounters.encounterSpecies
     source: "Pokerex",
   }));
 const collectionDex = [...data.dex, ...syntheticCollectionEntries];
-const dexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
-const validCaughtIds = new Set(collectionDex.map(dexId));
+const cleanSpeciesName = (value) =>
+  String(value || "")
+    .replaceAll("_", " ")
+    .replace(/^(Alolan|Galarian|Hisuian|Paldean)\s+/i, "")
+    .replace(/\s+\(\d+\)$/g, "")
+    .trim();
+const normalizedSpeciesName = (value) =>
+  cleanSpeciesName(value)
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[♀\u2640]|â™€/g, "f")
+    .replace(/[♂\u2642]|â™‚/g, "m")
+    .replace(/[^a-z0-9]/gi, "")
+    .toLowerCase();
+const speciesNameForPokemon = (pokemon) => cleanSpeciesName(pokemon.baseName || pokemon.name);
+const speciesKeyForPokemon = (pokemon) => `species:${normalizedSpeciesName(speciesNameForPokemon(pokemon))}`;
+const legacyDexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
+const dexId = speciesKeyForPokemon;
+const formValueForPokemon = (pokemon) =>
+  pokemon.speciesId
+    ? `species-id:${pokemon.speciesId}`
+    : pokemon.number
+      ? `number:${pokemon.number}`
+      : pokemon.trackingId
+        ? `tracking:${pokemon.trackingId}`
+        : dexId(pokemon);
+const pokemonFormLabel = (pokemon, index, group) => {
+  const displayName = pokemon.name.replaceAll("_", " ");
+  if (pokemon.region) return `${pokemon.region} form`;
+  if (pokemon.baseName && pokemon.baseName !== pokemon.name) return displayName;
+  const suffix = /\(([^)]+)\)$/.exec(displayName)?.[1];
+  if (suffix) return `Form ${suffix}`;
+  return group.forms.length > 1 ? "Standard form" : "";
+};
+function createSpeciesGroups(entries, { guideOnly = false } = {}) {
+  const groups = new Map();
+  entries.forEach((pokemon) => {
+    const id = dexId(pokemon);
+    if (!groups.has(id)) {
+      groups.set(id, {
+        id,
+        name: speciesNameForPokemon(pokemon),
+        forms: [],
+        primary: pokemon,
+      });
+    }
+    groups.get(id).forms.push(pokemon);
+  });
+  const result = [...groups.values()].filter((group) => !guideOnly || group.forms.some((form) => form.number));
+  result.forEach((group) => {
+    const seenForms = new Set();
+    group.forms = group.forms.filter((form) => {
+      const signature = [
+        cleanSpeciesName(form.name),
+        form.region || "",
+        form.sprite || "",
+        ...(form.types || []),
+      ].join("|");
+      if (seenForms.has(signature)) return false;
+      seenForms.add(signature);
+      return true;
+    });
+    group.forms.sort(
+      (a, b) =>
+        (a.number ? 0 : 1) - (b.number ? 0 : 1) ||
+        (a.region ? 1 : 0) - (b.region ? 1 : 0) ||
+        (a.number || Number.MAX_SAFE_INTEGER) - (b.number || Number.MAX_SAFE_INTEGER) ||
+        a.name.localeCompare(b.name, undefined, { numeric: true }),
+    );
+    group.primary = group.forms.find((form) => form.number) || group.forms[0];
+  });
+  result.sort(
+    (a, b) =>
+      (a.primary.number || Number.MAX_SAFE_INTEGER) - (b.primary.number || Number.MAX_SAFE_INTEGER) ||
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+  );
+  return result;
+}
+const guideEntryByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
+const encounterFormCountsByGuideNumber = new Map();
+encounters.encounterSpecies
+  .filter((pokemon) => pokemon.guideNumber)
+  .forEach((pokemon) => {
+    encounterFormCountsByGuideNumber.set(
+      pokemon.guideNumber,
+      (encounterFormCountsByGuideNumber.get(pokemon.guideNumber) || 0) + 1,
+    );
+  });
+const encounterFormEntries = encounters.encounterSpecies
+  .filter((pokemon) => pokemon.guideNumber && encounterFormCountsByGuideNumber.get(pokemon.guideNumber) > 1)
+  .map((pokemon) => {
+    const guideEntry = guideEntryByNumber.get(pokemon.guideNumber) || {};
+    return {
+      ...guideEntry,
+      ...pokemon,
+      number: pokemon.guideNumber,
+      location: pokemon.locations?.[0] || guideEntry.location || "",
+      rarity: guideEntry.rarity || "Wild encounter",
+      availability: guideEntry.availability || "Available",
+      notes: guideEntry.notes || "",
+      evolvesFrom: guideEntry.evolvesFrom || [],
+      evolvesTo: guideEntry.evolvesTo || [],
+      source: "Pokerex",
+    };
+  });
+const dexFormEntries = [
+  ...data.dex,
+  ...encounterFormEntries,
+  ...syntheticCollectionEntries.filter((entry) =>
+    data.dex.some((pokemon) => dexId(pokemon) === dexId(entry)),
+  ),
+];
+const dexGroups = createSpeciesGroups(dexFormEntries, { guideOnly: true });
+const dexGroupById = new Map(dexGroups.map((group) => [group.id, group]));
+const dexGroupByNumber = new Map(
+  dexGroups.flatMap((group) => group.forms.filter((form) => form.number).map((form) => [form.number, group])),
+);
+const collectionGroups = createSpeciesGroups(collectionDex);
+const collectionGroupById = new Map(collectionGroups.map((group) => [group.id, group]));
+const validCaughtIds = new Set(collectionGroups.map((group) => group.id));
+const legacyCaughtIdMap = new Map();
+collectionDex.forEach((pokemon) => {
+  const id = dexId(pokemon);
+  legacyCaughtIdMap.set(id, id);
+  legacyCaughtIdMap.set(String(legacyDexId(pokemon)), id);
+  if (pokemon.number) legacyCaughtIdMap.set(String(pokemon.number), id);
+  if (pokemon.trackingId) legacyCaughtIdMap.set(String(pokemon.trackingId), id);
+});
+const normalizeCaughtId = (id) => legacyCaughtIdMap.get(String(id)) || null;
+state.caught = new Set([...state.caught].map(normalizeCaughtId).filter((id) => id && validCaughtIds.has(id)));
+localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
 const evolutionOutgoingByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, []]));
@@ -253,7 +382,7 @@ const evolutionIncomingByNumber = new Map(data.dex.map((pokemon) => [pokemon.num
   evolutionOutgoingByNumber.get(edge.fromGuideNumber)?.push(edge);
   evolutionIncomingByNumber.get(edge.toGuideNumber)?.push(edge);
 });
-const dexCardByNumber = new Map();
+const dexCardByGroupId = new Map();
 let teamMatchupRevision = 0;
 const trainerPokemonBySpeciesId = new Map(
   trainerData.trainers.flatMap((trainer) =>
@@ -507,29 +636,46 @@ const battleTypes = Object.keys(typeChart);
 // Wild location UI is authoritative to Pokerex encounters; spreadsheet locations are legacy metadata only.
 const pokerexLocationCache = new Map();
 const pokerexLocationsForPokemon = (pokemon) => {
-  const cacheKey = pokemon.number ? `guide-${pokemon.number}` : pokemon.trackingId;
+  const cacheKey = pokemon.speciesId
+    ? `species-${pokemon.speciesId}`
+    : pokemon.number
+      ? `guide-${pokemon.number}`
+      : pokemon.trackingId;
   if (cacheKey && pokerexLocationCache.has(cacheKey)) return pokerexLocationCache.get(cacheKey);
   const locations = uniqueSorted(
-    pokemon.number
+    pokemon.locations?.length
+      ? [...pokemon.locations]
+      : pokemon.number
       ? [...(encounterLocationsByGuideNumber.get(pokemon.number) || [])]
       : [...(pokemon.locations || [])],
   );
   if (cacheKey) pokerexLocationCache.set(cacheKey, locations);
   return locations;
 };
-const pokemonSearchTextByNumber = new Map(
-  data.dex.map((pokemon) => [
-    pokemon.number,
+const pokemonSearchText = (pokemon) =>
+  [
+    pokemon.name,
+    pokemon.baseName,
+    pokemon.region,
+    pokemon.number ? `No. ${String(pokemon.number).padStart(3, "0")}` : "",
+    pokerexLocationsForPokemon(pokemon).join(" "),
+    pokemon.rarity,
+    pokemon.notes,
+    pokemon.types.join(" "),
+    pokemon.number
+      ? [...pokemon.evolvesFrom, ...pokemon.evolvesTo]
+          .map((number) => pokemonByNumber.get(number)?.name || "")
+          .join(" ")
+      : "",
+  ]
+    .join(" ")
+    .toLowerCase();
+const pokemonSearchTextByGroupId = new Map(
+  dexGroups.map((group) => [
+    group.id,
     [
-      pokemon.name,
-      pokemon.region,
-      pokerexLocationsForPokemon(pokemon).join(" "),
-      pokemon.rarity,
-      pokemon.notes,
-      pokemon.types.join(" "),
-      [...pokemon.evolvesFrom, ...pokemon.evolvesTo]
-        .map((number) => pokemonByNumber.get(number)?.name || "")
-        .join(" "),
+      group.name,
+      group.forms.map(pokemonSearchText).join(" "),
     ]
       .join(" ")
       .toLowerCase(),
@@ -661,15 +807,15 @@ function setSelectOptions(id, values, formatLabel = (value) => value) {
 
 function initializeSummary() {
   setSelectOptions("#location-filter", locationFilterOptions);
-  setSelectOptions("#rarity-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.rarity)));
-  setSelectOptions("#region-filter", uniqueSorted(data.dex.map((pokemon) => pokemon.region)));
-  setSelectOptions("#type-filter", uniqueSorted(data.dex.flatMap((pokemon) => pokemon.types)), titleCase);
+  setSelectOptions("#rarity-filter", uniqueSorted(dexFormEntries.map((pokemon) => pokemon.rarity)));
+  setSelectOptions("#region-filter", uniqueSorted(dexFormEntries.map((pokemon) => pokemon.region)));
+  setSelectOptions("#type-filter", uniqueSorted(dexFormEntries.flatMap((pokemon) => pokemon.types)), titleCase);
   setSelectOptions("#move-type-filter", uniqueSorted(moveData.moves.map((move) => move.type)));
   setSelectOptions("#move-category-filter", uniqueSorted(moveData.moves.map((move) => move.category)));
   document.querySelector("#tutor-count").textContent = tutorMoveIds.size;
   setSelectOptions(
     "#availability-filter",
-    uniqueSorted(data.dex.map((pokemon) => pokemon.availability)),
+    uniqueSorted(dexFormEntries.map((pokemon) => pokemon.availability)),
     (availability) => (availability === "Evolution / special" ? "Evolution" : availability),
   );
 }
@@ -755,15 +901,16 @@ function toggleBadge(id) {
 }
 
 function updateProgress() {
-  const caughtCount = collectionDex.filter(isCaught).length;
-  const percent = Math.round((caughtCount / collectionDex.length) * 100);
+  const totalCount = collectionGroups.length;
+  const caughtCount = collectionGroups.filter((group) => state.caught.has(group.id)).length;
+  const percent = Math.round((caughtCount / totalCount) * 100);
   elements.dashboardCaughtCount.textContent = caughtCount;
-  elements.dashboardTotalCount.textContent = collectionDex.length;
+  elements.dashboardTotalCount.textContent = totalCount;
   elements.dashboardProgressBar.style.width = `${percent}%`;
   elements.dashboardProgressPercent.textContent = `${percent}% complete`;
   elements.caughtTabCount.textContent = caughtCount;
   elements.collectionCaughtCount.textContent = caughtCount;
-  elements.collectionMissingCount.textContent = collectionDex.length - caughtCount;
+  elements.collectionMissingCount.textContent = totalCount - caughtCount;
   elements.collectionPercent.textContent = `${percent}%`;
   elements.collectionProgressBar.style.width = `${percent}%`;
   updateSaveSummary();
@@ -879,6 +1026,8 @@ function renderLocationLinks(container, locations, fallback) {
 
 function renderPokemonStats(card, pokemon, natureId = null) {
   const section = card.querySelector(".pokemon-stats");
+  section.replaceChildren();
+  section.hidden = true;
   if (!pokemon.bst || !pokemon.stats) return;
   const nature = natureById.get(natureId);
 
@@ -934,7 +1083,7 @@ function persistPlanner() {
 
 function updateSaveSummary() {
   if (!elements.saveCaughtCount || !elements.saveTeamCount) return;
-  elements.saveCaughtCount.textContent = collectionDex.filter(isCaught).length;
+  elements.saveCaughtCount.textContent = collectionGroups.filter((group) => state.caught.has(group.id)).length;
   elements.saveTeamCount.textContent = state.team.filter((slot) => slot.pokemonNumber).length;
 }
 
@@ -973,7 +1122,9 @@ function validateSaveDocument(input) {
   if (!Array.isArray(input.caught) || !Array.isArray(input.team)) {
     throw new Error("The save is missing caught progress or team data.");
   }
-  const caught = [...new Set(input.caught.map(String).filter((id) => validCaughtIds.has(id)))];
+  const caught = [
+    ...new Set(input.caught.map(normalizeCaughtId).filter((id) => id && validCaughtIds.has(id))),
+  ];
   const badges = [
     ...new Set((Array.isArray(input.badges) ? input.badges : []).map(String).filter((id) => validBadgeIds.has(id))),
   ];
@@ -1203,7 +1354,7 @@ function refreshTeamAndDex() {
   renderGyms();
   renderJourneyOverview();
   elements.grid.querySelectorAll(".pokemon-card").forEach((card) => {
-    const pokemon = pokemonByNumber.get(Number(card.dataset.number));
+    const pokemon = card._currentPokemon || pokemonByNumber.get(Number(card.dataset.number));
     if (pokemon) syncPokemonCardTeamMatchups(card, pokemon);
   });
 }
@@ -2623,30 +2774,60 @@ function syncPokemonCardCaughtState(card, pokemon) {
 }
 
 function syncPokemonCardTeamMatchups(card, pokemon) {
-  if (Number(card.dataset.teamMatchupRevision) === teamMatchupRevision) return;
+  const formValue = formValueForPokemon(pokemon);
+  if (
+    Number(card.dataset.teamMatchupRevision) === teamMatchupRevision &&
+    card.dataset.teamMatchupForm === formValue
+  ) {
+    return;
+  }
   const container = card.querySelector(".team-matchups");
   container.replaceChildren();
   renderTeamMatchups(container, pokemon);
   card.dataset.teamMatchupRevision = String(teamMatchupRevision);
+  card.dataset.teamMatchupForm = formValue;
 }
 
-function renderPokemonCard(pokemon) {
-  const card = elements.cardTemplate.content.firstElementChild.cloneNode(true);
+function resetEvolutionSections(card) {
+  card.querySelectorAll(".evolution-group").forEach((group) => {
+    group.hidden = true;
+    group.querySelector(".evolution-links").replaceChildren();
+  });
+  card.querySelector(".pokemon-evolutions__empty")?.remove();
+}
+
+function updatePokemonFormOptions(card, group, selectedPokemon) {
+  const field = card.querySelector(".pokemon-form-field");
+  const select = card.querySelector(".pokemon-form-select");
+  if (!field || !select) return;
+  field.hidden = group.forms.length < 2;
+  select.replaceChildren();
+  group.forms.forEach((form, index) => {
+    const label = pokemonFormLabel(form, index, group) || form.name.replaceAll("_", " ");
+    select.add(new Option(label, formValueForPokemon(form)));
+  });
+  select.value = formValueForPokemon(selectedPokemon);
+}
+
+function updatePokemonCardForm(card, group, pokemon) {
   const caughtButton = card.querySelector(".caught-button");
   const sprite = card.querySelector(".pokemon-sprite");
   const region = card.querySelector(".region-badge");
   const note = card.querySelector(".pokemon-note");
+  const learnsetButton = card.querySelector(".learnset-button");
 
-  card.dataset.number = pokemon.number;
-  card.id = `pokemon-${pokemon.number}`;
-  caughtButton.addEventListener("click", () => toggleCaught(pokemon));
+  card._currentPokemon = pokemon;
+  card.dataset.number = group.primary.number;
+  card.dataset.formValue = formValueForPokemon(pokemon);
+  card.id = `pokemon-${group.primary.number}`;
+
+  updatePokemonFormOptions(card, group, pokemon);
   syncPokemonCardCaughtState(card, pokemon);
 
   sprite.src = pokemon.sprite;
   sprite.alt = `${pokemon.name}${pokemon.region ? ` (${pokemon.region})` : ""} sprite`;
-  card.querySelector(".pokemon-number").textContent = `No. ${String(pokemon.number).padStart(3, "0")}`;
-  card.querySelector(".pokemon-name").textContent = pokemon.name.replaceAll("_", " ");
-  card.querySelector(".learnset-button").addEventListener("click", () => openPokemonLearnset(pokemon));
+  card.querySelector(".pokemon-number").textContent = `No. ${String(group.primary.number).padStart(3, "0")}`;
+  card.querySelector(".pokemon-name").textContent = speciesNameForPokemon(pokemon);
   renderTypeBadges(card.querySelector(".pokemon-types"), pokemon.types);
   const encounterLocations = pokerexLocationsForPokemon(pokemon);
   renderLocationLinks(
@@ -2656,21 +2837,23 @@ function renderPokemonCard(pokemon) {
   );
   const rarity = card.querySelector(".pokemon-rarity");
   rarity.textContent = pokemon.rarity || "N/A";
-  rarity.dataset.rarity = pokemon.rarity;
+  rarity.dataset.rarity = pokemon.rarity || "";
   card.querySelector(".pokemon-bst").textContent = pokemon.bst || "N/A";
   renderPokemonStats(card, pokemon);
   syncPokemonCardTeamMatchups(card, pokemon);
 
-  if (pokemon.region) {
-    region.hidden = false;
-    region.textContent = pokemon.region;
-  }
+  region.hidden = !pokemon.region;
+  region.textContent = pokemon.region || "";
+
+  learnsetButton.disabled = !pokemon.number;
+  learnsetButton.textContent = pokemon.number ? "View level-up learnset" : "No guide learnset for this form";
 
   note.classList.toggle("is-empty", !pokemon.notes);
   note.querySelector("p").textContent = pokemon.notes || "No field note documented.";
 
-  const evolvesFrom = evolutionIncomingByNumber.get(pokemon.number) || [];
-  const evolvesTo = evolutionOutgoingByNumber.get(pokemon.number) || [];
+  resetEvolutionSections(card);
+  const evolvesFrom = pokemon.number ? evolutionIncomingByNumber.get(pokemon.number) || [] : [];
+  const evolvesTo = pokemon.number ? evolutionOutgoingByNumber.get(pokemon.number) || [] : [];
   if (evolvesFrom.length || evolvesTo.length) {
     renderEvolutionLinks(card, evolvesFrom, ".evolves-from", "fromGuideNumber");
     renderEvolutionLinks(card, evolvesTo, ".evolves-to", "toGuideNumber");
@@ -2680,63 +2863,106 @@ function renderPokemonCard(pokemon) {
     emptyEvolution.textContent = "No documented evolution path.";
     card.querySelector(".pokemon-evolutions").append(emptyEvolution);
   }
+}
+
+function renderPokemonCard(group, selectedPokemon = group.primary) {
+  const card = elements.cardTemplate.content.firstElementChild.cloneNode(true);
+  const caughtButton = card.querySelector(".caught-button");
+
+  caughtButton.addEventListener("click", () => toggleCaught(card._currentPokemon || group.primary));
+  card.querySelector(".learnset-button").addEventListener("click", () => {
+    const current = card._currentPokemon || group.primary;
+    if (current.number) openPokemonLearnset(current);
+  });
+  card.querySelector(".pokemon-form-select")?.addEventListener("input", (event) => {
+    const nextForm = group.forms.find((form) => formValueForPokemon(form) === event.target.value) || group.primary;
+    updatePokemonCardForm(card, group, nextForm);
+  });
+  updatePokemonCardForm(card, group, selectedPokemon);
 
   return card;
+}
+
+function pokemonMatchesFormFilters(pokemon, f) {
+  const encounterLocations = pokerexLocationsForPokemon(pokemon);
+  if (f.location && !encounterLocations.includes(f.location)) return false;
+  if (f.rarity && pokemon.rarity !== f.rarity) return false;
+  if (f.region && pokemon.region !== f.region) return false;
+  if (f.type && !pokemon.types.includes(f.type)) return false;
+  if (f.availability && pokemon.availability !== f.availability) return false;
+  return true;
+}
+
+function selectedFormForGroup(group) {
+  const f = state.filters;
+  const search = f.search.toLowerCase();
+  return (
+    group.forms.find(
+      (pokemon) =>
+        pokemonMatchesFormFilters(pokemon, f) &&
+        (!search || pokemonSearchText(pokemon).includes(search)),
+    ) ||
+    group.forms.find((pokemon) => pokemonMatchesFormFilters(pokemon, f)) ||
+    group.primary
+  );
 }
 
 function filteredPokemon() {
   const f = state.filters;
   const rarityOrder = { Unique: 0, Rare: 1, Uncommon: 2, Common: 3, "": 4 };
   const search = f.search.toLowerCase();
-  const result = data.dex.filter((pokemon) => {
-    const encounterLocations = pokerexLocationsForPokemon(pokemon);
-    if (search && !pokemonSearchTextByNumber.get(pokemon.number).includes(search)) return false;
-    if (f.location && !encounterLocations.includes(f.location)) return false;
-    if (f.rarity && pokemon.rarity !== f.rarity) return false;
-    if (f.region && pokemon.region !== f.region) return false;
-    if (f.type && !pokemon.types.includes(f.type)) return false;
-    if (f.availability && pokemon.availability !== f.availability) return false;
-    if (f.progress === "caught" && !isCaught(pokemon)) return false;
-    if (f.progress === "uncaught" && isCaught(pokemon)) return false;
+  const result = dexGroups.filter((group) => {
+    if (search && !pokemonSearchTextByGroupId.get(group.id).includes(search)) return false;
+    if (f.progress === "caught" && !state.caught.has(group.id)) return false;
+    if (f.progress === "uncaught" && state.caught.has(group.id)) return false;
+    if (!group.forms.some((pokemon) => pokemonMatchesFormFilters(pokemon, f))) return false;
     return true;
   });
 
   result.sort((a, b) => {
+    const aPokemon = selectedFormForGroup(a);
+    const bPokemon = selectedFormForGroup(b);
     if (f.sort === "name") return a.name.localeCompare(b.name);
     if (f.sort === "location") {
       return (
-        (pokerexLocationsForPokemon(a)[0] || "zzz").localeCompare(
-          pokerexLocationsForPokemon(b)[0] || "zzz",
-        ) || a.number - b.number
+        (pokerexLocationsForPokemon(aPokemon)[0] || "zzz").localeCompare(
+          pokerexLocationsForPokemon(bPokemon)[0] || "zzz",
+        ) || a.primary.number - b.primary.number
       );
     }
-    if (f.sort === "rarity") return rarityOrder[a.rarity] - rarityOrder[b.rarity] || a.number - b.number;
-    if (f.sort === "bst-desc") return b.bst - a.bst || a.number - b.number;
-    if (f.sort === "bst-asc") return a.bst - b.bst || a.number - b.number;
-    return a.number - b.number;
+    if (f.sort === "rarity") {
+      return (
+        rarityOrder[aPokemon.rarity] - rarityOrder[bPokemon.rarity] ||
+        a.primary.number - b.primary.number
+      );
+    }
+    if (f.sort === "bst-desc") return bPokemon.bst - aPokemon.bst || a.primary.number - b.primary.number;
+    if (f.sort === "bst-asc") return aPokemon.bst - bPokemon.bst || a.primary.number - b.primary.number;
+    return a.primary.number - b.primary.number;
   });
   return result;
 }
 
 function renderDex(resetLimit = false) {
   if (resetLimit) state.dexLimit = pageSize;
-  const pokemon = filteredPokemon();
-  const visible = pokemon.slice(0, state.dexLimit);
+  const pokemonGroups = filteredPokemon();
+  const visible = pokemonGroups.slice(0, state.dexLimit);
+  const pokemon = pokemonGroups;
   const fragment = document.createDocumentFragment();
-  visible.forEach((entry) => {
-    let card = dexCardByNumber.get(entry.number);
+  visible.forEach((group) => {
+    const selectedPokemon = selectedFormForGroup(group);
+    let card = dexCardByGroupId.get(group.id);
     if (!card) {
-      card = renderPokemonCard(entry);
-      dexCardByNumber.set(entry.number, card);
+      card = renderPokemonCard(group, selectedPokemon);
+      dexCardByGroupId.set(group.id, card);
     } else {
-      syncPokemonCardCaughtState(card, entry);
-      syncPokemonCardTeamMatchups(card, entry);
+      updatePokemonCardForm(card, group, selectedPokemon);
     }
     fragment.append(card);
   });
   elements.grid.replaceChildren(fragment);
-  elements.emptyState.hidden = pokemon.length !== 0;
-  elements.dexLoadMore.hidden = visible.length === pokemon.length;
+  elements.emptyState.hidden = pokemonGroups.length !== 0;
+  elements.dexLoadMore.hidden = visible.length === pokemonGroups.length;
   elements.dexLoadMore.textContent = `Load next ${pageSize} Pokémon · ${pokemon.length - visible.length} remaining`;
   elements.resultCount.textContent =
     pokemon.length === data.dex.length
@@ -2745,21 +2971,24 @@ function renderDex(resetLimit = false) {
   updateSearchClearButtons();
 }
 
-function renderCollection() {
+function renderCollectionGrouped() {
   const search = state.collectionSearch.toLowerCase();
-  const pokemon = collectionDex.filter((entry) => {
-    if (state.collectionStatus === "caught" && !isCaught(entry)) return false;
-    if (state.collectionStatus === "missing" && isCaught(entry)) return false;
-    if (!search) return true;
-    return [entry.name, entry.region, pokerexLocationsForPokemon(entry).join(" "), entry.types.join(" ")]
+  const matchesSearch = (entry) =>
+    [entry.name, entry.baseName, entry.region, pokerexLocationsForPokemon(entry).join(" "), entry.types.join(" ")]
       .join(" ")
       .toLowerCase()
       .includes(search);
+  const collection = collectionGroups.filter((group) => {
+    const caught = state.caught.has(group.id);
+    if (state.collectionStatus === "caught" && !caught) return false;
+    if (state.collectionStatus === "missing" && caught) return false;
+    return !search || group.forms.some(matchesSearch);
   });
 
   const fragment = document.createDocumentFragment();
-  pokemon.forEach((entry) => {
-    const caught = isCaught(entry);
+  collection.forEach((group) => {
+    const entry = group.forms.find((form) => search && matchesSearch(form)) || group.primary;
+    const caught = state.caught.has(group.id);
     const card = document.createElement("article");
     card.className = "collection-card";
     card.classList.toggle("is-caught", caught);
@@ -2767,24 +2996,24 @@ function renderCollection() {
     const jump = document.createElement("button");
     jump.type = "button";
     jump.className = "collection-card__jump";
-    jump.setAttribute("aria-label", `Open encounter details for ${entry.name}`);
+    jump.setAttribute("aria-label", `Open encounter details for ${group.name}`);
     jump.innerHTML = `
       <span class="collection-card__sprite">
         <img src="${entry.sprite}" alt="" width="64" height="64" loading="lazy">
       </span>
       <span class="collection-card__copy">
-        <small>${entry.number ? `No. ${String(entry.number).padStart(3, "0")}` : "Additional wild entry"}</small>
-        <strong>${entry.name.replaceAll("_", " ")}</strong>
+        <small>${group.primary.number ? `No. ${String(group.primary.number).padStart(3, "0")}` : "Additional wild entry"}${group.forms.length > 1 ? ` · ${group.forms.length} forms` : ""}</small>
+        <strong>${group.name}</strong>
         <span>${formatLocations(pokerexLocationsForPokemon(entry), 1) || locationFallbackForPokemon(entry)}</span>
       </span>
     `;
-    jump.addEventListener("click", () => openCollectionEntry(entry));
+    jump.addEventListener("click", () => openCollectionEntry(entry, group));
 
     const toggle = document.createElement("button");
     toggle.type = "button";
     toggle.className = "collection-card__toggle";
     toggle.setAttribute("aria-pressed", String(caught));
-    toggle.setAttribute("aria-label", `${caught ? "Mark missing" : "Mark caught"}: ${entry.name}`);
+    toggle.setAttribute("aria-label", `${caught ? "Mark missing" : "Mark caught"}: ${group.name}`);
     toggle.innerHTML = `
       <span class="caught-button__ball" aria-hidden="true"></span>
       <span>${caught ? "Caught" : "Missing"}</span>
@@ -2796,9 +3025,13 @@ function renderCollection() {
   });
 
   elements.collectionGrid.replaceChildren(fragment);
-  elements.collectionEmptyState.hidden = pokemon.length !== 0;
-  elements.collectionResultCount.textContent = `Showing ${pokemon.length} of ${collectionDex.length} Pokémon`;
+  elements.collectionEmptyState.hidden = collection.length !== 0;
+  elements.collectionResultCount.textContent = `Showing ${collection.length} of ${collectionGroups.length} PokÃ©mon`;
   updateSearchClearButtons();
+}
+
+function renderCollection() {
+  renderCollectionGrouped();
 }
 
 function renderMoveLearners(container, move) {
@@ -3107,16 +3340,25 @@ function resetDexFilters() {
   renderQuickLocations();
 }
 
-function focusPokemon(number) {
+function focusPokemon(number, preferredFormValue = "") {
   if (!pokemonByNumber.has(number)) return;
+  const targetGroup = dexGroupByNumber.get(number);
+  if (!targetGroup) return;
   resetDexFilters();
   activateView("dex");
-  state.dexLimit = Math.max(pageSize, filteredPokemon().findIndex((pokemon) => pokemon.number === number) + 1);
+  state.dexLimit = Math.max(
+    pageSize,
+    filteredPokemon().findIndex((group) => group.id === targetGroup.id) + 1,
+  );
   renderDex();
   history.replaceState(null, "", `#pokemon-${number}`);
   requestAnimationFrame(() => {
-    const card = document.querySelector(`#pokemon-${number}`);
+    const card = document.querySelector(`#pokemon-${targetGroup.primary.number}`);
     if (!card) return;
+    if (preferredFormValue) {
+      const preferredForm = targetGroup.forms.find((form) => formValueForPokemon(form) === preferredFormValue);
+      if (preferredForm) updatePokemonCardForm(card, targetGroup, preferredForm);
+    }
     card.scrollIntoView({ behavior: "smooth", block: "center" });
     card.classList.add("is-highlighted");
     window.setTimeout(() => card.classList.remove("is-highlighted"), 2200);
@@ -3137,9 +3379,10 @@ function openLocation(location) {
   });
 }
 
-function openCollectionEntry(entry) {
-  if (entry.number) {
-    focusPokemon(entry.number);
+function openCollectionEntry(entry, group = collectionGroupById.get(dexId(entry))) {
+  const guideNumber = entry.number || group?.primary?.number;
+  if (guideNumber) {
+    focusPokemon(guideNumber, formValueForPokemon(entry));
     return;
   }
   const location = entry.locations?.[0];
@@ -3162,7 +3405,7 @@ function renderLocations(search = "") {
     .forEach((location) => {
       const uniquePokemon = new Map();
       location.methods.forEach((method) =>
-        method.species.forEach((pokemon) => uniquePokemon.set(pokemon.trackingId, pokemon)),
+        method.species.forEach((pokemon) => uniquePokemon.set(dexId(pokemon), pokemon)),
       );
       const caughtCount = [...uniquePokemon.values()].filter(isCaught).length;
       const card = document.createElement("details");
