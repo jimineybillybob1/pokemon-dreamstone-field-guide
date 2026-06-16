@@ -233,6 +233,19 @@ const itemOpenCategories = new Set();
 const itemCategoryLimits = new Map();
 const locationOpenGroups = new Set();
 let autoLoadObserver;
+const wildOnlyLookupNumberOffset = 8000;
+const trainerOnlyLookupNumberOffset = 9000;
+const speciesIdFromSprite = (sprite) => Number(/\/(\d+)\.png$/.exec(sprite || "")?.[1]) || null;
+const pokemonLookupNumber = (pokemon) =>
+  pokemon?.number || pokemon?.lookupNumber || (pokemon?.speciesId ? wildOnlyLookupNumberOffset + pokemon.speciesId : null);
+const pokemonNumberSortValue = (pokemon) => pokemonLookupNumber(pokemon) || Number.MAX_SAFE_INTEGER;
+const pokemonBstValue = (pokemon) => (Number.isFinite(pokemon?.bst) ? pokemon.bst : -1);
+const pokemonNumberLabel = (pokemon) => {
+  if (pokemon?.number) return `No. ${String(pokemon.number).padStart(3, "0")}`;
+  if (pokemon?.availability === "Trainer only") return "Trainer only";
+  if (pokemon?.source === "Pokerex") return "Wild entry";
+  return "Additional entry";
+};
 const encounterLocationsByGuideNumber = new Map();
 encounters.encounterSpecies
   .filter((pokemon) => pokemon.guideNumber)
@@ -249,6 +262,7 @@ const syntheticCollectionEntries = encounters.encounterSpecies
   .map((pokemon) => ({
     ...pokemon,
     number: null,
+    lookupNumber: wildOnlyLookupNumberOffset + pokemon.speciesId,
     location: pokemon.locations[0] || "",
     rarity: "Wild encounter",
     availability: "Available",
@@ -322,20 +336,25 @@ function createSpeciesGroups(entries, { guideOnly = false } = {}) {
     group.forms.sort(
       (a, b) =>
         (a.number ? 0 : 1) - (b.number ? 0 : 1) ||
+        (a.availability === "Trainer only" ? 1 : 0) - (b.availability === "Trainer only" ? 1 : 0) ||
         (a.region ? 1 : 0) - (b.region ? 1 : 0) ||
-        (a.number || Number.MAX_SAFE_INTEGER) - (b.number || Number.MAX_SAFE_INTEGER) ||
+        pokemonNumberSortValue(a) - pokemonNumberSortValue(b) ||
         a.name.localeCompare(b.name, undefined, { numeric: true }),
     );
     group.primary = group.forms.find((form) => form.number) || group.forms[0];
   });
   result.sort(
     (a, b) =>
-      (a.primary.number || Number.MAX_SAFE_INTEGER) - (b.primary.number || Number.MAX_SAFE_INTEGER) ||
+      pokemonNumberSortValue(a.primary) - pokemonNumberSortValue(b.primary) ||
       a.name.localeCompare(b.name, undefined, { numeric: true }),
   );
   return result;
 }
 const guideEntryByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
+const representedSpeciesIds = new Set([
+  ...data.dex.map((pokemon) => speciesIdFromSprite(pokemon.sprite)),
+  ...encounters.encounterSpecies.map((pokemon) => pokemon.speciesId),
+].filter(Boolean));
 const encounterFormCountsByGuideNumber = new Map();
 encounters.encounterSpecies
   .filter((pokemon) => pokemon.guideNumber)
@@ -362,17 +381,67 @@ const encounterFormEntries = encounters.encounterSpecies
       source: "Pokerex",
     };
   });
+const trainerOnlyEntryBySpeciesId = new Map();
+trainerData.trainers.forEach((trainer) => {
+  trainer.party.forEach((member) => {
+    if (member.guideNumber || representedSpeciesIds.has(member.speciesId)) return;
+    if (!trainerOnlyEntryBySpeciesId.has(member.speciesId)) {
+      trainerOnlyEntryBySpeciesId.set(member.speciesId, {
+        speciesId: member.speciesId,
+        trackingId: `trainer-${member.speciesId}`,
+        lookupNumber: trainerOnlyLookupNumberOffset + member.speciesId,
+        number: null,
+        guideNumber: null,
+        name: member.name,
+        baseName: cleanSpeciesName(member.name),
+        region: "",
+        location: "",
+        rarity: "",
+        availability: "Trainer only",
+        sprite: member.sprite,
+        types: member.types || [],
+        stats: member.stats || {},
+        bst: member.bst || null,
+        evolvesFrom: [],
+        evolvesTo: [],
+        source: "Pokerex trainers",
+        trainerLocations: new Set(),
+        trainerNames: new Set(),
+      });
+    }
+    const entry = trainerOnlyEntryBySpeciesId.get(member.speciesId);
+    entry.trainerLocations.add(trainer.location);
+    entry.trainerNames.add(`${trainer.trainerClass ? `${trainer.trainerClass} ` : ""}${trainer.name}`);
+  });
+});
+const trainerOnlyDexEntries = [...trainerOnlyEntryBySpeciesId.values()].map((entry) => {
+  const locations = uniqueSorted([...entry.trainerLocations]);
+  const trainers = uniqueSorted([...entry.trainerNames]);
+  const visibleLocations = locations.slice(0, 4).join(", ");
+  const locationSummary =
+    locations.length > 4 ? `${visibleLocations} +${locations.length - 4} more` : visibleLocations;
+  return {
+    ...entry,
+    trainerLocations: locations,
+    trainerNames: trainers,
+    notes: `Used by trainers${locationSummary ? ` in ${locationSummary}` : ""}. No Pokerex wild encounter is listed.`,
+  };
+});
 const dexFormEntries = [
   ...data.dex,
   ...encounterFormEntries,
-  ...syntheticCollectionEntries.filter((entry) =>
-    data.dex.some((pokemon) => dexId(pokemon) === dexId(entry)),
-  ),
+  ...syntheticCollectionEntries,
+  ...trainerOnlyDexEntries,
 ];
-const dexGroups = createSpeciesGroups(dexFormEntries, { guideOnly: true });
+const dexGroups = createSpeciesGroups(dexFormEntries);
 const dexGroupById = new Map(dexGroups.map((group) => [group.id, group]));
 const dexGroupByNumber = new Map(
-  dexGroups.flatMap((group) => group.forms.filter((form) => form.number).map((form) => [form.number, group])),
+  dexGroups.flatMap((group) =>
+    group.forms
+      .map((form) => pokemonLookupNumber(form))
+      .filter(Boolean)
+      .map((number) => [number, group]),
+  ),
 );
 const collectionGroups = createSpeciesGroups(collectionDex);
 const collectionGroupById = new Map(collectionGroups.map((group) => [group.id, group]));
@@ -383,13 +452,23 @@ collectionDex.forEach((pokemon) => {
   legacyCaughtIdMap.set(id, id);
   legacyCaughtIdMap.set(String(legacyDexId(pokemon)), id);
   if (pokemon.number) legacyCaughtIdMap.set(String(pokemon.number), id);
+  if (pokemon.lookupNumber) legacyCaughtIdMap.set(String(pokemon.lookupNumber), id);
   if (pokemon.trackingId) legacyCaughtIdMap.set(String(pokemon.trackingId), id);
 });
 const normalizeCaughtId = (id) => legacyCaughtIdMap.get(String(id)) || null;
 state.caught = new Set([...state.caught].map(normalizeCaughtId).filter((id) => id && validCaughtIds.has(id)));
 localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
-const pokemonByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, pokemon]));
+const pokemonByNumber = new Map(
+  [...data.dex, ...syntheticCollectionEntries, ...trainerOnlyDexEntries]
+    .map((pokemon) => [pokemonLookupNumber(pokemon), pokemon])
+    .filter(([number]) => number),
+);
+const pokemonBySpeciesId = new Map(
+  [...data.dex, ...syntheticCollectionEntries, ...trainerOnlyDexEntries]
+    .map((pokemon) => [pokemon.speciesId || speciesIdFromSprite(pokemon.sprite), pokemon])
+    .filter(([speciesId]) => speciesId),
+);
 const evolutionOutgoingByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, []]));
 const evolutionIncomingByNumber = new Map(data.dex.map((pokemon) => [pokemon.number, []]));
 (evolutionData.edges || []).forEach((edge) => {
@@ -448,6 +527,13 @@ moveData.moves.forEach((move) => {
   });
 });
 const pokemonOptions = [...data.dex].sort((a, b) => a.number - b.number);
+const battlePokemonOptions = dexGroups
+  .map((group) => group.primary)
+  .sort(
+    (a, b) =>
+      pokemonNumberSortValue(a) - pokemonNumberSortValue(b) ||
+      speciesNameForPokemon(a).localeCompare(speciesNameForPokemon(b), undefined, { numeric: true }),
+  );
 const gymLeaders = [
   {
     id: "king",
@@ -671,9 +757,12 @@ const pokemonSearchText = (pokemon) =>
     pokemon.name,
     pokemon.baseName,
     pokemon.region,
-    pokemon.number ? `No. ${String(pokemon.number).padStart(3, "0")}` : "",
+    pokemonNumberLabel(pokemon),
     pokerexLocationsForPokemon(pokemon).join(" "),
+    (pokemon.trainerLocations || []).join(" "),
+    (pokemon.trainerNames || []).join(" "),
     pokemon.rarity,
+    pokemon.availability,
     pokemon.notes,
     pokemon.types.join(" "),
     pokemon.number
@@ -696,7 +785,11 @@ const pokemonSearchTextByGroupId = new Map(
   ]),
 );
 const locationFallbackForPokemon = (pokemon) =>
-  pokemon.availability === "Unobtainable" ? "Unobtainable" : "No wild encounter listed";
+  pokemon.availability === "Unobtainable"
+    ? "Unobtainable"
+    : pokemon.availability === "Trainer only"
+      ? "Trainer battles only"
+      : "No wild encounter listed";
 const normalizedLocationName = (name) =>
   String(name || "")
     .toLowerCase()
@@ -938,6 +1031,7 @@ function persistCaught() {
 
 function markCaught(pokemon) {
   const id = dexId(pokemon);
+  if (!validCaughtIds.has(id)) return false;
   if (state.caught.has(id)) return false;
   state.caught.add(id);
   persistCaught();
@@ -949,6 +1043,7 @@ function markCaught(pokemon) {
 
 function toggleCaught(pokemon) {
   const id = dexId(pokemon);
+  if (!validCaughtIds.has(id)) return;
   if (state.caught.has(id)) state.caught.delete(id);
   else state.caught.add(id);
   persistCaught();
@@ -1533,6 +1628,7 @@ function renderBattleTargetCard(pokemonNumber, slotIndex) {
       scope: "battle",
       onSelect: setBattleTarget,
       labelText: `Target Pokemon ${slotIndex + 1}`,
+      options: battlePokemonOptions,
     }),
   );
 
@@ -1557,7 +1653,7 @@ function renderBattleTargetCard(pokemonNumber, slotIndex) {
       <img src="${pokemon.sprite}" alt="" width="84" height="84" loading="lazy">
     </span>
     <span class="battle-target-card__copy">
-      <small>No. ${String(pokemon.number).padStart(3, "0")}</small>
+      <small>${pokemonNumberLabel(pokemon)}</small>
       <strong></strong>
       <span class="battle-target-card__types"></span>
       <em>BST ${pokemon.bst || "N/A"}</em>
@@ -1565,7 +1661,7 @@ function renderBattleTargetCard(pokemonNumber, slotIndex) {
   `;
   summary.querySelector(".battle-target-card__copy strong").textContent = pokemon.name.replaceAll("_", " ");
   renderTypeBadges(summary.querySelector(".battle-target-card__types"), pokemon.types);
-  summary.addEventListener("click", () => focusPokemon(pokemon.number));
+  summary.addEventListener("click", () => focusPokemon(pokemonLookupNumber(pokemon)));
   card.append(summary);
 
   const matchups = document.createElement("section");
@@ -1635,12 +1731,13 @@ function renderTrainerPartyMember(member) {
   const card = document.createElement("article");
   card.className = "trainer-party-member";
   card.dataset.speciesId = member.speciesId;
-  const identity = document.createElement(member.guideNumber ? "button" : "div");
+  const lookupNumber = member.guideNumber || pokemonLookupNumber(pokemonBySpeciesId.get(member.speciesId));
+  const identity = document.createElement(lookupNumber ? "button" : "div");
   identity.className = "trainer-party-member__identity";
-  if (member.guideNumber) {
+  if (lookupNumber) {
     identity.type = "button";
     identity.title = `Open ${member.name} in the Full Dex`;
-    identity.addEventListener("click", () => focusPokemon(member.guideNumber));
+    identity.addEventListener("click", () => focusPokemon(lookupNumber));
   }
   identity.innerHTML = `
     <img src="${member.sprite}" alt="" width="64" height="64" loading="lazy">
@@ -1839,7 +1936,7 @@ function renderGyms() {
 function createPokemonPicker(
   slotIndex,
   selectedNumber,
-  { scope = "team", onSelect = setTeamPokemon, labelText = "Pokemon" } = {},
+  { scope = "team", onSelect = setTeamPokemon, labelText = "Pokemon", options = pokemonOptions } = {},
 ) {
   const picker = document.createElement("div");
   picker.className = "team-pokemon-picker";
@@ -1862,7 +1959,7 @@ function createPokemonPicker(
   input.setAttribute("aria-expanded", "false");
   input.setAttribute("aria-label", `Search Pokemon for ${scope} slot ${slotIndex + 1}`);
   input.value = selected
-    ? `No. ${String(selected.number).padStart(3, "0")} - ${selected.name.replaceAll("_", " ")}`
+    ? `${pokemonNumberLabel(selected)} - ${selected.name.replaceAll("_", " ")}`
     : "";
   const results = document.createElement("div");
   results.id = resultId;
@@ -1874,17 +1971,22 @@ function createPokemonPicker(
   const matchingPokemon = () => {
     const query = input.value.trim().toLowerCase();
     const selectedLabel = selected
-      ? `no. ${String(selected.number).padStart(3, "0")} - ${selected.name.replaceAll("_", " ")}`.toLowerCase()
+      ? `${pokemonNumberLabel(selected)} - ${selected.name.replaceAll("_", " ")}`.toLowerCase()
       : "";
-    if (!query || query === selectedLabel) return pokemonOptions.slice(0, 30);
-    return pokemonOptions
+    if (!query || query === selectedLabel) return options.slice(0, 30);
+    return options
       .filter((pokemon) =>
         [
           pokemon.name,
+          speciesNameForPokemon(pokemon),
           pokemon.number,
-          String(pokemon.number).padStart(3, "0"),
+          pokemon.lookupNumber,
+          pokemon.number ? String(pokemon.number).padStart(3, "0") : "",
+          pokemonNumberLabel(pokemon),
+          pokemon.availability,
           pokemon.region,
           pokemon.types.join(" "),
+          (pokemon.trainerLocations || []).join(" "),
         ]
           .join(" ")
           .toLowerCase()
@@ -1909,22 +2011,23 @@ function createPokemonPicker(
     const matches = matchingPokemon();
     const fragment = document.createDocumentFragment();
     matches.forEach((pokemon) => {
+      const lookupNumber = pokemonLookupNumber(pokemon);
       const option = document.createElement("button");
       option.type = "button";
-      option.id = `${scope}-pokemon-option-${slotIndex}-${pokemon.number}`;
+      option.id = `${scope}-pokemon-option-${slotIndex}-${lookupNumber}`;
       option.className = "team-pokemon-result";
       option.setAttribute("role", "option");
-      option.setAttribute("aria-selected", String(pokemon.number === selectedNumber));
+      option.setAttribute("aria-selected", String(lookupNumber === selectedNumber));
       option.innerHTML = `
         <img src="${pokemon.sprite}" alt="" width="42" height="42" loading="lazy">
         <span>
-          <small>No. ${String(pokemon.number).padStart(3, "0")}${pokemon.region ? ` · ${pokemon.region}` : ""}</small>
+          <small>${pokemonNumberLabel(pokemon)}${pokemon.region ? ` · ${pokemon.region}` : ""}</small>
           <strong></strong>
           <span>${pokemon.types.join(" / ")}</span>
         </span>
       `;
       option.querySelector("strong").textContent = pokemon.name.replaceAll("_", " ");
-      option.addEventListener("click", () => onSelect(slotIndex, pokemon.number));
+      option.addEventListener("click", () => onSelect(slotIndex, lookupNumber));
       fragment.append(option);
     });
     if (!matches.length) {
@@ -2880,8 +2983,17 @@ function openPokemonLearnset(pokemon) {
 }
 
 function syncPokemonCardCaughtState(card, pokemon) {
+  const collectable = validCaughtIds.has(dexId(pokemon));
   const caught = isCaught(pokemon);
   const caughtButton = card.querySelector(".caught-button");
+  caughtButton.hidden = !collectable;
+  if (!collectable) {
+    card.classList.remove("is-caught");
+    caughtButton.setAttribute("aria-pressed", "false");
+    caughtButton.setAttribute("aria-label", `${pokemon.name} is not catchable`);
+    caughtButton.querySelector(".caught-button__text").textContent = "Reference";
+    return;
+  }
   card.classList.toggle("is-caught", caught);
   caughtButton.setAttribute("aria-pressed", String(caught));
   caughtButton.setAttribute("aria-label", `${caught ? "Mark uncaught" : "Mark caught"}: ${pokemon.name}`);
@@ -2930,18 +3042,19 @@ function updatePokemonCardForm(card, group, pokemon) {
   const region = card.querySelector(".region-badge");
   const note = card.querySelector(".pokemon-note");
   const learnsetButton = card.querySelector(".learnset-button");
+  const lookupNumber = pokemonLookupNumber(group.primary);
 
   card._currentPokemon = pokemon;
-  card.dataset.number = group.primary.number;
+  card.dataset.number = lookupNumber;
   card.dataset.formValue = formValueForPokemon(pokemon);
-  card.id = `pokemon-${group.primary.number}`;
+  card.id = `pokemon-${lookupNumber}`;
 
   updatePokemonFormOptions(card, group, pokemon);
   syncPokemonCardCaughtState(card, pokemon);
 
   sprite.src = pokemon.sprite;
   sprite.alt = `${pokemon.name}${pokemon.region ? ` (${pokemon.region})` : ""} sprite`;
-  card.querySelector(".pokemon-number").textContent = `No. ${String(group.primary.number).padStart(3, "0")}`;
+  card.querySelector(".pokemon-number").textContent = pokemonNumberLabel(group.primary);
   card.querySelector(".pokemon-name").textContent = speciesNameForPokemon(pokemon);
   renderTypeBadges(card.querySelector(".pokemon-types"), pokemon.types);
   const encounterLocations = pokerexLocationsForPokemon(pokemon);
@@ -3028,8 +3141,9 @@ function filteredPokemon() {
   const search = f.search.toLowerCase();
   const result = dexGroups.filter((group) => {
     if (search && !pokemonSearchTextByGroupId.get(group.id).includes(search)) return false;
+    const collectable = validCaughtIds.has(group.id);
     if (f.progress === "caught" && !state.caught.has(group.id)) return false;
-    if (f.progress === "uncaught" && state.caught.has(group.id)) return false;
+    if (f.progress === "uncaught" && (!collectable || state.caught.has(group.id))) return false;
     if (!group.forms.some((pokemon) => pokemonMatchesFormFilters(pokemon, f))) return false;
     return true;
   });
@@ -3042,18 +3156,28 @@ function filteredPokemon() {
       return (
         (pokerexLocationsForPokemon(aPokemon)[0] || "zzz").localeCompare(
           pokerexLocationsForPokemon(bPokemon)[0] || "zzz",
-        ) || a.primary.number - b.primary.number
+        ) || pokemonNumberSortValue(a.primary) - pokemonNumberSortValue(b.primary)
       );
     }
     if (f.sort === "rarity") {
       return (
-        rarityOrder[aPokemon.rarity] - rarityOrder[bPokemon.rarity] ||
-        a.primary.number - b.primary.number
+        (rarityOrder[aPokemon.rarity] ?? 99) - (rarityOrder[bPokemon.rarity] ?? 99) ||
+        pokemonNumberSortValue(a.primary) - pokemonNumberSortValue(b.primary)
       );
     }
-    if (f.sort === "bst-desc") return bPokemon.bst - aPokemon.bst || a.primary.number - b.primary.number;
-    if (f.sort === "bst-asc") return aPokemon.bst - bPokemon.bst || a.primary.number - b.primary.number;
-    return a.primary.number - b.primary.number;
+    if (f.sort === "bst-desc") {
+      return (
+        pokemonBstValue(bPokemon) - pokemonBstValue(aPokemon) ||
+        pokemonNumberSortValue(a.primary) - pokemonNumberSortValue(b.primary)
+      );
+    }
+    if (f.sort === "bst-asc") {
+      return (
+        pokemonBstValue(aPokemon) - pokemonBstValue(bPokemon) ||
+        pokemonNumberSortValue(a.primary) - pokemonNumberSortValue(b.primary)
+      );
+    }
+    return pokemonNumberSortValue(a.primary) - pokemonNumberSortValue(b.primary);
   });
   return result;
 }
@@ -3080,8 +3204,8 @@ function renderDex(resetLimit = false) {
   elements.dexLoadMore.hidden = visible.length === pokemonGroups.length;
   elements.dexLoadMore.textContent = `Load next ${pageSize} Pokémon · ${pokemon.length - visible.length} remaining`;
   elements.resultCount.textContent =
-    pokemon.length === data.dex.length
-      ? `Showing ${visible.length} of all ${data.dex.length} Pokémon`
+    pokemon.length === dexGroups.length
+      ? `Showing ${visible.length} of all ${dexGroups.length} Pokémon`
       : `Showing ${visible.length} of ${pokemon.length} matching Pokémon`;
   updateSearchClearButtons();
 }
@@ -3460,6 +3584,7 @@ function focusPokemon(number, preferredFormValue = "") {
   if (!pokemonByNumber.has(number)) return;
   const targetGroup = dexGroupByNumber.get(number);
   if (!targetGroup) return;
+  const targetLookupNumber = pokemonLookupNumber(targetGroup.primary);
   resetDexFilters();
   activateView("dex");
   state.dexLimit = Math.max(
@@ -3469,7 +3594,7 @@ function focusPokemon(number, preferredFormValue = "") {
   renderDex();
   history.replaceState(null, "", `#pokemon-${number}`);
   requestAnimationFrame(() => {
-    const card = document.querySelector(`#pokemon-${targetGroup.primary.number}`);
+    const card = document.querySelector(`#pokemon-${targetLookupNumber}`);
     if (!card) return;
     if (preferredFormValue) {
       const preferredForm = targetGroup.forms.find((form) => formValueForPokemon(form) === preferredFormValue);

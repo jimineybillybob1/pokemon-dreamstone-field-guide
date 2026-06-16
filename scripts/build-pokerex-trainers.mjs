@@ -105,6 +105,8 @@ const trainers = activeTrainers.map((trainer) => ({
       guideNumber: guideEntry?.number || null,
       sprite: `assets/pokemon/${member.speciesId}.png`,
       types: (sourcePokemon?.types || guideEntry?.types || []).map((type) => type.toLowerCase()),
+      stats: sourcePokemon?.stats || guideEntry?.stats || {},
+      bst: sourcePokemon?.bst || guideEntry?.bst || null,
       level: member.level,
       heldItem: member.heldItem || "",
       moves: (member.moves || []).map((move) => move.name),

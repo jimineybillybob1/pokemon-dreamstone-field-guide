@@ -541,6 +541,27 @@ await page.locator("#search").fill("Gothita");
 await check(!(await page.locator("[data-clear-search='#search']").isHidden()), "Dex search clear button did not appear");
 await page.locator("[data-clear-search='#search']").click();
 await check((await page.locator(".pokemon-card").count()) === 50, "Dex search clear button did not reset the first page");
+await page.locator("#search").fill("Bronzor");
+await check((await page.locator(".pokemon-card").count()) === 1, "Trainer-only Bronzor is missing from the Full Dex search");
+await check(
+  (await page.locator(".pokemon-card[data-number='9436'] .pokemon-number").textContent()) === "Trainer only" &&
+    (await page.locator(".pokemon-card[data-number='9436'] .pokemon-location").textContent()) === "Trainer battles only" &&
+    (await page.locator(".pokemon-card[data-number='9436'] .pokemon-bst").textContent()) === "300" &&
+    (await page.locator(".pokemon-card[data-number='9436'] .caught-button").isHidden()),
+  "Trainer-only Bronzor did not render as a read-only lookup card",
+);
+await check(
+  (await page.locator(".pokemon-card[data-number='9436'] .pokemon-stat").count()) === 7,
+  "Trainer-only Bronzor is missing Pokerex stat bars",
+);
+await page.locator("[data-clear-search='#search']").click();
+await page.locator("#search").fill("Abomasnow");
+await check(
+  (await page.locator(".pokemon-card[data-number='8460'] .pokemon-number").textContent()) === "Wild entry" &&
+    (await page.locator(".pokemon-card[data-number='8460'] .pokemon-location-link").textContent()) === "Silversun City",
+  "Pokerex wild-only Abomasnow is missing from the Full Dex",
+);
+await page.locator("[data-clear-search='#search']").click();
 await page.locator("#dex-load-more").scrollIntoViewIfNeeded();
 await page.waitForFunction(() => document.querySelectorAll(".pokemon-card").length >= 100);
 await check((await page.locator(".pokemon-card").count()) === 100, "Dex did not auto-load the next 50 Pokémon");
@@ -893,6 +914,16 @@ await check(
     return scores.every((score, index) => index === 0 || scores[index - 1] >= score);
   }),
   "Battle Planner recommendations are not sorted by score",
+);
+const trainerOnlyTargetSearch = page.locator(".battle-target-card[data-slot='2'] .team-pokemon-search input");
+await trainerOnlyTargetSearch.fill("Bronzor");
+await trainerOnlyTargetSearch.press("ArrowDown");
+await trainerOnlyTargetSearch.press("Enter");
+await check(
+  (await page.locator(".battle-target-card[data-slot='2']").textContent()).includes("Bronzor") &&
+    (await page.locator(".battle-target-card[data-slot='2']").textContent()).includes("Trainer only") &&
+    (await page.locator(".battle-target-card[data-slot='2'] .team-matchups").textContent()).includes("Weak to your team"),
+  "Battle Planner could not target trainer-only Bronzor",
 );
 await page.locator(".battle-target-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-battle-planner.png"), fullPage: false });

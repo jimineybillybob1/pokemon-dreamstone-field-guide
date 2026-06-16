@@ -118,6 +118,16 @@ check(
   "Pokerex trainer details are invalid or include the None class",
 );
 check(
+  trainers.trainers.every((trainer) =>
+    trainer.party.every(
+      (member) =>
+        Number.isFinite(member.bst) &&
+        ["hp", "atk", "def", "spa", "spdef", "spd"].every((stat) => Number.isFinite(member.stats?.[stat])),
+    ),
+  ),
+  "Pokerex trainer party members are missing stats or BST",
+);
+check(
   trainers.trainers.every((trainer) => trainer.name !== trainer.name.toUpperCase()),
   "A trainer name is still fully uppercase",
 );
@@ -343,8 +353,8 @@ check(
 );
 check(html.includes('<option value="bst-desc">BST: highest first</option>'), "Descending BST sort option is missing");
 check(html.includes('<option value="bst-asc">BST: lowest first</option>'), "Ascending BST sort option is missing");
-check((html.match(/class="view-tab__icon"/g) || []).length === 12, "Expected one icon for every guide menu item");
-check((html.match(/<symbol id="nav-icon-/g) || []).length === 12, "Expected twelve relevant guide menu icon symbols");
+check((html.match(/class="view-tab__icon"/g) || []).length === 13, "Expected one icon for every guide menu item");
+check((html.match(/<symbol id="nav-icon-/g) || []).length === 13, "Expected thirteen relevant guide menu icon symbols");
 check(!html.includes('<img class="view-tab__icon"'), "Guide menu still uses raster sprite icons");
 check(html.includes('id="view-menu-heading">Menu</h2>'), "Guide menu heading is missing");
 check(html.includes('id="team-grid"'), "Team Builder grid is missing");
@@ -360,7 +370,7 @@ check(
 );
 check(html.includes('data-move-mode="tutors"'), "Move tutors sub-tab is missing");
 check((html.match(/data-clear-search=/g) || []).length === 7, "Expected seven in-field search clear buttons");
-check((html.match(/class="jump-to-top"/g) || []).length === 12, "Expected one Jump to Top control per guide tab");
+check((html.match(/class="jump-to-top"/g) || []).length === 13, "Expected one Jump to Top control per guide tab");
 check(html.includes('id="team-offensive-coverage"'), "Team Builder offensive coverage overview is missing");
 check(html.includes('id="planner-offensive-coverage"'), "Team Planner offensive coverage overview is missing");
 check(html.includes('id="export-save"'), "Save export control is missing");
