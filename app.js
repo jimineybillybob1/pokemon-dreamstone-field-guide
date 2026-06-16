@@ -114,6 +114,8 @@ const state = {
 
 const elements = {
   grid: document.querySelector("#pokemon-grid"),
+  dexView: document.querySelector("#view-dex"),
+  dexControls: document.querySelector("#dex-controls"),
   dexLoadMore: document.querySelector("#dex-load-more"),
   cardTemplate: document.querySelector("#pokemon-card-template"),
   emptyState: document.querySelector("#empty-state"),
@@ -219,6 +221,9 @@ const itemOpenCategories = new Set();
 const itemCategoryLimits = new Map();
 const locationOpenGroups = new Set();
 let autoLoadObserver;
+const dexDockMedia = window.matchMedia("(min-width: 1280px)");
+let dexControlsAnchor = 0;
+let dexDockQueued = false;
 const encounterLocationsByGuideNumber = new Map();
 encounters.encounterSpecies
   .filter((pokemon) => pokemon.guideNumber)
@@ -3301,6 +3306,37 @@ function initializeAutoLoading() {
   [elements.dexLoadMore, elements.showMoreMoves, elements.abilityLoadMore].forEach(observeAutoLoadTrigger);
 }
 
+function dexViewIsActive() {
+  return document.querySelector("#view-dex")?.classList.contains("is-active");
+}
+
+function refreshDexControlAnchor() {
+  if (!elements.dexControls) return;
+  const wasFloating = elements.dexControls.classList.contains("is-floating");
+  elements.dexControls.classList.remove("is-floating");
+  if (dexViewIsActive()) {
+    dexControlsAnchor = elements.dexControls.getBoundingClientRect().top + window.scrollY;
+  }
+  elements.dexControls.classList.toggle("is-floating", wasFloating && dexViewIsActive() && dexDockMedia.matches);
+}
+
+function updateDexControlDock() {
+  if (!elements.dexControls) return;
+  const dockStart = Math.max(24, dexControlsAnchor - 12);
+  const shouldFloat = dexViewIsActive() && dexDockMedia.matches && window.scrollY > dockStart;
+  elements.dexControls.classList.toggle("is-floating", shouldFloat);
+  elements.dexView?.classList.toggle("has-floating-dex-controls", shouldFloat);
+}
+
+function queueDexControlDockUpdate() {
+  if (dexDockQueued) return;
+  dexDockQueued = true;
+  requestAnimationFrame(() => {
+    dexDockQueued = false;
+    updateDexControlDock();
+  });
+}
+
 function activateView(viewName) {
   document.querySelectorAll(".view-tab").forEach((button) => {
     const active = button.dataset.view === viewName;
@@ -3322,6 +3358,8 @@ function activateView(viewName) {
     updateSaveSummary();
     updateSyncControls();
   }
+  if (viewName === "dex") refreshDexControlAnchor();
+  queueDexControlDockUpdate();
 }
 
 function resetDexFilters() {
@@ -3975,9 +4013,20 @@ renderCollection();
 renderLocations();
 renderMegas();
 renderItems();
+refreshDexControlAnchor();
+updateDexControlDock();
+window.addEventListener("scroll", queueDexControlDockUpdate, { passive: true });
 window.addEventListener("resize", () => {
   fitTeamPokemonNames(elements.teamGrid);
   fitTeamPokemonNames(elements.plannerGrid);
+  refreshDexControlAnchor();
+  queueDexControlDockUpdate();
 });
+if (dexDockMedia.addEventListener) {
+  dexDockMedia.addEventListener("change", () => {
+    refreshDexControlAnchor();
+    queueDexControlDockUpdate();
+  });
+}
 const initialPokemonNumber = Number(location.hash.match(/^#pokemon-(\d+)$/)?.[1]);
 if (initialPokemonNumber) focusPokemon(initialPokemonNumber);

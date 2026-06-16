@@ -614,6 +614,10 @@ button.journey-card:hover {
   background: var(--paper-deep);
 }
 
+.dex-controls {
+  position: relative;
+}
+
 .sticky-search {
   position: sticky;
   z-index: 20;
@@ -625,6 +629,63 @@ button.journey-card:hover {
   box-shadow: 0 10px 30px rgba(35, 29, 67, 0.09);
   padding: 10px;
   backdrop-filter: blur(18px);
+}
+
+@media (min-width: 1280px) {
+  .dex-controls.is-floating {
+    position: fixed;
+    z-index: 65;
+    top: 16px;
+    right: max(18px, calc((100vw - 1320px) / 2));
+    width: min(360px, calc(100vw - 36px));
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    border: 1px solid rgba(185, 169, 255, 0.26);
+    border-radius: 18px;
+    background: rgba(247, 244, 236, 0.94);
+    box-shadow: 0 22px 55px rgba(25, 19, 48, 0.22);
+    padding: 12px;
+    backdrop-filter: blur(20px);
+  }
+
+  .dex-controls.is-floating .sticky-search {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 0 0 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    backdrop-filter: none;
+  }
+
+  .dex-controls.is-floating .jump-to-top {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .dex-controls.is-floating .filter-panel {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+  }
+
+  #view-dex.has-floating-dex-controls .pokemon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-right: 390px;
+  }
+
+  #view-dex.has-floating-dex-controls .auto-load-trigger,
+  #view-dex.has-floating-dex-controls .empty-state {
+    margin-right: 390px;
+  }
 }
 
 .sticky-tab-search {
@@ -992,13 +1053,29 @@ button.journey-card:hover {
 }
 
 .pokemon-form-field {
+  position: relative;
   display: grid;
   gap: 4px;
   margin-top: 8px;
+  max-width: 260px;
 }
 
 .pokemon-form-field[hidden] {
   display: none;
+}
+
+.pokemon-form-field::after {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  color: #efeaff;
+  content: "";
+  pointer-events: none;
 }
 
 .pokemon-form-field span {
@@ -1010,16 +1087,39 @@ button.journey-card:hover {
 }
 
 .pokemon-form-select {
+  appearance: none;
+  -webkit-appearance: none;
   min-width: 0;
   width: 100%;
-  border: 1px solid rgba(114, 87, 212, 0.24);
-  border-radius: 9px;
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.62);
-  padding: 6px 8px;
+  min-height: 32px;
+  border: 1px solid rgba(185, 169, 255, 0.42);
+  border-radius: 11px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(114, 87, 212, 0.78), rgba(45, 39, 78, 0.9)),
+    #302a52;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 8px 18px rgba(25, 19, 48, 0.14);
+  padding: 7px 34px 7px 10px;
   font: inherit;
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 900;
+  outline: none;
+}
+
+.pokemon-form-select:hover,
+.pokemon-form-select:focus-visible {
+  border-color: rgba(231, 181, 83, 0.8);
+  box-shadow:
+    0 0 0 3px rgba(231, 181, 83, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 10px 22px rgba(25, 19, 48, 0.18);
+}
+
+.pokemon-form-select option {
+  color: var(--ink);
+  background: var(--paper);
 }
 
 .region-badge {
@@ -4796,6 +4896,11 @@ html[data-theme="dark"] .learnset-entry {
 html[data-theme="dark"] .sticky-search {
   background: rgba(20, 19, 32, 0.92);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .dex-controls.is-floating {
+  background: rgba(20, 19, 32, 0.94);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.38);
 }
 
 html[data-theme="dark"] .sticky-tab-search {

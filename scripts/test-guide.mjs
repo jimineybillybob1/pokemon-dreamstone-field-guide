@@ -376,8 +376,15 @@ await check(
   "Gothita is missing its Dreamstone Lv. 18 Gothorita evolution link",
 );
 await check(
-  (await page.locator(".sticky-search").evaluate((element) => getComputedStyle(element).position)) === "sticky",
-  "Search bar is not sticky",
+  await page.locator("#view-dex").evaluate((view) => {
+    const controls = view.querySelector("#dex-controls");
+    const search = view.querySelector(".sticky-search");
+    return (
+      getComputedStyle(search).position === "sticky" ||
+      (controls.classList.contains("is-floating") && getComputedStyle(controls).position === "fixed")
+    );
+  }),
+  "Search controls are neither sticky nor docked",
 );
 await check(
   !(await page.locator("body").evaluate((element) => element.classList.contains("notes-hidden"))),
@@ -1435,12 +1442,15 @@ await check(
   (await page.locator("html").getAttribute("data-theme")) !== initialTheme,
   "Theme toggle did not change theme",
 );
-await page.locator("#view-dex").scrollIntoViewIfNeeded();
-await page.waitForTimeout(300);
+await page.evaluate(() => {
+  const controls = document.querySelector("#dex-controls");
+  window.scrollTo(0, controls.getBoundingClientRect().top + window.scrollY + 40);
+});
+await page.waitForFunction(() => document.querySelector("#dex-controls")?.classList.contains("is-floating"));
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-controls.png"), fullPage: false });
 await check(
-  (await page.locator("#view-dex .sticky-search").evaluate((element) => getComputedStyle(element).position)) === "sticky",
-  "Dex search and Jump to Top toolbar is not sticky",
+  (await page.locator("#dex-controls").evaluate((element) => getComputedStyle(element).position)) === "fixed",
+  "Dex search and filters did not dock to the right after scrolling",
 );
 for (const viewName of [
   "dex",

@@ -36,7 +36,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260615-3" />
+    <link rel="stylesheet" href="styles.css?v=20260615-4" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js?v=20260615-3" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
@@ -45,7 +45,7 @@
     <script src="data/pokerex-items.js" defer></script>
     <script src="data/pokerex-evolutions.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260615-3" defer></script>
+    <script src="app.js?v=20260615-4" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -220,7 +220,8 @@
           <p id="result-count">Showing all Pokémon</p>
         </div>
 
-        <div class="sticky-search">
+        <div class="dex-controls" id="dex-controls">
+          <div class="sticky-search">
           <label class="search-field">
             <span>Search the Dreamstone dex</span>
             <span class="search-input-wrap">
@@ -229,9 +230,9 @@
             </span>
           </label>
           <a class="jump-to-top" href="#page-top" aria-label="Jump to top"><span aria-hidden="true">↑</span> Jump to top</a>
-        </div>
+          </div>
 
-        <form class="filter-panel" id="filters">
+          <form class="filter-panel" id="filters">
           <label>
             <span>Location</span>
             <select id="location-filter">
@@ -282,7 +283,8 @@
             </select>
           </label>
           <button class="clear-button" id="clear-filters" type="button">Clear filters</button>
-        </form>
+          </form>
+        </div>
 
         <aside class="quick-locations" aria-label="Quick location filters">
           <span>Quick locations</span>
