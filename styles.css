@@ -631,15 +631,24 @@ button.journey-card:hover {
   backdrop-filter: blur(18px);
 }
 
-@media (min-width: 1280px) {
-  .dex-controls.is-floating {
-    position: fixed;
+@media (min-width: 1180px) {
+  #view-dex {
+    --dex-sidebar-width: 360px;
+    --dex-sidebar-gap: 30px;
+    --dex-sidebar-offset: calc(var(--dex-sidebar-width) + var(--dex-sidebar-gap));
+    --dex-sidebar-top: clamp(84px, 8dvh, 112px);
+  }
+
+  .dex-controls {
+    position: sticky;
     z-index: 65;
-    top: 16px;
-    right: max(18px, calc((100vw - 1320px) / 2));
-    width: min(360px, calc(100vw - 36px));
-    max-height: calc(100dvh - 32px);
+    top: var(--dex-sidebar-top);
+    float: right;
+    clear: right;
+    width: var(--dex-sidebar-width);
+    max-height: calc(100dvh - var(--dex-sidebar-top) - 18px);
     overflow-y: auto;
+    margin: 0 0 24px var(--dex-sidebar-gap);
     border: 1px solid rgba(185, 169, 255, 0.26);
     border-radius: 18px;
     background: rgba(247, 244, 236, 0.94);
@@ -648,7 +657,7 @@ button.journey-card:hover {
     backdrop-filter: blur(20px);
   }
 
-  .dex-controls.is-floating .sticky-search {
+  .dex-controls .sticky-search {
     position: static;
     display: grid;
     grid-template-columns: 1fr;
@@ -662,12 +671,12 @@ button.journey-card:hover {
     backdrop-filter: none;
   }
 
-  .dex-controls.is-floating .jump-to-top {
+  .dex-controls .jump-to-top {
     justify-content: center;
     width: 100%;
   }
 
-  .dex-controls.is-floating .filter-panel {
+  .dex-controls .filter-panel {
     grid-template-columns: 1fr;
     gap: 10px;
     margin: 0;
@@ -677,14 +686,19 @@ button.journey-card:hover {
     padding: 0;
   }
 
-  #view-dex.has-floating-dex-controls .pokemon-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-right: 390px;
+  #view-dex .quick-locations,
+  #view-dex .rarity-legend,
+  #view-dex .pokemon-grid {
+    margin-right: var(--dex-sidebar-offset);
   }
 
-  #view-dex.has-floating-dex-controls .auto-load-trigger,
-  #view-dex.has-floating-dex-controls .empty-state {
-    margin-right: 390px;
+  #view-dex .pokemon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #view-dex .auto-load-trigger,
+  #view-dex .empty-state {
+    margin-right: var(--dex-sidebar-offset);
   }
 }
 
@@ -1519,6 +1533,23 @@ button.journey-card:hover {
   color: var(--ink);
   font-size: 0.64rem;
   font-weight: 900;
+}
+
+.pokemon-card > .team-matchups .team-matchup,
+.gym-pokemon-card .team-matchup {
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+}
+
+.pokemon-card > .team-matchups .team-matchup dl,
+.gym-pokemon-card .team-matchup dl {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  padding-top: 5px;
+}
+
+.pokemon-card > .team-matchups .team-matchup dl div:first-child,
+.gym-pokemon-card .team-matchup dl div:first-child {
+  border-left: 0;
 }
 
 .pokemon-evolutions {
@@ -5041,9 +5072,16 @@ html[data-theme="dark"] .sticky-search {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-html[data-theme="dark"] .dex-controls.is-floating {
+html[data-theme="dark"] .dex-controls {
   background: rgba(20, 19, 32, 0.94);
   box-shadow: 0 22px 55px rgba(0, 0, 0, 0.38);
+}
+
+@media (max-width: 1179px) {
+  html[data-theme="dark"] .dex-controls {
+    background: transparent;
+    box-shadow: none;
+  }
 }
 
 html[data-theme="dark"] .sticky-tab-search {
