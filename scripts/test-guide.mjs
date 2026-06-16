@@ -161,13 +161,13 @@ await check(
 await check((await page.locator("link[rel='apple-touch-icon']").count()) === 5, "Apple touch icons are missing");
 await check(
   JSON.stringify(
-    (await page.locator(".view-tab").allTextContents()).map((text) => text.replace(/\s+/g, " ").trim()),
+    (await page.locator(".view-tab:not([hidden])").allTextContents()).map((text) => text.replace(/\s+/g, " ").trim()),
   ) ===
     JSON.stringify([
       "Full Dex",
       "Locations",
       "Caught 0",
-      "Trainers",
+      "Battle Planner",
       "Gym Leaders",
       "Team Builder",
       "Team Planner",
@@ -179,7 +179,12 @@ await check(
     ]),
   "Primary tabs are not in the expected order",
 );
-await check((await page.locator(".view-tab__icon").count()) === 12, "Guide menu icons are incomplete");
+await check((await page.locator(".view-tab:not([hidden]) .view-tab__icon").count()) === 12, "Guide menu icons are incomplete");
+await check(
+  (await page.locator(".view-tab[data-view='trainers']").isHidden()) &&
+    (await page.locator(".view-tab[data-view='trainers']").getAttribute("disabled")) !== null,
+  "Trainers tab is not hidden and disabled",
+);
 await check((await page.locator("#view-menu-heading").textContent()) === "Menu", "Guide menu heading is missing");
 await check((await page.locator(".view-tab img").count()) === 0, "Guide menu still uses raster sprite icons");
 await check(
@@ -197,7 +202,7 @@ await check(
 await checkDashboardTeamFill("Desktop");
 await check((await page.locator("[data-clear-search]").count()) === 7, "Search clear buttons are missing");
 await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
-await check((await page.locator(".guide-tip").count()) === 3, "Expected three compact guide tips");
+await check((await page.locator(".guide-tip").count()) === 4, "Expected four compact guide tips");
 await check((await page.locator(".stat-strip").count()) === 0, "Old guide-stat strip is still visible");
 await check((await page.locator(".progress-panel").count()) === 0, "Redundant masthead capture progress is still visible");
 await check((await page.locator(".journey-dashboard").count()) === 1, "Journey dashboard is missing");
@@ -541,19 +546,18 @@ await check((await page.locator(".pokemon-card").count()) === 100, "Dex did not 
 await page.locator("#search").fill("Gothita");
 await page.locator("[data-clear-search='#search']").click();
 
-await page.locator(".view-tab[data-view='trainers']").click();
-await check((await page.locator(".trainer-location-group").count()) === 25, "Trainer locations are incomplete");
-await check((await page.locator(".trainer-card").count()) === 0, "Collapsed trainer locations rendered hidden cards");
+await page.locator(".view-tab[data-view='battle']").click();
+await check(await page.locator("#view-battle").evaluate((element) => element.classList.contains("is-active")), "Battle Planner view did not open");
+await check((await page.locator(".battle-target-card").count()) === 2, "Battle Planner did not render two target cards");
+await check((await page.locator(".battle-target-card__empty").count()) === 2, "Battle Planner did not start with empty target cards");
 await check(
-  (await page.locator(".trainer-location-group[open]").count()) === 0,
-  "Trainer locations should initially be collapsed",
+  (await page.locator("#view-battle").textContent()).includes("move power multiplied by type effectiveness"),
+  "Battle Planner does not explain recommendation ordering",
 );
+await page.locator("#view-battle").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-battle-empty.png"), fullPage: false });
+await page.evaluate(() => activateView("trainers"));
 await page.locator("#expand-trainer-locations").click();
-await check(
-  (await page.locator(".trainer-location-group[open]").count()) === 25,
-  "Expand all did not open every trainer location",
-);
-await check((await page.locator(".trainer-card").count()) === 127, "Playable trainer cards are incomplete");
 await check(
   (await page.locator(".trainer-party-member").count()) ===
     (await page.locator(".trainer-party-matchups").count()),
@@ -862,18 +866,35 @@ await check(
   (await page.locator(".dashboard-team-slot.is-filled small").textContent()) === "Gothorita",
   "Dashboard team overview is missing the PokÃ©mon name",
 );
-await page.locator(".view-tab[data-view='trainers']").click();
-await page.locator("#trainer-search").fill("Pidove");
-const pidoveTrainerCoverage = page.locator(".trainer-party-member", { hasText: "Pidove" }).first().locator(".team-matchup");
+await page.locator(".view-tab[data-view='battle']").click();
+const battleTargetSearch = page.locator(".battle-target-card[data-slot='1'] .team-pokemon-search input");
+await battleTargetSearch.fill("Wingull");
+await battleTargetSearch.press("ArrowDown");
+await battleTargetSearch.press("Enter");
+const battleCoverage = page.locator(".battle-target-card[data-slot='1'] .team-matchup");
 await check(
-  (await pidoveTrainerCoverage.count()) > 0 &&
-    (await pidoveTrainerCoverage.textContent()).includes("Gothorita") &&
-    (await pidoveTrainerCoverage.textContent()).includes("Thunderbolt") &&
-    (await pidoveTrainerCoverage.textContent()).includes("2x"),
-  "Trainer party weakness overview did not update from Team Builder moves",
+  (await page.locator(".battle-target-card[data-slot='1']").textContent()).includes("Wingull") &&
+    (await battleCoverage.first().textContent()).includes("Gothorita") &&
+    (await battleCoverage.first().textContent()).includes("Thunderbolt") &&
+    (await battleCoverage.first().textContent()).includes("4x") &&
+    (await battleCoverage.first().textContent()).includes("90") &&
+    (await battleCoverage.first().textContent()).includes("360"),
+  "Battle Planner did not recommend the strongest Team Builder move first",
 );
-await page.locator(".trainer-party-member", { hasText: "Pidove" }).first().scrollIntoViewIfNeeded();
-await page.screenshot({ path: path.join(outputDir, "guide-desktop-trainer-coverage.png"), fullPage: false });
+await check(
+  await battleCoverage.evaluateAll((entries) => {
+    const scores = entries.map((entry) => {
+      const scoreColumn = [...entry.querySelectorAll("dl div")].find(
+        (column) => column.querySelector("dt")?.textContent === "Score",
+      );
+      return Number(scoreColumn?.querySelector("dd")?.textContent || 0);
+    });
+    return scores.every((score, index) => index === 0 || scores[index - 1] >= score);
+  }),
+  "Battle Planner recommendations are not sorted by score",
+);
+await page.locator(".battle-target-card[data-slot='1']").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-battle-planner.png"), fullPage: false });
 await page.locator(".view-tab[data-view='gyms']").click();
 await check(
   (await page.locator(".gym-pokemon-card .team-matchup").count()) > 0,
@@ -1456,7 +1477,7 @@ for (const viewName of [
   "dex",
   "locations",
   "caught",
-  "trainers",
+  "battle",
   "gyms",
   "team",
   "planner",
@@ -1510,13 +1531,13 @@ await page.locator(".journey-dashboard").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-journey-dashboard.png"), fullPage: false });
 await page.locator(".view-tabs").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-menu.png"), fullPage: false });
-await page.locator(".view-tab[data-view='trainers']").click();
-await page.locator(".trainer-location-group").first().scrollIntoViewIfNeeded();
+await page.locator(".view-tab[data-view='battle']").click();
+await page.locator(".battle-target-card").first().scrollIntoViewIfNeeded();
 await check(
-  await page.locator(".trainer-location-group").first().evaluate((element) => element.scrollWidth <= element.clientWidth),
-  "Mobile trainer location has horizontal overflow",
+  await page.locator(".battle-target-card").first().evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile battle target card has horizontal overflow",
 );
-await page.screenshot({ path: path.join(outputDir, "guide-mobile-trainers.png"), fullPage: false });
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-battle-planner.png"), fullPage: false });
 await page.locator(".view-tab[data-view='gyms']").click();
 await page.locator(".gym-leader-card").first().scrollIntoViewIfNeeded();
 await check(
@@ -1649,6 +1670,7 @@ console.log(
         "tmp/guide-desktop-move-tutors.png",
         "tmp/guide-desktop-abilities.png",
         "tmp/guide-desktop-items.png",
+        "tmp/guide-desktop-battle-empty.png",
         "tmp/guide-desktop-team-search.png",
         "tmp/guide-desktop-team-builder.png",
         "tmp/guide-desktop-team-planner.png",
@@ -1656,6 +1678,7 @@ console.log(
         "tmp/guide-desktop-planner-meganium-profile.png",
         "tmp/guide-desktop-planner-progress.png",
         "tmp/guide-desktop-team-coverage.png",
+        "tmp/guide-desktop-battle-planner.png",
         "tmp/guide-desktop-learnset.png",
         "tmp/guide-desktop-gyms.png",
         "tmp/guide-tablet-journey-dashboard.png",
@@ -1670,6 +1693,7 @@ console.log(
         "tmp/guide-mobile-moves.png",
         "tmp/guide-mobile-abilities.png",
         "tmp/guide-mobile-items.png",
+        "tmp/guide-mobile-battle-planner.png",
         "tmp/guide-mobile-team-builder.png",
         "tmp/guide-mobile-team-planner.png",
         "tmp/guide-mobile-team-coverage.png",

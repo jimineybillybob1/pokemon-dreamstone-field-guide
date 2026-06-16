@@ -10,6 +10,7 @@ const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
 const teamStorageKey = "dreamstone-field-guide-team";
 const plannerStorageKey = "dreamstone-field-guide-planner";
+const battleStorageKey = "dreamstone-field-guide-battle-targets";
 const badgeStorageKey = "dreamstone-field-guide-badges";
 const syncCodeKey = "dreamstone-field-guide-sync-code";
 const saveFormat = "dreamstone-field-guide-save";
@@ -62,6 +63,17 @@ function loadPlanner() {
   }
 }
 
+function loadBattleTargets() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(battleStorageKey) || "[]");
+    return Array.from({ length: 2 }, (_, index) =>
+      Number.isFinite(saved[index]) ? saved[index] : null,
+    );
+  } catch {
+    return [null, null];
+  }
+}
+
 function loadBadges() {
   try {
     return new Set(JSON.parse(localStorage.getItem(badgeStorageKey) || "[]").map(String));
@@ -92,6 +104,7 @@ const state = {
   itemSearch: "",
   team: loadTeam(),
   planner: loadPlanner(),
+  battleTargets: loadBattleTargets(),
   syncCode: localStorage.getItem(syncCodeKey) || "",
   moveFilters: {
     search: "",
@@ -154,6 +167,7 @@ const elements = {
   trainerQuickLocationList: document.querySelector("#trainer-quick-location-list"),
   trainerLocationList: document.querySelector("#trainer-location-list"),
   trainerEmptyState: document.querySelector("#trainer-empty-state"),
+  battleGrid: document.querySelector("#battle-grid"),
   teamGrid: document.querySelector("#team-grid"),
   teamOffensiveCoverage: document.querySelector("#team-offensive-coverage"),
   plannerGrid: document.querySelector("#planner-grid"),
@@ -1086,6 +1100,10 @@ function persistPlanner() {
   localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
 }
 
+function persistBattleTargets() {
+  localStorage.setItem(battleStorageKey, JSON.stringify(state.battleTargets));
+}
+
 function updateSaveSummary() {
   if (!elements.saveCaughtCount || !elements.saveTeamCount) return;
   elements.saveCaughtCount.textContent = collectionGroups.filter((group) => state.caught.has(group.id)).length;
@@ -1113,6 +1131,7 @@ function createSaveDocument() {
       abilityId: slot.abilityId,
       nature: slot.nature,
     })),
+    battleTargets: [...state.battleTargets],
     preferences: {
       theme: state.theme,
       notesHidden: state.notesHidden,
@@ -1172,6 +1191,10 @@ function validateSaveDocument(input) {
       nature: validNature(slot.nature),
     };
   });
+  const battleTargets = Array.from({ length: 2 }, (_, slotIndex) => {
+    const pokemonNumber = Number(Array.isArray(input.battleTargets) ? input.battleTargets[slotIndex] : null);
+    return pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
+  });
   return {
     format: saveFormat,
     version: saveVersion,
@@ -1180,6 +1203,7 @@ function validateSaveDocument(input) {
     badges,
     team,
     planner,
+    battleTargets,
     preferences: {
       theme: input.preferences?.theme === "dark" ? "dark" : "light",
       notesHidden: input.preferences?.notesHidden === true,
@@ -1193,10 +1217,12 @@ function applySaveDocument(input) {
   state.badges = new Set(save.badges);
   state.team = save.team;
   state.planner = save.planner;
+  state.battleTargets = save.battleTargets;
   localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
   localStorage.setItem(badgeStorageKey, JSON.stringify([...state.badges]));
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
   localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
+  localStorage.setItem(battleStorageKey, JSON.stringify(state.battleTargets));
   setNotesHidden(save.preferences.notesHidden);
   setTheme(save.preferences.theme);
   updateProgress();
@@ -1204,6 +1230,7 @@ function applySaveDocument(input) {
   renderDex();
   renderTeam();
   renderPlanner();
+  renderBattlePlanner();
   renderTrainers();
   renderGyms();
   renderJourneyOverview();
@@ -1355,6 +1382,7 @@ async function copySyncCode() {
 function refreshTeamAndDex() {
   teamMatchupRevision += 1;
   renderTeam();
+  renderBattlePlanner();
   refreshTrainerMatchups();
   renderGyms();
   renderJourneyOverview();
@@ -1407,6 +1435,10 @@ function moveEffectiveness(moveType, targetTypes) {
   return targetTypes.reduce((multiplier, type) => multiplier * (matchups[type] ?? 1), 1);
 }
 
+function matchupScore(move, multiplier) {
+  return (Number(move.power) || 0) * multiplier;
+}
+
 function superEffectiveTeamMoves(targetPokemon) {
   const results = [];
   const seen = new Set();
@@ -1420,13 +1452,14 @@ function superEffectiveTeamMoves(targetPokemon) {
       const multiplier = moveEffectiveness(move.type, targetPokemon.types);
       if (multiplier <= 1) return;
       seen.add(key);
-      results.push({ pokemon: teamPokemon, move, multiplier });
+      results.push({ pokemon: teamPokemon, move, multiplier, score: matchupScore(move, multiplier) });
     });
   });
   return results.sort(
     (a, b) =>
+      b.score - a.score ||
       b.multiplier - a.multiplier ||
-      b.move.power - a.move.power ||
+      (b.move.power || 0) - (a.move.power || 0) ||
       a.pokemon.name.localeCompare(b.pokemon.name) ||
       a.move.name.localeCompare(b.move.name),
   );
@@ -1436,7 +1469,7 @@ function renderTeamMatchups(container, targetPokemon) {
   const heading = document.createElement("header");
   heading.innerHTML = `
     <span>Weak to your team</span>
-    <small>Type matchup only; abilities not considered</small>
+    <small>Sorted by move power x type effectiveness; abilities not considered</small>
   `;
   const matches = superEffectiveTeamMoves(targetPokemon);
   if (!matches.length) {
@@ -1451,7 +1484,7 @@ function renderTeamMatchups(container, targetPokemon) {
 
   const list = document.createElement("div");
   list.className = "team-matchups__list";
-  matches.forEach(({ pokemon, move, multiplier }) => {
+  matches.forEach(({ pokemon, move, multiplier, score }) => {
     const entry = document.createElement("article");
     entry.className = "team-matchup";
     entry.innerHTML = `
@@ -1464,6 +1497,7 @@ function renderTeamMatchups(container, targetPokemon) {
       <dl>
         <div><dt>Effective</dt><dd>${multiplier}x</dd></div>
         <div><dt>Power</dt><dd>${move.power || "-"}</dd></div>
+        <div><dt>Score</dt><dd>${score || "-"}</dd></div>
         <div><dt>Accuracy</dt><dd>${move.accuracy ? `${move.accuracy}%` : "-"}</dd></div>
       </dl>
     `;
@@ -1472,6 +1506,87 @@ function renderTeamMatchups(container, targetPokemon) {
     list.append(entry);
   });
   container.append(heading, list);
+}
+
+function setBattleTarget(slotIndex, pokemonNumber) {
+  state.battleTargets[slotIndex] = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
+  persistBattleTargets();
+  renderBattlePlanner();
+}
+
+function renderBattleTargetCard(pokemonNumber, slotIndex) {
+  const card = document.createElement("article");
+  card.className = "battle-target-card";
+  card.dataset.slot = slotIndex + 1;
+
+  const top = document.createElement("header");
+  top.className = "battle-target-card__top";
+  const label = document.createElement("strong");
+  label.textContent = `Opposing Pokemon ${slotIndex + 1}`;
+  top.append(label);
+  if (pokemonNumber) {
+    const clear = document.createElement("button");
+    clear.type = "button";
+    clear.className = "team-card__clear";
+    clear.textContent = "Remove";
+    clear.addEventListener("click", () => setBattleTarget(slotIndex, null));
+    top.append(clear);
+  }
+  card.append(
+    top,
+    createPokemonPicker(slotIndex, pokemonNumber, {
+      scope: "battle",
+      onSelect: setBattleTarget,
+      labelText: `Target Pokemon ${slotIndex + 1}`,
+    }),
+  );
+
+  const pokemon = pokemonByNumber.get(pokemonNumber);
+  if (!pokemon) {
+    const empty = document.createElement("div");
+    empty.className = "battle-target-card__empty";
+    empty.innerHTML = `
+      <span class="empty-state__stone" aria-hidden="true"></span>
+      <strong>Choose an opposing Pokemon</strong>
+      <p>Recommendations will appear here using the current Team Builder party and selected moves.</p>
+    `;
+    card.append(empty);
+    return card;
+  }
+
+  const summary = document.createElement("button");
+  summary.type = "button";
+  summary.className = "battle-target-card__summary";
+  summary.innerHTML = `
+    <span class="battle-target-card__sprite">
+      <img src="${pokemon.sprite}" alt="" width="84" height="84" loading="lazy">
+    </span>
+    <span class="battle-target-card__copy">
+      <small>No. ${String(pokemon.number).padStart(3, "0")}</small>
+      <strong></strong>
+      <span class="battle-target-card__types"></span>
+      <em>BST ${pokemon.bst || "N/A"}</em>
+    </span>
+  `;
+  summary.querySelector(".battle-target-card__copy strong").textContent = pokemon.name.replaceAll("_", " ");
+  renderTypeBadges(summary.querySelector(".battle-target-card__types"), pokemon.types);
+  summary.addEventListener("click", () => focusPokemon(pokemon.number));
+  card.append(summary);
+
+  const matchups = document.createElement("section");
+  matchups.className = "team-matchups battle-target-matchups";
+  renderTeamMatchups(matchups, pokemon);
+  card.append(matchups);
+  return card;
+}
+
+function renderBattlePlanner() {
+  if (!elements.battleGrid) return;
+  const fragment = document.createDocumentFragment();
+  state.battleTargets.forEach((pokemonNumber, index) => {
+    fragment.append(renderBattleTargetCard(pokemonNumber, index));
+  });
+  elements.battleGrid.replaceChildren(fragment);
 }
 
 function renderTrainerQuickLocations() {
@@ -3351,6 +3466,7 @@ function activateView(viewName) {
   if (viewName === "moves") renderMoves();
   if (viewName === "abilities") renderAbilities();
   if (viewName === "trainers") renderTrainers();
+  if (viewName === "battle") renderBattlePlanner();
   if (viewName === "gyms") renderGyms();
   if (viewName === "team") renderTeam();
   if (viewName === "planner") renderPlanner();
@@ -4004,6 +4120,7 @@ renderDex();
 renderJourneyOverview();
 renderTrainerQuickLocations();
 renderTrainers();
+renderBattlePlanner();
 renderGyms();
 renderTeam();
 renderPlanner();
