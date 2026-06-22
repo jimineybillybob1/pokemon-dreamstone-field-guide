@@ -175,7 +175,7 @@ await check(
       getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
     ) &&
     await page.locator(".jump-to-top").first().evaluate((element) =>
-      getComputedStyle(element).fontFamily.includes("Pokemon GB"),
+      getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
     ),
   "Page heading or Jump to Top typography is incorrect",
 );
@@ -282,6 +282,19 @@ await checkDashboardTeamFill("Desktop");
 await check((await page.locator("[data-clear-search]").count()) === 7, "Search clear buttons are missing");
 await check((await page.locator(".source-note").count()) === 0, "Legacy source notices are still visible");
 await check((await page.locator(".guide-tip").count()) === 4, "Expected four compact guide tips");
+await check(
+  await page.locator(".guide-tip").evaluateAll((elements) =>
+    elements.every((element) => getComputedStyle(element).fontFamily.includes("Trebuchet MS")),
+  ),
+  "A named guide panel does not use the conventional UI font",
+);
+await check(
+  await page.locator("footer").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return style.fontFamily.includes("Trebuchet MS") && Number.parseFloat(style.fontSize) <= 10;
+  }),
+  "Credits do not use the compact conventional font",
+);
 await check((await page.locator(".stat-strip").count()) === 0, "Old guide-stat strip is still visible");
 await check((await page.locator(".progress-panel").count()) === 0, "Redundant masthead capture progress is still visible");
 await check((await page.locator(".journey-dashboard").count()) === 1, "Journey dashboard is missing");
@@ -372,6 +385,35 @@ await check(
   (await page.locator(".pokemon-card[data-number='1'] .pokemon-bst").textContent()) === "290",
   "Gothita is missing its Pokerex BST",
 );
+await check(
+  await page.locator(".pokemon-card[data-number='1']").evaluate((card) => {
+    const rarity = Number.parseFloat(getComputedStyle(card.querySelector(".pokemon-rarity")).fontSize);
+    const bstStyle = getComputedStyle(card.querySelector(".pokemon-bst"));
+    const bst = Number.parseFloat(bstStyle.fontSize);
+    return rarity <= 11 && bst <= 14 && bstStyle.whiteSpace === "nowrap";
+  }),
+  "Dex Rarity or BST text is still too large",
+);
+await check(
+  await page.locator(".rarity-legend").evaluate((legend) => {
+    const title = legend.querySelector("strong").getBoundingClientRect();
+    const rates = legend.querySelector(".rarity-legend__rates").getBoundingClientRect();
+    return getComputedStyle(legend).display === "grid" && rates.top > title.bottom;
+  }),
+  "Encounter rates are not positioned below the legend title",
+);
+await check(
+  (await page.locator(".pokemon-card[data-number='1'] .team-matchup-group--collapsible").count()) === 2 &&
+    (await page.locator(".pokemon-card[data-number='1'] .team-matchup-group--collapsible:not([open])").count()) === 2,
+  "Dex matchup sections are not collapsed by default",
+);
+const dexMatchupSummary = page.locator(".pokemon-card[data-number='1'] .team-matchup-group--effective summary");
+await dexMatchupSummary.click();
+await check(
+  (await page.locator(".pokemon-card[data-number='1'] .team-matchup-group--effective").getAttribute("open")) !== null,
+  "Dex matchup section did not expand",
+);
+await dexMatchupSummary.click();
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .pokemon-stat").count()) === 7,
   "Gothita is missing its base-stat bars",
@@ -744,6 +786,18 @@ await check(
   ),
   "A Gym Pokemon is missing effective or resisted move coverage",
 );
+await check(
+  (await page.locator(".gym-pokemon-card .team-matchup-group--collapsible").count()) === 64 &&
+    (await page.locator(".gym-pokemon-card .team-matchup-group--collapsible:not([open])").count()) === 64,
+  "Gym matchup sections are not collapsed by default",
+);
+const gymMatchupSummary = page.locator(".gym-pokemon-card").first().locator(".team-matchup-group--effective summary");
+await gymMatchupSummary.click();
+await check(
+  (await page.locator(".gym-pokemon-card").first().locator(".team-matchup-group--effective").getAttribute("open")) !== null,
+  "Gym matchup section did not expand",
+);
+await gymMatchupSummary.click();
 await checkAlignedGridCards(
   ".gym-team",
   ".gym-pokemon-card",
@@ -767,6 +821,12 @@ await check(
     "Choose damage-dealing moves to see your offensive type coverage.",
   ),
   "Empty Team Builder offensive coverage guidance is missing",
+);
+await check(
+  await page.locator("#view-team .team-toolbar").evaluate((element) =>
+    getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
+  ),
+  "Team toolbar does not use the conventional UI font",
 );
 const teamPokemonSearch = page.locator(".team-card[data-slot='1'] .team-pokemon-search input");
 await teamPokemonSearch.fill("Gothita");
@@ -1242,6 +1302,15 @@ await check(
   "Save & Sync view did not open",
 );
 await check((await page.locator("#save-team-count").textContent()) === "1", "Save summary did not include the team");
+await check(
+  await page.locator("#view-save .save-panel p:not(.eyebrow)").first().evaluate((element) =>
+    getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
+  ) &&
+    await page.locator("#view-save .save-panel h3").first().evaluate((element) =>
+      getComputedStyle(element).fontFamily.includes("Georgia"),
+    ),
+  "Save & Sync does not use its original typography",
+);
 await check(await page.locator("#upload-cloud-save").isDisabled(), "Cloud upload was enabled without an endpoint");
 await check(await page.locator("#download-cloud-save").isDisabled(), "Cloud download was enabled without an endpoint");
 await check(

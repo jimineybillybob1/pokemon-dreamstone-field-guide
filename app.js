@@ -1573,10 +1573,18 @@ function resistedTeamMoves(targetPokemon) {
     );
 }
 
-function createTeamMatchupGroup({ title, description, matches, emptyText, modifier }) {
-  const group = document.createElement("section");
+function createTeamMatchupGroup({
+  title,
+  description,
+  matches,
+  emptyText,
+  modifier,
+  collapsible = false,
+}) {
+  const group = document.createElement(collapsible ? "details" : "section");
   group.className = `team-matchup-group team-matchup-group--${modifier}`;
-  const heading = document.createElement("header");
+  group.classList.toggle("team-matchup-group--collapsible", collapsible);
+  const heading = document.createElement(collapsible ? "summary" : "header");
   heading.innerHTML = `
     <span>${title}</span>
     <small>${description}</small>
@@ -1616,7 +1624,7 @@ function createTeamMatchupGroup({ title, description, matches, emptyText, modifi
   return group;
 }
 
-function renderTeamMatchups(container, targetPokemon) {
+function renderTeamMatchups(container, targetPokemon, { collapsible = false } = {}) {
   container.setAttribute("aria-label", `Team move effectiveness against ${targetPokemon.name.replaceAll("_", " ")}`);
   const hasDamageMoves = state.team.some((slot) =>
     slot.moves.some((moveId) => {
@@ -1633,6 +1641,7 @@ function renderTeamMatchups(container, targetPokemon) {
         ? "No selected damage-dealing team moves are super effective."
         : "Add damage-dealing moves in Team Builder to see coverage.",
       modifier: "effective",
+      collapsible,
     }),
     createTeamMatchupGroup({
       title: "Not effective from your team",
@@ -1642,6 +1651,7 @@ function renderTeamMatchups(container, targetPokemon) {
         ? "No selected damage-dealing team moves are resisted or immune."
         : "Add damage-dealing moves in Team Builder to see poor matchups.",
       modifier: "resisted",
+      collapsible,
     }),
   );
 }
@@ -1943,7 +1953,7 @@ function renderGymPokemonCard(member) {
   card.querySelector(".gym-pokemon-card__copy strong").textContent = targetPokemon.name.replaceAll("_", " ");
   renderTypeBadges(card.querySelector(".gym-pokemon-card__types"), targetPokemon.types);
   card.querySelector(".gym-pokemon-card__identity").addEventListener("click", () => focusPokemon(pokemon.number));
-  renderTeamMatchups(card.querySelector(".team-matchups"), targetPokemon);
+  renderTeamMatchups(card.querySelector(".team-matchups"), targetPokemon, { collapsible: true });
   return card;
 }
 
@@ -3065,7 +3075,7 @@ function syncPokemonCardTeamMatchups(card, pokemon) {
   }
   const container = card.querySelector(".team-matchups");
   container.replaceChildren();
-  renderTeamMatchups(container, pokemon);
+  renderTeamMatchups(container, pokemon, { collapsible: true });
   card.dataset.teamMatchupRevision = String(teamMatchupRevision);
   card.dataset.teamMatchupForm = formValue;
 }

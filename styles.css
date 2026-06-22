@@ -84,7 +84,31 @@ body * {
 
 .jump-to-top,
 .jump-to-top * {
-  font-family: var(--font-ui) !important;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif !important;
+}
+
+.guide-tip,
+.guide-tip *,
+.team-toolbar,
+.team-toolbar *,
+footer,
+footer * {
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif !important;
+}
+
+#view-save,
+#view-save * {
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif !important;
+}
+
+#view-save .section-heading h2,
+#view-save .save-summary strong,
+#view-save .save-panel h3 {
+  font-family: Georgia, "Times New Roman", serif !important;
+}
+
+#view-save .sync-code-field input {
+  font-family: Consolas, "Courier New", monospace !important;
 }
 
 button,
@@ -949,13 +973,18 @@ button.journey-card:hover {
 }
 
 .rarity-legend {
+  display: grid;
+  gap: 8px;
+  margin: -10px 0 25px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.rarity-legend__rates {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 18px;
   align-items: center;
-  margin: -10px 0 25px;
-  color: var(--muted);
-  font-size: 0.7rem;
 }
 
 .rarity-legend strong {
@@ -984,7 +1013,7 @@ button.journey-card:hover {
 .pokemon-card {
   position: relative;
   display: grid;
-  grid-template-rows: 140px 130px auto auto 210px 110px minmax(82px, 1fr);
+  grid-template-rows: 140px 130px auto auto 210px 74px minmax(82px, 1fr);
   height: 100%;
   min-width: 0;
   overflow: hidden;
@@ -1002,6 +1031,10 @@ button.journey-card:hover {
   transform: translateY(-2px);
   border-color: rgba(114, 87, 212, 0.35);
   box-shadow: 0 14px 35px rgba(48, 38, 88, 0.11);
+}
+
+.pokemon-card:has(.team-matchup-group--collapsible[open]) {
+  grid-template-rows: 140px 130px auto auto 210px auto minmax(82px, 1fr);
 }
 
 .pokemon-card.is-caught {
@@ -1309,6 +1342,16 @@ button.journey-card:hover {
   line-height: 1.35;
 }
 
+.pokemon-card__rarity-fact dt,
+.pokemon-card__bst-fact dt {
+  font-size: 0.54rem;
+}
+
+.pokemon-rarity {
+  font-size: 0.64rem !important;
+  line-height: 1.25 !important;
+}
+
 .pokemon-rarity[data-rarity="Rare"] {
   color: #a44a5e;
 }
@@ -1328,8 +1371,10 @@ button.journey-card:hover {
 .pokemon-bst {
   color: var(--violet-dark);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.2rem !important;
+  overflow-wrap: normal !important;
+  font-size: 0.72rem !important;
   line-height: 1 !important;
+  white-space: nowrap;
 }
 
 .pokemon-location {
@@ -1512,12 +1557,49 @@ button.journey-card:hover {
   min-width: 0;
 }
 
+.team-matchup-group--collapsible > summary {
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+  padding-right: 24px;
+}
+
+.team-matchup-group--collapsible > summary::-webkit-details-marker {
+  display: none;
+}
+
+.team-matchup-group--collapsible > summary::after {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--violet-dark);
+  background: var(--paper-deep);
+  font-size: 0.72rem;
+  content: "+";
+}
+
+.team-matchup-group--collapsible[open] > summary::after {
+  content: "\2212";
+}
+
+.team-matchup-group--collapsible:not([open]) > summary small {
+  display: none;
+}
+
 .team-matchup-group + .team-matchup-group {
   border-top: 1px dashed var(--line);
   padding-top: 10px;
 }
 
-.team-matchups header {
+.team-matchups header,
+.team-matchups summary {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 10px;
@@ -1525,7 +1607,8 @@ button.journey-card:hover {
   justify-content: space-between;
 }
 
-.team-matchups header span {
+.team-matchups header span,
+.team-matchups summary span {
   color: var(--muted);
   font-size: 0.59rem;
   font-weight: 900;
@@ -1533,7 +1616,8 @@ button.journey-card:hover {
   text-transform: uppercase;
 }
 
-.team-matchups header small {
+.team-matchups header small,
+.team-matchups summary small {
   color: var(--muted);
   font-size: 0.52rem;
 }
@@ -5135,8 +5219,8 @@ footer {
   border-top: 1px solid var(--line);
   color: var(--muted);
   padding: 28px 0;
-  font-size: 0.72rem;
-  line-height: 1.55;
+  font-size: 0.62rem;
+  line-height: 1.5;
 }
 
 footer p {
