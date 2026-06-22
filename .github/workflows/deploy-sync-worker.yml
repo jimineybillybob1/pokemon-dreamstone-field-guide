@@ -2,6 +2,11 @@ name: Deploy sync Worker
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "sync-worker/**"
+      - ".github/workflows/deploy-sync-worker.yml"
 
 permissions:
   contents: read

@@ -36,7 +36,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260622-7" />
+    <link rel="stylesheet" href="styles.css?v=20260622-8" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js?v=20260615-3" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
@@ -45,7 +45,7 @@
     <script src="data/pokerex-items.js" defer></script>
     <script src="data/pokerex-evolutions.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260622-2" defer></script>
+    <script src="app.js?v=20260622-3" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -562,7 +562,8 @@
         <div class="save-summary" aria-label="Current save summary">
           <article><span>Caught</span><strong id="save-caught-count">0</strong></article>
           <article><span>Team members</span><strong id="save-team-count">0</strong></article>
-          <article><span>Save format</span><strong>Version 1</strong></article>
+          <article><span>Local revision</span><strong id="save-local-revision">0</strong></article>
+          <article><span>Last changed</span><strong class="save-summary__date" id="save-local-modified">Not yet</strong></article>
         </div>
 
         <div class="save-management-grid">
@@ -606,11 +607,33 @@
               />
             </label>
             <p class="sync-service-status" id="sync-service-status"></p>
+            <section class="sync-freshness" id="sync-freshness" data-status="unchecked" aria-live="polite">
+              <span>Save freshness</span>
+              <strong id="sync-freshness-title">Not checked</strong>
+              <p id="sync-freshness-detail">Check before moving between devices.</p>
+            </section>
+            <div class="sync-conflict-actions" id="sync-conflict-actions" hidden>
+              <strong>Choose the copy to keep</strong>
+              <p>The other copy will be retained in Recovery versions.</p>
+              <div class="save-actions">
+                <button class="save-primary-button" id="use-local-save" type="button">Keep this device</button>
+                <button class="save-secondary-button" id="use-cloud-save" type="button">Use cloud save</button>
+              </div>
+            </div>
+            <details class="sync-recovery">
+              <summary>Recovery versions</summary>
+              <p>Up to five local backups and eight encrypted cloud revisions are retained.</p>
+              <button class="save-secondary-button" id="refresh-sync-history" type="button">Refresh cloud versions</button>
+              <div class="sync-recovery-list" id="sync-recovery-list"></div>
+            </details>
             <div class="save-actions save-actions--cloud">
               <button class="save-primary-button" id="create-sync-code" type="button">
                 Create UUID
               </button>
               <button class="save-secondary-button" id="copy-sync-code" type="button">Copy UUID</button>
+              <button class="save-secondary-button" id="check-cloud-save" type="button">
+                Check status
+              </button>
               <button class="save-secondary-button" id="upload-cloud-save" type="button">
                 Save to cloud
               </button>

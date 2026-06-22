@@ -5064,7 +5064,7 @@ button.trainer-party-member__identity:hover {
 
 .save-summary {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin-bottom: 18px;
 }
@@ -5091,6 +5091,13 @@ button.trainer-party-member__identity:hover {
   color: var(--violet-dark);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.55rem;
+}
+
+.save-summary .save-summary__date {
+  align-self: center;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.25;
 }
 
 .save-management-grid {
@@ -5201,6 +5208,126 @@ button.trainer-party-member__identity:hover {
   background: rgba(66, 182, 163, 0.08);
 }
 
+.sync-freshness {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--muted);
+  border-radius: 11px;
+  background: rgba(114, 87, 212, 0.04);
+  padding: 12px 13px;
+}
+
+.sync-freshness > span {
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sync-freshness > strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.sync-freshness > p,
+.sync-conflict-actions > p,
+.sync-recovery > p {
+  margin: 0 !important;
+}
+
+.sync-freshness[data-status="in-sync"] { border-left-color: var(--teal); }
+.sync-freshness[data-status="local-newer"],
+.sync-freshness[data-status="no-cloud"] { border-left-color: var(--gold); }
+.sync-freshness[data-status="cloud-newer"] { border-left-color: var(--violet); }
+.sync-freshness[data-status="conflict"],
+.sync-freshness[data-status="error"] { border-left-color: #b45f7e; }
+
+.sync-conflict-actions {
+  display: grid;
+  gap: 7px;
+  border: 1px solid rgba(180, 95, 126, 0.28);
+  border-radius: 11px;
+  background: rgba(180, 95, 126, 0.07);
+  padding: 12px 13px;
+}
+
+.sync-conflict-actions[hidden] {
+  display: none;
+}
+
+.sync-recovery {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.sync-recovery summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.sync-recovery > p {
+  padding: 7px 0 10px;
+}
+
+.sync-recovery > button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.sync-recovery-list {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.sync-recovery-entry {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper-deep);
+  padding: 8px 9px;
+}
+
+.sync-recovery-entry > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sync-recovery-entry strong {
+  color: var(--ink);
+  font-size: 0.7rem;
+}
+
+.sync-recovery-entry span,
+.sync-recovery-empty {
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+
+.sync-recovery-entry button {
+  flex: 0 0 auto;
+  min-height: 31px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--violet-dark);
+  background: #fff;
+  padding: 5px 8px;
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
 .save-operation-status {
   min-height: 22px;
   margin: 14px 0 0;
@@ -5215,6 +5342,10 @@ button.trainer-party-member__identity:hover {
 
 .save-operation-status[data-status="error"] {
   color: #a44a5e;
+}
+
+.save-operation-status[data-status="warning"] {
+  color: #9a6920;
 }
 
 footer {
@@ -5353,6 +5484,17 @@ html[data-theme="dark"] .dashboard-team-slot.is-filled {
 
 html[data-theme="dark"] .dashboard-team-slot + .dashboard-team-slot {
   border-left-color: rgba(255, 255, 255, 0.18);
+}
+
+html[data-theme="dark"] .sync-freshness,
+html[data-theme="dark"] .sync-conflict-actions,
+html[data-theme="dark"] .sync-recovery-entry {
+  background: rgba(42, 38, 60, 0.88);
+}
+
+html[data-theme="dark"] .sync-recovery-entry button {
+  color: var(--violet-soft);
+  background: #302b45;
 }
 
 html[data-theme="dark"] .filter-panel input,
@@ -6189,7 +6331,7 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .save-summary {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .team-card__identity {

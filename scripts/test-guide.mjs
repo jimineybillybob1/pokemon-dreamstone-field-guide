@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import syncWorker from "../sync-worker/src/index.js";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputDir = path.join(rootDir, "tmp");
@@ -1348,10 +1349,31 @@ await check(
   await page.locator(".save-management-grid").evaluate((grid) => {
     const panels = [...grid.querySelectorAll(".save-panel")];
     const heights = panels.map((panel) => panel.getBoundingClientRect().height);
-    const actionBottoms = panels.map((panel) => panel.querySelector(".save-actions").getBoundingClientRect().bottom);
+    const actionBottoms = panels.map((panel) => panel.querySelector(":scope > .save-actions").getBoundingClientRect().bottom);
     return Math.max(...heights) - Math.min(...heights) < 2 && Math.max(...actionBottoms) - Math.min(...actionBottoms) < 2;
   }),
   "Save & Sync panels or their action rows are not aligned",
+);
+await check((await page.locator(".save-summary article").count()) === 4, "Save revision summary is incomplete");
+await check(Number(await page.locator("#save-local-revision").textContent()) > 0, "Local save revision did not track changes");
+await check(await page.locator("#sync-conflict-actions").isHidden(), "Conflict choices are visible before a conflict");
+await check(await page.locator("#check-cloud-save").isDisabled(), "Cloud status check was enabled without an endpoint");
+await check(await page.locator("#refresh-sync-history").isDisabled(), "Cloud history was enabled without an endpoint");
+await check(
+  await page.evaluate(() => {
+    const localSave = createSaveDocument();
+    const cloudSave = structuredClone(localSave);
+    const emptyContext = { lastSyncedFingerprint: "" };
+    const syncedContext = { lastSyncedFingerprint: "base" };
+    return (
+      classifySyncStatus({ localSave, cloudSave: null, localFingerprint: "local", cloudFingerprint: "", context: emptyContext }) === "no-cloud" &&
+      classifySyncStatus({ localSave, cloudSave, localFingerprint: "same", cloudFingerprint: "same", context: emptyContext }) === "in-sync" &&
+      classifySyncStatus({ localSave, cloudSave, localFingerprint: "local", cloudFingerprint: "base", context: syncedContext }) === "local-newer" &&
+      classifySyncStatus({ localSave, cloudSave, localFingerprint: "base", cloudFingerprint: "cloud", context: syncedContext }) === "cloud-newer" &&
+      classifySyncStatus({ localSave, cloudSave, localFingerprint: "local", cloudFingerprint: "cloud", context: syncedContext }) === "conflict"
+    );
+  }),
+  "Save freshness classification is incorrect",
 );
 const downloadPromise = page.waitForEvent("download");
 await page.locator("#export-save").click();
@@ -1381,9 +1403,22 @@ await check(
     const save = createSaveDocument();
     const encrypted = await encryptSave(save, code);
     const decrypted = await decryptSave(encrypted.envelope, code);
-    return encrypted.id.length === 64 && decrypted.format === save.format && decrypted.team.length === 6;
+    const legacyEnvelope = { ...encrypted.envelope, version: 1 };
+    delete legacyEnvelope.revision;
+    delete legacyEnvelope.parentRevision;
+    delete legacyEnvelope.modifiedAt;
+    delete legacyEnvelope.deviceId;
+    const legacyDecrypted = await decryptSave(legacyEnvelope, code);
+    return (
+      encrypted.id.length === 64 &&
+      encrypted.envelope.version === 2 &&
+      encrypted.envelope.revision === save.sync.revision &&
+      decrypted.format === save.format &&
+      decrypted.team.length === 6 &&
+      legacyDecrypted.format === save.format
+    );
   }),
-  "Client-side save encryption round trip failed",
+  "Client-side versioned save encryption or legacy migration failed",
 );
 await check(
   await page.evaluate(() => {
@@ -1414,6 +1449,10 @@ await check(
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__nature select").inputValue()) === "adamant",
   "Imported save did not restore the selected team nature",
+);
+await check(
+  await page.evaluate(() => JSON.parse(localStorage.getItem("dreamstone-field-guide-local-backups-v1") || "[]").length > 0),
+  "Replacing a local save did not create a recovery backup",
 );
 await page.locator(".view-tab[data-view='planner']").click();
 await check(
@@ -1908,6 +1947,104 @@ await page.locator("#location-search").fill("Route 1");
 await page.locator(".location-card").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-location-map.png"), fullPage: false });
 
+const syncValues = new Map();
+const syncMetadata = new Map();
+const syncEnv = {
+  ALLOWED_ORIGINS: "null",
+  SAVES: {
+    get: async (key) => syncValues.get(key) ?? null,
+    put: async (key, value, options = {}) => {
+      syncValues.set(key, value);
+      syncMetadata.set(key, options.metadata);
+    },
+    delete: async (key) => {
+      syncValues.delete(key);
+      syncMetadata.delete(key);
+    },
+    list: async ({ prefix }) => ({
+      keys: [...syncValues.keys()]
+        .filter((key) => key.startsWith(prefix))
+        .map((name) => ({ name, metadata: syncMetadata.get(name) })),
+    }),
+  },
+};
+const createSyncTestPage = async () => {
+  const context = await browser.newContext({ viewport: { width: 900, height: 1000 } });
+  await context.route("**/sync-config.js", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/javascript",
+      body: 'window.DREAMSTONE_SYNC_ENDPOINT = "https://sync.test";',
+    }),
+  );
+  await context.route("https://sync.test/**", async (route) => {
+    const incoming = route.request();
+    const headers = new Headers(incoming.headers());
+    headers.set("Origin", "null");
+    const workerRequest = new Request(incoming.url(), {
+      method: incoming.method(),
+      headers,
+      body: ["GET", "HEAD"].includes(incoming.method()) ? undefined : incoming.postData(),
+    });
+    const response = await syncWorker.fetch(workerRequest, syncEnv);
+    await route.fulfill({
+      status: response.status,
+      headers: Object.fromEntries(response.headers.entries()),
+      body: await response.text(),
+    });
+  });
+  const syncPage = await context.newPage();
+  await syncPage.goto(guideUrl);
+  return { context, syncPage };
+};
+
+const syncCode = "12345678-1234-4123-8123-123456789abc";
+const deviceOne = await createSyncTestPage();
+await deviceOne.syncPage.locator(".view-tab[data-view='save']").click();
+await deviceOne.syncPage.locator("#sync-code").fill(syncCode);
+await deviceOne.syncPage.evaluate(() => markCaught(pokemonByNumber.get(1)));
+await deviceOne.syncPage.locator("#upload-cloud-save").click();
+await deviceOne.syncPage.waitForFunction(() => document.querySelector("#sync-freshness-title")?.textContent === "In sync");
+
+const deviceTwo = await createSyncTestPage();
+await deviceTwo.syncPage.locator(".view-tab[data-view='save']").click();
+await deviceTwo.syncPage.locator("#sync-code").fill(syncCode);
+await deviceTwo.syncPage.locator("#check-cloud-save").click();
+await deviceTwo.syncPage.waitForFunction(() => document.querySelector("#sync-freshness-title")?.textContent === "Cloud save is newer");
+deviceTwo.syncPage.once("dialog", (dialog) => dialog.accept());
+await deviceTwo.syncPage.locator("#download-cloud-save").click();
+await deviceTwo.syncPage.waitForFunction(() => document.querySelector("#sync-freshness-title")?.textContent === "In sync");
+await check(
+  await deviceTwo.syncPage.evaluate(() => state.caught.has(dexId(pokemonByNumber.get(1)))),
+  "A second device did not load the newer cloud save",
+);
+await check(
+  await deviceTwo.syncPage.evaluate(() => readLocalBackups().length === 1),
+  "Loading cloud progress did not preserve the second device's prior save",
+);
+
+await deviceOne.syncPage.evaluate(() => markCaught(pokemonByNumber.get(2)));
+await deviceTwo.syncPage.evaluate(() => markCaught(pokemonByNumber.get(3)));
+await deviceTwo.syncPage.locator("#upload-cloud-save").click();
+await deviceTwo.syncPage.waitForFunction(() => document.querySelector("#sync-freshness-title")?.textContent === "In sync");
+await deviceOne.syncPage.locator("#check-cloud-save").click();
+await deviceOne.syncPage.waitForFunction(() => document.querySelector("#sync-freshness-title")?.textContent === "Changes on both copies");
+await check(await deviceOne.syncPage.locator("#sync-conflict-actions").isVisible(), "Sync conflict choices were not shown");
+deviceOne.syncPage.once("dialog", (dialog) => dialog.accept());
+await deviceOne.syncPage.locator("#use-local-save").click();
+await deviceOne.syncPage.waitForFunction(() => document.querySelector("#sync-freshness-title")?.textContent === "In sync");
+await deviceOne.syncPage.locator(".sync-recovery summary").click();
+await deviceOne.syncPage.locator("#refresh-sync-history").click();
+await deviceOne.syncPage.waitForFunction(() => document.querySelectorAll("[data-restore-cloud]").length >= 2);
+await check(
+  (await deviceOne.syncPage.locator("[data-restore-cloud]").count()) >= 2,
+  "Encrypted cloud recovery history was not retained",
+);
+await deviceOne.syncPage.locator(".save-panel--cloud").scrollIntoViewIfNeeded();
+await deviceOne.syncPage.screenshot({ path: path.join(outputDir, "guide-desktop-save-sync-status.png"), fullPage: false });
+await deviceOne.context.close();
+await deviceTwo.context.close();
+
 await browser.close();
 if (errors.length) throw new Error(errors.join("\n"));
 console.log(
@@ -1959,6 +2096,7 @@ console.log(
         "tmp/guide-mobile-save-sync.png",
         "tmp/guide-mobile-collection.png",
         "tmp/guide-mobile-location-map.png",
+        "tmp/guide-desktop-save-sync-status.png",
       ],
     },
     null,

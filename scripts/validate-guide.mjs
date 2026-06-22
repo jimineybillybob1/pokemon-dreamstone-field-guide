@@ -377,6 +377,9 @@ check(html.includes('id="team-offensive-coverage"'), "Team Builder offensive cov
 check(html.includes('id="planner-offensive-coverage"'), "Team Planner offensive coverage overview is missing");
 check(html.includes('id="export-save"'), "Save export control is missing");
 check(html.includes('id="sync-code"'), "Cloud sync UUID control is missing");
+check(html.includes('id="sync-freshness"'), "Cloud save freshness status is missing");
+check(html.includes('id="sync-conflict-actions"'), "Cloud conflict resolution controls are missing");
+check(html.includes('id="sync-recovery-list"'), "Save recovery history is missing");
 
 const localReferences = [...html.matchAll(/\s(?:src|href)="([^"]+)"/g)]
   .map((match) => match[1])

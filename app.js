@@ -13,9 +13,45 @@ const plannerStorageKey = "dreamstone-field-guide-planner";
 const battleStorageKey = "dreamstone-field-guide-battle-targets";
 const badgeStorageKey = "dreamstone-field-guide-badges";
 const syncCodeKey = "dreamstone-field-guide-sync-code";
+const saveMetadataKey = "dreamstone-field-guide-save-metadata-v1";
+const syncContextKey = "dreamstone-field-guide-sync-context-v1";
+const localBackupsKey = "dreamstone-field-guide-local-backups-v1";
 const saveFormat = "dreamstone-field-guide-save";
 const saveVersion = 1;
 const syncEndpoint = (window.DREAMSTONE_SYNC_ENDPOINT || "").replace(/\/+$/, "");
+const maxLocalBackups = 5;
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function readStoredJson(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "null") ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function loadSaveMetadata() {
+  const stored = readStoredJson(saveMetadataKey, {});
+  return {
+    deviceId: uuidPattern.test(stored.deviceId || "") ? stored.deviceId : crypto.randomUUID(),
+    revision: Number.isInteger(stored.revision) && stored.revision >= 0 ? stored.revision : 0,
+    modifiedAt: typeof stored.modifiedAt === "string" ? stored.modifiedAt : null,
+  };
+}
+
+function loadSyncContext() {
+  const stored = readStoredJson(syncContextKey, {});
+  return {
+    code: typeof stored.code === "string" ? stored.code : "",
+    lastSyncedRevision:
+      Number.isInteger(stored.lastSyncedRevision) && stored.lastSyncedRevision >= 0
+        ? stored.lastSyncedRevision
+        : null,
+    lastSyncedFingerprint:
+      typeof stored.lastSyncedFingerprint === "string" ? stored.lastSyncedFingerprint : "",
+    lastSyncedAt: typeof stored.lastSyncedAt === "string" ? stored.lastSyncedAt : null,
+  };
+}
 
 function loadTeam() {
   try {
@@ -106,6 +142,11 @@ const state = {
   planner: loadPlanner(),
   battleTargets: loadBattleTargets(),
   syncCode: localStorage.getItem(syncCodeKey) || "",
+  saveMetadata: loadSaveMetadata(),
+  syncContext: loadSyncContext(),
+  syncSnapshot: null,
+  syncStatus: "unchecked",
+  cloudHistory: [],
   moveFilters: {
     search: "",
     type: "",
@@ -177,6 +218,13 @@ const elements = {
   saveTeamCount: document.querySelector("#save-team-count"),
   syncCode: document.querySelector("#sync-code"),
   syncServiceStatus: document.querySelector("#sync-service-status"),
+  syncFreshness: document.querySelector("#sync-freshness"),
+  syncFreshnessTitle: document.querySelector("#sync-freshness-title"),
+  syncFreshnessDetail: document.querySelector("#sync-freshness-detail"),
+  syncConflictActions: document.querySelector("#sync-conflict-actions"),
+  syncRecoveryList: document.querySelector("#sync-recovery-list"),
+  saveLocalRevision: document.querySelector("#save-local-revision"),
+  saveLocalModified: document.querySelector("#save-local-modified"),
   saveOperationStatus: document.querySelector("#save-operation-status"),
   megaGrid: document.querySelector("#mega-grid"),
   megaNote: document.querySelector("#mega-note"),
@@ -996,6 +1044,7 @@ function renderJourneyOverview() {
 
 function persistBadges() {
   localStorage.setItem(badgeStorageKey, JSON.stringify([...state.badges]));
+  markSaveModified();
   renderJourneyOverview();
   renderGyms();
 }
@@ -1026,6 +1075,7 @@ function updateProgress() {
 
 function persistCaught() {
   localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
+  markSaveModified();
   updateProgress();
 }
 
@@ -1180,27 +1230,71 @@ function renderPokemonStats(card, pokemon, natureId = null) {
   section.append(heading, rows);
 }
 
+function persistSaveMetadata() {
+  localStorage.setItem(saveMetadataKey, JSON.stringify(state.saveMetadata));
+}
+
+function persistSyncContext() {
+  localStorage.setItem(syncContextKey, JSON.stringify(state.syncContext));
+}
+
+function ensureSyncContext(code) {
+  if (state.syncContext.code === code) return;
+  state.syncContext = {
+    code,
+    lastSyncedRevision: null,
+    lastSyncedFingerprint: "",
+    lastSyncedAt: null,
+  };
+  state.syncSnapshot = null;
+  state.cloudHistory = [];
+  persistSyncContext();
+  renderRecoveryBackups();
+}
+
+function markSaveModified() {
+  state.saveMetadata.revision = Math.max(0, state.saveMetadata.revision) + 1;
+  state.saveMetadata.modifiedAt = new Date().toISOString();
+  persistSaveMetadata();
+  state.syncSnapshot = null;
+  if (state.syncCode && syncEndpoint) setSyncFreshness("local-newer");
+  updateSaveSummary();
+}
+
 function persistTeam() {
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
+  markSaveModified();
   updateSaveSummary();
   renderJourneyOverview();
 }
 
 function persistPlanner() {
   localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
+  markSaveModified();
 }
 
 function persistBattleTargets() {
   localStorage.setItem(battleStorageKey, JSON.stringify(state.battleTargets));
+  markSaveModified();
+}
+
+function formatSaveDate(value) {
+  if (!value || Number.isNaN(Date.parse(value))) return "Not yet";
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(value));
 }
 
 function updateSaveSummary() {
   if (!elements.saveCaughtCount || !elements.saveTeamCount) return;
   elements.saveCaughtCount.textContent = collectionGroups.filter((group) => state.caught.has(group.id)).length;
   elements.saveTeamCount.textContent = state.team.filter((slot) => slot.pokemonNumber).length;
+  if (elements.saveLocalRevision) elements.saveLocalRevision.textContent = String(state.saveMetadata.revision);
+  if (elements.saveLocalModified) elements.saveLocalModified.textContent = formatSaveDate(state.saveMetadata.modifiedAt);
 }
 
-function createSaveDocument() {
+function createSaveDocument({ parentRevision = state.syncContext.lastSyncedRevision } = {}) {
   return {
     format: saveFormat,
     version: saveVersion,
@@ -1225,6 +1319,12 @@ function createSaveDocument() {
     preferences: {
       theme: state.theme,
       notesHidden: state.notesHidden,
+    },
+    sync: {
+      revision: state.saveMetadata.revision,
+      parentRevision,
+      modifiedAt: state.saveMetadata.modifiedAt,
+      deviceId: state.saveMetadata.deviceId,
     },
   };
 }
@@ -1285,6 +1385,8 @@ function validateSaveDocument(input) {
     const pokemonNumber = Number(Array.isArray(input.battleTargets) ? input.battleTargets[slotIndex] : null);
     return pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
   });
+  const inputRevision = Number(input.sync?.revision);
+  const inputParentRevision = input.sync?.parentRevision;
   return {
     format: saveFormat,
     version: saveVersion,
@@ -1298,11 +1400,66 @@ function validateSaveDocument(input) {
       theme: input.preferences?.theme === "dark" ? "dark" : "light",
       notesHidden: input.preferences?.notesHidden === true,
     },
+    sync: {
+      revision: Number.isInteger(inputRevision) && inputRevision >= 0 ? inputRevision : 0,
+      parentRevision:
+        inputParentRevision === null || (Number.isInteger(inputParentRevision) && inputParentRevision >= 0)
+          ? inputParentRevision
+          : null,
+      modifiedAt:
+        typeof input.sync?.modifiedAt === "string"
+          ? input.sync.modifiedAt
+          : typeof input.exportedAt === "string"
+            ? input.exportedAt
+            : null,
+      deviceId: uuidPattern.test(input.sync?.deviceId || "") ? input.sync.deviceId : null,
+    },
   };
 }
 
-function applySaveDocument(input) {
+function readLocalBackups() {
+  const backups = readStoredJson(localBackupsKey, []);
+  return Array.isArray(backups) ? backups : [];
+}
+
+function renderRecoveryBackups() {
+  if (!elements.syncRecoveryList) return;
+  const local = readLocalBackups();
+  const entries = [];
+  local.forEach((backup) => {
+    entries.push(`
+      <article class="sync-recovery-entry">
+        <div><strong>Local backup</strong><span>${formatSaveDate(backup.createdAt)} · ${backup.reason}</span></div>
+        <button type="button" data-restore-local="${backup.id}">Restore</button>
+      </article>
+    `);
+  });
+  state.cloudHistory.forEach((version) => {
+    entries.push(`
+      <article class="sync-recovery-entry">
+        <div><strong>Cloud revision ${version.revision}</strong><span>${formatSaveDate(version.modifiedAt || version.updatedAt)}</span></div>
+        <button type="button" data-restore-cloud="${version.versionId}">Restore locally</button>
+      </article>
+    `);
+  });
+  elements.syncRecoveryList.innerHTML = entries.join("") || '<p class="sync-recovery-empty">No recovery versions yet.</p>';
+}
+
+function saveLocalBackup(reason) {
+  const backups = readLocalBackups();
+  backups.unshift({
+    id: crypto.randomUUID(),
+    createdAt: new Date().toISOString(),
+    reason,
+    save: createSaveDocument(),
+  });
+  localStorage.setItem(localBackupsKey, JSON.stringify(backups.slice(0, maxLocalBackups)));
+  renderRecoveryBackups();
+}
+
+function applySaveDocument(input, { source = "import", createBackup = true } = {}) {
   const save = validateSaveDocument(input);
+  if (createBackup) saveLocalBackup(source === "cloud" ? "Before loading cloud save" : "Before replacing local save");
   state.caught = new Set(save.caught);
   state.badges = new Set(save.badges);
   state.team = save.team;
@@ -1313,8 +1470,16 @@ function applySaveDocument(input) {
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
   localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
   localStorage.setItem(battleStorageKey, JSON.stringify(state.battleTargets));
-  setNotesHidden(save.preferences.notesHidden);
-  setTheme(save.preferences.theme);
+  setNotesHidden(save.preferences.notesHidden, false);
+  setTheme(save.preferences.theme, false);
+  if (source === "cloud") {
+    state.saveMetadata.revision = save.sync.revision;
+    state.saveMetadata.modifiedAt = save.sync.modifiedAt;
+    persistSaveMetadata();
+  } else {
+    state.saveMetadata.revision = Math.max(state.saveMetadata.revision, save.sync.revision);
+    markSaveModified();
+  }
   updateProgress();
   teamMatchupRevision += 1;
   renderDex();
@@ -1371,11 +1536,12 @@ const bytesToHex = (bytes) => [...bytes].map((byte) => byte.toString(16).padStar
 
 function normalizedSyncCode() {
   const code = elements.syncCode.value.trim().toLowerCase();
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(code)) {
+  if (!uuidPattern.test(code)) {
     throw new Error("Enter a valid sync UUID, or create a new one.");
   }
   state.syncCode = code;
   localStorage.setItem(syncCodeKey, code);
+  ensureSyncContext(code);
   updateSyncControls();
   return code;
 }
@@ -1399,16 +1565,20 @@ async function encryptSave(save, code) {
   return {
     id,
     envelope: {
-      version: 1,
+      version: 2,
       iv: bytesToBase64Url(iv),
       ciphertext: bytesToBase64Url(ciphertext),
       updatedAt: new Date().toISOString(),
+      revision: save.sync.revision,
+      parentRevision: save.sync.parentRevision,
+      modifiedAt: save.sync.modifiedAt || new Date().toISOString(),
+      deviceId: save.sync.deviceId,
     },
   };
 }
 
 async function decryptSave(envelope, code) {
-  if (envelope?.version !== 1 || !envelope.iv || !envelope.ciphertext) {
+  if (![1, 2].includes(envelope?.version) || !envelope.iv || !envelope.ciphertext) {
     throw new Error("The cloud save has an unsupported encrypted format.");
   }
   const { key } = await syncIdentity(code);
@@ -1424,38 +1594,225 @@ async function decryptSave(envelope, code) {
   }
 }
 
+function saveFingerprintPayload(save) {
+  const validated = validateSaveDocument(save);
+  return {
+    caught: [...validated.caught].sort(),
+    badges: [...validated.badges].sort(),
+    team: validated.team,
+    planner: validated.planner,
+    battleTargets: validated.battleTargets,
+    preferences: validated.preferences,
+  };
+}
+
+async function saveFingerprint(save) {
+  const bytes = new Uint8Array(
+    await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify(saveFingerprintPayload(save)))),
+  );
+  return bytesToHex(bytes);
+}
+
+function isPristineSave(save) {
+  const payload = saveFingerprintPayload(save);
+  return (
+    !payload.caught.length &&
+    !payload.badges.length &&
+    payload.team.every((slot) => !slot.pokemonNumber) &&
+    payload.planner.every((slot) => !slot.pokemonNumber) &&
+    payload.battleTargets.every((target) => !target)
+  );
+}
+
+function classifySyncStatus({ localSave, cloudSave, localFingerprint, cloudFingerprint, context }) {
+  if (!cloudSave) return "no-cloud";
+  if (localFingerprint === cloudFingerprint) return "in-sync";
+  if (!context.lastSyncedFingerprint) return isPristineSave(localSave) ? "cloud-newer" : "conflict";
+  const localChanged = localFingerprint !== context.lastSyncedFingerprint;
+  const cloudChanged = cloudFingerprint !== context.lastSyncedFingerprint;
+  if (localChanged && cloudChanged) return "conflict";
+  if (cloudChanged) return "cloud-newer";
+  if (localChanged) return "local-newer";
+  return "in-sync";
+}
+
+function setSyncFreshness(status, snapshot = state.syncSnapshot) {
+  state.syncStatus = status;
+  if (!elements.syncFreshness) return;
+  const cloudDate = snapshot?.cloudSave?.sync?.modifiedAt || snapshot?.envelope?.updatedAt;
+  const messages = {
+    unchecked: ["Not checked", "Check before moving between devices."],
+    checking: ["Checking…", "Comparing this device with the encrypted cloud save."],
+    "no-cloud": ["No cloud save yet", "This device can create the first encrypted cloud revision."],
+    "in-sync": ["In sync", `Both copies match. Last cloud change: ${formatSaveDate(cloudDate)}.`],
+    "local-newer": ["This device is newer", "Local changes have not been uploaded yet."],
+    "cloud-newer": ["Cloud save is newer", `Load the cloud copy from ${formatSaveDate(cloudDate)} before continuing here.`],
+    conflict: ["Changes on both copies", "Choose which copy to keep. Your current device will be backed up first."],
+    error: ["Could not check", "Your local save has not been changed."],
+  };
+  const [title, detail] = messages[status] || messages.unchecked;
+  elements.syncFreshness.dataset.status = status;
+  elements.syncFreshnessTitle.textContent = title;
+  elements.syncFreshnessDetail.textContent = detail;
+  elements.syncConflictActions.hidden = !["cloud-newer", "conflict"].includes(status);
+}
+
 function updateSyncControls() {
   const configured = Boolean(syncEndpoint);
   const hasCode = Boolean(state.syncCode);
   elements.syncCode.value = state.syncCode;
-  document.querySelector("#upload-cloud-save").disabled = !configured;
-  document.querySelector("#download-cloud-save").disabled = !configured;
+  document.querySelector("#check-cloud-save").disabled = !configured || !hasCode;
+  document.querySelector("#upload-cloud-save").disabled = !configured || !hasCode;
+  document.querySelector("#download-cloud-save").disabled = !configured || !hasCode;
+  document.querySelector("#refresh-sync-history").disabled = !configured || !hasCode;
   document.querySelector("#copy-sync-code").disabled = !hasCode;
   document.querySelector("#forget-sync-code").disabled = !hasCode;
   elements.syncServiceStatus.textContent = configured
     ? "Cloud sync service connected. Saves are encrypted before upload."
     : "Cloud sync is not connected yet. Export and import already work; complete the Cloudflare setup to enable it.";
   elements.syncServiceStatus.dataset.connected = String(configured);
+  if (!configured || !hasCode) setSyncFreshness("unchecked");
 }
 
-async function cloudSave(method) {
+async function fetchCloudSnapshot(code = normalizedSyncCode()) {
   if (!syncEndpoint) throw new Error("Cloud sync is not connected yet.");
-  const code = normalizedSyncCode();
-  if (method === "PUT") {
-    const { id, envelope } = await encryptSave(createSaveDocument(), code);
-    const response = await fetch(`${syncEndpoint}/saves/${id}`, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(envelope),
-    });
-    if (!response.ok) throw new Error("The encrypted save could not be uploaded.");
-    return envelope;
-  }
   const { id } = await syncIdentity(code);
   const response = await fetch(`${syncEndpoint}/saves/${id}`);
-  if (response.status === 404) throw new Error("No cloud save exists for this UUID yet.");
+  if (response.status === 404) return { id, envelope: null, cloudSave: null };
   if (!response.ok) throw new Error("The encrypted cloud save could not be downloaded.");
-  return decryptSave(await response.json(), code);
+  const envelope = await response.json();
+  return { id, envelope, cloudSave: await decryptSave(envelope, code) };
+}
+
+async function checkSyncStatus({ quiet = false } = {}) {
+  if (!quiet) setSyncFreshness("checking");
+  try {
+    const code = normalizedSyncCode();
+    const remote = await fetchCloudSnapshot(code);
+    const localSave = createSaveDocument();
+    const localFingerprint = await saveFingerprint(localSave);
+    const cloudFingerprint = remote.cloudSave ? await saveFingerprint(remote.cloudSave) : "";
+    const status = classifySyncStatus({
+      localSave,
+      cloudSave: remote.cloudSave,
+      localFingerprint,
+      cloudFingerprint,
+      context: state.syncContext,
+    });
+    state.syncSnapshot = { ...remote, localSave, localFingerprint, cloudFingerprint };
+    if (status === "in-sync" && remote.cloudSave) {
+      recordSyncBaseline(code, remote.cloudSave, cloudFingerprint);
+    }
+    setSyncFreshness(status, state.syncSnapshot);
+    return state.syncSnapshot;
+  } catch (error) {
+    setSyncFreshness("error");
+    throw error;
+  }
+}
+
+function advanceSaveRevision(minimumRevision = 0) {
+  state.saveMetadata.revision = Math.max(state.saveMetadata.revision, minimumRevision) + 1;
+  state.saveMetadata.modifiedAt = new Date().toISOString();
+  persistSaveMetadata();
+  updateSaveSummary();
+}
+
+function recordSyncBaseline(code, save, fingerprint) {
+  state.syncContext = {
+    code,
+    lastSyncedRevision: save.sync.revision,
+    lastSyncedFingerprint: fingerprint,
+    lastSyncedAt: new Date().toISOString(),
+  };
+  persistSyncContext();
+}
+
+async function uploadCurrentSave({ force = false } = {}) {
+  const code = normalizedSyncCode();
+  const snapshot = await checkSyncStatus();
+  if (["cloud-newer", "conflict"].includes(state.syncStatus) && !force) {
+    setSaveStatus("Cloud changes were found. Choose which copy to keep; nothing was overwritten.", "warning");
+    return false;
+  }
+  if (state.syncStatus === "in-sync" && !force) {
+    setSaveStatus("This device already matches the cloud save.", "success");
+    return true;
+  }
+  const cloudRevision = snapshot.cloudSave?.sync?.revision || 0;
+  if (state.saveMetadata.revision <= cloudRevision || state.saveMetadata.revision < 1) {
+    advanceSaveRevision(cloudRevision);
+  }
+  const save = createSaveDocument({ parentRevision: snapshot.cloudSave ? cloudRevision : null });
+  const fingerprint = await saveFingerprint(save);
+  const { id, envelope } = await encryptSave(save, code);
+  const response = await fetch(`${syncEndpoint}/saves/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(envelope),
+  });
+  if (response.status === 409) {
+    await checkSyncStatus();
+    setSaveStatus("The cloud save changed during upload. Choose which copy to keep; nothing was overwritten.", "warning");
+    return false;
+  }
+  if (!response.ok) throw new Error("The encrypted save could not be uploaded.");
+  recordSyncBaseline(code, save, fingerprint);
+  state.syncSnapshot = { id, envelope, cloudSave: save, localSave: save, localFingerprint: fingerprint, cloudFingerprint: fingerprint };
+  setSyncFreshness("in-sync", state.syncSnapshot);
+  setSaveStatus("Encrypted save uploaded. This device and cloud are now in sync.", "success");
+  return true;
+}
+
+async function loadCloudSave({ force = false } = {}) {
+  const code = normalizedSyncCode();
+  const snapshot = await checkSyncStatus();
+  if (!snapshot.cloudSave) throw new Error("No cloud save exists for this UUID yet.");
+  if (state.syncStatus === "in-sync" && !force) {
+    setSaveStatus("This device already matches the cloud save.", "success");
+    return true;
+  }
+  if (["local-newer", "conflict"].includes(state.syncStatus) && !force) {
+    elements.syncConflictActions.hidden = false;
+    setSaveStatus("This device also has changes. Choose which copy to keep; nothing was overwritten.", "warning");
+    return false;
+  }
+  applySaveDocument(snapshot.cloudSave, { source: "cloud" });
+  recordSyncBaseline(code, snapshot.cloudSave, snapshot.cloudFingerprint);
+  state.syncSnapshot = { ...snapshot, localSave: snapshot.cloudSave, localFingerprint: snapshot.cloudFingerprint };
+  setSyncFreshness("in-sync", state.syncSnapshot);
+  setSaveStatus("Cloud save loaded. The previous local copy is available under Recovery versions.", "success");
+  return true;
+}
+
+async function loadCloudHistory() {
+  const code = normalizedSyncCode();
+  const { id } = await syncIdentity(code);
+  const response = await fetch(`${syncEndpoint}/saves/${id}/history`);
+  if (!response.ok) throw new Error("Cloud recovery versions could not be loaded.");
+  state.cloudHistory = (await response.json()).versions || [];
+  renderRecoveryBackups();
+}
+
+async function restoreCloudVersion(versionId) {
+  const code = normalizedSyncCode();
+  const { id } = await syncIdentity(code);
+  const response = await fetch(`${syncEndpoint}/saves/${id}/history/${encodeURIComponent(versionId)}`);
+  if (!response.ok) throw new Error("That cloud recovery version is no longer available.");
+  const save = await decryptSave(await response.json(), code);
+  if (!window.confirm(`Restore cloud revision ${save.sync.revision} to this device? The current local save will be backed up first.`)) return;
+  applySaveDocument(save, { source: "recovery" });
+  setSyncFreshness("local-newer");
+  setSaveStatus("Recovery version restored locally. Review it, then save it to the cloud when ready.", "success");
+}
+
+function restoreLocalBackup(id) {
+  const backup = readLocalBackups().find((entry) => entry.id === id);
+  if (!backup) throw new Error("That local backup is no longer available.");
+  if (!window.confirm("Restore this local backup? The current save will be backed up first.")) return;
+  applySaveDocument(backup.save, { source: "recovery" });
+  setSyncFreshness("local-newer");
+  setSaveStatus("Local backup restored. Review it, then save it to the cloud when ready.", "success");
 }
 
 async function copySyncCode() {
@@ -3984,20 +4341,22 @@ function renderItems() {
   updateSearchClearButtons();
 }
 
-function setNotesHidden(hidden) {
+function setNotesHidden(hidden, trackChange = true) {
   state.notesHidden = hidden;
   document.body.classList.toggle("notes-hidden", hidden);
   elements.spoilerToggle.textContent = hidden ? "Notes hidden" : "Notes visible";
   elements.spoilerToggle.setAttribute("aria-pressed", String(hidden));
   localStorage.setItem(notesKey, String(hidden));
+  if (trackChange) markSaveModified();
 }
 
-function setTheme(theme) {
+function setTheme(theme, trackChange = true) {
   state.theme = theme;
   document.documentElement.dataset.theme = theme;
   elements.themeToggle.textContent = theme === "dark" ? "Light mode" : "Dark mode";
   elements.themeToggle.setAttribute("aria-pressed", String(theme === "dark"));
   localStorage.setItem(themeKey, theme);
+  if (trackChange) markSaveModified();
 }
 
 function bindControls() {
@@ -4147,40 +4506,92 @@ function bindControls() {
   document.querySelector("#create-sync-code").addEventListener("click", () => {
     state.syncCode = crypto.randomUUID();
     localStorage.setItem(syncCodeKey, state.syncCode);
+    ensureSyncContext(state.syncCode);
     updateSyncControls();
+    setSyncFreshness("unchecked");
     setSaveStatus("New private sync UUID created. Save it somewhere secure.", "success");
   });
   elements.syncCode.addEventListener("input", () => {
     state.syncCode = elements.syncCode.value.trim();
     if (state.syncCode) localStorage.setItem(syncCodeKey, state.syncCode);
     else localStorage.removeItem(syncCodeKey);
-    document.querySelector("#copy-sync-code").disabled = !state.syncCode;
-    document.querySelector("#forget-sync-code").disabled = !state.syncCode;
+    state.syncSnapshot = null;
+    state.cloudHistory = [];
+    renderRecoveryBackups();
+    updateSyncControls();
+    setSyncFreshness("unchecked");
   });
   document.querySelector("#copy-sync-code").addEventListener("click", () => {
     copySyncCode().catch((error) => setSaveStatus(error.message, "error"));
   });
+  document.querySelector("#check-cloud-save").addEventListener("click", () => {
+    checkSyncStatus()
+      .then(() => setSaveStatus("Save freshness check complete.", "success"))
+      .catch((error) => setSaveStatus(error.message || "Cloud status check failed.", "error"));
+  });
   document.querySelector("#upload-cloud-save").addEventListener("click", async () => {
     try {
-      await cloudSave("PUT");
-      setSaveStatus("Encrypted save uploaded to the cloud.", "success");
+      await uploadCurrentSave();
     } catch (error) {
       setSaveStatus(error.message || "Cloud upload failed.", "error");
     }
   });
   document.querySelector("#download-cloud-save").addEventListener("click", async () => {
     try {
-      const save = await cloudSave("GET");
-      if (!window.confirm("Replace this device's current progress with the encrypted cloud save?")) return;
-      applySaveDocument(save);
-      setSaveStatus("Encrypted cloud save loaded successfully.", "success");
+      const snapshot = await checkSyncStatus();
+      if (!snapshot.cloudSave) throw new Error("No cloud save exists for this UUID yet.");
+      if (state.syncStatus === "cloud-newer" && !window.confirm("Load the newer cloud save? The current local save will be backed up first.")) return;
+      await loadCloudSave();
     } catch (error) {
       setSaveStatus(error.message || "Cloud download failed.", "error");
     }
   });
+  document.querySelector("#use-local-save").addEventListener("click", async () => {
+    if (!window.confirm("Keep this device's save and replace the current cloud copy? Both copies will remain in Recovery versions.")) return;
+    try {
+      await uploadCurrentSave({ force: true });
+    } catch (error) {
+      setSaveStatus(error.message || "Cloud upload failed.", "error");
+    }
+  });
+  document.querySelector("#use-cloud-save").addEventListener("click", async () => {
+    if (!window.confirm("Use the cloud save on this device? The current local copy will be backed up first.")) return;
+    try {
+      await loadCloudSave({ force: true });
+    } catch (error) {
+      setSaveStatus(error.message || "Cloud download failed.", "error");
+    }
+  });
+  document.querySelector("#refresh-sync-history").addEventListener("click", () => {
+    loadCloudHistory()
+      .then(() => setSaveStatus("Recovery versions refreshed.", "success"))
+      .catch((error) => setSaveStatus(error.message || "Recovery versions could not be loaded.", "error"));
+  });
+  elements.syncRecoveryList.addEventListener("click", (event) => {
+    const localButton = event.target.closest("[data-restore-local]");
+    const cloudButton = event.target.closest("[data-restore-cloud]");
+    try {
+      if (localButton) restoreLocalBackup(localButton.dataset.restoreLocal);
+      if (cloudButton) {
+        restoreCloudVersion(cloudButton.dataset.restoreCloud).catch((error) =>
+          setSaveStatus(error.message || "Recovery failed.", "error"),
+        );
+      }
+    } catch (error) {
+      setSaveStatus(error.message || "Recovery failed.", "error");
+    }
+  });
   document.querySelector("#forget-sync-code").addEventListener("click", () => {
     state.syncCode = "";
+    state.syncContext = {
+      code: "",
+      lastSyncedRevision: null,
+      lastSyncedFingerprint: "",
+      lastSyncedAt: null,
+    };
+    state.syncSnapshot = null;
     localStorage.removeItem(syncCodeKey);
+    localStorage.removeItem(syncContextKey);
     updateSyncControls();
     setSaveStatus("This device forgot the sync UUID. The encrypted cloud save was not deleted.", "success");
   });
@@ -4258,12 +4669,20 @@ function bindControls() {
       document.querySelector(".view-tabs").scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && syncEndpoint && state.syncCode) {
+      checkSyncStatus({ quiet: true }).catch(() => setSyncFreshness("error"));
+    }
+  });
 }
 
 initializeSummary();
-setNotesHidden(state.notesHidden);
-setTheme(state.theme);
+persistSaveMetadata();
+if (state.syncCode) ensureSyncContext(state.syncCode);
+setNotesHidden(state.notesHidden, false);
+setTheme(state.theme, false);
 updateSyncControls();
+renderRecoveryBackups();
 bindControls();
 initializeAutoLoading();
 updateProgress();
@@ -4274,6 +4693,9 @@ renderTrainerQuickLocations();
 renderTrainers();
 renderBattlePlanner();
 renderGyms();
+if (syncEndpoint && state.syncCode) {
+  checkSyncStatus({ quiet: true }).catch(() => setSyncFreshness("error"));
+}
 renderTeam();
 renderPlanner();
 renderMoves();

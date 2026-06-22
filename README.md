@@ -28,7 +28,7 @@ Open `index.html` in a browser. The guide includes:
 - A route-by-route capture view with local map thumbnails
 - Persistent caught tracking using browser local storage
 - Portable versioned save-file export and import
-- Optional encrypted UUID-based cloud sync across devices
+- Conflict-safe encrypted UUID cloud sync with freshness checks and recovery history
 - Field notes visible by default, with an optional notes-hidden toggle
 - Mega Evolution choices and important-item locations from the workbook
 - Local sprites, so the guide works offline
@@ -98,6 +98,13 @@ The guide works without a backend: export and import are always available. Cloud
 Worker in `sync-worker/`, stores only browser-encrypted save data, and treats the UUID as the private
 recovery key. Losing the UUID means losing access to that cloud save. Cloud saves expire after 400
 days without a new upload.
+
+Each device tracks a local revision and the last encrypted cloud revision it saw. The guide checks
+freshness when it opens, returns to the foreground, or is checked manually. It reports **in sync**,
+**this device is newer**, **cloud save is newer**, or **changes on both copies**. A conflict never
+overwrites automatically: the user chooses which copy to keep, the current local save is backed up,
+and the Worker retains up to eight encrypted cloud revisions. Up to five replacement-time backups
+are also retained locally in the browser.
 
 One-time setup:
 
