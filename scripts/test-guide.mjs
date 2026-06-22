@@ -407,11 +407,30 @@ await check(
     (await page.locator(".pokemon-card[data-number='1'] .team-matchup-group--collapsible:not([open])").count()) === 2,
   "Dex matchup sections are not collapsed by default",
 );
+await check(
+  await page.locator(".pokemon-card[data-number='1'] .team-matchups").evaluate((container) => {
+    const groups = [...container.querySelectorAll(":scope > .team-matchup-group--collapsible")];
+    return (
+      groups.length === 2 &&
+      groups.every((group) => getComputedStyle(group).borderTopStyle === "solid") &&
+      getComputedStyle(container).overflowY === "visible"
+    );
+  }),
+  "Dex effective and resisted matchups are not separate visible panels",
+);
 const dexMatchupSummary = page.locator(".pokemon-card[data-number='1'] .team-matchup-group--effective summary");
 await dexMatchupSummary.click();
 await check(
   (await page.locator(".pokemon-card[data-number='1'] .team-matchup-group--effective").getAttribute("open")) !== null,
   "Dex matchup section did not expand",
+);
+await check(
+  await page.locator(".pokemon-card[data-number='1'] .team-matchups").evaluate((container) => {
+    const resisted = container.querySelector(".team-matchup-group--resisted");
+    const bounds = resisted.getBoundingClientRect();
+    return bounds.top >= container.getBoundingClientRect().top && bounds.bottom <= container.getBoundingClientRect().bottom;
+  }),
+  "Opening a Dex matchup panel hides the other matchup section",
 );
 await dexMatchupSummary.click();
 await check(
@@ -506,6 +525,18 @@ await check(
     (text) => text.includes("Gothorita") && text.includes("Lv. 18"),
   ),
   "Gothita is missing its Dreamstone Lv. 18 Gothorita evolution link",
+);
+await check(
+  await page.locator(".pokemon-card[data-number='2'] .pokemon-evolutions").evaluate((container) => {
+    const links = [...container.querySelectorAll(".evolution-link")];
+    const bounds = container.getBoundingClientRect();
+    return (
+      links.length >= 2 &&
+      getComputedStyle(container).overflowY === "visible" &&
+      links.every((link) => link.getBoundingClientRect().bottom <= bounds.bottom + 1)
+    );
+  }),
+  "Linked evolutions are clipped or hidden behind a scrollable row",
 );
 await check(
   await page.locator("#view-dex").evaluate((view) => {

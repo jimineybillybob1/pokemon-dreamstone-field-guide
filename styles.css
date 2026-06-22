@@ -1013,7 +1013,7 @@ button.journey-card:hover {
 .pokemon-card {
   position: relative;
   display: grid;
-  grid-template-rows: 140px 130px auto auto 210px 74px minmax(82px, 1fr);
+  grid-template-rows: 140px 130px auto auto auto 154px minmax(82px, 1fr);
   height: 100%;
   min-width: 0;
   overflow: hidden;
@@ -1031,10 +1031,6 @@ button.journey-card:hover {
   transform: translateY(-2px);
   border-color: rgba(114, 87, 212, 0.35);
   box-shadow: 0 14px 35px rgba(48, 38, 88, 0.11);
-}
-
-.pokemon-card:has(.team-matchup-group--collapsible[open]) {
-  grid-template-rows: 140px 130px auto auto 210px auto minmax(82px, 1fr);
 }
 
 .pokemon-card.is-caught {
@@ -1543,11 +1539,20 @@ button.journey-card:hover {
 .pokemon-card > .team-matchups {
   align-content: start;
   min-height: 0;
-  overflow-y: auto;
+  border-top: 0;
+  overflow: visible;
+  padding-top: 0;
 }
 
 .pokemon-card > .team-matchups .team-matchups__list {
-  max-height: none;
+  max-height: 220px;
+}
+
+.pokemon-card > .team-matchups .team-matchup-group--collapsible {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(114, 87, 212, 0.035);
+  padding: 10px;
 }
 
 .team-matchup-group {
@@ -1740,7 +1745,7 @@ button.journey-card:hover {
   display: grid;
   gap: 8px;
   align-content: start;
-  overflow-y: auto;
+  overflow: visible;
   margin: 0 12px 12px;
   border-top: 1px solid var(--line);
   padding-top: 11px;
