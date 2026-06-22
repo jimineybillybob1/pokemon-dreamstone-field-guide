@@ -48,16 +48,43 @@ body * {
 }
 
 .hero,
-.hero *,
-.journey-dashboard,
-.journey-dashboard * {
+.hero * {
   font-family: "Trebuchet MS", "Segoe UI", sans-serif !important;
 }
 
-.hero h1,
-.journey-card--progress strong,
-.journey-card--badges header strong {
+.hero h1 {
   font-family: Georgia, "Times New Roman", serif !important;
+}
+
+.section-heading,
+.section-heading *,
+.sticky-search,
+.sticky-search *,
+.sticky-tab-search,
+.sticky-tab-search *,
+.filter-panel,
+.filter-panel *,
+.move-filter-panel,
+.move-filter-panel *,
+.ability-filter-panel,
+.ability-filter-panel *,
+.collection-controls,
+.collection-controls *,
+.team-pokemon-search,
+.team-pokemon-search *,
+.offensive-coverage,
+.offensive-coverage * {
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif !important;
+}
+
+.section-heading h2,
+.offensive-coverage > header strong {
+  font-family: Georgia, "Times New Roman", serif !important;
+}
+
+.jump-to-top,
+.jump-to-top * {
+  font-family: var(--font-ui) !important;
 }
 
 button,
@@ -642,7 +669,7 @@ button.journey-card:hover {
   color: var(--ink);
   background: #fff;
   padding: 9px 11px;
-  font-size: 0.68rem;
+  font-size: 0.86rem;
 }
 
 .filter-panel input:focus,
@@ -804,7 +831,7 @@ button.journey-card:hover {
   color: var(--ink);
   background: #fff;
   padding: 9px 11px;
-  font-size: 0.68rem;
+  font-size: 0.86rem;
 }
 
 .sticky-search input:focus,
@@ -3027,7 +3054,7 @@ button.trainer-party-member__identity:hover {
   color: var(--ink);
   background: #fff;
   padding: 9px 11px;
-  font-size: 0.68rem;
+  font-size: 0.84rem;
 }
 
 .move-filter-panel input:focus,
@@ -3348,11 +3375,11 @@ button.trainer-party-member__identity:hover {
   color: var(--ink);
   background: #fff;
   padding: 9px 11px;
-  font-size: 0.68rem;
+  font-size: 0.84rem;
 }
 
 .ability-filter-panel select {
-  font-size: 0.58rem;
+  font-size: 0.84rem;
 }
 
 .ability-filter-panel input:focus,
@@ -4184,6 +4211,10 @@ button.trainer-party-member__identity:hover {
 .team-card__ability select,
 .team-card__nature select {
   font-size: 0.6rem;
+}
+
+.team-pokemon-search input {
+  font-size: 0.86rem;
 }
 
 .team-pokemon-search input:focus,
@@ -5697,6 +5728,19 @@ html[data-theme="dark"] .guide-tip strong {
 
   .section-heading > p {
     max-width: none;
+  }
+
+  .filter-panel input,
+  .filter-panel select,
+  .location-search input,
+  .sticky-search input,
+  .sticky-tab-search input,
+  .move-filter-panel input,
+  .move-filter-panel select,
+  .ability-filter-panel input,
+  .ability-filter-panel select,
+  .team-pokemon-search input {
+    font-size: 1rem;
   }
 
   .guide-tip {

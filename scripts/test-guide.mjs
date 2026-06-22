@@ -171,10 +171,13 @@ await check(
   await page.locator(".section-heading h2").first().evaluate((element) =>
     getComputedStyle(element).fontFamily.includes("Georgia"),
   ) &&
+    await page.locator(".section-heading .eyebrow").first().evaluate((element) =>
+      getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
+    ) &&
     await page.locator(".jump-to-top").first().evaluate((element) =>
       getComputedStyle(element).fontFamily.includes("Pokemon GB"),
     ),
-  "Page title or Jump to Top typography is incorrect",
+  "Page heading or Jump to Top typography is incorrect",
 );
 await check(
   await page.locator(".hero h1").evaluate((element) =>
@@ -184,9 +187,9 @@ await check(
       getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
     ) &&
     await page.locator(".journey-card__label").first().evaluate((element) =>
-      getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
+      getComputedStyle(element).fontFamily.includes("Pokemon GB"),
     ),
-  "Masthead or Journey Overview did not restore the original typography",
+  "Masthead or Journey Overview typography is incorrect",
 );
 await check((await page.locator("link[rel='manifest']").getAttribute("href")) === "site.webmanifest", "Web app manifest is missing");
 await check(
@@ -262,10 +265,18 @@ for (const viewName of await page.locator(".view-tab:not([hidden])").evaluateAll
 }
 await page.locator(".view-tab[data-view='dex']").click();
 await check(
-  await page.locator(".move-filter-panel select").first().evaluate((element) =>
-    Number.parseFloat(getComputedStyle(element).fontSize) <= 11,
-  ),
-  "Dense form controls do not use the compact Pokemon-font scale",
+  await page.locator(".move-filter-panel select").first().evaluate((element) => {
+    const style = getComputedStyle(element);
+    const fontSize = Number.parseFloat(style.fontSize);
+    return style.fontFamily.includes("Trebuchet MS") && fontSize >= 12 && fontSize <= 15;
+  }) &&
+    await page.locator(".team-pokemon-search input").first().evaluate((element) =>
+      getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
+    ) &&
+    await page.locator("#team-offensive-coverage").evaluate((element) =>
+      getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
+    ),
+  "Search filters or offensive coverage did not restore the original UI font",
 );
 await checkDashboardTeamFill("Desktop");
 await check((await page.locator("[data-clear-search]").count()) === 7, "Search clear buttons are missing");
