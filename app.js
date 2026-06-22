@@ -1529,7 +1529,7 @@ function matchupScore(move, multiplier) {
   return (Number(move.power) || 0) * multiplier;
 }
 
-function superEffectiveTeamMoves(targetPokemon) {
+function selectedTeamMoveMatchups(targetPokemon) {
   const results = [];
   const seen = new Set();
   state.team.forEach((slot) => {
@@ -1540,12 +1540,17 @@ function superEffectiveTeamMoves(targetPokemon) {
       const key = `${teamPokemon.number}:${moveId}`;
       if (!move || move.category === "Status" || seen.has(key)) return;
       const multiplier = moveEffectiveness(move.type, targetPokemon.types);
-      if (multiplier <= 1) return;
       seen.add(key);
       results.push({ pokemon: teamPokemon, move, multiplier, score: matchupScore(move, multiplier) });
     });
   });
-  return results.sort(
+  return results;
+}
+
+function superEffectiveTeamMoves(targetPokemon) {
+  return selectedTeamMoveMatchups(targetPokemon)
+    .filter(({ multiplier }) => multiplier > 1)
+    .sort(
     (a, b) =>
       b.score - a.score ||
       b.multiplier - a.multiplier ||
@@ -1555,28 +1560,40 @@ function superEffectiveTeamMoves(targetPokemon) {
   );
 }
 
-function renderTeamMatchups(container, targetPokemon) {
+function resistedTeamMoves(targetPokemon) {
+  return selectedTeamMoveMatchups(targetPokemon)
+    .filter(({ multiplier }) => multiplier < 1)
+    .sort(
+      (a, b) =>
+        a.multiplier - b.multiplier ||
+        a.score - b.score ||
+        (a.move.power || 0) - (b.move.power || 0) ||
+        a.pokemon.name.localeCompare(b.pokemon.name) ||
+        a.move.name.localeCompare(b.move.name),
+    );
+}
+
+function createTeamMatchupGroup({ title, description, matches, emptyText, modifier }) {
+  const group = document.createElement("section");
+  group.className = `team-matchup-group team-matchup-group--${modifier}`;
   const heading = document.createElement("header");
   heading.innerHTML = `
-    <span>Weak to your team</span>
-    <small>Sorted by move power x type effectiveness; abilities not considered</small>
+    <span>${title}</span>
+    <small>${description}</small>
   `;
-  const matches = superEffectiveTeamMoves(targetPokemon);
   if (!matches.length) {
     const empty = document.createElement("p");
     empty.className = "team-matchups__empty";
-    empty.textContent = state.team.some((slot) => slot.moves.some(Boolean))
-      ? "No selected damage-dealing team moves are super effective."
-      : "Add damage-dealing moves in Team Builder to see coverage.";
-    container.append(heading, empty);
-    return;
+    empty.textContent = emptyText;
+    group.append(heading, empty);
+    return group;
   }
 
   const list = document.createElement("div");
   list.className = "team-matchups__list";
   matches.forEach(({ pokemon, move, multiplier, score }) => {
     const entry = document.createElement("article");
-    entry.className = "team-matchup";
+    entry.className = `team-matchup team-matchup--${modifier}`;
     entry.innerHTML = `
       <img src="${pokemon.sprite}" alt="" width="38" height="38" loading="lazy">
       <div class="team-matchup__identity">
@@ -1587,7 +1604,7 @@ function renderTeamMatchups(container, targetPokemon) {
       <dl>
         <div><dt>Effective</dt><dd>${multiplier}x</dd></div>
         <div><dt>Power</dt><dd>${move.power || "-"}</dd></div>
-        <div><dt>Score</dt><dd>${score || "-"}</dd></div>
+        <div><dt>Score</dt><dd>${Number.isFinite(score) ? score : "-"}</dd></div>
         <div><dt>Accuracy</dt><dd>${move.accuracy ? `${move.accuracy}%` : "-"}</dd></div>
       </dl>
     `;
@@ -1595,7 +1612,38 @@ function renderTeamMatchups(container, targetPokemon) {
     entry.querySelector(".team-matchup__identity span").textContent = move.name;
     list.append(entry);
   });
-  container.append(heading, list);
+  group.append(heading, list);
+  return group;
+}
+
+function renderTeamMatchups(container, targetPokemon) {
+  container.setAttribute("aria-label", `Team move effectiveness against ${targetPokemon.name.replaceAll("_", " ")}`);
+  const hasDamageMoves = state.team.some((slot) =>
+    slot.moves.some((moveId) => {
+      const move = moveById.get(moveId);
+      return move && move.category !== "Status";
+    }),
+  );
+  container.append(
+    createTeamMatchupGroup({
+      title: "Weak to your team",
+      description: "Highest move power x type effectiveness first; abilities not considered",
+      matches: superEffectiveTeamMoves(targetPokemon),
+      emptyText: hasDamageMoves
+        ? "No selected damage-dealing team moves are super effective."
+        : "Add damage-dealing moves in Team Builder to see coverage.",
+      modifier: "effective",
+    }),
+    createTeamMatchupGroup({
+      title: "Not effective from your team",
+      description: "Resisted and immune selected moves, least effective first",
+      matches: resistedTeamMoves(targetPokemon),
+      emptyText: hasDamageMoves
+        ? "No selected damage-dealing team moves are resisted or immune."
+        : "Add damage-dealing moves in Team Builder to see poor matchups.",
+      modifier: "resisted",
+    }),
+  );
 }
 
 function setBattleTarget(slotIndex, pokemonNumber) {
@@ -2478,8 +2526,8 @@ function findPlannerTeamMatch(targetNumber, plannerIndex) {
   );
 }
 
-function progressTask(label, value, status, score) {
-  return { label, value, status, score, max: 1 };
+function progressTask(label, value, status, score, detail = "") {
+  return { label, value, status, score, max: 1, detail };
 }
 
 function createPlannerProgressTask(task) {
@@ -2490,6 +2538,11 @@ function createPlannerProgressTask(task) {
   const value = document.createElement("strong");
   value.textContent = task.value;
   item.append(label, value);
+  if (task.detail) {
+    const detail = document.createElement("small");
+    detail.textContent = task.detail;
+    item.append(detail);
+  }
   return item;
 }
 
@@ -2540,12 +2593,14 @@ function plannerProgressForSlot(slot, plannerIndex) {
     const move = moveById.get(moveId);
     if (!move) return;
     const complete = Boolean(match?.slot.moves.includes(moveId));
+    const learnMethods = moveLearningLabels(target.number, move.id).join(" · ");
     tasks.push(
       progressTask(
         `Move ${moveIndex + 1}`,
         complete ? move.name : `Needs ${move.name}`,
         complete ? "complete" : match ? "pending" : "blocked",
         complete ? 1 : 0,
+        complete ? "" : `How to learn: ${learnMethods || "No learn method listed"}`,
       ),
     );
   });

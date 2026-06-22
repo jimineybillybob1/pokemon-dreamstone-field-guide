@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Pokemon GB";
+  src: url("assets/fonts/pokemon-gb.ttf") format("truetype");
+  font-display: swap;
+}
+
 :root {
   --ink: #19172b;
   --muted: #68647d;
@@ -13,6 +19,7 @@
   --rose: #dc7185;
   --line: rgba(47, 42, 76, 0.13);
   --shadow: 0 18px 50px rgba(35, 29, 67, 0.12);
+  --font-ui: "Pokemon GB", "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
 * {
@@ -48,6 +55,18 @@ button {
 
 a {
   color: inherit;
+}
+
+.view-tab,
+.eyebrow,
+.journey-card__label,
+.guide-tip__label,
+.pokemon-number,
+.team-card__top,
+.battle-target-card__top,
+.planner-progress__header > div > span,
+.planner-progress-task > span {
+  font-family: var(--font-ui);
 }
 
 .hero {
@@ -388,11 +407,14 @@ button.journey-card:hover {
 .dashboard-team {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 1px;
+  gap: 0;
   width: 100%;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.34);
   border-radius: 12px;
-  background: var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(40, 35, 75, 0.12)),
+    url("assets/art/team-overview-field.jpg") center bottom / cover no-repeat;
 }
 
 .dashboard-team-slot {
@@ -403,15 +425,20 @@ button.journey-card:hover {
   min-width: 0;
   border: 0;
   border-radius: 0;
-  color: var(--muted);
-  background: var(--paper-deep);
+  color: rgba(26, 23, 45, 0.8);
+  background: transparent;
   padding: 8px 4px 7px;
   font-size: 0.62rem;
   font-weight: 900;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.dashboard-team-slot + .dashboard-team-slot {
+  border-left: 1px solid rgba(47, 42, 76, 0.22);
 }
 
 .dashboard-team-slot.is-filled {
-  background: rgba(126, 98, 201, 0.12);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .dashboard-team-slot img {
@@ -1414,7 +1441,7 @@ button.journey-card:hover {
 
 .team-matchups {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   margin: 0 12px 12px;
   border-top: 1px solid var(--line);
   padding-top: 11px;
@@ -1423,11 +1450,23 @@ button.journey-card:hover {
 .pokemon-card > .team-matchups {
   align-content: start;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .pokemon-card > .team-matchups .team-matchups__list {
-  max-height: 145px;
+  max-height: none;
+}
+
+.team-matchup-group {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-width: 0;
+}
+
+.team-matchup-group + .team-matchup-group {
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
 }
 
 .team-matchups header {
@@ -1478,6 +1517,19 @@ button.journey-card:hover {
   border-radius: 9px;
   background: rgba(114, 87, 212, 0.035);
   padding: 5px 7px 5px 5px;
+}
+
+.team-matchup-group--resisted > header span {
+  color: #9b5268;
+}
+
+.team-matchup--resisted {
+  border-color: rgba(180, 95, 126, 0.2);
+  background: rgba(180, 95, 126, 0.06);
+}
+
+.team-matchup--resisted .team-matchup__identity span {
+  color: #9b5268;
 }
 
 .team-matchup img {
@@ -2518,11 +2570,14 @@ button.trainer-party-member__identity:hover {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+  align-items: stretch;
 }
 
 .battle-target-card {
   display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
   gap: 14px;
+  align-content: stretch;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -2537,6 +2592,7 @@ button.trainer-party-member__identity:hover {
   border-bottom: 1px solid var(--line);
   background: rgba(114, 87, 212, 0.08);
   padding: 11px 14px;
+  min-height: 48px;
 }
 
 .battle-target-card__top > strong {
@@ -2548,6 +2604,7 @@ button.trainer-party-member__identity:hover {
 }
 
 .battle-target-card > .team-pokemon-picker {
+  align-self: start;
   padding: 0 14px;
 }
 
@@ -2586,6 +2643,7 @@ button.trainer-party-member__identity:hover {
   color: inherit;
   background: rgba(114, 87, 212, 0.035);
   padding: 10px;
+  min-height: 106px;
   text-align: left;
 }
 
@@ -2653,6 +2711,9 @@ button.trainer-party-member__identity:hover {
 }
 
 .battle-target-matchups {
+  align-content: start;
+  min-height: 0;
+  overflow-y: auto;
   margin-inline: 14px;
 }
 
@@ -3980,6 +4041,15 @@ button.trainer-party-member__identity:hover {
   white-space: normal;
 }
 
+.planner-progress-task small {
+  grid-column: 2;
+  margin-top: -3px;
+  color: var(--muted);
+  font-size: 0.56rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
 .planner-progress-task.is-complete {
   background: rgba(66, 182, 163, 0.12);
 }
@@ -5111,6 +5181,27 @@ html[data-theme="dark"] .gym-badge-toggle {
   background: #29263a;
 }
 
+html[data-theme="dark"] .dashboard-team {
+  border-color: rgba(255, 255, 255, 0.16);
+  background:
+    linear-gradient(180deg, rgba(18, 15, 32, 0.04), rgba(18, 15, 32, 0.18)),
+    url("assets/art/team-overview-field.jpg") center bottom / cover no-repeat;
+}
+
+html[data-theme="dark"] .dashboard-team-slot {
+  color: rgba(255, 255, 255, 0.86);
+  background: transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.72);
+}
+
+html[data-theme="dark"] .dashboard-team-slot.is-filled {
+  background: rgba(20, 18, 36, 0.08);
+}
+
+html[data-theme="dark"] .dashboard-team-slot + .dashboard-team-slot {
+  border-left-color: rgba(255, 255, 255, 0.18);
+}
+
 html[data-theme="dark"] .filter-panel input,
 html[data-theme="dark"] .filter-panel select,
 html[data-theme="dark"] .move-filter-panel input,
@@ -5171,6 +5262,16 @@ html[data-theme="dark"] .pokemon-stat__track {
 html[data-theme="dark"] .team-matchups__empty,
 html[data-theme="dark"] .team-matchup {
   background: rgba(155, 133, 237, 0.07);
+}
+
+html[data-theme="dark"] .team-matchup--resisted {
+  border-color: rgba(220, 113, 133, 0.28);
+  background: rgba(220, 113, 133, 0.08);
+}
+
+html[data-theme="dark"] .team-matchup-group--resisted > header span,
+html[data-theme="dark"] .team-matchup--resisted .team-matchup__identity span {
+  color: #e39aab;
 }
 
 html[data-theme="dark"] .move-learners summary,
@@ -5747,6 +5848,18 @@ html[data-theme="dark"] .guide-tip strong {
 
   .dashboard-team {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dashboard-team-slot:nth-child(3n + 1) {
+    border-left: 0;
+  }
+
+  .dashboard-team-slot:nth-child(n + 4) {
+    border-top: 1px solid rgba(47, 42, 76, 0.22);
+  }
+
+  html[data-theme="dark"] .dashboard-team-slot:nth-child(n + 4) {
+    border-top-color: rgba(255, 255, 255, 0.18);
   }
 
   .gym-team {

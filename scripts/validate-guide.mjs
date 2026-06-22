@@ -324,6 +324,8 @@ for (const file of [
   "assets/art/dreamstone-hero.png",
   "assets/art/dreamstone-logo.png",
   "assets/art/dreamstone-social-preview.png",
+  "assets/art/team-overview-field.jpg",
+  "assets/fonts/pokemon-gb.ttf",
 ]) {
   try {
     const stat = await fs.stat(path.join(rootDir, file));

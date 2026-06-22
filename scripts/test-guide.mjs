@@ -151,6 +151,16 @@ await page.goto(guideUrl);
 await page.evaluate(() => localStorage.clear());
 await page.reload();
 await check((await page.title()) === "Dreamstone Field Guide", "Unexpected page title");
+await check(
+  await page.evaluate(() => document.fonts.check('12px "Pokemon GB"')),
+  "Pokemon GB font did not load",
+);
+await check(
+  await page.locator(".view-tab").first().evaluate((element) =>
+    getComputedStyle(element).fontFamily.includes("Pokemon GB"),
+  ),
+  "Pokemon GB font is not applied to guide UI labels",
+);
 await check((await page.locator("link[rel='manifest']").getAttribute("href")) === "site.webmanifest", "Web app manifest is missing");
 await check(
   (await page.locator("meta[property='og:image']").getAttribute("content")).endsWith(
@@ -215,6 +225,12 @@ await check(
   "Badge sprite sheet did not load",
 );
 await check((await page.locator(".dashboard-team-slot").count()) === 6, "Dashboard team overview is incomplete");
+await check(
+  (await page.locator(".dashboard-team").evaluate((element) => getComputedStyle(element).backgroundImage)).includes(
+    "team-overview-field.jpg",
+  ),
+  "Dashboard team overview does not use the supplied field background",
+);
 await check((await page.locator(".sticky-tab-search").count()) === 6, "Sticky tab searches are missing");
 await check(
   await page.locator(".sticky-tab-search").evaluateAll((elements) =>
@@ -317,7 +333,7 @@ await check(
 );
 await page.locator("#sort").selectOption("number");
 await check(
-  (await page.locator(".pokemon-card[data-number='1'] .team-matchups__empty").textContent()).includes(
+  (await page.locator(".pokemon-card[data-number='1'] .team-matchup-group--effective .team-matchups__empty").textContent()).includes(
     "Team Builder",
   ),
   "Empty team coverage guidance is missing",
@@ -586,6 +602,12 @@ await check(
   "A trainer party Pokémon is missing its team weakness overview",
 );
 await check(
+  await page.locator(".trainer-party-matchups").evaluateAll((sections) =>
+    sections.every((section) => section.querySelectorAll(".team-matchup-group").length === 2),
+  ),
+  "A trainer party Pokemon is missing effective or resisted move coverage",
+);
+await check(
   (await page.locator(".trainer-party-member__types .type-badge").count()) > 0,
   "Trainer party Pokémon types are missing",
 );
@@ -647,6 +669,12 @@ await check((await page.locator(".gym-leader-card").count()) === 8, "Gym Leaders
 await check((await page.locator(".gym-pokemon-card").count()) === 32, "Gym Leaders tab has an unexpected team size");
 await check((await page.locator(".gym-leader-card__portrait img").count()) === 8, "Gym leader portraits are missing");
 await check((await page.locator(".gym-pokemon-card .team-matchups").count()) === 32, "Gym team weakness sections are missing");
+await check(
+  await page.locator(".gym-pokemon-card .team-matchups").evaluateAll((sections) =>
+    sections.every((section) => section.querySelectorAll(".team-matchup-group").length === 2),
+  ),
+  "A Gym Pokemon is missing effective or resisted move coverage",
+);
 await checkAlignedGridCards(
   ".gym-team",
   ".gym-pokemon-card",
@@ -844,7 +872,7 @@ await check(
 );
 await page.locator(".team-card[data-slot='1'] .team-card__ability select").selectOption("119");
 await page.locator(".view-tab[data-view='dex']").click();
-const gothitaCoverage = page.locator(".pokemon-card[data-number='1'] .team-matchup");
+const gothitaCoverage = page.locator(".pokemon-card[data-number='1'] .team-matchup-group--effective .team-matchup");
 await check((await gothitaCoverage.count()) === 1, "Gothita coverage did not show exactly one super-effective move");
 await check(
   (await gothitaCoverage.textContent()).includes("Gothorita") &&
@@ -863,12 +891,18 @@ await page.evaluate(() => {
   renderDex();
 });
 await check(
-  (await page.locator(".pokemon-card[data-number='249'] .team-matchup").textContent()).includes("4x"),
+  (await page.locator(".pokemon-card[data-number='249'] .team-matchup-group--effective .team-matchup").textContent()).includes("4x"),
   "Dual-type 4x effectiveness is missing for Wingull",
 );
 await check(
-  (await page.locator(".pokemon-card[data-number='93'] .team-matchup").count()) === 0,
-  "Ghost move incorrectly bypassed Hisuian Zorua's Normal-type immunity",
+  (await page.locator(".pokemon-card[data-number='93'] .team-matchup-group--effective .team-matchup").count()) === 0 &&
+    (await page.locator(".pokemon-card[data-number='93'] .team-matchup-group--resisted .team-matchup").allTextContents())
+      .join(" ")
+      .includes("Shadow Ball") &&
+    (await page.locator(".pokemon-card[data-number='93'] .team-matchup-group--resisted .team-matchup").allTextContents())
+      .join(" ")
+      .includes("0x"),
+  "Hisuian Zorua immunity is not shown in the resisted-moves section",
 );
 await page.locator(".pokemon-card[data-number='1'] .team-matchups").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-coverage.png"), fullPage: false });
@@ -893,7 +927,7 @@ const battleTargetSearch = page.locator(".battle-target-card[data-slot='1'] .tea
 await battleTargetSearch.fill("Wingull");
 await battleTargetSearch.press("ArrowDown");
 await battleTargetSearch.press("Enter");
-const battleCoverage = page.locator(".battle-target-card[data-slot='1'] .team-matchup");
+const battleCoverage = page.locator(".battle-target-card[data-slot='1'] .team-matchup-group--effective .team-matchup");
 await check(
   (await page.locator(".battle-target-card[data-slot='1']").textContent()).includes("Wingull") &&
     (await battleCoverage.first().textContent()).includes("Gothorita") &&
@@ -922,8 +956,15 @@ await trainerOnlyTargetSearch.press("Enter");
 await check(
   (await page.locator(".battle-target-card[data-slot='2']").textContent()).includes("Bronzor") &&
     (await page.locator(".battle-target-card[data-slot='2']").textContent()).includes("Trainer only") &&
-    (await page.locator(".battle-target-card[data-slot='2'] .team-matchups").textContent()).includes("Weak to your team"),
+    (await page.locator(".battle-target-card[data-slot='2'] .team-matchups").textContent()).includes("Weak to your team") &&
+    (await page.locator(".battle-target-card[data-slot='2'] .team-matchups").textContent()).includes("Not effective from your team"),
   "Battle Planner could not target trainer-only Bronzor",
+);
+await checkAlignedGridCards(
+  ".battle-grid",
+  ".battle-target-card",
+  [".battle-target-card__top", ".team-pokemon-picker", ".battle-target-card__summary", ".battle-target-matchups"],
+  "Battle Planner",
 );
 await page.locator(".battle-target-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-battle-planner.png"), fullPage: false });
@@ -973,7 +1014,7 @@ const meganiumProgressFixture = await page.evaluate(() => {
   setPlannerNature(1, "calm");
   setTeamMove(1, 0, move.id);
   setPlannerMove(1, 0, move.id);
-  return { abilityName: ability.name, moveName: move.name };
+  return { abilityName: ability.name, moveName: move.name, learnMethods: moveLearningLabels(56, move.id).join(" · ") };
 });
 let meganiumProgressText = await page.locator(".planner-progress-card", { hasText: "Meganium" }).textContent();
 await check(
@@ -986,8 +1027,11 @@ await page.evaluate(() => setTeamMove(1, 0, null));
 meganiumProgressText = await page.locator(".planner-progress-card", { hasText: "Meganium" }).textContent();
 await check(
   !meganiumProgressText.includes("100%") &&
-    meganiumProgressText.includes(`Needs ${meganiumProgressFixture.moveName}`),
-  "Planner progress did not mark a missing planned move as pending",
+    meganiumProgressText.includes(`Needs ${meganiumProgressFixture.moveName}`) &&
+    meganiumProgressText.includes(
+      `How to learn: ${meganiumProgressFixture.learnMethods || "No learn method listed"}`,
+    ),
+  "Planner progress did not show a missing planned move with its learn method",
 );
 await page.locator("#planner-progress").screenshot({ path: path.join(outputDir, "guide-desktop-planner-progress.png") });
 await page.evaluate(() => {

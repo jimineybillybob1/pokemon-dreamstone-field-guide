@@ -36,7 +36,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167x167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260616-2" />
+    <link rel="stylesheet" href="styles.css?v=20260622-1" />
     <script src="data/dreamstone-data.js" defer></script>
     <script src="data/pokerex-encounters.js?v=20260615-3" defer></script>
     <script src="data/pokerex-moves.js" defer></script>
@@ -45,7 +45,7 @@
     <script src="data/pokerex-items.js" defer></script>
     <script src="data/pokerex-evolutions.js" defer></script>
     <script src="sync-config.js" defer></script>
-    <script src="app.js?v=20260616-3" defer></script>
+    <script src="app.js?v=20260622-1" defer></script>
   </head>
   <body id="page-top">
     <header class="hero">
@@ -369,7 +369,8 @@
           <span class="guide-tip__label">Recommendation order</span>
           <p>
             Suggestions use selected damage-dealing moves from Team Builder and are ordered by
-            move power multiplied by type effectiveness.
+            move power multiplied by type effectiveness. Resisted and immune moves are shown
+            separately so you can see which team choices to avoid.
           </p>
         </aside>
         <div class="battle-grid" id="battle-grid"></div>
@@ -820,7 +821,7 @@
           <button class="learnset-button" type="button">View level-up learnset</button>
         </div>
         <section class="pokemon-stats" aria-label="Base stats" hidden></section>
-        <section class="team-matchups" aria-label="Super-effective moves from your team"></section>
+        <section class="team-matchups" aria-label="Move effectiveness from your team"></section>
         <div class="pokemon-evolutions">
           <div class="evolution-group evolves-from" hidden>
             <span>Evolves from</span>
