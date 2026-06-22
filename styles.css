@@ -591,7 +591,7 @@ button.journey-card:hover {
 
 .section-heading h2 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, "Times New Roman", serif !important;
   font-size: clamp(1.35rem, 2.4vw, 2rem);
   letter-spacing: 0;
   line-height: 1.15;

@@ -168,6 +168,15 @@ await check(
   "Guide menu tab labels are still too large",
 );
 await check(
+  await page.locator(".section-heading h2").first().evaluate((element) =>
+    getComputedStyle(element).fontFamily.includes("Georgia"),
+  ) &&
+    await page.locator(".jump-to-top").first().evaluate((element) =>
+      getComputedStyle(element).fontFamily.includes("Pokemon GB"),
+    ),
+  "Page title or Jump to Top typography is incorrect",
+);
+await check(
   await page.locator(".hero h1").evaluate((element) =>
     getComputedStyle(element).fontFamily.includes("Georgia"),
   ) &&
