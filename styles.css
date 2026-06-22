@@ -47,6 +47,19 @@ body * {
   font-family: inherit !important;
 }
 
+.hero,
+.hero *,
+.journey-dashboard,
+.journey-dashboard * {
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif !important;
+}
+
+.hero h1,
+.journey-card--progress strong,
+.journey-card--badges header strong {
+  font-family: Georgia, "Times New Roman", serif !important;
+}
+
 button,
 input,
 select {
@@ -197,7 +210,7 @@ footer {
   color: var(--teal);
   font-size: 0.76rem;
   font-weight: 900;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -205,10 +218,10 @@ footer {
   max-width: none;
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.55rem, 3vw, 2.45rem);
+  font-size: clamp(2.1rem, 3.7vw, 3.25rem);
   font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.2;
+  letter-spacing: -0.055em;
+  line-height: 0.97;
   white-space: nowrap;
 }
 
@@ -464,8 +477,8 @@ button.journey-card:hover {
   margin: 42px 0 12px;
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.45rem;
-  letter-spacing: -0.02em;
+  font-size: 1.3rem;
+  letter-spacing: 0;
 }
 
 .view-tabs {
@@ -484,8 +497,8 @@ button.journey-card:hover {
 
 .view-tab {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr);
-  gap: 9px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 6px;
   align-items: center;
   min-width: 0;
   border: 1px solid var(--line);
@@ -505,8 +518,8 @@ button.journey-card:hover {
 }
 
 .view-tab__icon {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   overflow: visible;
   color: var(--violet);
   fill: none;
@@ -518,8 +531,9 @@ button.journey-card:hover {
 
 .view-tab__label {
   min-width: 0;
-  font-size: 0.8rem;
-  line-height: 1.2;
+  font-size: 0.58rem;
+  line-height: 1.12;
+  white-space: nowrap;
 }
 
 .tab-count {
@@ -578,15 +592,17 @@ button.journey-card:hover {
 .section-heading h2 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.45rem, 3vw, 2.35rem);
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
   letter-spacing: 0;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .section-heading > p {
+  max-width: min(50%, 520px);
   margin: 0;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.7rem;
+  line-height: 1.4;
 }
 
 .filter-panel {
@@ -611,7 +627,7 @@ button.journey-card:hover {
   color: var(--muted);
   font-size: 0.67rem;
   font-weight: 900;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -626,6 +642,7 @@ button.journey-card:hover {
   color: var(--ink);
   background: #fff;
   padding: 9px 11px;
+  font-size: 0.68rem;
 }
 
 .filter-panel input:focus,
@@ -773,7 +790,7 @@ button.journey-card:hover {
   color: var(--muted);
   font-size: 0.62rem;
   font-weight: 900;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -787,6 +804,7 @@ button.journey-card:hover {
   color: var(--ink);
   background: #fff;
   padding: 9px 11px;
+  font-size: 0.68rem;
 }
 
 .sticky-search input:focus,
@@ -1484,7 +1502,7 @@ button.journey-card:hover {
   color: var(--muted);
   font-size: 0.59rem;
   font-weight: 900;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -1910,7 +1928,7 @@ body.notes-hidden .pokemon-note p {
 .collection-card__copy strong {
   margin: 3px 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.95rem;
+  font-size: 0.82rem;
 }
 
 .collection-card__copy span {
@@ -1922,12 +1940,12 @@ body.notes-hidden .pokemon-note p {
   display: grid;
   gap: 3px;
   place-items: center;
-  width: 46px;
+  width: 58px;
   border: 0;
   border-left: 1px solid var(--line);
   color: var(--muted);
   background: var(--paper-deep);
-  font-size: 0.52rem;
+  font-size: 0.46rem;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -2916,7 +2934,7 @@ button.trainer-party-member__identity:hover {
 .gym-pokemon-card__copy > strong {
   overflow: hidden;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.02rem;
+  font-size: 0.9rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -2995,7 +3013,7 @@ button.trainer-party-member__identity:hover {
   color: var(--muted);
   font-size: 0.67rem;
   font-weight: 900;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -3009,6 +3027,7 @@ button.trainer-party-member__identity:hover {
   color: var(--ink);
   background: #fff;
   padding: 9px 11px;
+  font-size: 0.68rem;
 }
 
 .move-filter-panel input:focus,
@@ -3315,7 +3334,7 @@ button.trainer-party-member__identity:hover {
   color: var(--muted);
   font-size: 0.67rem;
   font-weight: 900;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -3329,6 +3348,11 @@ button.trainer-party-member__identity:hover {
   color: var(--ink);
   background: #fff;
   padding: 9px 11px;
+  font-size: 0.68rem;
+}
+
+.ability-filter-panel select {
+  font-size: 0.58rem;
 }
 
 .ability-filter-panel input:focus,
@@ -4137,7 +4161,7 @@ button.trainer-party-member__identity:hover {
   color: var(--muted);
   font-size: 0.59rem;
   font-weight: 900;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -4154,7 +4178,12 @@ button.trainer-party-member__identity:hover {
   color: var(--ink);
   background: #fff;
   padding: 7px 9px;
-  font-size: 0.76rem;
+  font-size: 0.66rem;
+}
+
+.team-card__ability select,
+.team-card__nature select {
+  font-size: 0.6rem;
 }
 
 .team-pokemon-search input:focus,
@@ -4965,7 +4994,8 @@ button.trainer-party-member__identity:hover {
 .save-panel h3 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.45rem;
+  font-size: 1.15rem;
+  line-height: 1.15;
 }
 
 .save-panel p:not(.eyebrow) {
@@ -5584,8 +5614,13 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .view-tab__icon {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .view-tab__label {
+    font-size: 0.62rem;
+    white-space: normal;
   }
 
   .hero {
@@ -5658,6 +5693,10 @@ html[data-theme="dark"] .guide-tip strong {
 
   .section-heading {
     display: grid;
+  }
+
+  .section-heading > p {
+    max-width: none;
   }
 
   .guide-tip {

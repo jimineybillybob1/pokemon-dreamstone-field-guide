@@ -167,6 +167,18 @@ await check(
   ),
   "Guide menu tab labels are still too large",
 );
+await check(
+  await page.locator(".hero h1").evaluate((element) =>
+    getComputedStyle(element).fontFamily.includes("Georgia"),
+  ) &&
+    await page.locator(".hero__intro").evaluate((element) =>
+      getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
+    ) &&
+    await page.locator(".journey-card__label").first().evaluate((element) =>
+      getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
+    ),
+  "Masthead or Journey Overview did not restore the original typography",
+);
 await check((await page.locator("link[rel='manifest']").getAttribute("href")) === "site.webmanifest", "Web app manifest is missing");
 await check(
   (await page.locator("meta[property='og:image']").getAttribute("content")).endsWith(
@@ -211,9 +223,40 @@ await check(
   await page.locator(".view-tabs").evaluate((element) => element.scrollWidth <= element.clientWidth),
   "Desktop guide menu has horizontal overflow",
 );
+const desktopMenuLabelMetrics = await page.locator(".view-tab:not([hidden]) .view-tab__label").evaluateAll((elements) =>
+  elements.map((element) => ({
+    label: element.textContent.trim(),
+    width: Math.round(element.getBoundingClientRect().width),
+    scrollWidth: element.scrollWidth,
+  })),
+);
+await check(
+  desktopMenuLabelMetrics.every((item) => item.scrollWidth <= item.width + 1),
+  `A desktop guide menu label overflows its available width: ${JSON.stringify(desktopMenuLabelMetrics)}`,
+);
 await check(
   (await page.locator(".view-tab.is-active").getAttribute("aria-current")) === "page",
   "Active guide menu item is missing aria-current",
+);
+for (const viewName of await page.locator(".view-tab:not([hidden])").evaluateAll((tabs) =>
+  tabs.map((tab) => tab.dataset.view),
+)) {
+  await page.locator(`.view-tab[data-view='${viewName}']`).click();
+  await check(
+    await page.locator(`#view-${viewName} .section-heading h2`).evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return range.getClientRects().length === 1;
+    }),
+    `Desktop ${viewName} heading wraps onto multiple lines`,
+  );
+}
+await page.locator(".view-tab[data-view='dex']").click();
+await check(
+  await page.locator(".move-filter-panel select").first().evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).fontSize) <= 11,
+  ),
+  "Dense form controls do not use the compact Pokemon-font scale",
 );
 await checkDashboardTeamFill("Desktop");
 await check((await page.locator("[data-clear-search]").count()) === 7, "Search clear buttons are missing");
