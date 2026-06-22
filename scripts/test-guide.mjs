@@ -997,6 +997,32 @@ await check(
   (await page.locator("#team-offensive-coverage .offensive-coverage__targets .type-badge").count()) === 4,
   "Team Builder super-effective type coverage is incorrect",
 );
+await page.evaluate(() => setTeamPokemon(1, 56));
+await check(
+  await page.locator("#team-grid").evaluate((grid) => {
+    const cards = [...grid.querySelectorAll(".team-card:has(.team-card__profile)")];
+    const selectors = [".team-card__profile", ".team-card__preferences", ".team-card__moves", ".team-card__evolutions"];
+    return selectors.every((selector) => {
+      const sections = cards.map((card) => card.querySelector(selector));
+      const heights = sections.map((section) => section.getBoundingClientRect().height);
+      const offsets = sections.map(
+        (section, index) => section.getBoundingClientRect().top - cards[index].getBoundingClientRect().top,
+      );
+      return Math.max(...heights) - Math.min(...heights) < 2 && Math.max(...offsets) - Math.min(...offsets) < 2;
+    });
+  }),
+  "Team Builder sections do not remain aligned when cards contain different amounts of detail",
+);
+await check(
+  await page.locator(".team-card[data-slot='1'] .team-ability-details p").evaluate(
+    (element) => Number.parseFloat(getComputedStyle(element).fontSize) <= 10,
+  ) &&
+    await page.locator(".team-card[data-slot='1'] .team-move-details > p:not(.team-move-details__effect)").first().evaluate(
+      (element) => Number.parseFloat(getComputedStyle(element).fontSize) <= 10,
+    ),
+  "Team Builder secondary descriptions are still too large",
+);
+await page.evaluate(() => setTeamPokemon(1, null));
 await page.locator(".team-card[data-slot='1'] .team-evolve-button", { hasText: "Gothorita" }).click();
 await check(
   (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothorita",
@@ -1317,6 +1343,27 @@ await check(
 await check(
   (await page.locator(".planner-card[data-slot='2'] .planner-evolution-path").count()) === 1,
   "Team Planner cards do not reserve a consistent evolution area",
+);
+await check(
+  await page.locator("#planner-grid").evaluate((grid) => {
+    const cards = [...grid.querySelectorAll(".planner-card:has(.team-card__profile)")];
+    const selectors = [".team-card__profile", ".team-card__preferences", ".team-card__moves", ".planner-evolution-path"];
+    return selectors.every((selector) => {
+      const sections = cards.map((card) => card.querySelector(selector));
+      const heights = sections.map((section) => section.getBoundingClientRect().height);
+      const offsets = sections.map(
+        (section, index) => section.getBoundingClientRect().top - cards[index].getBoundingClientRect().top,
+      );
+      return Math.max(...heights) - Math.min(...heights) < 2 && Math.max(...offsets) - Math.min(...offsets) < 2;
+    });
+  }),
+  "Team Planner sections do not remain aligned when cards contain different amounts of detail",
+);
+await check(
+  await page.locator(".planner-card[data-slot='1'] .planner-move-methods span").first().evaluate(
+    (element) => Number.parseFloat(getComputedStyle(element).fontSize) <= 9,
+  ),
+  "Team Planner learning-method subtext is still too large",
 );
 await page.locator(".planner-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-planner.png"), fullPage: false });

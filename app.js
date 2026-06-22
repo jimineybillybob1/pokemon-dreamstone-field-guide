@@ -3051,20 +3051,53 @@ function renderTeam() {
   state.team.forEach((slot, index) => fragment.append(renderTeamCard(slot, index)));
   elements.teamGrid.replaceChildren(fragment);
   fitTeamPokemonNames(elements.teamGrid);
+  alignFilledTeamCards(elements.teamGrid, ".team-card__evolutions");
   renderOffensiveCoverage(elements.teamOffensiveCoverage, state.team);
   renderPlannerProgress();
 }
 
 function fitTeamPokemonNames(container) {
-  requestAnimationFrame(() => {
-    container.querySelectorAll(".team-card__identity h3").forEach((name) => {
-      name.style.fontSize = "";
-      if (!name.clientWidth) return;
-      let size = Number.parseFloat(getComputedStyle(name).fontSize);
-      while (name.scrollWidth > name.clientWidth + 1 && size > 12) {
-        size -= 0.5;
-        name.style.fontSize = `${size}px`;
-      }
+  container.querySelectorAll(".team-card__identity h3").forEach((name) => {
+    name.style.fontSize = "";
+    if (!name.clientWidth) return;
+    let size = Number.parseFloat(getComputedStyle(name).fontSize);
+    while (name.scrollWidth > name.clientWidth + 1 && size > 12) {
+      size -= 0.5;
+      name.style.fontSize = `${size}px`;
+    }
+  });
+}
+
+function alignFilledTeamCards(container, finalSectionSelector) {
+  const allCards = [...container.querySelectorAll(".team-card, .planner-card")];
+  const cards = allCards.filter((card) =>
+    card.querySelector(".team-card__profile"),
+  );
+  const selectors = [
+    ".team-card__profile",
+    ".team-card__preferences",
+    ".team-card__moves",
+    finalSectionSelector,
+  ];
+  cards.forEach((card) =>
+    selectors.forEach((selector) => {
+      const section = card.querySelector(selector);
+      if (section) section.style.minHeight = "";
+    }),
+  );
+  const sharesVisualRow = allCards.some((card, index) =>
+    allCards.slice(index + 1).some(
+      (candidate) => Math.abs(candidate.getBoundingClientRect().top - card.getBoundingClientRect().top) < 2,
+    ),
+  );
+  if (!sharesVisualRow) return;
+  selectors.forEach((selector) => {
+    const sections = cards.map((card) => card.querySelector(selector)).filter(Boolean);
+    const height = Math.ceil(
+      Math.max(...sections.map((section) => Math.max(section.scrollHeight, section.getBoundingClientRect().height))),
+    );
+    sections.forEach((section) => {
+      section.style.minHeight = `${height}px`;
     });
   });
 }
@@ -3356,6 +3389,7 @@ function renderPlanner() {
   state.planner.forEach((slot, index) => fragment.append(renderPlannerCard(slot, index)));
   elements.plannerGrid.replaceChildren(fragment);
   fitTeamPokemonNames(elements.plannerGrid);
+  alignFilledTeamCards(elements.plannerGrid, ".planner-evolution-path");
   renderOffensiveCoverage(elements.plannerOffensiveCoverage, state.planner);
   renderPlannerProgress();
 }
@@ -4707,6 +4741,8 @@ renderItems();
 window.addEventListener("resize", () => {
   fitTeamPokemonNames(elements.teamGrid);
   fitTeamPokemonNames(elements.plannerGrid);
+  alignFilledTeamCards(elements.teamGrid, ".team-card__evolutions");
+  alignFilledTeamCards(elements.plannerGrid, ".planner-evolution-path");
 });
 const initialPokemonNumber = Number(location.hash.match(/^#pokemon-(\d+)$/)?.[1]);
 if (initialPokemonNumber) focusPokemon(initialPokemonNumber);

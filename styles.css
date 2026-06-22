@@ -4275,7 +4275,7 @@ button.trainer-party-member__identity:hover {
 .team-card__nature label > span,
 .team-move-slot label {
   color: var(--muted);
-  font-size: 0.59rem;
+  font-size: 0.55rem;
   font-weight: 900;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -4425,7 +4425,7 @@ button.trainer-party-member__identity:hover {
 .planner-card__empty p {
   max-width: 300px;
   margin: 8px 0 0;
-  font-size: 0.72rem;
+  font-size: 0.65rem;
   line-height: 1.5;
 }
 
@@ -4464,7 +4464,7 @@ button.trainer-party-member__identity:hover {
 
 .team-card__identity > div:last-child > span {
   color: var(--violet);
-  font-size: 0.64rem;
+  font-size: 0.59rem;
   font-weight: 900;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -4490,7 +4490,7 @@ button.trainer-party-member__identity:hover {
   display: inline-block;
   margin-top: 9px;
   color: var(--violet-dark);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
 }
 
 .team-card__profile {
@@ -4551,14 +4551,14 @@ button.trainer-party-member__identity:hover {
 
 .team-nature-details span {
   color: var(--violet-dark);
-  font-size: 0.62rem;
+  font-size: 0.57rem;
   font-weight: 900;
 }
 
 .team-nature-details small {
   grid-column: 1 / -1;
   color: var(--muted);
-  font-size: 0.58rem;
+  font-size: 0.53rem;
   line-height: 1.4;
 }
 
@@ -4610,7 +4610,7 @@ button.trainer-party-member__identity:hover {
 .team-ability-details p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.69rem;
+  font-size: 0.62rem;
   line-height: 1.45;
 }
 
@@ -4629,14 +4629,14 @@ button.trainer-party-member__identity:hover {
 .planner-evolution-none {
   margin: 0;
   color: var(--muted);
-  font-size: 0.66rem;
+  font-size: 0.61rem;
   font-weight: 800;
 }
 
 .team-card__evolutions > span {
   flex: 1 0 100%;
   color: var(--muted);
-  font-size: 0.59rem;
+  font-size: 0.55rem;
   font-weight: 900;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -4744,7 +4744,7 @@ button.trainer-party-member__identity:hover {
 
 .team-move-details__metrics dt {
   color: var(--muted);
-  font-size: 0.55rem;
+  font-size: 0.51rem;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -4752,14 +4752,14 @@ button.trainer-party-member__identity:hover {
 .team-move-details__metrics dd {
   margin: 0;
   color: var(--ink);
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   font-weight: 900;
 }
 
 .team-move-details p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.69rem;
+  font-size: 0.62rem;
   line-height: 1.45;
 }
 
@@ -4778,14 +4778,14 @@ button.trainer-party-member__identity:hover {
   display: block;
   margin-bottom: 2px;
   color: var(--ink);
-  font-size: 0.54rem;
+  font-size: 0.5rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .planner-move-methods > strong {
   color: var(--muted);
-  font-size: 0.59rem;
+  font-size: 0.54rem;
   font-weight: 900;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -4809,7 +4809,7 @@ button.trainer-party-member__identity:hover {
 
 .planner-evolution-path > strong {
   color: var(--muted);
-  font-size: 0.59rem;
+  font-size: 0.55rem;
   font-weight: 900;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -4871,7 +4871,7 @@ button.trainer-party-member__identity:hover {
   gap: 2px;
   place-items: center;
   color: var(--muted);
-  font-size: 0.49rem;
+  font-size: 0.46rem;
   font-weight: 900;
   line-height: 1.2;
   text-align: center;
@@ -4896,7 +4896,7 @@ button.trainer-party-member__identity:hover {
   color: #286d63;
   background: rgba(66, 182, 163, 0.17);
   padding: 3px 7px;
-  font-size: 0.56rem;
+  font-size: 0.51rem;
   font-weight: 900;
 }
 
