@@ -40,7 +40,11 @@ body {
   background:
     radial-gradient(circle at 15% 35%, rgba(114, 87, 212, 0.08), transparent 24rem),
     var(--paper);
-  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
+}
+
+body * {
+  font-family: inherit !important;
 }
 
 button,
@@ -55,18 +59,6 @@ button {
 
 a {
   color: inherit;
-}
-
-.view-tab,
-.eyebrow,
-.journey-card__label,
-.guide-tip__label,
-.pokemon-number,
-.team-card__top,
-.battle-target-card__top,
-.planner-progress__header > div > span,
-.planner-progress-task > span {
-  font-family: var(--font-ui);
 }
 
 .hero {
@@ -213,10 +205,10 @@ footer {
   max-width: none;
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.1rem, 3.7vw, 3.25rem);
+  font-size: clamp(1.55rem, 3vw, 2.45rem);
   font-weight: 700;
-  letter-spacing: -0.055em;
-  line-height: 0.97;
+  letter-spacing: 0;
+  line-height: 1.2;
   white-space: nowrap;
 }
 
@@ -460,6 +452,14 @@ button.journey-card:hover {
   white-space: nowrap;
 }
 
+.dashboard-team-slot.is-filled small {
+  color: #fff;
+  font-weight: 900;
+  text-shadow:
+    0 1px 2px rgba(15, 13, 28, 0.95),
+    0 0 4px rgba(15, 13, 28, 0.8);
+}
+
 .view-menu-heading {
   margin: 42px 0 12px;
   color: var(--ink);
@@ -518,6 +518,8 @@ button.journey-card:hover {
 
 .view-tab__label {
   min-width: 0;
+  font-size: 0.8rem;
+  line-height: 1.2;
 }
 
 .tab-count {
@@ -576,8 +578,9 @@ button.journey-card:hover {
 .section-heading h2 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  letter-spacing: -0.04em;
+  font-size: clamp(1.45rem, 3vw, 2.35rem);
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 .section-heading > p {
@@ -4346,7 +4349,7 @@ button.trainer-party-member__identity:hover {
   grid-template-columns: minmax(205px, 0.8fr) minmax(230px, 1.2fr);
   gap: 14px;
   align-items: center;
-  min-height: 166px;
+  min-height: 168px;
   border-bottom: 1px solid var(--line);
   padding: 12px 13px;
 }
@@ -4362,7 +4365,7 @@ button.trainer-party-member__identity:hover {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   align-items: start;
-  min-height: 151px;
+  min-height: 170px;
   border-bottom: 1px solid var(--line);
   padding: 11px 13px;
 }

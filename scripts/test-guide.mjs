@@ -161,6 +161,12 @@ await check(
   ),
   "Pokemon GB font is not applied to guide UI labels",
 );
+await check(
+  await page.locator(".view-tab__label").first().evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).fontSize) <= 13,
+  ),
+  "Guide menu tab labels are still too large",
+);
 await check((await page.locator("link[rel='manifest']").getAttribute("href")) === "site.webmanifest", "Web app manifest is missing");
 await check(
   (await page.locator("meta[property='og:image']").getAttribute("content")).endsWith(
@@ -923,6 +929,13 @@ await check(
   "Dashboard team overview is missing the PokÃ©mon name",
 );
 await page.locator(".view-tab[data-view='battle']").click();
+await check(
+  await page.locator(".dashboard-team-slot.is-filled small").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return style.color === "rgb(255, 255, 255)" && style.textShadow !== "none";
+  }),
+  "Dashboard team Pokemon name does not have enough contrast",
+);
 const battleTargetSearch = page.locator(".battle-target-card[data-slot='1'] .team-pokemon-search input");
 await battleTargetSearch.fill("Wingull");
 await battleTargetSearch.press("ArrowDown");
