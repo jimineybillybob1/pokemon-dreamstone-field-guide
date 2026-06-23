@@ -746,6 +746,12 @@ await check(
   }),
   "Long Battle Planner Pokemon names are still clipped",
 );
+await check(
+  await page.locator(".battle-target-card[data-slot='1'] .battle-target-card__copy strong").evaluate((element) =>
+    getComputedStyle(element).fontFamily.includes("Pokemon GB"),
+  ),
+  "Opposing Pokemon card names do not use the Pokemon font",
+);
 await page.evaluate(() => setBattleTarget(0, null));
 await page.evaluate(() => activateView("trainers"));
 await page.locator("#expand-trainer-locations").click();
@@ -1148,6 +1154,13 @@ await check(
     (await page.locator(".battle-recommendation-card").textContent()).includes("4x") &&
     (await page.locator(".battle-recommendation-card").textContent()).includes("Use against Wingull"),
   "Single-opponent Battle Planner recommendation is missing or incorrect",
+);
+await check(
+  await page.locator(".battle-recommendation-card").first().evaluate((card) =>
+    getComputedStyle(card.querySelector(".battle-recommendation-card__profile h3")).fontFamily.includes("Pokemon GB") &&
+      getComputedStyle(card.querySelector(".battle-recommendation-move h4")).fontFamily.includes("Pokemon GB"),
+  ),
+  "Battle Planner suggestion cards do not use the Pokemon font",
 );
 await check(
   await battleCoverage.evaluateAll((entries) => {

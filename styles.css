@@ -2846,10 +2846,10 @@ button.trainer-party-member__identity:hover {
 .battle-target-card__copy strong {
   overflow: hidden;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif !important;
-  font-size: clamp(1.18rem, 1.65vw, 1.55rem);
-  letter-spacing: -0.025em;
-  line-height: 1;
+  font-family: var(--font-ui) !important;
+  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  letter-spacing: 0.02em;
+  line-height: 1.22;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -2943,6 +2943,11 @@ button.trainer-party-member__identity:hover {
   background: rgba(255, 255, 255, 0.72);
 }
 
+.battle-recommendation-card,
+.battle-recommendation-card * {
+  font-family: var(--font-ui) !important;
+}
+
 .battle-recommendation-card > header {
   display: flex;
   gap: 10px;
@@ -3011,8 +3016,9 @@ button.trainer-party-member__identity:hover {
   overflow: hidden;
   margin: 0;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif !important;
-  font-size: 1.25rem;
+  font-family: var(--font-ui) !important;
+  font-size: 0.92rem;
+  line-height: 1.25;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -3050,8 +3056,9 @@ button.trainer-party-member__identity:hover {
   flex: 1 0 100%;
   margin: 0 0 2px;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif !important;
-  font-size: 1rem;
+  font-family: var(--font-ui) !important;
+  font-size: 0.84rem;
+  line-height: 1.3;
 }
 
 .battle-recommendation-move dl {
