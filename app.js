@@ -207,6 +207,7 @@ const elements = {
   trainerLocationList: document.querySelector("#trainer-location-list"),
   trainerEmptyState: document.querySelector("#trainer-empty-state"),
   battleGrid: document.querySelector("#battle-grid"),
+  battleRecommendations: document.querySelector("#battle-recommendations"),
   teamGrid: document.querySelector("#team-grid"),
   teamOffensiveCoverage: document.querySelector("#team-offensive-coverage"),
   plannerGrid: document.querySelector("#planner-grid"),
@@ -2086,6 +2087,214 @@ function renderBattleTargetCard(pokemonNumber, slotIndex) {
   return card;
 }
 
+function incomingTypeRisk(teamPokemon, targetPokemon) {
+  if (!targetPokemon.types.length) return 1;
+  return Math.max(...targetPokemon.types.map((type) => moveEffectiveness(type, teamPokemon.types)));
+}
+
+function defensiveScoreFactor(risk) {
+  if (risk === 0) return 1.5;
+  if (risk < 1) return 1.25;
+  if (risk > 1) return 1 / risk;
+  return 1;
+}
+
+function incomingRiskLabel(risk) {
+  if (risk === 0) return "Immune";
+  if (risk < 1) return `Resists (${risk}x)`;
+  if (risk > 1) return `Weak (${risk}x)`;
+  return "Neutral (1x)";
+}
+
+function battleCandidateEvaluation(candidate, targetPokemon) {
+  const moves = [...new Set(candidate.slot.moves)]
+    .map((moveId) => moveById.get(moveId))
+    .filter((move) => move && move.category !== "Status");
+  if (!moves.length) return null;
+  const rankedMoves = moves
+    .map((move) => {
+      const multiplier = moveEffectiveness(move.type, targetPokemon.types);
+      return { move, multiplier, attackScore: matchupScore(move, multiplier) };
+    })
+    .sort(
+      (a, b) =>
+        b.attackScore - a.attackScore ||
+        b.multiplier - a.multiplier ||
+        (b.move.power || 0) - (a.move.power || 0) ||
+        (b.move.accuracy || 0) - (a.move.accuracy || 0) ||
+        a.move.name.localeCompare(b.move.name),
+    );
+  const risk = incomingTypeRisk(candidate.pokemon, targetPokemon);
+  const best = rankedMoves[0];
+  return {
+    ...best,
+    target: targetPokemon,
+    incomingRisk: risk,
+    recommendationScore: Math.round(best.attackScore * defensiveScoreFactor(risk) * 10) / 10,
+  };
+}
+
+function selectedBattleCandidates(targets) {
+  return state.team
+    .map((slot, slotIndex) => {
+      const pokemon = pokemonByNumber.get(slot.pokemonNumber);
+      if (!pokemon) return null;
+      const candidate = { slot, slotIndex, pokemon };
+      const evaluations = targets.map((target) => battleCandidateEvaluation(candidate, target));
+      return evaluations.some(Boolean) ? { ...candidate, evaluations } : null;
+    })
+    .filter(Boolean);
+}
+
+function coordinatedBattleRecommendations(targets) {
+  const candidates = selectedBattleCandidates(targets);
+  if (!targets.length || !candidates.length) return [];
+  if (targets.length === 1) {
+    return candidates
+      .map((candidate) => ({ candidate, evaluation: candidate.evaluations[0], targetIndex: 0 }))
+      .filter((entry) => entry.evaluation)
+      .sort(
+        (a, b) =>
+          b.evaluation.recommendationScore - a.evaluation.recommendationScore ||
+          b.evaluation.attackScore - a.evaluation.attackScore ||
+          a.candidate.slotIndex - b.candidate.slotIndex,
+      )
+      .slice(0, 1);
+  }
+
+  if (candidates.length === 1) {
+    const candidate = candidates[0];
+    return targets.map((target, targetIndex) => ({
+      candidate,
+      evaluation: candidate.evaluations[targetIndex],
+      fallback: candidate.evaluations[targetIndex === 0 ? 1 : 0],
+      targetIndex,
+      sharedCandidate: true,
+      pairScore: candidate.evaluations.reduce((total, evaluation) => total + (evaluation?.recommendationScore || 0), 0),
+    }));
+  }
+
+  let bestPlan = null;
+  for (let firstIndex = 0; firstIndex < candidates.length; firstIndex += 1) {
+    for (let secondIndex = firstIndex + 1; secondIndex < candidates.length; secondIndex += 1) {
+      const pair = [candidates[firstIndex], candidates[secondIndex]];
+      [pair, [pair[1], pair[0]]].forEach((assignment) => {
+        const primary = [assignment[0].evaluations[0], assignment[1].evaluations[1]];
+        if (primary.some((evaluation) => !evaluation)) return;
+        const fallback = [assignment[0].evaluations[1], assignment[1].evaluations[0]];
+        const score =
+          primary.reduce((total, evaluation) => total + evaluation.recommendationScore, 0) +
+          fallback.reduce((total, evaluation) => total + (evaluation?.recommendationScore || 0), 0) * 0.25;
+        const attackScore = primary.reduce((total, evaluation) => total + evaluation.attackScore, 0);
+        if (
+          !bestPlan ||
+          score > bestPlan.score ||
+          (score === bestPlan.score && attackScore > bestPlan.attackScore)
+        ) {
+          bestPlan = { assignment, primary, fallback, score, attackScore };
+        }
+      });
+    }
+  }
+  if (!bestPlan) return [];
+  return bestPlan.assignment.map((candidate, targetIndex) => ({
+    candidate,
+    evaluation: bestPlan.primary[targetIndex],
+    fallback: bestPlan.fallback[targetIndex],
+    targetIndex,
+    pairScore: Math.round(bestPlan.score * 10) / 10,
+  }));
+}
+
+function renderBattleRecommendationCard(recommendation, index, targetCount) {
+  const { candidate, evaluation, fallback } = recommendation;
+  const card = document.createElement("article");
+  card.className = "battle-recommendation-card";
+  card.dataset.teamSlot = candidate.slotIndex + 1;
+  card.dataset.targetNumber = pokemonLookupNumber(evaluation.target);
+  if (recommendation.pairScore != null) card.dataset.pairScore = recommendation.pairScore;
+  card.innerHTML = `
+    <header>
+      <span>Suggestion ${index + 1}</span>
+      <small>Use against ${evaluation.target.name.replaceAll("_", " ")}</small>
+    </header>
+    <div class="battle-recommendation-card__profile">
+      <span class="battle-recommendation-card__sprite">
+        <img src="${candidate.pokemon.sprite}" alt="" width="76" height="76" loading="lazy">
+      </span>
+      <div>
+        <small>Team slot ${candidate.slotIndex + 1}</small>
+        <h3></h3>
+        <div class="battle-recommendation-card__types"></div>
+      </div>
+      <strong class="battle-recommendation-card__rating">Rating ${evaluation.recommendationScore}</strong>
+    </div>
+    <section class="battle-recommendation-move">
+      <span>Best selected move</span>
+      <div class="battle-recommendation-move__heading">
+        <h4></h4>
+        <span class="type-badge" data-type="${evaluation.move.type.toLowerCase()}">${evaluation.move.type}</span>
+        <span class="move-category" data-category="${evaluation.move.category.toLowerCase()}">${evaluation.move.category}</span>
+      </div>
+      <dl>
+        <div><dt>Power</dt><dd>${evaluation.move.power || "-"}</dd></div>
+        <div><dt>Accuracy</dt><dd>${evaluation.move.accuracy ? `${evaluation.move.accuracy}%` : "-"}</dd></div>
+        <div><dt>Effective</dt><dd>${evaluation.multiplier}x</dd></div>
+        <div><dt>Incoming</dt><dd>${incomingRiskLabel(evaluation.incomingRisk)}</dd></div>
+      </dl>
+    </section>
+  `;
+  card.querySelector("h3").textContent = candidate.pokemon.name.replaceAll("_", " ");
+  card.querySelector("h4").textContent = evaluation.move.name;
+  renderTypeBadges(card.querySelector(".battle-recommendation-card__types"), candidate.pokemon.types);
+
+  if (targetCount === 2 && fallback) {
+    const coverage = document.createElement("p");
+    coverage.className = "battle-recommendation-card__fallback";
+    coverage.innerHTML = `<strong>Also covers ${fallback.target.name.replaceAll("_", " ")}</strong><span></span>`;
+    coverage.querySelector("span").textContent =
+      `${fallback.move.name} - ${fallback.multiplier}x effectiveness - rating ${fallback.recommendationScore}`;
+    card.append(coverage);
+  }
+  if (recommendation.sharedCandidate) {
+    const note = document.createElement("p");
+    note.className = "battle-recommendation-card__note";
+    note.textContent = "Only one Team Builder member currently has a selected damaging move.";
+    card.append(note);
+  }
+  return card;
+}
+
+function renderBattleRecommendations() {
+  if (!elements.battleRecommendations) return;
+  const targets = state.battleTargets.map((number) => pokemonByNumber.get(number)).filter(Boolean);
+  elements.battleRecommendations.hidden = !targets.length;
+  if (!targets.length) {
+    elements.battleRecommendations.replaceChildren();
+    return;
+  }
+  const heading = document.createElement("header");
+  heading.className = "battle-recommendations__header";
+  heading.innerHTML = `
+    <div><span>Suggested battle plan</span><h3>${targets.length === 2 ? "Coordinated team choices" : "Best team choice"}</h3></div>
+    <p>Ratings combine selected move power and effectiveness with defensive type risk.${targets.length === 2 ? " Pair scoring also rewards fallback coverage against the other opponent." : ""}</p>
+  `;
+  const recommendations = coordinatedBattleRecommendations(targets);
+  if (!recommendations.length) {
+    const empty = document.createElement("p");
+    empty.className = "battle-recommendations__empty";
+    empty.textContent = "Add a Pokemon and at least one damaging move in Team Builder to receive a recommendation.";
+    elements.battleRecommendations.replaceChildren(heading, empty);
+    return;
+  }
+  const grid = document.createElement("div");
+  grid.className = "battle-recommendation-grid";
+  recommendations.forEach((recommendation, index) => {
+    grid.append(renderBattleRecommendationCard(recommendation, index, targets.length));
+  });
+  elements.battleRecommendations.replaceChildren(heading, grid);
+}
+
 function renderBattlePlanner() {
   if (!elements.battleGrid) return;
   const fragment = document.createDocumentFragment();
@@ -2093,6 +2302,7 @@ function renderBattlePlanner() {
     fragment.append(renderBattleTargetCard(pokemonNumber, index));
   });
   elements.battleGrid.replaceChildren(fragment);
+  renderBattleRecommendations();
 }
 
 function renderTrainerQuickLocations() {

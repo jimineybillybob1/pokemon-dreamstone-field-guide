@@ -731,12 +731,22 @@ await page.locator(".view-tab[data-view='battle']").click();
 await check(await page.locator("#view-battle").evaluate((element) => element.classList.contains("is-active")), "Battle Planner view did not open");
 await check((await page.locator(".battle-target-card").count()) === 2, "Battle Planner did not render two target cards");
 await check((await page.locator(".battle-target-card__empty").count()) === 2, "Battle Planner did not start with empty target cards");
+await check(await page.locator("#battle-recommendations").isHidden(), "Battle recommendations are visible without a target");
 await check(
   (await page.locator("#view-battle").textContent()).includes("move power multiplied by type effectiveness"),
   "Battle Planner does not explain recommendation ordering",
 );
 await page.locator("#view-battle").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-battle-empty.png"), fullPage: false });
+await page.evaluate(() => setBattleTarget(0, 121));
+await check(
+  await page.locator(".battle-target-card[data-slot='1'] .battle-target-card__copy strong").evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return element.scrollWidth <= Math.ceil(rect.width) + 1;
+  }),
+  "Long Battle Planner Pokemon names are still clipped",
+);
+await page.evaluate(() => setBattleTarget(0, null));
 await page.evaluate(() => activateView("trainers"));
 await page.locator("#expand-trainer-locations").click();
 await check(
@@ -1132,6 +1142,14 @@ await check(
   "Battle Planner did not recommend the strongest Team Builder move first",
 );
 await check(
+  (await page.locator(".battle-recommendation-card").count()) === 1 &&
+    (await page.locator(".battle-recommendation-card").textContent()).includes("Gothorita") &&
+    (await page.locator(".battle-recommendation-card").textContent()).includes("Thunderbolt") &&
+    (await page.locator(".battle-recommendation-card").textContent()).includes("4x") &&
+    (await page.locator(".battle-recommendation-card").textContent()).includes("Use against Wingull"),
+  "Single-opponent Battle Planner recommendation is missing or incorrect",
+);
+await check(
   await battleCoverage.evaluateAll((entries) => {
     const scores = entries.map((entry) => {
       const scoreColumn = [...entry.querySelectorAll("dl div")].find(
@@ -1154,6 +1172,34 @@ await check(
     (await page.locator(".battle-target-card[data-slot='2'] .team-matchups").textContent()).includes("Not effective from your team"),
   "Battle Planner could not target trainer-only Bronzor",
 );
+const coordinatedFixture = await page.evaluate(() => {
+  setTeamPokemon(1, 56);
+  const targets = state.battleTargets.map((number) => pokemonByNumber.get(number)).filter(Boolean);
+  const move = [...(compatibleMoveIdsByPokemon.get(56) || [])]
+    .map((id) => moveById.get(id))
+    .filter((candidate) => candidate && candidate.category !== "Status")
+    .sort(
+      (a, b) =>
+        targets.reduce((total, target) => total + matchupScore(b, moveEffectiveness(b.type, target.types)), 0) -
+        targets.reduce((total, target) => total + matchupScore(a, moveEffectiveness(a.type, target.types)), 0),
+    )[0];
+  setTeamMove(1, 0, move.id);
+  return { moveName: move.name };
+});
+await check(
+  (await page.locator(".battle-recommendation-card").count()) === 2 &&
+    new Set(await page.locator(".battle-recommendation-card").evaluateAll((cards) => cards.map((card) => card.dataset.teamSlot))).size === 2 &&
+    new Set(await page.locator(".battle-recommendation-card").evaluateAll((cards) => cards.map((card) => card.dataset.targetNumber))).size === 2 &&
+    new Set(await page.locator(".battle-recommendation-card").evaluateAll((cards) => cards.map((card) => card.dataset.pairScore))).size === 1,
+  "Two-opponent Battle Planner did not produce a coordinated two-Pokemon plan",
+);
+await check(
+  (await page.locator(".battle-recommendation-card__fallback").count()) === 2 &&
+    (await page.locator("#battle-recommendations").textContent()).includes("Wingull") &&
+    (await page.locator("#battle-recommendations").textContent()).includes("Bronzor") &&
+    (await page.locator("#battle-recommendations").textContent()).includes(coordinatedFixture.moveName),
+  "Coordinated recommendations do not show fallback coverage across both opponents",
+);
 await checkAlignedGridCards(
   ".battle-grid",
   ".battle-target-card",
@@ -1162,6 +1208,9 @@ await checkAlignedGridCards(
 );
 await page.locator(".battle-target-card[data-slot='1']").scrollIntoViewIfNeeded();
 await page.screenshot({ path: path.join(outputDir, "guide-desktop-battle-planner.png"), fullPage: false });
+await page.locator("#battle-recommendations").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-desktop-battle-recommendations.png"), fullPage: false });
+await page.evaluate(() => setTeamPokemon(1, null));
 await page.locator(".view-tab[data-view='gyms']").click();
 await check(
   (await page.locator(".gym-pokemon-card .team-matchup").count()) > 0,
@@ -1752,8 +1801,15 @@ await check(
       "Route 7",
       "Route 8",
       "Fennilahl Tunnel",
-    ]),
+  ]),
   "Locations tab does not match Pokerex's default order",
+);
+await check(
+  await page.locator(".location-card__heading > span").evaluateAll((counts) => {
+    const lefts = counts.slice(0, 12).map((count) => Math.round(count.getBoundingClientRect().left));
+    return Math.max(...lefts) - Math.min(...lefts) <= 2;
+  }),
+  "Location caught counts are not aligned in a consistent column",
 );
 await page.locator("#location-search").fill("Route 1");
 await check((await page.locator(".location-card").count()) === 1, "Location search did not isolate Route 1");
@@ -1881,6 +1937,12 @@ await check(
   await page.locator(".battle-target-card").first().evaluate((element) => element.scrollWidth <= element.clientWidth),
   "Mobile battle target card has horizontal overflow",
 );
+await check(
+  await page.locator(".battle-recommendation-card").first().evaluate((element) => element.scrollWidth <= element.clientWidth),
+  "Mobile Battle Planner recommendation has horizontal overflow",
+);
+await page.locator("#battle-recommendations").scrollIntoViewIfNeeded();
+await page.screenshot({ path: path.join(outputDir, "guide-mobile-battle-recommendations.png"), fullPage: false });
 await page.screenshot({ path: path.join(outputDir, "guide-mobile-battle-planner.png"), fullPage: false });
 await page.locator(".view-tab[data-view='gyms']").click();
 await page.locator(".gym-leader-card").first().scrollIntoViewIfNeeded();
@@ -2121,6 +2183,7 @@ console.log(
         "tmp/guide-desktop-planner-progress.png",
         "tmp/guide-desktop-team-coverage.png",
         "tmp/guide-desktop-battle-planner.png",
+        "tmp/guide-desktop-battle-recommendations.png",
         "tmp/guide-desktop-learnset.png",
         "tmp/guide-desktop-gyms.png",
         "tmp/guide-tablet-journey-dashboard.png",
@@ -2136,6 +2199,7 @@ console.log(
         "tmp/guide-mobile-abilities.png",
         "tmp/guide-mobile-items.png",
         "tmp/guide-mobile-battle-planner.png",
+        "tmp/guide-mobile-battle-recommendations.png",
         "tmp/guide-mobile-team-builder.png",
         "tmp/guide-mobile-team-planner.png",
         "tmp/guide-mobile-team-coverage.png",
