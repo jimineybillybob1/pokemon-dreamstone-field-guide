@@ -714,6 +714,18 @@ await check(
   "Trainer-only Bronzor is missing Pokerex stat bars",
 );
 await page.locator("[data-clear-search='#search']").click();
+await page.locator("#search").fill("Ancient Terror");
+await check((await page.locator(".pokemon-card").count()) === 1, "Ancient Terror is missing from the Full Dex search");
+await check(
+  (await page.locator(".pokemon-card[data-number='10400'] .pokemon-number").textContent()) === "Trainer only" &&
+    (await page.locator(".pokemon-card[data-number='10400'] .pokemon-location").textContent()) === "Trainer battles only" &&
+    (await page.locator(".pokemon-card[data-number='10400'] .pokemon-bst").textContent()) === "670" &&
+    (await page.locator(".pokemon-card[data-number='10400'] .type-badge").allTextContents()).join(" ").toLowerCase().includes("fighting") &&
+    (await page.locator(".pokemon-card[data-number='10400'] .type-badge").allTextContents()).join(" ").toLowerCase().includes("dragon") &&
+    (await page.locator(".pokemon-card[data-number='10400'] .caught-button").isHidden()),
+  "Ancient Terror did not render as a trainer-only Fighting/Dragon lookup card",
+);
+await page.locator("[data-clear-search='#search']").click();
 await page.locator("#search").fill("Abomasnow");
 await check(
   (await page.locator(".pokemon-card[data-number='8460'] .pokemon-number").textContent()) === "Wild entry" &&
@@ -760,6 +772,31 @@ await check(
       getComputedStyle(element).fontFamily.includes("Pokemon GB"),
     ),
   "Battle Planner target card labels do not use the Pokemon font",
+);
+await check(
+  await page.locator(".battle-target-card[data-slot='1'] .team-pokemon-search input").evaluate((element) => {
+    const family = getComputedStyle(element).fontFamily;
+    return family.includes("Trebuchet MS") && !family.includes("Pokemon GB");
+  }),
+  "Battle Planner target search did not keep the readable search font",
+);
+await page.evaluate(() => setBattleTarget(0, null));
+const ancientTargetSearch = page.locator(".battle-target-card[data-slot='1'] .team-pokemon-search input");
+await ancientTargetSearch.fill("Ancient Terror");
+await ancientTargetSearch.press("ArrowDown");
+await ancientTargetSearch.press("Enter");
+await check(
+  await page.locator(".battle-target-card[data-slot='1']").evaluate((card) => {
+    const text = card.textContent.toLowerCase();
+    return (
+      text.includes("ancient terror") &&
+      text.includes("trainer only") &&
+      text.includes("fighting") &&
+      text.includes("dragon") &&
+      text.includes("bst 670")
+    );
+  }),
+  "Battle Planner could not target Ancient Terror",
 );
 await page.evaluate(() => setBattleTarget(0, null));
 await page.evaluate(() => activateView("trainers"));

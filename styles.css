@@ -2746,6 +2746,13 @@ button.trainer-party-member__identity:hover {
   font-family: var(--font-ui) !important;
 }
 
+.battle-target-card .team-pokemon-search,
+.battle-target-card .team-pokemon-search *,
+.battle-target-card .team-pokemon-results,
+.battle-target-card .team-pokemon-results * {
+  font-family: var(--font-readable) !important;
+}
+
 .battle-target-card__top {
   display: flex;
   align-items: center;

@@ -476,11 +476,38 @@ const trainerOnlyDexEntries = [...trainerOnlyEntryBySpeciesId.values()].map((ent
     notes: `Used by trainers${locationSummary ? ` in ${locationSummary}` : ""}. No Pokerex wild encounter is listed.`,
   };
 });
+const sourceOnlyDexEntries = [
+  {
+    speciesId: 1400,
+    trackingId: "source-ancient-terror",
+    lookupNumber: trainerOnlyLookupNumberOffset + 1400,
+    number: null,
+    guideNumber: null,
+    name: "Ancient Terror",
+    baseName: "Ancient Terror",
+    region: "",
+    location: "",
+    rarity: "",
+    availability: "Trainer only",
+    sprite: "assets/pokemon/1007.png",
+    types: ["fighting", "dragon"],
+    stats: { hp: 100, atk: 135, def: 115, spd: 135, spa: 85, spdef: 100 },
+    bst: 670,
+    evolvesFrom: [],
+    evolvesTo: [],
+    source: "Dreamstone source",
+    trainerLocations: ["Uncharted Isle"],
+    trainerNames: ["Rue"],
+    notes:
+      "Enemy-only story Pokemon used by Rue on Uncharted Isle. The ROM source identifies it as SPECIES_KORAIDON renamed Anc. Terror.",
+  },
+];
 const dexFormEntries = [
   ...data.dex,
   ...encounterFormEntries,
   ...syntheticCollectionEntries,
   ...trainerOnlyDexEntries,
+  ...sourceOnlyDexEntries,
 ];
 const dexGroups = createSpeciesGroups(dexFormEntries);
 const dexGroupById = new Map(dexGroups.map((group) => [group.id, group]));
@@ -509,12 +536,12 @@ state.caught = new Set([...state.caught].map(normalizeCaughtId).filter((id) => i
 localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
 const isCaught = (pokemon) => state.caught.has(dexId(pokemon));
 const pokemonByNumber = new Map(
-  [...data.dex, ...syntheticCollectionEntries, ...trainerOnlyDexEntries]
+  [...data.dex, ...syntheticCollectionEntries, ...trainerOnlyDexEntries, ...sourceOnlyDexEntries]
     .map((pokemon) => [pokemonLookupNumber(pokemon), pokemon])
     .filter(([number]) => number),
 );
 const pokemonBySpeciesId = new Map(
-  [...data.dex, ...syntheticCollectionEntries, ...trainerOnlyDexEntries]
+  [...data.dex, ...syntheticCollectionEntries, ...trainerOnlyDexEntries, ...sourceOnlyDexEntries]
     .map((pokemon) => [pokemon.speciesId || speciesIdFromSprite(pokemon.sprite), pokemon])
     .filter(([speciesId]) => speciesId),
 );
