@@ -9,6 +9,8 @@ const storageKey = "dreamstone-field-guide-caught";
 const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
 const teamStorageKey = "dreamstone-field-guide-team";
+const teamProfilesStorageKey = "dreamstone-field-guide-team-builds-v1";
+const activeTeamProfileStorageKey = "dreamstone-field-guide-active-team-build-v1";
 const plannerStorageKey = "dreamstone-field-guide-planner";
 const plannerProfilesStorageKey = "dreamstone-field-guide-planner-profiles-v1";
 const activePlannerProfileStorageKey = "dreamstone-field-guide-active-planner-profile-v1";
@@ -23,6 +25,7 @@ const saveVersion = 1;
 const syncEndpoint = (window.DREAMSTONE_SYNC_ENDPOINT || "").replace(/\/+$/, "");
 const maxLocalBackups = 5;
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const defaultTeamProfileId = "main";
 const defaultPlannerProfileId = "main";
 
 function readStoredJson(key, fallback) {
@@ -56,26 +59,47 @@ function loadSyncContext() {
   };
 }
 
+function cleanTeamNickname(value) {
+  return String(value || "").replace(/\s+/g, " ").trim().slice(0, 32);
+}
+
+function emptyTeamSlots() {
+  return Array.from({ length: 6 }, () => ({
+    pokemonNumber: null,
+    moves: [null, null, null, null],
+    abilityId: null,
+    nature: null,
+    nickname: "",
+  }));
+}
+
+function normalizeTeamSlots(saved) {
+  return Array.from({ length: 6 }, (_, index) => ({
+    pokemonNumber: Number.isFinite(saved?.[index]?.pokemonNumber)
+      ? saved[index].pokemonNumber
+      : null,
+    moves: Array.from({ length: 4 }, (__, moveIndex) =>
+      Number.isFinite(saved?.[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
+    ),
+    abilityId: Number.isFinite(saved?.[index]?.abilityId) ? saved[index].abilityId : null,
+    nature: typeof saved?.[index]?.nature === "string" ? saved[index].nature : null,
+    nickname: cleanTeamNickname(saved?.[index]?.nickname),
+  }));
+}
+
+function cloneTeamSlots(slots) {
+  return normalizeTeamSlots(slots).map((slot) => ({
+    ...slot,
+    moves: [...slot.moves],
+  }));
+}
+
 function loadTeam() {
   try {
     const saved = JSON.parse(localStorage.getItem(teamStorageKey) || "[]");
-    return Array.from({ length: 6 }, (_, index) => ({
-      pokemonNumber: Number.isFinite(saved[index]?.pokemonNumber)
-        ? saved[index].pokemonNumber
-        : null,
-      moves: Array.from({ length: 4 }, (__, moveIndex) =>
-        Number.isFinite(saved[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
-      ),
-      abilityId: Number.isFinite(saved[index]?.abilityId) ? saved[index].abilityId : null,
-      nature: typeof saved[index]?.nature === "string" ? saved[index].nature : null,
-    }));
+    return normalizeTeamSlots(saved);
   } catch {
-    return Array.from({ length: 6 }, () => ({
-      pokemonNumber: null,
-      moves: [null, null, null, null],
-      abilityId: null,
-      nature: null,
-    }));
+    return emptyTeamSlots();
   }
 }
 
@@ -127,8 +151,69 @@ function normalizePlannerProfileId(value, fallback) {
   return /^[A-Za-z0-9_-][A-Za-z0-9_-]{1,63}$/.test(id) ? id : fallback;
 }
 
-function newPlannerProfileId() {
+function newProfileId() {
   return crypto.randomUUID?.() || `profile-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function newTeamProfileId() {
+  return newProfileId();
+}
+
+function newPlannerProfileId() {
+  return newProfileId();
+}
+
+function createTeamProfile({ id = newTeamProfileId(), name = "Team build", slots = emptyTeamSlots() } = {}) {
+  return {
+    id,
+    name: cleanPlannerProfileName(name),
+    slots: cloneTeamSlots(slots),
+  };
+}
+
+function normalizeTeamProfiles(rawProfiles, fallbackSlots) {
+  const usedIds = new Set();
+  const profiles = (Array.isArray(rawProfiles) ? rawProfiles : [])
+    .map((profile, index) => {
+      const fallbackId = index === 0 ? defaultTeamProfileId : `team-${index + 1}`;
+      let id = normalizePlannerProfileId(profile?.id, fallbackId);
+      while (usedIds.has(id)) id = `${fallbackId}-${usedIds.size + 1}`;
+      usedIds.add(id);
+      return createTeamProfile({
+        id,
+        name: cleanPlannerProfileName(profile?.name, index === 0 ? "Main team" : `Team build ${index + 1}`),
+        slots: profile?.slots,
+      });
+    })
+    .filter(Boolean);
+
+  if (profiles.length) return profiles;
+  return [
+    createTeamProfile({
+      id: defaultTeamProfileId,
+      name: "Main team",
+      slots: fallbackSlots,
+    }),
+  ];
+}
+
+function loadTeamState() {
+  const legacyTeam = loadTeam();
+  const stored = readStoredJson(teamProfilesStorageKey, null);
+  const rawProfiles = Array.isArray(stored?.profiles) ? stored.profiles : Array.isArray(stored) ? stored : [];
+  const profiles = normalizeTeamProfiles(rawProfiles, legacyTeam);
+  const storedActive =
+    localStorage.getItem(activeTeamProfileStorageKey) ||
+    (typeof stored?.activeProfileId === "string" ? stored.activeProfileId : "");
+  const activeTeamProfileId = profiles.some((profile) => profile.id === storedActive)
+    ? storedActive
+    : profiles[0].id;
+  const activeProfile = profiles.find((profile) => profile.id === activeTeamProfileId) || profiles[0];
+  return {
+    team: cloneTeamSlots(activeProfile.slots),
+    teamProfiles: profiles,
+    activeTeamProfileId: activeProfile.id,
+  };
 }
 
 function createPlannerProfile({ id = newPlannerProfileId(), name = "Shortlist", slots = emptyPlannerSlots() } = {}) {
@@ -203,6 +288,7 @@ function loadBadges() {
   }
 }
 
+const initialTeamState = loadTeamState();
 const initialPlannerState = loadPlannerState();
 
 const state = {
@@ -225,7 +311,9 @@ const state = {
     location: "",
   },
   itemSearch: "",
-  team: loadTeam(),
+  team: initialTeamState.team,
+  teamProfiles: initialTeamState.teamProfiles,
+  activeTeamProfileId: initialTeamState.activeTeamProfileId,
   planner: initialPlannerState.planner,
   plannerProfiles: initialPlannerState.plannerProfiles,
   activePlannerProfileId: initialPlannerState.activePlannerProfileId,
@@ -299,6 +387,12 @@ const elements = {
   battleRecommendations: document.querySelector("#battle-recommendations"),
   teamGrid: document.querySelector("#team-grid"),
   teamOffensiveCoverage: document.querySelector("#team-offensive-coverage"),
+  teamProfileSelect: document.querySelector("#team-profile-select"),
+  teamProfileSummary: document.querySelector("#team-profile-summary"),
+  newTeamProfile: document.querySelector("#new-team-profile"),
+  duplicateTeamProfile: document.querySelector("#duplicate-team-profile"),
+  renameTeamProfile: document.querySelector("#rename-team-profile"),
+  deleteTeamProfile: document.querySelector("#delete-team-profile"),
   plannerGrid: document.querySelector("#planner-grid"),
   plannerOffensiveCoverage: document.querySelector("#planner-offensive-coverage"),
   plannerSuggestions: document.querySelector("#planner-suggestions"),
@@ -1162,8 +1256,9 @@ function renderJourneyOverview() {
     const entry = document.createElement("span");
     entry.className = "dashboard-team-slot";
     entry.classList.toggle("is-filled", Boolean(pokemon));
+    const displayName = slot.nickname || pokemon?.name.replaceAll("_", " ");
     entry.innerHTML = pokemon
-      ? `<img src="${pokemon.sprite}" alt="" width="36" height="36"><small>${pokemon.name.replaceAll("_", " ")}</small>`
+      ? `<img src="${pokemon.sprite}" alt="" width="36" height="36"><small>${displayName}</small>`
       : `<span>${index + 1}</span><small>Empty</small>`;
     team.append(entry);
   });
@@ -1389,9 +1484,39 @@ function markSaveModified() {
   updateSaveSummary();
 }
 
-function persistTeam() {
+function activeTeamProfile() {
+  return (
+    state.teamProfiles.find((profile) => profile.id === state.activeTeamProfileId) ||
+    state.teamProfiles[0]
+  );
+}
+
+function syncActiveTeamProfileFromState() {
+  let profile = activeTeamProfile();
+  if (!profile) {
+    profile = createTeamProfile({
+      id: defaultTeamProfileId,
+      name: "Main team",
+      slots: state.team,
+    });
+    state.teamProfiles = [profile];
+    state.activeTeamProfileId = profile.id;
+  }
+  profile.slots = cloneTeamSlots(state.team);
+}
+
+function persistTeam({ markModified = true } = {}) {
+  syncActiveTeamProfileFromState();
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
-  markSaveModified();
+  localStorage.setItem(
+    teamProfilesStorageKey,
+    JSON.stringify({
+      activeProfileId: state.activeTeamProfileId,
+      profiles: state.teamProfiles,
+    }),
+  );
+  localStorage.setItem(activeTeamProfileStorageKey, state.activeTeamProfileId);
+  if (markModified) markSaveModified();
   updateSaveSummary();
   renderJourneyOverview();
 }
@@ -1453,6 +1578,7 @@ function updateSaveSummary() {
 }
 
 function createSaveDocument({ parentRevision = state.syncContext.lastSyncedRevision } = {}) {
+  syncActiveTeamProfileFromState();
   syncActivePlannerProfileFromState();
   return {
     format: saveFormat,
@@ -1467,6 +1593,19 @@ function createSaveDocument({ parentRevision = state.syncContext.lastSyncedRevis
       moves: [...slot.moves],
       abilityId: slot.abilityId,
       nature: slot.nature,
+      nickname: slot.nickname,
+    })),
+    activeTeamProfileId: state.activeTeamProfileId,
+    teamProfiles: state.teamProfiles.map((profile) => ({
+      id: profile.id,
+      name: profile.name,
+      slots: profile.slots.map((slot) => ({
+        pokemonNumber: slot.pokemonNumber,
+        moves: [...slot.moves],
+        abilityId: slot.abilityId,
+        nature: slot.nature,
+        nickname: slot.nickname,
+      })),
     })),
     planner: state.planner.map((slot) => ({
       pokemonNumber: slot.pokemonNumber,
@@ -1546,21 +1685,9 @@ function validatePlannerProfiles(inputProfiles, fallbackPlanner) {
   ];
 }
 
-function validateSaveDocument(input) {
-  if (!input || input.format !== saveFormat || input.version !== saveVersion) {
-    throw new Error("This is not a supported Dreamstone Field Guide save.");
-  }
-  if (!Array.isArray(input.caught) || !Array.isArray(input.team)) {
-    throw new Error("The save is missing caught progress or team data.");
-  }
-  const caught = [
-    ...new Set(input.caught.map(normalizeCaughtId).filter((id) => id && validCaughtIds.has(id))),
-  ];
-  const badges = [
-    ...new Set((Array.isArray(input.badges) ? input.badges : []).map(String).filter((id) => validBadgeIds.has(id))),
-  ];
-  const team = Array.from({ length: 6 }, (_, slotIndex) => {
-    const slot = input.team[slotIndex] || {};
+function validateTeamSlots(inputSlots) {
+  return Array.from({ length: 6 }, (_, slotIndex) => {
+    const slot = Array.isArray(inputSlots) ? inputSlots[slotIndex] || {} : {};
     const pokemonNumber = pokemonByNumber.has(Number(slot.pokemonNumber))
       ? Number(slot.pokemonNumber)
       : null;
@@ -1576,8 +1703,55 @@ function validateSaveDocument(input) {
       moves,
       abilityId: validAbility ? abilityId : null,
       nature: validNature(slot.nature),
+      nickname: pokemonNumber ? cleanTeamNickname(slot.nickname) : "",
     };
   });
+}
+
+function validateTeamProfiles(inputProfiles, fallbackTeam) {
+  const usedIds = new Set();
+  const profiles = (Array.isArray(inputProfiles) ? inputProfiles : [])
+    .map((profile, index) => {
+      const fallbackId = index === 0 ? defaultTeamProfileId : `team-${index + 1}`;
+      let id = normalizePlannerProfileId(profile?.id, fallbackId);
+      while (usedIds.has(id)) id = `${fallbackId}-${usedIds.size + 1}`;
+      usedIds.add(id);
+      return {
+        id,
+        name: cleanPlannerProfileName(profile?.name, index === 0 ? "Main team" : `Team build ${index + 1}`),
+        slots: validateTeamSlots(profile?.slots),
+      };
+    });
+  if (profiles.length) return profiles;
+  return [
+    {
+      id: defaultTeamProfileId,
+      name: "Main team",
+      slots: cloneTeamSlots(fallbackTeam),
+    },
+  ];
+}
+
+function validateSaveDocument(input) {
+  if (!input || input.format !== saveFormat || input.version !== saveVersion) {
+    throw new Error("This is not a supported Dreamstone Field Guide save.");
+  }
+  if (!Array.isArray(input.caught) || !Array.isArray(input.team)) {
+    throw new Error("The save is missing caught progress or team data.");
+  }
+  const caught = [
+    ...new Set(input.caught.map(normalizeCaughtId).filter((id) => id && validCaughtIds.has(id))),
+  ];
+  const badges = [
+    ...new Set((Array.isArray(input.badges) ? input.badges : []).map(String).filter((id) => validBadgeIds.has(id))),
+  ];
+  const legacyTeam = validateTeamSlots(input.team);
+  const teamProfiles = validateTeamProfiles(input.teamProfiles, legacyTeam);
+  const requestedTeamProfileId = normalizePlannerProfileId(input.activeTeamProfileId, teamProfiles[0].id);
+  const activeTeamProfile =
+    teamProfiles.find((profile) => profile.id === requestedTeamProfileId) || teamProfiles[0];
+  const activeTeamProfileId = activeTeamProfile.id;
+  const team = cloneTeamSlots(activeTeamProfile.slots);
   const legacyPlanner = validatePlannerSlots(input.planner);
   const plannerProfiles = validatePlannerProfiles(input.plannerProfiles, legacyPlanner);
   const requestedPlannerProfileId = normalizePlannerProfileId(
@@ -1601,6 +1775,8 @@ function validateSaveDocument(input) {
     caught,
     badges,
     team,
+    activeTeamProfileId,
+    teamProfiles,
     planner,
     activePlannerProfileId,
     plannerProfiles,
@@ -1672,6 +1848,8 @@ function applySaveDocument(input, { source = "import", createBackup = true } = {
   state.caught = new Set(save.caught);
   state.badges = new Set(save.badges);
   state.team = save.team;
+  state.teamProfiles = save.teamProfiles;
+  state.activeTeamProfileId = save.activeTeamProfileId;
   state.planner = save.planner;
   state.plannerProfiles = save.plannerProfiles;
   state.activePlannerProfileId = save.activePlannerProfileId;
@@ -1679,6 +1857,14 @@ function applySaveDocument(input, { source = "import", createBackup = true } = {
   localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
   localStorage.setItem(badgeStorageKey, JSON.stringify([...state.badges]));
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
+  localStorage.setItem(
+    teamProfilesStorageKey,
+    JSON.stringify({
+      activeProfileId: state.activeTeamProfileId,
+      profiles: state.teamProfiles,
+    }),
+  );
+  localStorage.setItem(activeTeamProfileStorageKey, state.activeTeamProfileId);
   localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
   localStorage.setItem(
     plannerProfilesStorageKey,
@@ -1819,6 +2005,8 @@ function saveFingerprintPayload(save) {
     caught: [...validated.caught].sort(),
     badges: [...validated.badges].sort(),
     team: validated.team,
+    activeTeamProfileId: validated.activeTeamProfileId,
+    teamProfiles: validated.teamProfiles,
     planner: validated.planner,
     activePlannerProfileId: validated.activePlannerProfileId,
     plannerProfiles: validated.plannerProfiles,
@@ -1839,7 +2027,7 @@ function isPristineSave(save) {
   return (
     !payload.caught.length &&
     !payload.badges.length &&
-    payload.team.every((slot) => !slot.pokemonNumber) &&
+    payload.teamProfiles.every((profile) => profile.slots.every((slot) => !slot.pokemonNumber)) &&
     payload.plannerProfiles.every((profile) => profile.slots.every((slot) => !slot.pokemonNumber)) &&
     payload.battleTargets.every((target) => !target)
   );
@@ -2065,6 +2253,7 @@ function setTeamPokemon(slotIndex, pokemonNumber, retainMoves = false) {
   slot.pokemonNumber = pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
   if (!retainMoves) slot.moves = [null, null, null, null];
   if (!retainMoves) slot.nature = null;
+  if (!retainMoves || !slot.pokemonNumber) slot.nickname = "";
   slot.abilityId = null;
   persistTeam();
   refreshTeamAndDex();
@@ -2096,6 +2285,13 @@ function setTeamNature(slotIndex, nature) {
   state.team[slotIndex].nature = validNature(nature);
   persistTeam();
   renderTeam();
+}
+
+function setTeamNickname(slotIndex, nickname) {
+  const slot = state.team[slotIndex];
+  if (!slot) return;
+  slot.nickname = slot.pokemonNumber ? cleanTeamNickname(nickname) : "";
+  persistTeam();
 }
 
 function moveEffectiveness(moveType, targetTypes) {
@@ -3091,6 +3287,24 @@ function createNatureSelector(
   return section;
 }
 
+function createTeamNicknameField(slotIndex, nickname, pokemon) {
+  const section = document.createElement("section");
+  section.className = "team-card__nickname";
+  const label = document.createElement("label");
+  const text = document.createElement("span");
+  text.textContent = "Nickname";
+  const input = document.createElement("input");
+  input.type = "text";
+  input.maxLength = 32;
+  input.value = nickname || "";
+  input.placeholder = pokemon.name.replaceAll("_", " ");
+  input.setAttribute("aria-label", `Nickname for team slot ${slotIndex + 1}`);
+  input.addEventListener("input", () => setTeamNickname(slotIndex, input.value));
+  label.append(text, input);
+  section.append(label);
+  return section;
+}
+
 function renderTeamCard(slot, slotIndex) {
   const card = document.createElement("article");
   card.className = "team-card";
@@ -3150,6 +3364,7 @@ function renderTeamCard(slot, slotIndex) {
   const preferences = document.createElement("div");
   preferences.className = "team-card__preferences";
   preferences.append(
+    createTeamNicknameField(slotIndex, slot.nickname, pokemon),
     createNatureSelector(slotIndex, slot.nature),
     createAbilitySelector(slotIndex, pokemon.number, slot.abilityId),
   );
@@ -3595,6 +3810,116 @@ function renderPlannerProgress() {
   elements.plannerProgress.replaceChildren(heading, cards);
 }
 
+function teamProfileSlotCount(profile) {
+  return profile.slots.filter((slot) => slot.pokemonNumber).length;
+}
+
+function nextTeamProfileName(base = "Team build") {
+  const names = new Set(state.teamProfiles.map((profile) => profile.name.toLowerCase()));
+  let index = state.teamProfiles.length + 1;
+  let name = `${base} ${index}`;
+  while (names.has(name.toLowerCase())) {
+    index += 1;
+    name = `${base} ${index}`;
+  }
+  return name;
+}
+
+function renderTeamProfileControls() {
+  if (!elements.teamProfileSelect) return;
+  const select = elements.teamProfileSelect;
+  const active = activeTeamProfile();
+  select.replaceChildren(
+    ...state.teamProfiles.map((profile) => {
+      const count = teamProfileSlotCount(profile);
+      return new Option(`${profile.name} (${count}/6)`, profile.id);
+    }),
+  );
+  select.value = state.activeTeamProfileId;
+  if (elements.teamProfileSummary) {
+    const count = active ? teamProfileSlotCount(active) : 0;
+    elements.teamProfileSummary.textContent = active
+      ? `${count} of 6 members selected. The active build "${active.name}" drives team matchups and battle suggestions.`
+      : "Create a team build to start planning.";
+  }
+  if (elements.deleteTeamProfile) {
+    elements.deleteTeamProfile.disabled = state.teamProfiles.length <= 1;
+  }
+}
+
+function activateTeamProfile(profileId) {
+  if (profileId === state.activeTeamProfileId) return;
+  syncActiveTeamProfileFromState();
+  const profile = state.teamProfiles.find((entry) => entry.id === profileId);
+  if (!profile) return;
+  state.activeTeamProfileId = profile.id;
+  state.team = cloneTeamSlots(profile.slots);
+  persistTeam();
+  refreshTeamAndDex();
+}
+
+function createTeamProfileFromSlots(name, slots) {
+  const usedIds = new Set(state.teamProfiles.map((profile) => profile.id));
+  let id = newTeamProfileId();
+  while (usedIds.has(id)) id = newTeamProfileId();
+  return createTeamProfile({ id, name, slots });
+}
+
+function promptTeamProfileName(message, fallback) {
+  const value = window.prompt(message, fallback);
+  if (value === null) return null;
+  return cleanPlannerProfileName(value, fallback);
+}
+
+function createBlankTeamProfile() {
+  syncActiveTeamProfileFromState();
+  const name = promptTeamProfileName("Name this team build:", nextTeamProfileName());
+  if (!name) return;
+  const profile = createTeamProfileFromSlots(name, emptyTeamSlots());
+  state.teamProfiles.push(profile);
+  state.activeTeamProfileId = profile.id;
+  state.team = cloneTeamSlots(profile.slots);
+  persistTeam();
+  refreshTeamAndDex();
+}
+
+function duplicateActiveTeamProfile() {
+  syncActiveTeamProfileFromState();
+  const active = activeTeamProfile();
+  const fallback = active ? `${active.name} copy` : nextTeamProfileName();
+  const name = promptTeamProfileName("Name the copied team build:", fallback);
+  if (!name) return;
+  const profile = createTeamProfileFromSlots(name, state.team);
+  state.teamProfiles.push(profile);
+  state.activeTeamProfileId = profile.id;
+  state.team = cloneTeamSlots(profile.slots);
+  persistTeam();
+  refreshTeamAndDex();
+}
+
+function renameActiveTeamProfile() {
+  const active = activeTeamProfile();
+  if (!active) return;
+  const name = promptTeamProfileName("Rename this team build:", active.name);
+  if (!name) return;
+  active.name = name;
+  persistTeam();
+  renderTeamProfileControls();
+}
+
+function deleteActiveTeamProfile() {
+  if (state.teamProfiles.length <= 1) return;
+  const active = activeTeamProfile();
+  if (!active || !window.confirm(`Delete "${active.name}"? This only removes this saved team build.`)) return;
+  const currentIndex = state.teamProfiles.findIndex((profile) => profile.id === active.id);
+  state.teamProfiles = state.teamProfiles.filter((profile) => profile.id !== active.id);
+  const nextProfile = state.teamProfiles[Math.max(0, currentIndex - 1)] || state.teamProfiles[0];
+  state.activeTeamProfileId = nextProfile.id;
+  state.team = cloneTeamSlots(nextProfile.slots);
+  persistTeam();
+  refreshTeamAndDex();
+}
+
 function plannerProfileSlotCount(profile) {
   return profile.slots.filter((slot) => slot.pokemonNumber).length;
 }
@@ -3711,6 +4036,7 @@ function renderTeam() {
   elements.teamGrid.replaceChildren(fragment);
   fitTeamPokemonNames(elements.teamGrid);
   alignFilledTeamCards(elements.teamGrid, ".team-card__evolutions");
+  renderTeamProfileControls();
   renderOffensiveCoverage(elements.teamOffensiveCoverage, state.team);
   renderPlannerProgress();
 }
@@ -5297,15 +5623,17 @@ function bindControls() {
     ) {
       return;
     }
-    state.team = Array.from({ length: 6 }, () => ({
-      pokemonNumber: null,
-      moves: [null, null, null, null],
-      abilityId: null,
-      nature: null,
-    }));
+    state.team = emptyTeamSlots();
     persistTeam();
     refreshTeamAndDex();
   });
+  elements.teamProfileSelect?.addEventListener("change", () =>
+    activateTeamProfile(elements.teamProfileSelect.value),
+  );
+  elements.newTeamProfile?.addEventListener("click", createBlankTeamProfile);
+  elements.duplicateTeamProfile?.addEventListener("click", duplicateActiveTeamProfile);
+  elements.renameTeamProfile?.addEventListener("click", renameActiveTeamProfile);
+  elements.deleteTeamProfile?.addEventListener("click", deleteActiveTeamProfile);
   document.querySelector("#clear-planner").addEventListener("click", () => {
     if (
       !state.planner.some((slot) => slot.pokemonNumber) ||

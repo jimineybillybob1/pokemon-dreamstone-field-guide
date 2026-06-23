@@ -951,6 +951,11 @@ await check(
   "Empty Team Builder offensive coverage guidance is missing",
 );
 await check(
+  (await page.locator("#team-profile-select option").count()) === 1 &&
+    (await page.locator("#team-profile-summary").textContent()).includes("Main team"),
+  "Team Builder did not initialise the default saved team build",
+);
+await check(
   await page.locator("#view-team .team-toolbar").evaluate((element) =>
     getComputedStyle(element).fontFamily.includes("Trebuchet MS"),
   ),
@@ -974,6 +979,25 @@ await teamPokemonSearch.press("Enter");
 await check(
   (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothita",
   "Team slot did not select Gothita",
+);
+await page.locator(".team-card[data-slot='1'] .team-card__nickname input").fill("Nyx");
+await check(
+  (await page.locator("#dashboard-team").textContent()).includes("Nyx"),
+  "Team nickname did not update the journey overview",
+);
+page.once("dialog", (dialog) => dialog.accept("Boss team"));
+await page.locator("#new-team-profile").click();
+await check(
+  (await page.locator("#team-profile-select option").count()) === 2 &&
+    (await page.locator("#team-profile-summary").textContent()).includes("Boss team") &&
+    (await page.locator(".team-card[data-slot='1'] .team-card__empty").count()) === 1,
+  "Creating a new saved team build did not switch to a blank team",
+);
+await page.locator("#team-profile-select").selectOption("main");
+await check(
+  (await page.locator(".team-card[data-slot='1'] h3").textContent()) === "Gothita" &&
+    (await page.locator(".team-card[data-slot='1'] .team-card__nickname input").inputValue()) === "Nyx",
+  "Switching saved team builds did not restore the original team and nickname",
 );
 await check(
   (await page.locator(".team-card[data-slot='1'] .pokemon-stat").count()) === 7,
@@ -1202,8 +1226,8 @@ await check(
   "Dashboard team sprite is outside the intended compact size",
 );
 await check(
-  (await page.locator(".dashboard-team-slot.is-filled small").textContent()) === "Gothorita",
-  "Dashboard team overview is missing the PokÃ©mon name",
+  (await page.locator(".dashboard-team-slot.is-filled small").textContent()) === "Nyx",
+  "Dashboard team overview is missing the team nickname",
 );
 await page.locator(".view-tab[data-view='battle']").click();
 await check(
@@ -1619,6 +1643,13 @@ await check(exportedSave.team[0].pokemonNumber === 2, "Exported save is missing 
 await check(exportedSave.team[0].moves[1] === 247, "Exported save is missing Shadow Ball");
 await check(exportedSave.team[0].abilityId === 119, "Exported save is missing Frisk");
 await check(exportedSave.team[0].nature === "adamant", "Exported save is missing the selected team nature");
+await check(exportedSave.team[0].nickname === "Nyx", "Exported save is missing the selected team nickname");
+await check(
+  exportedSave.activeTeamProfileId === "main" &&
+    exportedSave.teamProfiles.some((profile) => profile.name === "Boss team") &&
+    exportedSave.teamProfiles.find((profile) => profile.id === "main")?.slots[0]?.nickname === "Nyx",
+  "Exported save is missing saved Team Builder builds",
+);
 await check(exportedSave.planner[0].pokemonNumber === 1, "Exported save is missing the Team Planner shortlist");
 await check(exportedSave.planner[0].moves[0] === 1, "Exported save is missing the planned move");
 await check(exportedSave.planner[0].abilityId === 119, "Exported save is missing the preferred planner ability");
@@ -1662,12 +1693,20 @@ await check(
 await check(
   await page.evaluate(() => {
     const legacySave = createSaveDocument();
+    delete legacySave.teamProfiles;
+    delete legacySave.activeTeamProfileId;
     delete legacySave.planner;
     delete legacySave.plannerProfiles;
     delete legacySave.activePlannerProfileId;
+    legacySave.team.forEach((slot) => delete slot.nickname);
     legacySave.team.forEach((slot) => delete slot.nature);
     const migrated = validateSaveDocument(legacySave);
-    return migrated.planner.length === 6 && migrated.plannerProfiles.length === 1;
+    return (
+      migrated.team.length === 6 &&
+      migrated.teamProfiles.length === 1 &&
+      migrated.planner.length === 6 &&
+      migrated.plannerProfiles.length === 1
+    );
   }),
   "Older saves without a Team Planner are no longer compatible",
 );
@@ -1691,6 +1730,15 @@ await check(
 await check(
   (await page.locator(".team-card[data-slot='1'] .team-card__nature select").inputValue()) === "adamant",
   "Imported save did not restore the selected team nature",
+);
+await check(
+  (await page.locator(".team-card[data-slot='1'] .team-card__nickname input").inputValue()) === "Nyx",
+  "Imported save did not restore the selected team nickname",
+);
+await check(
+  (await page.locator("#team-profile-select option").count()) === 2 &&
+    (await page.locator("#team-profile-summary").textContent()).includes("Main team"),
+  "Imported save did not restore saved Team Builder builds",
 );
 await check(
   await page.evaluate(() => JSON.parse(localStorage.getItem("dreamstone-field-guide-local-backups-v1") || "[]").length > 0),

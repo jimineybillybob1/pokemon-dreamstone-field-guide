@@ -4773,6 +4773,7 @@ button.trainer-party-member__identity:hover {
 }
 
 .team-pokemon-picker > label,
+.team-card__nickname label > span,
 .team-card__ability label > span,
 .team-card__nature label > span,
 .team-move-slot label {
@@ -4784,6 +4785,7 @@ button.trainer-party-member__identity:hover {
 }
 
 .team-pokemon-search input,
+.team-card__nickname input,
 .team-card__ability select,
 .team-card__nature select,
 .team-move-slot select {
@@ -4804,11 +4806,17 @@ button.trainer-party-member__identity:hover {
   font-size: 0.6rem;
 }
 
+.team-card__nickname input {
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
 .team-pokemon-search input {
   font-size: 0.86rem;
 }
 
 .team-pokemon-search input:focus,
+.team-card__nickname input:focus,
 .team-card__ability select:focus,
 .team-card__nature select:focus,
 .team-move-slot select:focus {
@@ -5016,9 +5024,23 @@ button.trainer-party-member__identity:hover {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   align-items: start;
-  min-height: 170px;
+  min-height: 225px;
   border-bottom: 1px solid var(--line);
   padding: 11px 13px;
+}
+
+.team-card__nickname {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+
+.team-card__nickname label {
+  display: grid;
+  gap: 5px;
 }
 
 .team-card__nature {
@@ -6085,6 +6107,7 @@ html[data-theme="dark"] .team-card__top {
 }
 
 html[data-theme="dark"] .team-pokemon-search input,
+html[data-theme="dark"] .team-card__nickname input,
 html[data-theme="dark"] .team-card__ability select,
 html[data-theme="dark"] .team-card__nature select,
 html[data-theme="dark"] .team-move-slot select,
