@@ -677,6 +677,39 @@ await check(
 await page.locator(".pokemon-card[data-number='137'] .caught-button").click();
 await page.locator("[data-clear-search='#search']").click();
 await check((await page.locator("#caught-tab-count").textContent()) === "0", "Caught tab did not start at zero");
+await page.locator("#search").fill("Lycanroc");
+await check((await page.locator(".pokemon-card[data-number='18']").count()) === 1, "Lycanroc forms did not condense to one Dex card");
+await check(
+  (await page.locator(".pokemon-card[data-number='18'] .pokemon-form-select option").count()) >= 3,
+  "Lycanroc form selector did not include its known wild forms",
+);
+await page.locator("[data-clear-search='#search']").click();
+await page.locator(".view-tab[data-view='locations']").click();
+await page.locator("#location-search").fill("Victory Road");
+const victoryLycanrocButtons = page.locator(".location-pokemon", { hasText: "Lycanroc" });
+await check((await victoryLycanrocButtons.count()) >= 3, "Victory Road did not show Lycanroc encounter forms");
+await victoryLycanrocButtons.filter({ hasText: "Dusk" }).first().click();
+await check((await page.locator("#caught-tab-count").textContent()) === "1", "Lycanroc form catch did not count once");
+await check(
+  await page.evaluate(() => {
+    const caught = JSON.parse(localStorage.getItem("dreamstone-field-guide-caught"));
+    return (
+      caught.includes("species:lycanroc") &&
+      !caught.some((id) => /lycanroc.+(dusk|midday|midnight)/i.test(id))
+    );
+  }),
+  "Lycanroc form catch did not store a species-level caught id",
+);
+await check(
+  await victoryLycanrocButtons.evaluateAll((buttons) =>
+    buttons.every((button) => button.classList.contains("is-caught")),
+  ),
+  "Catching one Lycanroc form did not mark the other Lycanroc forms as caught",
+);
+await victoryLycanrocButtons.filter({ hasText: "Dusk" }).first().click();
+await check((await page.locator("#caught-tab-count").textContent()) === "0", "Lycanroc form catch did not toggle off as one species");
+await page.locator("#location-search").fill("");
+await page.locator(".view-tab[data-view='dex']").click();
 const dexSearchPerformance = await page.evaluate(() => {
   const input = document.querySelector("#search");
   const reference = document.querySelector(".pokemon-card[data-number='1']");

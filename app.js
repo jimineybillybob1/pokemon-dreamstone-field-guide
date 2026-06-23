@@ -420,7 +420,7 @@ const cleanSpeciesName = (value) =>
   String(value || "")
     .replaceAll("_", " ")
     .replace(/^(Alolan|Galarian|Hisuian|Paldean)\s+/i, "")
-    .replace(/\s+\(\d+\)$/g, "")
+    .replace(/\s+\([^)]+\)$/g, "")
     .trim();
 const normalizedSpeciesName = (value) =>
   cleanSpeciesName(value)
@@ -430,7 +430,11 @@ const normalizedSpeciesName = (value) =>
     .replace(/[♂\u2642]|â™‚/g, "m")
     .replace(/[^a-z0-9]/gi, "")
     .toLowerCase();
-const speciesNameForPokemon = (pokemon) => cleanSpeciesName(pokemon.baseName || pokemon.name);
+const speciesNameForPokemon = (pokemon) => {
+  const guideNumber = Number(pokemon.guideNumber || pokemon.number);
+  const guideEntry = Number.isFinite(guideNumber) ? guideEntryByNumber.get(guideNumber) : null;
+  return cleanSpeciesName(pokemon.baseName || guideEntry?.name || pokemon.name);
+};
 const speciesKeyForPokemon = (pokemon) => `species:${normalizedSpeciesName(speciesNameForPokemon(pokemon))}`;
 const legacyDexId = (pokemon) => pokemon.trackingId || String(pokemon.number);
 const dexId = speciesKeyForPokemon;
