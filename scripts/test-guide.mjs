@@ -1296,6 +1296,11 @@ await check(
   (await page.locator("#planner-suggestions").getAttribute("open")) === null,
   "Team Planner suggestions should be collapsed by default",
 );
+await check(
+  (await page.locator("#planner-profile-select option").count()) === 1 &&
+    (await page.locator("#planner-profile-summary").textContent()).includes("Main shortlist"),
+  "Team Planner did not initialise the default saved shortlist profile",
+);
 await page.locator("#planner-suggestions summary").click();
 await check(
   (await page.locator("#planner-suggestions .planner-suggestion-card").count()) === 6 &&
@@ -1314,6 +1319,19 @@ await plannerPokemonSearch.press("Enter");
 await check(
   (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothita",
   "Planner slot did not select Gothita",
+);
+page.once("dialog", (dialog) => dialog.accept("Boss shortlist"));
+await page.locator("#new-planner-profile").click();
+await check(
+  (await page.locator("#planner-profile-select option").count()) === 2 &&
+    (await page.locator("#planner-profile-summary").textContent()).includes("Boss shortlist") &&
+    (await page.locator(".planner-card[data-slot='1'] .planner-card__empty").count()) === 1,
+  "Creating a new saved shortlist did not switch to a blank profile",
+);
+await page.locator("#planner-profile-select").selectOption("main");
+await check(
+  (await page.locator(".planner-card[data-slot='1'] h3").textContent()) === "Gothita",
+  "Switching saved shortlists did not restore the original planner profile",
 );
 await check(
   (await page.locator(".planner-card[data-slot='1'] .team-card__profile .pokemon-stat").count()) === 7,
@@ -1572,6 +1590,12 @@ await check(exportedSave.planner[0].pokemonNumber === 1, "Exported save is missi
 await check(exportedSave.planner[0].moves[0] === 1, "Exported save is missing the planned move");
 await check(exportedSave.planner[0].abilityId === 119, "Exported save is missing the preferred planner ability");
 await check(exportedSave.planner[0].nature === "timid", "Exported save is missing the preferred planner nature");
+await check(
+  exportedSave.activePlannerProfileId === "main" &&
+    exportedSave.plannerProfiles.some((profile) => profile.name === "Boss shortlist") &&
+    exportedSave.plannerProfiles.find((profile) => profile.id === "main")?.slots[0]?.pokemonNumber === 1,
+  "Exported save is missing saved Team Planner shortlist profiles",
+);
 await page.locator("#create-sync-code").click();
 await check(
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
@@ -1606,8 +1630,11 @@ await check(
   await page.evaluate(() => {
     const legacySave = createSaveDocument();
     delete legacySave.planner;
+    delete legacySave.plannerProfiles;
+    delete legacySave.activePlannerProfileId;
     legacySave.team.forEach((slot) => delete slot.nature);
-    return validateSaveDocument(legacySave).planner.length === 6;
+    const migrated = validateSaveDocument(legacySave);
+    return migrated.planner.length === 6 && migrated.plannerProfiles.length === 1;
   }),
   "Older saves without a Team Planner are no longer compatible",
 );
@@ -1643,6 +1670,11 @@ await check(
     (await page.locator(".planner-card[data-slot='1'] .team-card__ability select").inputValue()) === "119" &&
     (await page.locator(".planner-card[data-slot='1'] .team-card__nature select").inputValue()) === "timid",
   "Imported save did not restore the Team Planner",
+);
+await check(
+  (await page.locator("#planner-profile-select option").count()) === 2 &&
+    (await page.locator("#planner-profile-summary").textContent()).includes("Main shortlist"),
+  "Imported save did not restore saved Team Planner shortlist profiles",
 );
 
 await page.locator(".view-tab[data-view='moves']").click();

@@ -10,6 +10,8 @@ const notesKey = "dreamstone-field-guide-notes-hidden-v2";
 const themeKey = "dreamstone-field-guide-theme";
 const teamStorageKey = "dreamstone-field-guide-team";
 const plannerStorageKey = "dreamstone-field-guide-planner";
+const plannerProfilesStorageKey = "dreamstone-field-guide-planner-profiles-v1";
+const activePlannerProfileStorageKey = "dreamstone-field-guide-active-planner-profile-v1";
 const battleStorageKey = "dreamstone-field-guide-battle-targets";
 const badgeStorageKey = "dreamstone-field-guide-badges";
 const syncCodeKey = "dreamstone-field-guide-sync-code";
@@ -21,6 +23,7 @@ const saveVersion = 1;
 const syncEndpoint = (window.DREAMSTONE_SYNC_ENDPOINT || "").replace(/\/+$/, "");
 const maxLocalBackups = 5;
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const defaultPlannerProfileId = "main";
 
 function readStoredJson(key, fallback) {
   try {
@@ -79,24 +82,106 @@ function loadTeam() {
 function loadPlanner() {
   try {
     const saved = JSON.parse(localStorage.getItem(plannerStorageKey) || "[]");
-    return Array.from({ length: 6 }, (_, index) => ({
-      pokemonNumber: Number.isFinite(saved[index]?.pokemonNumber)
-        ? saved[index].pokemonNumber
-        : null,
-      moves: Array.from({ length: 4 }, (__, moveIndex) =>
-        Number.isFinite(saved[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
-      ),
-      abilityId: Number.isFinite(saved[index]?.abilityId) ? saved[index].abilityId : null,
-      nature: typeof saved[index]?.nature === "string" ? saved[index].nature : null,
-    }));
+    return normalizePlannerSlots(saved);
   } catch {
-    return Array.from({ length: 6 }, () => ({
-      pokemonNumber: null,
-      moves: [null, null, null, null],
-      abilityId: null,
-      nature: null,
-    }));
+    return emptyPlannerSlots();
   }
+}
+
+function emptyPlannerSlots() {
+  return Array.from({ length: 6 }, () => ({
+    pokemonNumber: null,
+    moves: [null, null, null, null],
+    abilityId: null,
+    nature: null,
+  }));
+}
+
+function normalizePlannerSlots(saved) {
+  return Array.from({ length: 6 }, (_, index) => ({
+    pokemonNumber: Number.isFinite(saved?.[index]?.pokemonNumber)
+      ? saved[index].pokemonNumber
+      : null,
+    moves: Array.from({ length: 4 }, (__, moveIndex) =>
+      Number.isFinite(saved?.[index]?.moves?.[moveIndex]) ? saved[index].moves[moveIndex] : null,
+    ),
+    abilityId: Number.isFinite(saved?.[index]?.abilityId) ? saved[index].abilityId : null,
+    nature: typeof saved?.[index]?.nature === "string" ? saved[index].nature : null,
+  }));
+}
+
+function clonePlannerSlots(slots) {
+  return normalizePlannerSlots(slots).map((slot) => ({
+    ...slot,
+    moves: [...slot.moves],
+  }));
+}
+
+function cleanPlannerProfileName(value, fallback = "Shortlist") {
+  const name = String(value || "").trim().replace(/\s+/g, " ");
+  return (name || fallback).slice(0, 48);
+}
+
+function normalizePlannerProfileId(value, fallback) {
+  const id = String(value || "").trim();
+  return /^[A-Za-z0-9_-][A-Za-z0-9_-]{1,63}$/.test(id) ? id : fallback;
+}
+
+function newPlannerProfileId() {
+  return crypto.randomUUID?.() || `profile-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function createPlannerProfile({ id = newPlannerProfileId(), name = "Shortlist", slots = emptyPlannerSlots() } = {}) {
+  return {
+    id,
+    name: cleanPlannerProfileName(name),
+    slots: clonePlannerSlots(slots),
+  };
+}
+
+function normalizePlannerProfiles(rawProfiles, fallbackSlots) {
+  const usedIds = new Set();
+  const profiles = (Array.isArray(rawProfiles) ? rawProfiles : [])
+    .map((profile, index) => {
+      const fallbackId = index === 0 ? defaultPlannerProfileId : `profile-${index + 1}`;
+      let id = normalizePlannerProfileId(profile?.id, fallbackId);
+      while (usedIds.has(id)) id = `${fallbackId}-${usedIds.size + 1}`;
+      usedIds.add(id);
+      return createPlannerProfile({
+        id,
+        name: cleanPlannerProfileName(profile?.name, index === 0 ? "Main shortlist" : `Shortlist ${index + 1}`),
+        slots: profile?.slots,
+      });
+    })
+    .filter(Boolean);
+
+  if (profiles.length) return profiles;
+  return [
+    createPlannerProfile({
+      id: defaultPlannerProfileId,
+      name: "Main shortlist",
+      slots: fallbackSlots,
+    }),
+  ];
+}
+
+function loadPlannerState() {
+  const legacyPlanner = loadPlanner();
+  const stored = readStoredJson(plannerProfilesStorageKey, null);
+  const rawProfiles = Array.isArray(stored?.profiles) ? stored.profiles : Array.isArray(stored) ? stored : [];
+  const profiles = normalizePlannerProfiles(rawProfiles, legacyPlanner);
+  const storedActive =
+    localStorage.getItem(activePlannerProfileStorageKey) ||
+    (typeof stored?.activeProfileId === "string" ? stored.activeProfileId : "");
+  const activePlannerProfileId = profiles.some((profile) => profile.id === storedActive)
+    ? storedActive
+    : profiles[0].id;
+  const activeProfile = profiles.find((profile) => profile.id === activePlannerProfileId) || profiles[0];
+  return {
+    planner: clonePlannerSlots(activeProfile.slots),
+    plannerProfiles: profiles,
+    activePlannerProfileId: activeProfile.id,
+  };
 }
 
 function loadBattleTargets() {
@@ -117,6 +202,8 @@ function loadBadges() {
     return new Set();
   }
 }
+
+const initialPlannerState = loadPlannerState();
 
 const state = {
   caught: new Set(JSON.parse(localStorage.getItem(storageKey) || "[]")),
@@ -139,7 +226,9 @@ const state = {
   },
   itemSearch: "",
   team: loadTeam(),
-  planner: loadPlanner(),
+  planner: initialPlannerState.planner,
+  plannerProfiles: initialPlannerState.plannerProfiles,
+  activePlannerProfileId: initialPlannerState.activePlannerProfileId,
   battleTargets: loadBattleTargets(),
   syncCode: localStorage.getItem(syncCodeKey) || "",
   saveMetadata: loadSaveMetadata(),
@@ -214,6 +303,12 @@ const elements = {
   plannerOffensiveCoverage: document.querySelector("#planner-offensive-coverage"),
   plannerSuggestions: document.querySelector("#planner-suggestions"),
   plannerProgress: document.querySelector("#planner-progress"),
+  plannerProfileSelect: document.querySelector("#planner-profile-select"),
+  plannerProfileSummary: document.querySelector("#planner-profile-summary"),
+  newPlannerProfile: document.querySelector("#new-planner-profile"),
+  duplicatePlannerProfile: document.querySelector("#duplicate-planner-profile"),
+  renamePlannerProfile: document.querySelector("#rename-planner-profile"),
+  deletePlannerProfile: document.querySelector("#delete-planner-profile"),
   gymBadgeCount: document.querySelector("#gym-badge-count"),
   gymLeaderList: document.querySelector("#gym-leader-list"),
   saveCaughtCount: document.querySelector("#save-caught-count"),
@@ -1297,9 +1392,39 @@ function persistTeam() {
   renderJourneyOverview();
 }
 
-function persistPlanner() {
+function activePlannerProfile() {
+  return (
+    state.plannerProfiles.find((profile) => profile.id === state.activePlannerProfileId) ||
+    state.plannerProfiles[0]
+  );
+}
+
+function syncActivePlannerProfileFromState() {
+  let profile = activePlannerProfile();
+  if (!profile) {
+    profile = createPlannerProfile({
+      id: defaultPlannerProfileId,
+      name: "Main shortlist",
+      slots: state.planner,
+    });
+    state.plannerProfiles = [profile];
+    state.activePlannerProfileId = profile.id;
+  }
+  profile.slots = clonePlannerSlots(state.planner);
+}
+
+function persistPlanner({ markModified = true } = {}) {
+  syncActivePlannerProfileFromState();
   localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
-  markSaveModified();
+  localStorage.setItem(
+    plannerProfilesStorageKey,
+    JSON.stringify({
+      activeProfileId: state.activePlannerProfileId,
+      profiles: state.plannerProfiles,
+    }),
+  );
+  localStorage.setItem(activePlannerProfileStorageKey, state.activePlannerProfileId);
+  if (markModified) markSaveModified();
 }
 
 function persistBattleTargets() {
@@ -1324,6 +1449,7 @@ function updateSaveSummary() {
 }
 
 function createSaveDocument({ parentRevision = state.syncContext.lastSyncedRevision } = {}) {
+  syncActivePlannerProfileFromState();
   return {
     format: saveFormat,
     version: saveVersion,
@@ -1344,6 +1470,17 @@ function createSaveDocument({ parentRevision = state.syncContext.lastSyncedRevis
       abilityId: slot.abilityId,
       nature: slot.nature,
     })),
+    activePlannerProfileId: state.activePlannerProfileId,
+    plannerProfiles: state.plannerProfiles.map((profile) => ({
+      id: profile.id,
+      name: profile.name,
+      slots: profile.slots.map((slot) => ({
+        pokemonNumber: slot.pokemonNumber,
+        moves: [...slot.moves],
+        abilityId: slot.abilityId,
+        nature: slot.nature,
+      })),
+    })),
     battleTargets: [...state.battleTargets],
     preferences: {
       theme: state.theme,
@@ -1356,6 +1493,53 @@ function createSaveDocument({ parentRevision = state.syncContext.lastSyncedRevis
       deviceId: state.saveMetadata.deviceId,
     },
   };
+}
+
+function validatePlannerSlots(inputSlots) {
+  return Array.from({ length: 6 }, (_, slotIndex) => {
+    const slot = Array.isArray(inputSlots) ? inputSlots[slotIndex] || {} : {};
+    const pokemonNumber = pokemonByNumber.has(Number(slot.pokemonNumber))
+      ? Number(slot.pokemonNumber)
+      : null;
+    const compatibleIds = compatibleMoveIdsByPokemon.get(pokemonNumber) || new Set();
+    const moves = Array.from({ length: 4 }, (__, moveIndex) => {
+      const moveId = Number(slot.moves?.[moveIndex]);
+      return compatibleIds.has(moveId) ? moveId : null;
+    });
+    const abilityId = Number(slot.abilityId);
+    const compatibleAbilities = abilitiesByPokemon.get(pokemonNumber) || [];
+    const validAbility = compatibleAbilities.some((entry) => entry.ability.id === abilityId);
+    return {
+      pokemonNumber,
+      moves,
+      abilityId: validAbility ? abilityId : null,
+      nature: validNature(slot.nature),
+    };
+  });
+}
+
+function validatePlannerProfiles(inputProfiles, fallbackPlanner) {
+  const usedIds = new Set();
+  const profiles = (Array.isArray(inputProfiles) ? inputProfiles : [])
+    .map((profile, index) => {
+      const fallbackId = index === 0 ? defaultPlannerProfileId : `profile-${index + 1}`;
+      let id = normalizePlannerProfileId(profile?.id, fallbackId);
+      while (usedIds.has(id)) id = `${fallbackId}-${usedIds.size + 1}`;
+      usedIds.add(id);
+      return {
+        id,
+        name: cleanPlannerProfileName(profile?.name, index === 0 ? "Main shortlist" : `Shortlist ${index + 1}`),
+        slots: validatePlannerSlots(profile?.slots),
+      };
+    });
+  if (profiles.length) return profiles;
+  return [
+    {
+      id: defaultPlannerProfileId,
+      name: "Main shortlist",
+      slots: clonePlannerSlots(fallbackPlanner),
+    },
+  ];
 }
 
 function validateSaveDocument(input) {
@@ -1390,26 +1574,16 @@ function validateSaveDocument(input) {
       nature: validNature(slot.nature),
     };
   });
-  const planner = Array.from({ length: 6 }, (_, slotIndex) => {
-    const slot = Array.isArray(input.planner) ? input.planner[slotIndex] || {} : {};
-    const pokemonNumber = pokemonByNumber.has(Number(slot.pokemonNumber))
-      ? Number(slot.pokemonNumber)
-      : null;
-    const compatibleIds = compatibleMoveIdsByPokemon.get(pokemonNumber) || new Set();
-    const moves = Array.from({ length: 4 }, (__, moveIndex) => {
-      const moveId = Number(slot.moves?.[moveIndex]);
-      return compatibleIds.has(moveId) ? moveId : null;
-    });
-    const abilityId = Number(slot.abilityId);
-    const compatibleAbilities = abilitiesByPokemon.get(pokemonNumber) || [];
-    const validAbility = compatibleAbilities.some((entry) => entry.ability.id === abilityId);
-    return {
-      pokemonNumber,
-      moves,
-      abilityId: validAbility ? abilityId : null,
-      nature: validNature(slot.nature),
-    };
-  });
+  const legacyPlanner = validatePlannerSlots(input.planner);
+  const plannerProfiles = validatePlannerProfiles(input.plannerProfiles, legacyPlanner);
+  const requestedPlannerProfileId = normalizePlannerProfileId(
+    input.activePlannerProfileId,
+    plannerProfiles[0].id,
+  );
+  const activePlannerProfile =
+    plannerProfiles.find((profile) => profile.id === requestedPlannerProfileId) || plannerProfiles[0];
+  const activePlannerProfileId = activePlannerProfile.id;
+  const planner = clonePlannerSlots(activePlannerProfile.slots);
   const battleTargets = Array.from({ length: 2 }, (_, slotIndex) => {
     const pokemonNumber = Number(Array.isArray(input.battleTargets) ? input.battleTargets[slotIndex] : null);
     return pokemonByNumber.has(pokemonNumber) ? pokemonNumber : null;
@@ -1424,6 +1598,8 @@ function validateSaveDocument(input) {
     badges,
     team,
     planner,
+    activePlannerProfileId,
+    plannerProfiles,
     battleTargets,
     preferences: {
       theme: input.preferences?.theme === "dark" ? "dark" : "light",
@@ -1493,11 +1669,21 @@ function applySaveDocument(input, { source = "import", createBackup = true } = {
   state.badges = new Set(save.badges);
   state.team = save.team;
   state.planner = save.planner;
+  state.plannerProfiles = save.plannerProfiles;
+  state.activePlannerProfileId = save.activePlannerProfileId;
   state.battleTargets = save.battleTargets;
   localStorage.setItem(storageKey, JSON.stringify([...state.caught]));
   localStorage.setItem(badgeStorageKey, JSON.stringify([...state.badges]));
   localStorage.setItem(teamStorageKey, JSON.stringify(state.team));
   localStorage.setItem(plannerStorageKey, JSON.stringify(state.planner));
+  localStorage.setItem(
+    plannerProfilesStorageKey,
+    JSON.stringify({
+      activeProfileId: state.activePlannerProfileId,
+      profiles: state.plannerProfiles,
+    }),
+  );
+  localStorage.setItem(activePlannerProfileStorageKey, state.activePlannerProfileId);
   localStorage.setItem(battleStorageKey, JSON.stringify(state.battleTargets));
   setNotesHidden(save.preferences.notesHidden, false);
   setTheme(save.preferences.theme, false);
@@ -1630,6 +1816,8 @@ function saveFingerprintPayload(save) {
     badges: [...validated.badges].sort(),
     team: validated.team,
     planner: validated.planner,
+    activePlannerProfileId: validated.activePlannerProfileId,
+    plannerProfiles: validated.plannerProfiles,
     battleTargets: validated.battleTargets,
     preferences: validated.preferences,
   };
@@ -1648,7 +1836,7 @@ function isPristineSave(save) {
     !payload.caught.length &&
     !payload.badges.length &&
     payload.team.every((slot) => !slot.pokemonNumber) &&
-    payload.planner.every((slot) => !slot.pokemonNumber) &&
+    payload.plannerProfiles.every((profile) => profile.slots.every((slot) => !slot.pokemonNumber)) &&
     payload.battleTargets.every((target) => !target)
   );
 }
@@ -3403,6 +3591,116 @@ function renderPlannerProgress() {
   elements.plannerProgress.replaceChildren(heading, cards);
 }
 
+function plannerProfileSlotCount(profile) {
+  return profile.slots.filter((slot) => slot.pokemonNumber).length;
+}
+
+function nextPlannerProfileName(base = "Shortlist") {
+  const names = new Set(state.plannerProfiles.map((profile) => profile.name.toLowerCase()));
+  let index = state.plannerProfiles.length + 1;
+  let name = `${base} ${index}`;
+  while (names.has(name.toLowerCase())) {
+    index += 1;
+    name = `${base} ${index}`;
+  }
+  return name;
+}
+
+function renderPlannerProfileControls() {
+  if (!elements.plannerProfileSelect) return;
+  const select = elements.plannerProfileSelect;
+  const active = activePlannerProfile();
+  select.replaceChildren(
+    ...state.plannerProfiles.map((profile) => {
+      const count = plannerProfileSlotCount(profile);
+      return new Option(`${profile.name} (${count}/6)`, profile.id);
+    }),
+  );
+  select.value = state.activePlannerProfileId;
+  if (elements.plannerProfileSummary) {
+    const count = active ? plannerProfileSlotCount(active) : 0;
+    elements.plannerProfileSummary.textContent = active
+      ? `${count} of 6 targets planned. Progress below compares "${active.name}" with your Team Builder party.`
+      : "Create a shortlist to start planning.";
+  }
+  if (elements.deletePlannerProfile) {
+    elements.deletePlannerProfile.disabled = state.plannerProfiles.length <= 1;
+  }
+}
+
+function activatePlannerProfile(profileId) {
+  if (profileId === state.activePlannerProfileId) return;
+  syncActivePlannerProfileFromState();
+  const profile = state.plannerProfiles.find((entry) => entry.id === profileId);
+  if (!profile) return;
+  state.activePlannerProfileId = profile.id;
+  state.planner = clonePlannerSlots(profile.slots);
+  persistPlanner();
+  renderPlanner();
+}
+
+function createPlannerProfileFromSlots(name, slots) {
+  const usedIds = new Set(state.plannerProfiles.map((profile) => profile.id));
+  let id = newPlannerProfileId();
+  while (usedIds.has(id)) id = newPlannerProfileId();
+  return createPlannerProfile({ id, name, slots });
+}
+
+function promptPlannerProfileName(message, fallback) {
+  const value = window.prompt(message, fallback);
+  if (value === null) return null;
+  return cleanPlannerProfileName(value, fallback);
+}
+
+function createBlankPlannerProfile() {
+  syncActivePlannerProfileFromState();
+  const name = promptPlannerProfileName("Name this shortlist:", nextPlannerProfileName());
+  if (!name) return;
+  const profile = createPlannerProfileFromSlots(name, emptyPlannerSlots());
+  state.plannerProfiles.push(profile);
+  state.activePlannerProfileId = profile.id;
+  state.planner = clonePlannerSlots(profile.slots);
+  persistPlanner();
+  renderPlanner();
+}
+
+function duplicateActivePlannerProfile() {
+  syncActivePlannerProfileFromState();
+  const active = activePlannerProfile();
+  const fallback = active ? `${active.name} copy` : nextPlannerProfileName();
+  const name = promptPlannerProfileName("Name the copied shortlist:", fallback);
+  if (!name) return;
+  const profile = createPlannerProfileFromSlots(name, state.planner);
+  state.plannerProfiles.push(profile);
+  state.activePlannerProfileId = profile.id;
+  state.planner = clonePlannerSlots(profile.slots);
+  persistPlanner();
+  renderPlanner();
+}
+
+function renameActivePlannerProfile() {
+  const active = activePlannerProfile();
+  if (!active) return;
+  const name = promptPlannerProfileName("Rename this shortlist:", active.name);
+  if (!name) return;
+  active.name = name;
+  persistPlanner();
+  renderPlannerProfileControls();
+}
+
+function deleteActivePlannerProfile() {
+  if (state.plannerProfiles.length <= 1) return;
+  const active = activePlannerProfile();
+  if (!active || !window.confirm(`Delete "${active.name}"? This only removes this saved shortlist.`)) return;
+  const currentIndex = state.plannerProfiles.findIndex((profile) => profile.id === active.id);
+  state.plannerProfiles = state.plannerProfiles.filter((profile) => profile.id !== active.id);
+  const nextProfile = state.plannerProfiles[Math.max(0, currentIndex - 1)] || state.plannerProfiles[0];
+  state.activePlannerProfileId = nextProfile.id;
+  state.planner = clonePlannerSlots(nextProfile.slots);
+  persistPlanner();
+  renderPlanner();
+}
+
 function renderTeam() {
   const fragment = document.createDocumentFragment();
   state.team.forEach((slot, index) => fragment.append(renderTeamCard(slot, index)));
@@ -3747,6 +4045,7 @@ function renderPlanner() {
   elements.plannerGrid.replaceChildren(fragment);
   fitTeamPokemonNames(elements.plannerGrid);
   alignFilledTeamCards(elements.plannerGrid, ".planner-evolution-path");
+  renderPlannerProfileControls();
   renderOffensiveCoverage(elements.plannerOffensiveCoverage, state.planner);
   renderPlannerSuggestions();
   renderPlannerProgress();
@@ -5019,6 +5318,13 @@ function bindControls() {
     persistPlanner();
     renderPlanner();
   });
+  elements.plannerProfileSelect?.addEventListener("change", () =>
+    activatePlannerProfile(elements.plannerProfileSelect.value),
+  );
+  elements.newPlannerProfile?.addEventListener("click", createBlankPlannerProfile);
+  elements.duplicatePlannerProfile?.addEventListener("click", duplicateActivePlannerProfile);
+  elements.renamePlannerProfile?.addEventListener("click", renameActivePlannerProfile);
+  elements.deletePlannerProfile?.addEventListener("click", deleteActivePlannerProfile);
   elements.collectionSearch.addEventListener("input", () => {
     state.collectionSearch = elements.collectionSearch.value;
     renderCollection();
