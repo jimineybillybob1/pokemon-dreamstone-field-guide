@@ -212,6 +212,7 @@ const elements = {
   teamOffensiveCoverage: document.querySelector("#team-offensive-coverage"),
   plannerGrid: document.querySelector("#planner-grid"),
   plannerOffensiveCoverage: document.querySelector("#planner-offensive-coverage"),
+  plannerSuggestions: document.querySelector("#planner-suggestions"),
   plannerProgress: document.querySelector("#planner-progress"),
   gymBadgeCount: document.querySelector("#gym-badge-count"),
   gymLeaderList: document.querySelector("#gym-leader-list"),
@@ -3077,6 +3078,125 @@ function renderOffensiveCoverage(container, slots) {
   container.replaceChildren(heading, selected, effective);
 }
 
+function plannerSuggestionContext() {
+  const plannedPokemon = state.planner
+    .map((slot) => pokemonByNumber.get(slot.pokemonNumber))
+    .filter(Boolean);
+  const plannedGroupIds = new Set(plannedPokemon.map(dexId));
+  const plannedTypes = new Set(plannedPokemon.flatMap((pokemon) => pokemon.types || []));
+  const moveTypes = new Set(selectedOffensiveMoves(state.planner).map((move) => move.type.toLowerCase()));
+  const coveredTargetTypes = new Set(
+    battleTypes.filter((targetType) =>
+      [...moveTypes].some((moveType) => moveEffectiveness(moveType, [targetType]) > 1),
+    ),
+  );
+  const uncoveredTargetTypes = battleTypes.filter((type) => !coveredTargetTypes.has(type));
+  const weakTypeCounts = new Map();
+  plannedPokemon.forEach((pokemon) => {
+    battleTypes.forEach((attackType) => {
+      const multiplier = moveEffectiveness(attackType, pokemon.types);
+      if (multiplier <= 1) return;
+      weakTypeCounts.set(attackType, (weakTypeCounts.get(attackType) || 0) + multiplier);
+    });
+  });
+  return { plannedGroupIds, plannedTypes, uncoveredTargetTypes, weakTypeCounts };
+}
+
+function suggestedPokemonFormForGroup(group) {
+  return group.forms
+    .filter(
+      (pokemon) =>
+        pokemon &&
+        pokemon.availability !== "Trainer only" &&
+        pokemon.availability !== "Unobtainable" &&
+        pokemon.bst &&
+        pokemon.types?.length,
+    )
+    .sort(
+      (a, b) =>
+        pokemonBstValue(b) - pokemonBstValue(a) ||
+        (a.number ? 0 : 1) - (b.number ? 0 : 1) ||
+        pokemonNumberSortValue(a) - pokemonNumberSortValue(b),
+    )[0];
+}
+
+function plannerSuggestionScore(pokemon, context) {
+  const defensiveScore = [...context.weakTypeCounts.entries()].reduce((total, [attackType, weight]) => {
+    const incoming = moveEffectiveness(attackType, pokemon.types);
+    if (incoming === 0) return total + weight * 1.5;
+    if (incoming < 1) return total + weight;
+    return total;
+  }, 0);
+  const uncoveredScore = context.uncoveredTargetTypes.reduce(
+    (total, targetType) =>
+      total + (pokemon.types.some((type) => moveEffectiveness(type, [targetType]) > 1) ? 1 : 0),
+    0,
+  );
+  const broadCoverageScore = battleTypes.reduce(
+    (total, targetType) =>
+      total + (pokemon.types.some((type) => moveEffectiveness(type, [targetType]) > 1) ? 1 : 0),
+    0,
+  );
+  const newTypeScore = pokemon.types.filter((type) => !context.plannedTypes.has(type)).length;
+  const bstScore = (pokemonBstValue(pokemon) / 720) * 8;
+  return defensiveScore * 3 + uncoveredScore * 2 + broadCoverageScore * 0.35 + newTypeScore * 1.25 + bstScore;
+}
+
+function plannerSuggestions(limit = 6) {
+  const context = plannerSuggestionContext();
+  return collectionGroups
+    .filter((group) => !context.plannedGroupIds.has(group.id))
+    .map((group) => suggestedPokemonFormForGroup(group))
+    .filter(Boolean)
+    .map((pokemon) => ({ pokemon, score: plannerSuggestionScore(pokemon, context) }))
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        pokemonBstValue(b.pokemon) - pokemonBstValue(a.pokemon) ||
+        a.pokemon.name.localeCompare(b.pokemon.name, undefined, { numeric: true }),
+    )
+    .slice(0, limit)
+    .map(({ pokemon }) => pokemon);
+}
+
+function renderPlannerSuggestionCard(pokemon) {
+  const card = document.createElement("article");
+  card.className = "planner-suggestion-card";
+  card.innerHTML = `
+    <span class="planner-suggestion-card__sprite">
+      <img src="${pokemon.sprite}" alt="" width="58" height="58" loading="lazy">
+    </span>
+    <span class="planner-suggestion-card__body">
+      <strong></strong>
+      <span class="planner-suggestion-card__types"></span>
+      <small>BST ${pokemon.bst || "N/A"}</small>
+    </span>
+  `;
+  card.querySelector("strong").textContent = pokemon.name.replaceAll("_", " ");
+  renderTypeBadges(card.querySelector(".planner-suggestion-card__types"), pokemon.types);
+  return card;
+}
+
+function renderPlannerSuggestions() {
+  if (!elements.plannerSuggestions) return;
+  const wasOpen = elements.plannerSuggestions.open;
+  const suggestions = plannerSuggestions();
+  const summary = document.createElement("summary");
+  summary.innerHTML = `
+    <span>Suggested Pokemon</span>
+    <strong>${suggestions.length} options</strong>
+  `;
+  const intro = document.createElement("p");
+  intro.className = "planner-suggestions__intro";
+  intro.textContent =
+    "Obtainable Full Dex picks weighted toward defensive weakness cover, offensive type gaps, and high BST.";
+  const grid = document.createElement("div");
+  grid.className = "planner-suggestion-grid";
+  suggestions.forEach((pokemon) => grid.append(renderPlannerSuggestionCard(pokemon)));
+  elements.plannerSuggestions.replaceChildren(summary, intro, grid);
+  elements.plannerSuggestions.open = wasOpen;
+}
+
 function evolutionFamilyNumbers(pokemonNumber) {
   const family = new Set([pokemonNumber]);
   const queue = [pokemonNumber];
@@ -3628,6 +3748,7 @@ function renderPlanner() {
   fitTeamPokemonNames(elements.plannerGrid);
   alignFilledTeamCards(elements.plannerGrid, ".planner-evolution-path");
   renderOffensiveCoverage(elements.plannerOffensiveCoverage, state.planner);
+  renderPlannerSuggestions();
   renderPlannerProgress();
 }
 

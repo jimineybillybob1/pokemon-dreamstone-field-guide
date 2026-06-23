@@ -1292,6 +1292,21 @@ await page.screenshot({ path: path.join(outputDir, "guide-desktop-team-builder.p
 await page.locator(".view-tab[data-view='planner']").click();
 await check(await page.locator("#view-planner").evaluate((element) => element.classList.contains("is-active")), "Team Planner view did not open");
 await check((await page.locator(".planner-card").count()) === 6, "Team Planner did not render six slots");
+await check(
+  (await page.locator("#planner-suggestions").getAttribute("open")) === null,
+  "Team Planner suggestions should be collapsed by default",
+);
+await page.locator("#planner-suggestions summary").click();
+await check(
+  (await page.locator("#planner-suggestions .planner-suggestion-card").count()) === 6 &&
+    !(await page.locator("#planner-suggestions").textContent()).includes("Ancient Terror") &&
+    (await page.locator("#planner-suggestions .planner-suggestion-card").first().locator("img").getAttribute("src"))?.includes(
+      "assets/pokemon/",
+    ) &&
+    (await page.locator("#planner-suggestions .planner-suggestion-card").first().locator(".type-badge").count()) > 0 &&
+    (await page.locator("#planner-suggestions .planner-suggestion-card").first().textContent()).includes("BST"),
+  "Team Planner suggestions did not render compact obtainable Pokemon cards",
+);
 const plannerPokemonSearch = page.locator(".planner-card[data-slot='1'] .team-pokemon-search input");
 await plannerPokemonSearch.fill("Gothita");
 await plannerPokemonSearch.press("ArrowDown");
@@ -1429,6 +1444,10 @@ await check(
     (await page.locator("#planner-offensive-coverage .coverage-type--selected").textContent()).includes("Normal") &&
     (await page.locator("#planner-offensive-coverage .offensive-coverage__targets .type-badge").count()) === 0,
   "Team Planner offensive coverage did not update for Pound",
+);
+await check(
+  (await page.locator("#planner-suggestions .planner-suggestion-card").count()) >= 3,
+  "Team Planner suggestions disappeared when there were no offensive coverage gaps",
 );
 await check(
   await page.evaluate(() =>

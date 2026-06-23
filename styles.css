@@ -75,6 +75,8 @@ body * {
 .team-pokemon-search *,
 .offensive-coverage,
 .offensive-coverage *,
+.planner-suggestions,
+.planner-suggestions *,
 .team-matchups,
 .team-matchups *,
 .battle-recommendations,
@@ -4286,6 +4288,141 @@ button.trainer-party-member__identity:hover {
   line-height: 1.45;
 }
 
+.planner-suggestions {
+  display: grid;
+  gap: 12px;
+  margin: -4px 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: 0 8px 25px rgba(48, 38, 88, 0.045);
+  padding: 0;
+}
+
+.planner-suggestions > summary {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+  padding: 14px;
+}
+
+.planner-suggestions > summary::-webkit-details-marker {
+  display: none;
+}
+
+.planner-suggestions > summary::after {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--violet);
+  background: rgba(114, 87, 212, 0.08);
+  content: "+";
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.planner-suggestions[open] > summary::after {
+  content: "-";
+}
+
+.planner-suggestions > summary span {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.planner-suggestions > summary strong {
+  color: var(--violet-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+}
+
+.planner-suggestions__intro {
+  margin: -6px 14px 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.planner-suggestion-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 14px 14px;
+}
+
+.planner-suggestion-card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 9px;
+}
+
+.planner-suggestion-card__sprite {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper-deep);
+}
+
+.planner-suggestion-card__sprite img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.planner-suggestion-card__body {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.planner-suggestion-card__body strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planner-suggestion-card__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.planner-suggestion-card__types .type-badge {
+  min-height: 19px;
+  padding: 3px 6px;
+  font-size: 0.48rem;
+}
+
+.planner-suggestion-card__body small {
+  color: var(--violet-dark);
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
 .planner-progress {
   display: grid;
   gap: 13px;
@@ -5692,7 +5829,9 @@ html[data-theme="dark"] .ability-filter-panel,
 html[data-theme="dark"] .ability-card,
 html[data-theme="dark"] .team-toolbar,
 html[data-theme="dark"] .offensive-coverage,
+html[data-theme="dark"] .planner-suggestions,
 html[data-theme="dark"] .planner-progress,
+html[data-theme="dark"] .planner-suggestion-card,
 html[data-theme="dark"] .planner-progress-card,
 html[data-theme="dark"] .team-card,
 html[data-theme="dark"] .planner-card,
@@ -5890,6 +6029,7 @@ html[data-theme="dark"] .coverage-type:not(.type-badge) {
 }
 
 html[data-theme="dark"] .team-sprite-well,
+html[data-theme="dark"] .planner-suggestion-card__sprite,
 html[data-theme="dark"] .planner-progress-card__sprite,
 html[data-theme="dark"] .team-evolve-button {
   color: var(--ink);
@@ -6066,6 +6206,10 @@ html[data-theme="dark"] .guide-tip strong {
     grid-column: 1 / -1;
   }
 
+  .planner-suggestion-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .gym-team {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -6191,6 +6335,10 @@ html[data-theme="dark"] .guide-tip strong {
   }
 
   .planner-progress__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-suggestion-grid {
     grid-template-columns: 1fr;
   }
 
