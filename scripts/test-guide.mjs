@@ -722,6 +722,7 @@ await check(
     (await page.locator(".pokemon-card[data-number='10400'] .pokemon-bst").textContent()) === "670" &&
     (await page.locator(".pokemon-card[data-number='10400'] .type-badge").allTextContents()).join(" ").toLowerCase().includes("fighting") &&
     (await page.locator(".pokemon-card[data-number='10400'] .type-badge").allTextContents()).join(" ").toLowerCase().includes("dragon") &&
+    (await page.locator(".pokemon-card[data-number='10400'] .pokemon-sprite").getAttribute("src")).endsWith("/1400.png") &&
     (await page.locator(".pokemon-card[data-number='10400'] .caught-button").isHidden()),
   "Ancient Terror did not render as a trainer-only Fighting/Dragon lookup card",
 );

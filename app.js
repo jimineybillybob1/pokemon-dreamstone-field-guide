@@ -489,7 +489,7 @@ const sourceOnlyDexEntries = [
     location: "",
     rarity: "",
     availability: "Trainer only",
-    sprite: "assets/pokemon/1007.png",
+    sprite: "assets/pokemon/1400.png",
     types: ["fighting", "dragon"],
     stats: { hp: 100, atk: 135, def: 115, spd: 135, spa: 85, spdef: 100 },
     bst: 670,
