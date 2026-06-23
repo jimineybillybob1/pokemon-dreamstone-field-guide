@@ -2741,6 +2741,11 @@ button.trainer-party-member__identity:hover {
   box-shadow: 0 8px 25px rgba(48, 38, 88, 0.055);
 }
 
+.battle-target-card,
+.battle-target-card * {
+  font-family: var(--font-ui) !important;
+}
+
 .battle-target-card__top {
   display: flex;
   align-items: center;

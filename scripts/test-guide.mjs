@@ -752,6 +752,15 @@ await check(
   ),
   "Opposing Pokemon card names do not use the Pokemon font",
 );
+await check(
+  await page.locator(".battle-target-card[data-slot='2'] .battle-target-card__empty strong").evaluate((element) =>
+    getComputedStyle(element).fontFamily.includes("Pokemon GB"),
+  ) &&
+    await page.locator(".battle-target-card[data-slot='1'] .team-pokemon-picker label").evaluate((element) =>
+      getComputedStyle(element).fontFamily.includes("Pokemon GB"),
+    ),
+  "Battle Planner target card labels do not use the Pokemon font",
+);
 await page.evaluate(() => setBattleTarget(0, null));
 await page.evaluate(() => activateView("trainers"));
 await page.locator("#expand-trainer-locations").click();
@@ -1146,6 +1155,13 @@ await check(
     (await battleCoverage.first().textContent()).includes("90") &&
     (await battleCoverage.first().textContent()).includes("360"),
   "Battle Planner did not recommend the strongest Team Builder move first",
+);
+await check(
+  await battleCoverage.first().evaluate((entry) =>
+    getComputedStyle(entry.querySelector(".team-matchup__identity strong")).fontFamily.includes("Pokemon GB") &&
+      getComputedStyle(entry.querySelector("dd")).fontFamily.includes("Pokemon GB"),
+  ),
+  "Battle Planner matchup rows do not use the Pokemon font",
 );
 await check(
   (await page.locator(".battle-recommendation-card").count()) === 1 &&
